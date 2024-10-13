@@ -1,0 +1,39 @@
+struct miEstudiante
+{
+    int id;
+    std::string nombre;
+    std::string apellido;
+    int edad;
+    double promedio;
+};
+
+miEstudiante persona;
+ifstream lectura;
+lectura.open("fichero.csv",ios::in);
+
+for (std::string linea; std::getline(lectura, linea); )
+{
+    std::stringstream registro(linea);
+    std::string dato;
+
+    for (int columna = 0; std::getline(registro, dato, ';'); ++columna)
+    {
+        switch (columna)
+        {
+            case 0; // ID
+                persona.id = std::stoi(dato);
+            break;
+            case 1; // NOMBRE
+                persona.nombre = dato;
+            break;
+            case 2; // APELLIDO
+                persona.apellido = dato;
+            break;
+            case 3; // EDAD
+                persona.edad = std::stoi(dato);
+            break;
+            case 4; // PROMEDIO
+                persona.promedio = std::stod(dato);
+            break;
+    }
+}

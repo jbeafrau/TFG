@@ -1,0 +1,16 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/Engine/sounds/BRPG_Assault_Adventure_Stinger.wav
+/Engine/sounds/BRPG_Assault_Danger_Stinger.wav
+/Engine/sounds/BRPG_Assault_Rhythm_Loop.wav
+/Engine/sounds/BRPG_Hell_Spawn_FULL_Loop.wav
+/Engine/sounds/BRPG_Take_Courage_FULL_Loop.wav
+/Engine/sounds/BRPG_Vanquisher_FULL_Loop.wav
+/x64/Debug/sounds/BRPG_Assault_Adventure_Stinger.wav
+/x64/Debug/sounds/BRPG_Assault_Danger_Stinger.wav
+/x64/Debug/sounds/BRPG_Assault_Rhythm_Loop.wav
+/x64/Debug/sounds/BRPG_Hell_Spawn_FULL_Loop.wav
+/x64/Debug/sounds/BRPG_Take_Courage_FULL_Loop.wav
+/x64/Debug/sounds/BRPG_Vanquisher_FULL_Loop.wav

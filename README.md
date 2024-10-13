@@ -1,2 +1,2 @@
 # TFG
-TFG Videojuegos Ingeniaria Informatica
+TFG Videojuegos Ingeniería Informática

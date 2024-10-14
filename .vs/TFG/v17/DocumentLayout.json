@@ -1,12 +1,53 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}|Engine\\Engine.vcxproj|C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}|Engine\\Engine.vcxproj|solutionrelative:Engine\\game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}|Engine\\Engine.vcxproj|C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}|Engine\\Engine.vcxproj|solutionrelative:Engine\\game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "game.h",
+              "DocumentMoniker": "C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\game.h",
+              "RelativeDocumentMoniker": "Engine\\game.h",
+              "ToolTip": "C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\game.h",
+              "RelativeToolTip": "Engine\\game.h",
+              "ViewState": "AgIAAPcAAAAAAAAAAAAQwA4BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-10-14T06:23:13.313Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "game.cpp",
+              "DocumentMoniker": "C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\game.cpp",
+              "RelativeDocumentMoniker": "Engine\\game.cpp",
+              "ToolTip": "C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\game.cpp",
+              "RelativeToolTip": "Engine\\game.cpp",
+              "ViewState": "AgIAAP8FAAAAAAAAAAAQwBYGAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-14T06:22:31.561Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

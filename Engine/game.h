@@ -8,18 +8,18 @@
 #include <ctime>       /* time */
 #include<list>
 
- #ifdef linux
-        #include <SDL2/SDL.h>
-        #include <SDL2/SDL_image.h>
-        #include <SDL2/SDL_ttf.h>
-        #include <SDL2/SDL_mixer.h>
-     #endif
-     #ifdef _WIN32
-        #include <SDL.h>
-        #include <SDL_image.h>
-        #include <SDL_ttf.h>
-        #include <SDL_mixer.h>
-     #endif
+#ifdef linux
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
+#endif
+#ifdef _WIN32
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
+#endif
 
 
 enum gameState
@@ -55,208 +55,216 @@ enum playerArchetype
 
 class game
 {
-    public:
-        game();
-        virtual ~game();
+public:
+    game();
+    virtual ~game();
 
-        bool initSDL();
-        //Loads media
-        bool loadMedia(string base);
+    bool initSDL();
+    //Loads media
+    bool loadMedia(string base);
 
-        void closeSDL();
-        SDL_Surface* loadSurface( std::string path );
+    void closeSDL();
+    SDL_Surface* loadSurface(std::string path);
 
-       void start();
-       int dice(int maxValue, int minValue);
+    void start();
+    int dice(int maxValue, int minValue);
 
-       int getState();
-       void setState(gameState newState);
+    int getState();
+    void setState(gameState newState);
 
-       std::string getBasePath();
-
-
-       void events();
-
-       void drawScreens();
-
-       void screenFlip();
-
-       void adjustFPS();
-
-       void addNotification(std::string notification);
-       void eventsNotifications();
-
-       void addAchievement(std::string achievement);
-       bool existAchievement(std::string achievement);
+    std::string getBasePath();
 
 
-        void drawSquare(SDL_Rect rect,SDL_Color color);
-        void drawTransparentSquare(SDL_Rect rect,SDL_Color color);
-        void drawButton(classButton btn);
-        void drawButtonSrc(classButton btn,SDL_Texture* texture);
-        void drawText(string text, SDL_Rect rect);
-        void drawTextL(string text, SDL_Rect rect);
-        void drawTextBlock(string text, SDL_Rect rect);
-        void drawTextResize(string text, SDL_Rect rect);
-        void paintFruit(int x,int y, Uint8 fruit);
-        
-        void drawIMG(SDL_Surface* surface, int x, int y, int value);
-        void screenClear();
-        void screenIntro();
-        void screenNotifications();
-        void screenMain();
-        void screenName();
-        void screenGameOver();
-        void screenPlayerName();
+    void events();
 
-        void screenGeneratePlayer();
-        void screenConfigMenu();
-        void screenHomeTown();
+    void drawScreens();
 
-        void eventsIntro();
-        void eventsMain();
-        void eventsGameOver();
-        void eventsName();
-        void eventsGeneratePlayer();
-        void eventsConfigMenu();
-        void eventsHomeTown();
+    void screenFlip();
+
+    void adjustFPS();
+
+    void addNotification(std::string notification);
+    void eventsNotifications();
+
+    void addAchievement(std::string achievement);
+    bool existAchievement(std::string achievement);
 
 
-    protected:
-        int width = 600;
-        int height = 700;
-        int currentState = _INTRO_;
+    void drawSquare(SDL_Rect rect, SDL_Color color);
+    void drawTransparentSquare(SDL_Rect rect, SDL_Color color);
+    void drawButton(classButton btn);
+    void drawButtonSrc(classButton btn, SDL_Texture* texture);
+    void drawText(string text, SDL_Rect rect);
+    void drawTextL(string text, SDL_Rect rect);
+    void drawTextBlock(string text, SDL_Rect rect);
+    void drawTextResize(string text, SDL_Rect rect);
+    void paintFruit(int x, int y, Uint8 fruit);
 
-        int desiredFPS = 30;
+    void drawIMG(SDL_Surface* surface, int x, int y, int value);
+    void screenClear();
+    void screenIntro();
+    void screenNotifications();
+    void screenMain();
+    void screenName();
+    void screenGameOver();
+    void screenPlayerName();
 
-        SDL_Rect mouseRect;
+    void screenGeneratePlayer();
+    void screenConfigMenu();
+    void screenHomeTown();
 
-        string basePath;
-
-
-        std::list<std::string> achievements;
-        std::list<std::string> notifications;
-
-        int y1,y2,y3,y4;
-
-
-        //int players =1;
-        int currentMusic =1;
-        //int currentState = 0;
-        int currentPlayer = 1;
-       // int currentPhoto;
-        bool musicON =true;
-        bool squareDraw = true;
-        /*currentstate:
-          0=stop
-          1-play
-          2-pause
-          */
-
-        std::string playerName = "Jugador";
-
-          //The application timer
-			classTimer timer;
-            classTimer timerGameOver;
-            classTimer FPStimer;
-
-            int ticksPerFrame = 0;
-            int currentFrame = 0;
-			int myTime = 0;
-            int minutes = 0;
-            int popupTime = 0;
-            int maxAchievements = 7;
-            int volumeSound = 128;
-            int volumeMusic = 128;
-
-            gameState previousScreen = _NULL_;
+    void eventsIntro();
+    void eventsMain();
+    void eventsGameOver();
+    void eventsName();
+    void eventsGeneratePlayer();
+    void eventsConfigMenu();
+    void eventsHomeTown();
 
 
-       // bool fight = false;
+protected:
+    int width = 600;
+    int height = 700;
+    int currentState = _INTRO_;
 
-        int mousex,mousey;
+    int desiredFPS = 30;
 
-        //The window we'll be rendering to
-SDL_Window* gWindow = NULL;
+    SDL_Rect mouseRect;
 
-//The window renderer
-SDL_Renderer* gRenderer = NULL;
-
-//The surface contained by the window
-SDL_Surface* gScreenSurface = NULL;
-
-//The image we will load and show on the screen
-SDL_Surface* gHelloWorld = NULL;
-
-//Current displayed PNG image
-SDL_Surface* gPNGSurface = NULL;
-
-SDL_Surface* foodSurface = NULL;
-
-SDL_Surface* buttonSurface = NULL;
-
-SDL_Surface* buttonCloseSurface = NULL;
-SDL_Surface* buttonMusicSurface = NULL;
-SDL_Surface* buttonSocialSurface = NULL;
-SDL_Surface* buttonPauseSurface = NULL;
-SDL_Surface* buttonPlaySurface = NULL;
-SDL_Surface* buttonDangerSurface = NULL;
-SDL_Surface* mouseSurface = NULL;
-
-//The final texture
-SDL_Texture* mouseTexture = NULL;
-
-SDL_Texture* foodTexture = NULL;
-SDL_Texture* buttonTexture = NULL;
-
-SDL_Texture* buttonCloseTexture = NULL;
-SDL_Texture* buttonMusicTexture = NULL;
-SDL_Texture* buttonSocialTexture = NULL;
-SDL_Texture* buttonPauseTexture = NULL;
-SDL_Texture* buttonPlayTexture = NULL;
-SDL_Texture* buttonDangerTexture = NULL;
-
-//Globally used font
-TTF_Font *gFont = NULL;
-
-Mix_Music *musicRetro = NULL;
-Mix_Music *music8bit = NULL;
-Mix_Music *musicFunky = NULL;
-
-Mix_Music* musicGameOver = NULL;
-
-Mix_Chunk *audioButton = NULL;
-Mix_Chunk *line = NULL;
-Mix_Chunk *block = NULL;
-Mix_Chunk *loose = NULL;
-Mix_Chunk *win = NULL;
+    string basePath;
 
 
-classButton exitButton;
-classButton startButton;
-//classButton playersButton;
-classButton musicButton;
-classButton player1Button;
-//classButton player2Button;
-classButton continueButton;
-//classButton rollButton;
-classButton muteButton;
-//classButton typeButton;
+    std::list<std::string> achievements;
+    std::list<std::string> notifications;
 
-classButton configButton;
-classButton volumeUpButton;
-classButton volumeSoundUpButton;
-classButton volumeMusicUpButton;
-classButton volumeSoundDownButton;
-classButton volumeMusicDownButton;
-classButton volumeSoundButton;
-classButton volumeMusicButton;
-classButton achievementsButton;
+    int y1, y2, y3, y4;
 
-classButton mouseButton;
 
-SDL_Rect tmpRect;
-    private:
+    //int players =1;
+    int currentMusic = 1;
+    //int currentState = 0;
+    int currentPlayer = 1;
+    // int currentPhoto;
+    bool musicON = true;
+    bool squareDraw = true;
+    /*currentstate:
+      0=stop
+      1-play
+      2-pause
+      */
+
+    std::string playerName = "Jugador";
+
+    //The application timer
+    classTimer timer;
+    classTimer timerGameOver;
+    classTimer FPStimer;
+
+    int ticksPerFrame = 0;
+    int currentFrame = 0;
+    int myTime = 0;
+    int minutes = 0;
+    int popupTime = 0;
+    int maxAchievements = 7;
+    int volumeSound = 128;
+    int volumeMusic = 128;
+
+    gameState previousScreen = _NULL_;
+
+
+    // bool fight = false;
+
+    int mousex, mousey;
+
+    //The window we'll be rendering to
+    SDL_Window* gWindow = NULL;
+
+    //The window renderer
+    SDL_Renderer* gRenderer = NULL;
+
+    //The surface contained by the window
+    SDL_Surface* gScreenSurface = NULL;
+
+    //The image we will load and show on the screen
+    SDL_Surface* gHelloWorld = NULL;
+
+    //Current displayed PNG image
+    SDL_Surface* gPNGSurface = NULL;
+
+    SDL_Surface* foodSurface = NULL;
+
+    SDL_Surface* buttonSurface = NULL;
+
+    SDL_Surface* buttonCloseSurface = NULL;
+    SDL_Surface* buttonMusicSurface = NULL;
+    SDL_Surface* buttonSocialSurface = NULL;
+    SDL_Surface* buttonPauseSurface = NULL;
+    SDL_Surface* buttonPlaySurface = NULL;
+    SDL_Surface* buttonDangerSurface = NULL;
+    SDL_Surface* mouseSurface = NULL;
+
+    //The final texture
+    SDL_Texture* mouseTexture = NULL;
+
+    SDL_Texture* foodTexture = NULL;
+    SDL_Texture* buttonTexture = NULL;
+
+    SDL_Texture* buttonCloseTexture = NULL;
+    SDL_Texture* buttonMusicTexture = NULL;
+    SDL_Texture* buttonSocialTexture = NULL;
+    SDL_Texture* buttonPauseTexture = NULL;
+    SDL_Texture* buttonPlayTexture = NULL;
+    SDL_Texture* buttonDangerTexture = NULL;
+
+    //Globally used font
+    TTF_Font* gFont = NULL;
+
+    Mix_Music* musicINTRO = NULL;
+    Mix_Music* musicDARK = NULL;
+    Mix_Music* musicFOREST = NULL;
+    Mix_Music* musicTOWN = NULL;
+    Mix_Music* musicGameOver = NULL;
+
+    Mix_Music* musicBATTLE = NULL;
+    Mix_Music* musicBOSS = NULL;
+    Mix_Music* musicCAVE = NULL;
+    Mix_Music* musicHERO = NULL;
+    Mix_Music* musicMYSTICAL = NULL;
+    Mix_Music* musicTLE = NULL;
+
+
+    Mix_Chunk* audioButton = NULL;
+    //Mix_Chunk *line = NULL;
+    //Mix_Chunk *block = NULL;
+    Mix_Chunk* loose = NULL;
+    Mix_Chunk* win = NULL;
+
+
+    classButton exitButton;
+    classButton startButton;
+    //classButton playersButton;
+    classButton musicButton;
+    classButton player1Button;
+    //classButton player2Button;
+    classButton continueButton;
+    //classButton rollButton;
+    classButton muteButton;
+    //classButton typeButton;
+
+    classButton configButton;
+    classButton volumeUpButton;
+    classButton volumeSoundUpButton;
+    classButton volumeMusicUpButton;
+    classButton volumeSoundDownButton;
+    classButton volumeMusicDownButton;
+    classButton volumeSoundButton;
+    classButton volumeMusicButton;
+    classButton achievementsButton;
+
+    classButton mouseButton;
+
+    SDL_Rect tmpRect;
+private:
 };
 
 #endif // GAME_H

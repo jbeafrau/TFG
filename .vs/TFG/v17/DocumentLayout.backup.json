@@ -9,6 +9,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}|Engine\\Engine.vcxproj|C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}|Engine\\Engine.vcxproj|solutionrelative:Engine\\game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}|Engine\\Engine.vcxproj|C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}|Engine\\Engine.vcxproj|solutionrelative:Engine\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +22,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -28,9 +36,9 @@
               "RelativeDocumentMoniker": "Engine\\game.h",
               "ToolTip": "C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\game.h",
               "RelativeToolTip": "Engine\\game.h",
-              "ViewState": "AgIAAPcAAAAAAAAAAAAQwA4BAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAAAIEAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-10-14T06:23:13.313Z",
+              "WhenOpened": "2024-10-29T19:44:04.925Z",
               "EditorCaption": ""
             },
             {
@@ -41,9 +49,21 @@
               "RelativeDocumentMoniker": "Engine\\game.cpp",
               "ToolTip": "C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\game.cpp",
               "RelativeToolTip": "Engine\\game.cpp",
-              "ViewState": "AgIAAP8FAAAAAAAAAAAQwBYGAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAPUAAAAAAAAAAAAIwBQBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-10-14T06:22:31.561Z"
+              "WhenOpened": "2024-10-29T19:40:39.108Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\main.cpp",
+              "RelativeDocumentMoniker": "Engine\\main.cpp",
+              "ToolTip": "C:\\Users\\casa\\source\\repos\\jbeafrau\\TFG\\Engine\\main.cpp",
+              "RelativeToolTip": "Engine\\main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-29T19:40:21.425Z"
             }
           ]
         }

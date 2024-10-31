@@ -41,7 +41,8 @@ enum playerRaces
     _ELF_ = 2,
     _DARF_ = 3,
     _HALFING_ = 4,
-    _HALFORC_ = 5
+    _HALFORC_ = 5,
+    _BEHOLDER_ = 6
 };
 
 enum playerArchetype
@@ -50,7 +51,8 @@ enum playerArchetype
     _ARCHER_ = 2,
     _THIEVE_ = 3,
     _MAGE_ = 4,
-    _NECROMANCER_ = 5
+    _NECROMANCER_ = 5,
+    _SUMMONER_ = 6
 };
 
 class game
@@ -127,7 +129,7 @@ protected:
     int height = 700;
     int currentState = _INTRO_;
 
-    int desiredFPS = 30;
+    int desiredFPS = 60;
 
     SDL_Rect mouseRect;
 

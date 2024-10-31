@@ -264,6 +264,17 @@ void game::closeSDL()
 
  //Free the music
  Mix_FreeMusic( musicFight );*/
+    Mix_FreeMusic(musicINTRO);
+    Mix_FreeMusic(musicDARK);
+    Mix_FreeMusic(musicFOREST);
+    Mix_FreeMusic(musicTOWN);
+    Mix_FreeMusic(musicGameOver);
+    Mix_FreeMusic(musicBATTLE);
+    Mix_FreeMusic(musicBOSS);
+    Mix_FreeMusic(musicCAVE);
+    Mix_FreeMusic(musicHERO);
+    Mix_FreeMusic(musicMYSTICAL);
+
 
  //Quit SDL_mixer
     Mix_CloseAudio();

@@ -400,3 +400,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/.vs/TFG/v17/Browse.VC.db
+/.vs/slnx.sqlite
+/Engine/x64/Debug/Engine.log

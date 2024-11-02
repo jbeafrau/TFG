@@ -49,22 +49,37 @@ enum gameState
 
 enum playerRaces
 {
-    _HUMAN_ = 1,
-    _ELF_ = 2,
-    _DARF_ = 3,
-    _HALFING_ = 4,
-    _HALFORC_ = 5,
-    _BEHOLDER_ = 6
+    _HUMAN_ = 1, //+1 STR
+    _ELF_ = 2, // +1 PER
+    _DARF_ = 3, //+1 RES
+    _HALFING_ = 4, //+1 INT
+    _HALFORC_ = 5, //+1 STR +1 RES -1 PER
+    _BEHOLDER_ = 6//+1 INT +1 PER -1 RES
 };
 
 enum playerArchetype
 {
-    _FIGHTER_ = 1,
-    _ARCHER_ = 2,
-    _THIEVE_ = 3,
-    _MAGE_ = 4,
-    _NECROMANCER_ = 5,
-    _SUMMONER_ = 6
+    _FIGHTER_ = 1, // +1 STR MELE
+    _ARCHER_ = 2, // +1 DEX ARCHERY
+    _THIEVE_ = 3, // +1 PER SHADOWS
+    _MAGE_ = 4, // +1 INT MAGIC
+    _NECROMANCER_ = 5, // +1 INT RAISEDEAD
+    _SUMMONER_ = 6 // +1 INT SUMMON
+};
+
+enum Skills
+{
+    _MELEE_ = 1,
+    _ARCHERY_ = 2,
+    _SHADOWS_ = 3,
+    _MAGIC_ = 4,
+    _RAISEDEAD_ = 5,
+    _SUMMON_ = 6,
+    _SWIM_ = 7,
+    _BARTERING_ = 8,
+    _SHIELDS_ = 9,
+    _FIRSTAID_ = 10
+
 };
 
 class game

@@ -31,9 +31,21 @@ enum gameState
     _GENERATEPLAYER_ = 4,
     _CONFIGMENU_ = 5,
     _HOMETOWN_ = 6,
+    _TOWN_SHOP_ = 7,
+    _TOWN_ELDER_ = 8,
+    _ELEMENTAL_TEMPLE_ = 9,
+    _FOREST_WORLD_ = 110,
+    _COAST_WORLD_ = 120,
+    _ELEMENTAL_FIRE_WORLD_ = 130,
+    _ELEMENTAL_WATER_WORLD_ = 140,
+    _ELEMENTAL_EARTH_WORLD_ = 150,
+    _ELEMENTAL_WIND_WORLD_ = 160,
+    _NECRO_WORLD_ = 170,    
+    _FINAL_ARENA_ = 200,
     _GAMEOVER_ = 900,
     _GAMECLOSE_ = 999
 };
+
 
 enum playerRaces
 {

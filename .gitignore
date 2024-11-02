@@ -403,3 +403,7 @@ FodyWeavers.xsd
 /.vs/TFG/v17/Browse.VC.db
 /.vs/slnx.sqlite
 /Engine/x64/Debug/Engine.log
+/.vs/TFG/v17/DocumentLayout.backup.json
+/.vs/TFG/v17/DocumentLayout.json
+/.vs/VSWorkspaceState.json
+/Engine/x64/Debug/Engine.exe.recipe

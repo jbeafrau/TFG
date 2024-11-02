@@ -21,6 +21,53 @@
 #include <SDL_mixer.h>
 #endif
 
+/*  GAME DESIGN NOTES
+ 
+MELE
+-------
+ATACK: 1D10 + SKILL + STR + WEAPON
+DEFENSE: 1D10 + SKILL + STR + WEAPON + SHIELD
+DAMAGE: WEAPON + 1D STR
+
+BOW
+-----------
+1D10 + SKILL + DEX + WEAPON
+1D10 + DEX + SHIELD
+DAMAGE: WEAPON +1D STR -1
+
+MAGIC
+-----------------
+DAMAGE: SPELL + 1D INT
+
+ATTRIBUTES 
+----------------
+(BASE=1 for all, MAX = 5)
+STR
+DEX
+RES
+INT
+PER
+
+LIFE POINTS = 10 + RES*5
+MAGIC POINTS = 10 + ((INT + PER)/2) *5
+
+
+LEVEL = 1 (MAX 20)
+EXPERIENCE  = 0, required for next LEVEL = (Current level^2)*10 (100,400,900, etc)
+
+LEVEL INCREASE BENEFITS:
+-------------------------
+MAX LIFE POINTS +5
+SKILL POINTS +1
+
+SKILL POINTS
+-------------------
+1 SKILL POINT = 1 NEW SKILL
+UPGRADING ONE ATTRIBUTE COSTS Current attribute level +1 SKILL POINTS
+
+
+*/
+
 
 enum gameState
 {
@@ -69,7 +116,7 @@ enum playerArchetype
 
 enum Skills
 {
-    _MELEE_ = 1,
+    _MELE_ = 1,
     _ARCHERY_ = 2,
     _SHADOWS_ = 3,
     _MAGIC_ = 4,

@@ -842,7 +842,7 @@ void game::screenMain()
     drawButton(startButton);
     //drawButton(musicButton);
     //drawButton(muteButton);
-    drawButton(player1Button);
+    //drawButton(player1Button);
 
     drawButton(configButton);
 

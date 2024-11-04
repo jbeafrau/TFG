@@ -75,12 +75,13 @@ enum gameState
     _INTRO_ = 1,
     _MAINMENU_ = 2,
     _NAME_ = 3,
-    _GENERATEPLAYER_ = 4,
-    _CONFIGMENU_ = 5,
-    _HOMETOWN_ = 6,
-    _TOWN_SHOP_ = 7,
-    _TOWN_ELDER_ = 8,
-    _ELEMENTAL_TEMPLE_ = 9,
+    _RACES_ = 4,
+    _ARCHETYPES_ = 5,
+    _CONFIGMENU_ = 6,
+    _HOMETOWN_ = 10,
+    _TOWN_SHOP_ = 20,
+    _TOWN_ELDER_ = 30,
+    _ELEMENTAL_TEMPLE_ = 40,
     _FOREST_WORLD_ = 110,
     _COAST_WORLD_ = 120,
     _ELEMENTAL_FIRE_WORLD_ = 130,
@@ -92,6 +93,8 @@ enum gameState
     _GAMEOVER_ = 900,
     _GAMECLOSE_ = 999
 };
+
+
 
 
 enum playerRaces
@@ -185,6 +188,9 @@ public:
     void screenGameOver();
     void screenPlayerName();
 
+    void screenRaces();
+    void screenArchetypes();
+
     void screenGeneratePlayer();
     void screenConfigMenu();
     void screenHomeTown();
@@ -197,6 +203,8 @@ public:
     void eventsConfigMenu();
     void eventsHomeTown();
 
+    void eventsRaces();
+    void eventsArchetypes();
 
 protected:
     int width = 600;

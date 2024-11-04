@@ -339,16 +339,31 @@ void game::events()
         break;
     }
 
+    case _RACES_:
+    {
+        eventsRaces();
+        break;
+    }
+
+    case _ARCHETYPES_:
+    {
+        eventsArchetypes();
+        break;
+    }
+
+
+
     case _GAMEOVER_:
     {
         eventsGameOver();
         break;
     }
-    case _GENERATEPLAYER_:
+   /* case _GENERATEPLAYER_:
     {
         eventsGeneratePlayer();
         break;
     }
+    */
 
     case _CONFIGMENU_:
     {
@@ -397,11 +412,24 @@ void game::drawScreens()
         break;
     }
 
-    case _GENERATEPLAYER_:
+    case _RACES_:
+    {
+        screenRaces();
+        break;
+    }
+
+    case _ARCHETYPES_:
+    {
+        screenArchetypes();
+        break;
+    }
+
+   /* case _GENERATEPLAYER_:
     {
         screenGeneratePlayer();
         break;
     }
+    */
 
     case _CONFIGMENU_:
     {
@@ -1010,14 +1038,14 @@ void game::eventsMain()
                   }
             }*/
 
-            if (player1Button.clicked(mousex, mousey)) {
+           /* if (player1Button.clicked(mousex, mousey)) {
                 // currentPlayer=1;
                  // eventsName();
                 SDL_StartTextInput();
                 setState(_NAME_);
                 //addNotification("Cambiando nombre del jugador");
                 addAchievement("Cambiando nombre del jugador");
-            }
+            }*/
 
             /*if (player2Button.clicked(mousex, mousey)) {
                     currentPlayer=2;
@@ -1061,6 +1089,8 @@ void game::eventsMain()
             if (startButton.clicked(mousex, mousey)) {
                 //addNotification("Comenzando el juego");
                 addAchievement("Comenzando el juego");
+                SDL_StartTextInput();
+                setState(_NAME_);
             }
 
 
@@ -1243,7 +1273,8 @@ void game::eventsName()
                 // quit =true;
                 Mix_PlayChannel(-1, audioButton, 0);
                 SDL_StopTextInput();
-                setState(_MAINMENU_);
+                //setState(_MAINMENU_);
+                setState(_RACES_);
                 //Mix_PlayMusic(musicGameOver, -1);
                 //timerGameOver.start();
                 //timerGameOver.reset();
@@ -1325,6 +1356,164 @@ void game::eventsGeneratePlayer()
 {
 
 }
+
+
+void game::screenRaces()
+{
+    SDL_Rect snow0, snow1;
+    snow0.x = 1;
+    snow0.y = 1;
+    snow0.w = gScreenSurface->w;
+    snow0.h = gScreenSurface->h;
+    snow1.x = 1;
+    snow1.y = 1;
+    snow1.w = gScreenSurface->w;
+    snow1.h = gScreenSurface->h;
+    SDL_Rect dstrect;
+
+    drawButton(exitButton);
+    drawButton(continueButton);
+
+
+    tmpRect.x = gScreenSurface->w / 2 - 200;
+    tmpRect.y = 100;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+
+    drawText("RAZA DEL JUGADOR", tmpRect);
+    tmpRect.y = 200;
+    drawText("Selecciona la raza del personaje", tmpRect);
+
+    //tmpRect.y = 250;
+    //drawText(playerName, tmpRect);
+    tmpRect.y = 300;
+    drawText("Luego pulsa continuar...", tmpRect);
+}
+
+void game::screenArchetypes()
+{
+    SDL_Rect snow0, snow1;
+    snow0.x = 1;
+    snow0.y = 1;
+    snow0.w = gScreenSurface->w;
+    snow0.h = gScreenSurface->h;
+    snow1.x = 1;
+    snow1.y = 1;
+    snow1.w = gScreenSurface->w;
+    snow1.h = gScreenSurface->h;
+    SDL_Rect dstrect;
+
+    drawButton(exitButton);
+    drawButton(continueButton);
+
+
+    tmpRect.x = gScreenSurface->w / 2 - 200;
+    tmpRect.y = 100;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+
+    drawText("ARQUETIPO DEL JUGADOR", tmpRect);
+    tmpRect.y = 200;
+    drawText("Selecciona el arquetipo del personaje", tmpRect);
+
+    //tmpRect.y = 250;
+    //drawText(playerName, tmpRect);
+    tmpRect.y = 300;
+    drawText("Luego pulsa continuar...", tmpRect);
+}
+
+
+void game::eventsRaces()
+{
+    SDL_Event e;
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            Mix_PlayChannel(-1, audioButton, 0);
+            //closeSDL();
+            //SDL_StopTextInput();
+            setState(_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            SDL_GetMouseState(&mousex, &mousey);
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+                Mix_PlayChannel(-1, audioButton, 0);
+                //closeSDL();
+               SDL_StartTextInput();
+                setState(_NAME_);
+                
+            }
+            if (continueButton.clicked(mousex, mousey)) {
+                // quit =true;
+                Mix_PlayChannel(-1, audioButton, 0);
+               // SDL_StopTextInput();
+                setState(_ARCHETYPES_);
+                //Mix_PlayMusic(musicGameOver, -1);
+                //timerGameOver.start();
+                //timerGameOver.reset();
+
+            }
+        }
+
+    }
+}
+
+void game::eventsArchetypes()
+{
+    SDL_Event e;
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            Mix_PlayChannel(-1, audioButton, 0);
+            //closeSDL();
+            //SDL_StopTextInput();
+            setState(_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            SDL_GetMouseState(&mousex, &mousey);
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+                Mix_PlayChannel(-1, audioButton, 0);
+                //closeSDL();
+                SDL_StartTextInput();
+                setState(_RACES_);
+
+            }
+            if (continueButton.clicked(mousex, mousey)) {
+                // quit =true;
+                Mix_PlayChannel(-1, audioButton, 0);
+               // SDL_StopTextInput();
+                setState(_HOMETOWN_);
+                //Mix_PlayMusic(musicGameOver, -1);
+                //timerGameOver.start();
+                //timerGameOver.reset();
+
+            }
+        }
+
+    }
+}
+
+
 
 void game::eventsConfigMenu()
 {

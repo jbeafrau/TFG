@@ -450,9 +450,9 @@ void game::screenFlip()
 
 void game::adjustFPS()
 {
-    currentFrame = timer.getTicks();
+    currentFrame = FPStimer.getTicks();
     if (currentFrame < ticksPerFrame) {
-        SDL_Delay(ticksPerFrame - currentFrame);
+            SDL_Delay(ticksPerFrame - currentFrame);
     }
     FPStimer.reset();
 
@@ -1013,6 +1013,7 @@ void game::eventsMain()
             if (player1Button.clicked(mousex, mousey)) {
                 // currentPlayer=1;
                  // eventsName();
+                SDL_StartTextInput();
                 setState(_NAME_);
                 //addNotification("Cambiando nombre del jugador");
                 addAchievement("Cambiando nombre del jugador");
@@ -1179,7 +1180,7 @@ void game::eventsName()
     //Event handler
     SDL_Event e;
     //quit = false;
-    SDL_StartTextInput();
+   // SDL_StartTextInput();
     //While application is running
     //while( !quit )
       //  {
@@ -1191,6 +1192,7 @@ void game::eventsName()
         {
             Mix_PlayChannel(-1, audioButton, 0);
             //closeSDL();
+            SDL_StopTextInput();
             setState(_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
@@ -1231,6 +1233,7 @@ void game::eventsName()
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
+                SDL_StopTextInput();
                 setState(_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
@@ -1239,6 +1242,7 @@ void game::eventsName()
             if (continueButton.clicked(mousex, mousey)) {
                 // quit =true;
                 Mix_PlayChannel(-1, audioButton, 0);
+                SDL_StopTextInput();
                 setState(_MAINMENU_);
                 //Mix_PlayMusic(musicGameOver, -1);
                 //timerGameOver.start();
@@ -1252,7 +1256,7 @@ void game::eventsName()
     //SDL_Delay(50);
 //	}
 //Disable text input
-    SDL_StopTextInput();
+  //  SDL_StopTextInput();
 }
 
 

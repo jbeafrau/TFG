@@ -142,37 +142,38 @@ void game::start()
     continueButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h - 128, 128, 128, "Continuar");
     continueButton.setColor(0, 0, 200);
 
-    startButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 50, 200, 50, "Jugar");
+    startButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h / 2 -64, 128, 128, "Jugar");
     startButton.setColor(100, 100, 100);
 
     player1Button.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 100, 200, 50, "Nombre Jugador");
     player1Button.setColor(100, 100, 100);
 
-    configButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 150, 200, 50, "Configuración");
+    //configButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 150, 200, 50, "Configuración");
+    configButton.setButton(1, gScreenSurface->h -128, 128, 128, "Configuración");
     configButton.setColor(100, 100, 100);
 
-    musicButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 100, 200, 50, "Cambia canción");
+    musicButton.setButton(gScreenSurface->w / 2-100, gScreenSurface->h / 2 + 100, 200, 50, "Cambia canción");
     musicButton.setColor(100, 100, 100);
 
-    muteButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 150, 200, 50, "MUSIC ON");
+    muteButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 2 + 150, 200, 50, "MUSIC ON");
     muteButton.setColor(100, 100, 100);
 
-    volumeSoundUpButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 200, 50, 50, "+");
+    volumeSoundUpButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 2 + 200, 50, 50, "+");
     volumeSoundUpButton.setColor(100, 100, 100);
 
-    volumeSoundButton.setButton(gScreenSurface->w / 2 + 50, gScreenSurface->h / 2 + 200, 100, 50, "SOUND 100%");
+    volumeSoundButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 2 + 200, 100, 50, "SOUND 100%");
     volumeSoundButton.setColor(200, 200, 200);
 
-    volumeSoundDownButton.setButton(gScreenSurface->w / 2 + 150, gScreenSurface->h / 2 + 200, 50, 50, "-");
+    volumeSoundDownButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 200, 50, 50, "-");
     volumeSoundDownButton.setColor(100, 100, 100);
 
-    volumeMusicUpButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 250, 50, 50, "+");
+    volumeMusicUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
     volumeMusicUpButton.setColor(100, 100, 100);
 
-    volumeMusicButton.setButton(gScreenSurface->w / 2 + 50, gScreenSurface->h / 2 + 250, 100, 50, "MUSIC 100%");
+    volumeMusicButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 2 + 250, 100, 50, "MUSIC 100%");
     volumeMusicButton.setColor(200, 200, 200);
 
-    volumeMusicDownButton.setButton(gScreenSurface->w / 2 + 150, gScreenSurface->h / 2 + 250, 50, 50, "-");
+    volumeMusicDownButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
     //volumeMusicDownButton.setButton(50, 100, 50, 50, "-");
     volumeMusicDownButton.setColor(100, 100, 100);
 
@@ -1233,7 +1234,7 @@ void game::screenHomeTown()
 
     drawButton(exitButton);
     drawButton(achievementsButton);
-   // drawButton(continueButton);
+    drawButton(configButton);
   // drawButton(nextButton);
   //  drawButton(prevButton);
 
@@ -1244,16 +1245,13 @@ void game::screenHomeTown()
     tmpRect.h = 50;
 
     drawText("POBLADO INICIAL", tmpRect);
-   /* tmpRect.y = 200;
-    drawText("Selecciona la raza del personaje", tmpRect);
+  
+    tmpRect.x = gScreenSurface->w - 500;
+    tmpRect.y = gScreenSurface->h - 50;
+    tmpRect.w = 500;
+    tmpRect.h = 50;
 
-    //tmpRect.y = 250;
-    //drawText(playerName, tmpRect);
-    tmpRect.y = 300;
-    drawText("Luego pulsa continuar...", tmpRect);
-
-    tmpRect.y = 400;
-    drawText(getRaceName(currentRace), tmpRect);*/
+    drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
 
 }
 
@@ -1619,6 +1617,7 @@ void game::eventsArchetypes()
                 // quit =true;
                 Mix_PlayChannel(-1, audioButton, 0);
                // SDL_StopTextInput();
+                Mix_PlayMusic(musicTOWN, -1);
                 setState(_HOMETOWN_);
                 //Mix_PlayMusic(musicGameOver, -1);
                 //timerGameOver.start();
@@ -2000,9 +1999,13 @@ void game::eventsHomeTown()
             }//exit button
             
 
+            if (configButton.clicked(mousex, mousey)) {
+                setState(_CONFIGMENU_);
+                previousScreen = _HOMETOWN_;
+            }//config button
 
         }
 
     }
-
+    myTime = (int)(timer.getTicks() / 1000);
 }

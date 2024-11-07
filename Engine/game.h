@@ -153,6 +153,8 @@ public:
 
     std::string getBasePath();
 
+    std::string getRaceName(playerRaces race);
+    std::string getArchetypeName(playerArchetype archetype);
 
     void events();
 
@@ -238,6 +240,9 @@ protected:
       */
 
     std::string playerName = "Jugador";
+    playerRaces currentRace = _HUMAN_;
+    playerArchetype currentArchetype = _FIGHTER_;
+
 
     //The application timer
     classTimer timer;
@@ -323,6 +328,9 @@ protected:
     Mix_Chunk* loose = NULL;
     Mix_Chunk* win = NULL;
 
+
+    classButton nextButton;
+    classButton prevButton;
 
     classButton exitButton;
     classButton startButton;

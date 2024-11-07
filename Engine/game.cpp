@@ -127,10 +127,19 @@ void game::start()
     //Hide Window´s cursor
     SDL_ShowCursor(SDL_DISABLE);
 
+
+
+    nextButton.setButton(gScreenSurface->w / 2 +128, gScreenSurface->h /2, 128, 128, "Siguiente");
+    nextButton.setColor(128, 128, 128);
+
+    prevButton.setButton(gScreenSurface->w / 2 - 256, gScreenSurface->h /2, 128, 128, "Anterior");
+    prevButton.setColor(128, 128, 128);
+
     exitButton.setButton(gScreenSurface->w - 128, 0, 128, 128, "Salir");
     exitButton.setColor(200, 0, 0);
 
-    continueButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 - 64, 128, 128, "Continuar");
+    //continueButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 - 64, 128, 128, "Continuar");
+    continueButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h - 128, 128, 128, "Continuar");
     continueButton.setColor(0, 0, 200);
 
     startButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 50, 200, 50, "Jugar");
@@ -1020,65 +1029,6 @@ void game::eventsMain()
                 addAchievement("Saliendo del juego");
             }
 
-            /* if (muteButton.clicked(mousex, mousey)) {
-                  if(musicON==true)   {
-                    musicON = false;
-                    muteButton.setCaption("MUSIC OFF");
-                     Mix_Volume(-1,0);
-                     Mix_VolumeMusic(0);
-                     //addNotification("Sonido apagado");
-                     addAchievement("Sonido apagado");
-                  }else{
-                    musicON = true;
-                    muteButton.setCaption("MUSIC ON");
-                    Mix_Volume(-1,MIX_MAX_VOLUME);
-                    Mix_VolumeMusic(MIX_MAX_VOLUME);
-                    //addNotification("Sonido activado");
-                    addAchievement("Sonido activado");
-                  }
-            }*/
-
-           /* if (player1Button.clicked(mousex, mousey)) {
-                // currentPlayer=1;
-                 // eventsName();
-                SDL_StartTextInput();
-                setState(_NAME_);
-                //addNotification("Cambiando nombre del jugador");
-                addAchievement("Cambiando nombre del jugador");
-            }*/
-
-            /*if (player2Button.clicked(mousex, mousey)) {
-                    currentPlayer=2;
-                     eventsName();
-            }*/
-
-
-            /*  if (musicButton.clicked(mousex, mousey)) {
-                       switch (currentMusic){
-
-                   case 1:
-                          currentMusic =2;
-                          Mix_PlayMusic(musicFunky,-1);
-                          //addNotification("Musica Funky");
-                          addAchievement("Musica Funky");
-                          break;
-                  case 2:
-                          currentMusic =3;
-                          Mix_PlayMusic(musicRetro,-1);
-                          //addNotification("Musica Retro");
-                          addAchievement("Musica Retro");
-                          break;
-                  case 3:
-                          currentMusic =1;
-                          Mix_PlayMusic(music8bit,-1);
-                          //addNotification("Musica 8 bits");
-                          addAchievement("Musica 8 bits");
-                          break;
-
-
-                       }
-               }*/
-
             if (configButton.clicked(mousex, mousey)) {
                 setState(_CONFIGMENU_);
                 previousScreen = _MAINMENU_;
@@ -1096,78 +1046,7 @@ void game::eventsMain()
 
 
         }
-        else if (e.type == SDL_KEYDOWN)
-        {
-            //Select surfaces based on key press
-            switch (e.key.keysym.sym)
-            {
-            case SDLK_a:
-                /*  if (!player1.gameOver) {
-                  if (!player1.collide(-1,0))player1.chipX--;
-                  }*/
-                break;
-
-            case SDLK_w:
-                /*   if (!player1.gameOver) {
-                       player1.rotateChip();
-                       if (player1.collide(0,0)){
-                           player1.rotateChip();
-                           player1.rotateChip();
-                           player1.rotateChip();
-                           }
-                   }*/
-
-                break;
-
-            case SDLK_s:
-                /*  if (!player1.gameOver) {
-              if (!player1.collide(0,1)){player1.chipY++;}
-                  }*/
-                break;
-
-            case SDLK_d:
-                /*   if (!player1.gameOver) {
-                   if (!player1.collide(1,0))player1.chipX++;
-                   }*/
-                break;
-
-            case SDLK_UP:
-                /*      if (!player2.gameOver) {
-                       player2.rotateChip();
-                       if (player2.collide(0,0)){
-                              player2.rotateChip();
-                              player2.rotateChip();
-                              player2.rotateChip();
-                              }
-                      }*/
-
-                break;
-
-            case SDLK_DOWN:
-                /*if (!player2.gameOver) {
-            if (!player2.collide(0,1)){player2.chipY++;}
-                }*/
-                break;
-
-            case SDLK_LEFT:
-                /*if (!player2.gameOver) {
-                if (!player2.collide(-1,0))player2.chipX--;
-                }*/
-
-                break;
-
-            case SDLK_RIGHT:
-                /*                                if (!player2.gameOver) {
-                                                if (!player2.collide(1,0))player2.chipX++;
-                                                }*/
-
-                break;
-
-            default:
-
-                break;
-            }
-        }
+  
 
         //******************
     }
@@ -1350,6 +1229,32 @@ void game::screenConfigMenu()
 void game::screenHomeTown()
 {
 
+    SDL_Rect dstrect;
+
+    drawButton(exitButton);
+    drawButton(achievementsButton);
+   // drawButton(continueButton);
+  // drawButton(nextButton);
+  //  drawButton(prevButton);
+
+
+    tmpRect.x = gScreenSurface->w / 2 - 200;
+    tmpRect.y = 100;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+
+    drawText("POBLADO INICIAL", tmpRect);
+   /* tmpRect.y = 200;
+    drawText("Selecciona la raza del personaje", tmpRect);
+
+    //tmpRect.y = 250;
+    //drawText(playerName, tmpRect);
+    tmpRect.y = 300;
+    drawText("Luego pulsa continuar...", tmpRect);
+
+    tmpRect.y = 400;
+    drawText(getRaceName(currentRace), tmpRect);*/
+
 }
 
 void game::eventsGeneratePlayer()
@@ -1357,9 +1262,110 @@ void game::eventsGeneratePlayer()
 
 }
 
+std::string game::getRaceName(playerRaces race)
+{
+
+    switch (race)
+    {
+    case _HUMAN_:
+    {
+        return "Humano";
+        break;
+    }
+    case _ELF_:
+    {
+        return "Elfo";
+        break;
+    }
+
+    case _DARF_:
+    {
+        return "Enano";
+        break;
+    }
+
+    case _HALFING_:
+    {
+        return "Mediano";
+        break;
+    }
+
+    case _HALFORC_:
+    {
+        return "Medio Orco";
+        break;
+    }
+
+    case _BEHOLDER_:
+    {
+        return "Contemplador";
+        break;
+    }
+    
+    default:
+    {
+        // is likely to be an error
+    }
+    };
+
+
+}
+
+
+std::string game::getArchetypeName(playerArchetype archetype)
+{
+
+    switch (archetype)
+    {
+    case _FIGHTER_:
+    {
+        return "Guerrero";
+        break;
+    }
+    case _ARCHER_:
+    {
+        return "Arquero";
+        break;
+    }
+
+    case _THIEVE_:
+    {
+        return "Ladrón";
+        break;
+    }
+
+    case _MAGE_:
+    {
+        return "Mago";
+        break;
+    }
+
+    case _NECROMANCER_:
+    {
+        return "Necromante";
+        break;
+    }
+
+    case _SUMMONER_:
+    {
+        return "Invocador";
+        break;
+    }
+
+    default:
+    {
+        // is likely to be an error
+    }
+    };
+
+
+}
+
+
 
 void game::screenRaces()
 {
+    string tmpRace;
     SDL_Rect snow0, snow1;
     snow0.x = 1;
     snow0.y = 1;
@@ -1373,6 +1379,8 @@ void game::screenRaces()
 
     drawButton(exitButton);
     drawButton(continueButton);
+    drawButton(nextButton);
+    drawButton(prevButton);
 
 
     tmpRect.x = gScreenSurface->w / 2 - 200;
@@ -1388,6 +1396,11 @@ void game::screenRaces()
     //drawText(playerName, tmpRect);
     tmpRect.y = 300;
     drawText("Luego pulsa continuar...", tmpRect);
+
+    tmpRect.y = 400;
+    drawText(getRaceName(currentRace), tmpRect);
+
+
 }
 
 void game::screenArchetypes()
@@ -1405,6 +1418,8 @@ void game::screenArchetypes()
 
     drawButton(exitButton);
     drawButton(continueButton);
+    drawButton(nextButton);
+    drawButton(prevButton);
 
 
     tmpRect.x = gScreenSurface->w / 2 - 200;
@@ -1420,6 +1435,9 @@ void game::screenArchetypes()
     //drawText(playerName, tmpRect);
     tmpRect.y = 300;
     drawText("Luego pulsa continuar...", tmpRect);
+
+    tmpRect.y = 400;
+    drawText(getArchetypeName(currentArchetype), tmpRect);
 }
 
 
@@ -1463,6 +1481,105 @@ void game::eventsRaces()
                 //timerGameOver.reset();
 
             }
+
+            if (nextButton.clicked(mousex, mousey)) {
+                switch (currentRace)
+                {
+                case _HUMAN_:
+                {
+                    currentRace = _ELF_;
+                    break;
+                }
+                case _ELF_:
+                {
+                    currentRace = _DARF_;
+                    break;
+                }
+
+                case _DARF_:
+                {
+                    currentRace = _HALFING_;
+                    break;
+                }
+
+                case _HALFING_:
+                {
+                    currentRace = _HALFORC_;
+                    break;
+                }
+
+                case _HALFORC_:
+                {
+                    currentRace = _BEHOLDER_;
+                    break;
+                }
+
+                case _BEHOLDER_:
+                {
+                    currentRace = _HUMAN_;
+                    break;
+                }
+
+                default:
+                {
+                    // is likely to be an error
+                }
+                };
+
+            }//nextbutton
+
+            if (prevButton.clicked(mousex, mousey)) {
+                switch (currentRace)
+                {
+                case _HUMAN_:
+                {
+                    currentRace = _BEHOLDER_;
+                    
+                   
+                    break;
+                }
+                case _ELF_:
+                {
+                    currentRace = _HUMAN_;
+                   
+                    break;
+                }
+
+                case _DARF_:
+                {
+                    currentRace = _ELF_;
+                   
+                    break;
+                }
+
+                case _HALFING_:
+                {
+                    currentRace = _DARF_;
+                   
+                    break;
+                }
+
+                case _HALFORC_:
+                {
+                    
+                    
+                    currentRace = _HALFING_;
+                    break;
+                }
+
+                case _BEHOLDER_:
+                {
+                    currentRace = _HALFORC_;
+                    break;
+                }
+
+                default:
+                {
+                    // is likely to be an error
+                }
+                };
+
+            }//prevbutton
         }
 
     }
@@ -1507,7 +1624,101 @@ void game::eventsArchetypes()
                 //timerGameOver.start();
                 //timerGameOver.reset();
 
-            }
+            }//continue
+
+
+            if (nextButton.clicked(mousex, mousey)) {
+                switch (currentArchetype)
+                {
+                case _FIGHTER_:
+                {
+                    currentArchetype = _ARCHER_;
+                    break;
+                }
+                case _ARCHER_:
+                {
+                    currentArchetype = _THIEVE_;
+                    break;
+                }
+
+                case _THIEVE_:
+                {
+                    currentArchetype = _MAGE_;
+                    break;
+                }
+
+                case _MAGE_:
+                {
+                    currentArchetype = _NECROMANCER_;
+                    break;
+                }
+
+                case _NECROMANCER_:
+                {
+                    currentArchetype = _SUMMONER_;
+                    break;
+                }
+
+                case _SUMMONER_:
+                {
+                    currentArchetype = _FIGHTER_;
+                    break;
+                }
+
+                default:
+                {
+                    // is likely to be an error
+                }
+                };
+
+            }//nextbutton
+
+
+            if (prevButton.clicked(mousex, mousey)) {
+                switch (currentArchetype)
+                {
+                case _FIGHTER_:
+                {
+                    currentArchetype = _SUMMONER_;
+                    break;
+                }
+                case _ARCHER_:
+                {
+                    currentArchetype = _FIGHTER_;
+                    break;
+                }
+
+                case _THIEVE_:
+                {
+                    currentArchetype = _ARCHER_;
+                    break;
+                }
+
+                case _MAGE_:
+                {
+                    currentArchetype = _THIEVE_;
+                    break;
+                }
+
+                case _NECROMANCER_:
+                {
+                    currentArchetype = _MAGE_;
+                    break;
+                }
+
+                case _SUMMONER_:
+                {
+                    currentArchetype = _NECROMANCER_;
+                    break;
+                }
+
+                default:
+                {
+                    // is likely to be an error
+                }
+                };
+
+            }//prevbutton
         }
 
     }
@@ -1759,5 +1970,39 @@ void game::eventsConfigMenu()
 
 void game::eventsHomeTown()
 {
+
+    SDL_Event e;
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            Mix_PlayChannel(-1, audioButton, 0);
+            setState(_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            SDL_GetMouseState(&mousex, &mousey);
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+                Mix_PlayChannel(-1, audioButton, 0);
+                setState(_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+
+            }//exit button
+            
+
+
+        }
+
+    }
 
 }

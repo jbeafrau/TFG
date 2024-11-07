@@ -4,6 +4,7 @@
 #include <iostream>
 #include "classButton.h"
 #include "classTimer.h"
+#include "classMap.h"
 #include <cstdlib>
 #include <ctime>       /* time */
 #include<list>
@@ -356,6 +357,9 @@ protected:
     classButton mouseButton;
 
     SDL_Rect tmpRect;
+
+    classMap mapTown;
+
 private:
 };
 

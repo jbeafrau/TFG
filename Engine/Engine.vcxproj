@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="classButton.cpp" />
+    <ClCompile Include="classMap.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="classTexture.cpp" />
     <ClCompile Include="classTimer.cpp" />
@@ -27,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="classButton.h" />
+    <ClInclude Include="classMap.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="classTexture.h" />
     <ClInclude Include="classTimer.h" />

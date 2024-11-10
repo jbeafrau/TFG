@@ -123,7 +123,10 @@ void game::start()
     //initSDL();
 
 
+    //baseMap.createSurface((gScreenSurface->w / 10) * 8, (gScreenSurface->h / 10) * 8);
     baseMap.createSurface();
+
+
     baseMap.imageSurface = SDL_ConvertSurface(baseMap.imageSurface, gScreenSurface->format, 0);
 
     baseMap.SetSurface();
@@ -131,14 +134,14 @@ void game::start()
     SDL_Rect srcrect;
     srcrect.x = 75;
     srcrect.y = 75;
-    srcrect.w = 10;
+    srcrect.w = 15;
     srcrect.h = 10;
 
-    SDL_Rect  dstrect;
+    /*SDL_Rect  dstrect;
      dstrect.x = 0;
      dstrect.y = 0;
      dstrect.w = 256;
-     dstrect.h = 256;
+     dstrect.h = 256;*/
 
 
      SDL_BlitScaled(baseMap.imageSurface, &srcrect, baseMap.targetSurface, NULL);
@@ -1258,15 +1261,16 @@ void game::screenHomeTown()
 
     SDL_Rect dstrect;
 
-    drawButton(exitButton);
-    drawButton(achievementsButton);
-    drawButton(configButton);
+
   // drawButton(nextButton);
   //  drawButton(prevButton);
 
 
     tmpRect.x = gScreenSurface->w / 2 - 200;
-    tmpRect.y = 100;
+    //tmpRect.y = 100;
+    tmpRect.y = gScreenSurface->h / 12;
+    
+
     tmpRect.w = 400;
     tmpRect.h = 50;
 
@@ -1281,19 +1285,29 @@ void game::screenHomeTown()
 
 
     SDL_Rect target;
-    target.x = 100;
-    target.y = 100;
-    target.w = 256;
-    target.h = 256;
+   // target.x = 100;
+    //target.y = 100;
 
-    SDL_Color mapColor = { 120,120,120,0 };
+    target.x = gScreenSurface->w / 10;
+    target.y = gScreenSurface->h / 10;
+    //target.w = 256;
+    //target.h = 256;
 
-    drawSquare(target, mapColor);
+    target.w = (gScreenSurface->w / 10)*8;
+    target.h = (gScreenSurface->h / 10)*8;
+
+    //SDL_Color mapColor = { 120,120,120,0 };
+
+    //drawSquare(target, mapColor);
 
     //SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
     SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
     SDL_RenderCopy(gRenderer, mapTexture, NULL, &target);
 
+
+    drawButton(exitButton);
+    drawButton(achievementsButton);
+    drawButton(configButton);
 
 }
 

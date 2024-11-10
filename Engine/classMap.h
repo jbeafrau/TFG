@@ -29,6 +29,7 @@ public:
     virtual ~classMap();
     int get_cell(int x, int y);
     void blur();
+    //void createSurface(int w,int h);
     void createSurface();
     void SetSurface();
     void put_pixel32(SDL_Surface* surface, int x, int y, Uint32 pixel);

@@ -334,6 +334,7 @@ void classMap::SetSurface()
 
 }
 
+//void classMap::createSurface(int w, int h)
 void classMap::createSurface()
 {
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -357,7 +358,10 @@ void classMap::createSurface()
         exit(1);
     }
 
-    targetSurface = SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask);
+    //targetSurface = SDL_CreateRGBSurface(0, w, h, 32, rmask, gmask, bmask, amask);
+    //targetSurface = SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask);
+    targetSurface = SDL_CreateRGBSurface(0, 600, 400, 32, rmask, gmask, bmask, amask);
+
     if (targetSurface == NULL)
     {
         fprintf(stderr, "CreateRGBSurface failed: %s", SDL_GetError());

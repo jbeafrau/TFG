@@ -28,6 +28,10 @@ public:
     classMap();
     virtual ~classMap();
     int get_cell(int x, int y);
+    void blur();
+    void createSurface();
+    void SetSurface();
+    void put_pixel32(SDL_Surface* surface, int x, int y, Uint32 pixel);
     
     /*void init_image(SDL_Renderer* renderer2, int startx2, int starty2, const char* file2);
     void init(SDL_Renderer* renderer2, int startx2, int starty2);
@@ -42,13 +46,14 @@ public:
 
     void update(int x, int y);
     void setscale(int w, int h, int tilesize);
-    void put_pixel32(SDL_Surface* surface, int x, int y, Uint32 pixel);
+
     void load_tileset(SDL_Renderer* renderer2, const char* file);
 
     ctileset mytileset;
 
     ;*/
-
+    SDL_Surface* imageSurface = NULL;
+    SDL_Surface* targetSurface = NULL;
 
 
 protected:
@@ -63,7 +68,12 @@ private:
     SDL_Rect  miniorigin;
     SDL_Rect  minidest;
 
-   // SDL_Surface* surface;
+   SDL_Surface* surface;
+
+
+   int blur_extent = 20;
+  
+
     Uint32 rmask, gmask, bmask, amask;
     int width, height;
     int map_cells[256][256];

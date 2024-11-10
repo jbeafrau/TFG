@@ -122,6 +122,32 @@ void game::start()
     timerGameOver.pause();
     //initSDL();
 
+
+    baseMap.createSurface();
+    baseMap.imageSurface = SDL_ConvertSurface(baseMap.imageSurface, gScreenSurface->format, 0);
+
+    baseMap.SetSurface();
+
+    SDL_Rect srcrect;
+    srcrect.x = 75;
+    srcrect.y = 75;
+    srcrect.w = 10;
+    srcrect.h = 10;
+
+    SDL_Rect  dstrect;
+     dstrect.x = 0;
+     dstrect.y = 0;
+     dstrect.w = 256;
+     dstrect.h = 256;
+
+
+     SDL_BlitScaled(baseMap.imageSurface, &srcrect, baseMap.targetSurface, NULL);
+
+ 
+    // baseMap.targetSurface = SDL_ConvertSurface(baseMap.targetSurface, gScreenSurface->format, 0);
+
+    baseMap.blur();
+
     ticksPerFrame = (int)(1000 / desiredFPS);
 
     //Hide Window´s cursor
@@ -1252,6 +1278,22 @@ void game::screenHomeTown()
     tmpRect.h = 50;
 
     drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
+
+
+    SDL_Rect target;
+    target.x = 100;
+    target.y = 100;
+    target.w = 256;
+    target.h = 256;
+
+    SDL_Color mapColor = { 120,120,120,0 };
+
+    drawSquare(target, mapColor);
+
+    //SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
+    SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
+    SDL_RenderCopy(gRenderer, mapTexture, NULL, &target);
+
 
 }
 

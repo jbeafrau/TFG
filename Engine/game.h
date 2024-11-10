@@ -146,6 +146,9 @@ public:
     void closeSDL();
     SDL_Surface* loadSurface(std::string path);
 
+
+
+
     void start();
     int dice(int maxValue, int minValue);
 
@@ -208,6 +211,8 @@ public:
 
     void eventsRaces();
     void eventsArchetypes();
+
+    classMap baseMap;
 
 protected:
     int width = 600;

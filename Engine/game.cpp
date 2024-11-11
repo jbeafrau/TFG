@@ -134,8 +134,8 @@ void game::start()
     SDL_Rect srcrect;
     srcrect.x = 75;
     srcrect.y = 75;
-    srcrect.w = 15;
-    srcrect.h = 10;
+    srcrect.w = 40;
+    srcrect.h = 20;
 
     /*SDL_Rect  dstrect;
      dstrect.x = 0;
@@ -156,6 +156,16 @@ void game::start()
     //Hide Window´s cursor
     SDL_ShowCursor(SDL_DISABLE);
 
+
+
+    moveLeftButton.setButton(0, gScreenSurface->h / 2, 128, 128, "Left");
+    moveLeftButton.setColor(0, 0, 200);
+    moveRightButton.setButton(276 , gScreenSurface->h / 2, 128, 128, "Right");
+    moveRightButton.setColor(0, 0, 200);
+    moveUpButton.setButton(138, gScreenSurface->h / 2 -138, 128, 128, "Up");
+    moveUpButton.setColor(0, 0, 200);
+    moveDownButton.setButton(138, gScreenSurface->h / 2, 128, 128, "Down");
+    moveDownButton.setColor(0, 0, 200);
 
 
     nextButton.setButton(gScreenSurface->w / 2 +128, gScreenSurface->h /2, 128, 128, "Siguiente");
@@ -1259,6 +1269,30 @@ void game::screenConfigMenu()
 void game::screenHomeTown()
 {
 
+    SDL_Rect target;
+     target.x = 0;
+    target.y = 0;
+
+    //target.x = gScreenSurface->w / 10;
+    //target.y = gScreenSurface->h / 10;
+    //target.w = 256;
+    //target.h = 256;
+
+    //target.w = (gScreenSurface->w / 10) * 8;
+    //target.h = (gScreenSurface->h / 10) * 8;
+
+    target.w = gScreenSurface->w;
+    target.h = gScreenSurface->h;
+
+    //SDL_Color mapColor = { 120,120,120,0 };
+
+    //drawSquare(target, mapColor);
+
+    //SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
+    SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
+    SDL_RenderCopy(gRenderer, mapTexture, NULL, &target);
+
+
     SDL_Rect dstrect;
 
 
@@ -1284,30 +1318,18 @@ void game::screenHomeTown()
     drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
 
 
-    SDL_Rect target;
-   // target.x = 100;
-    //target.y = 100;
-
-    target.x = gScreenSurface->w / 10;
-    target.y = gScreenSurface->h / 10;
-    //target.w = 256;
-    //target.h = 256;
-
-    target.w = (gScreenSurface->w / 10)*8;
-    target.h = (gScreenSurface->h / 10)*8;
-
-    //SDL_Color mapColor = { 120,120,120,0 };
-
-    //drawSquare(target, mapColor);
-
-    //SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
-    SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
-    SDL_RenderCopy(gRenderer, mapTexture, NULL, &target);
+  
 
 
     drawButton(exitButton);
     drawButton(achievementsButton);
     drawButton(configButton);
+
+    drawButton(moveLeftButton);
+    drawButton(moveRightButton);
+    drawButton(moveUpButton);
+    drawButton(moveDownButton);
+    
 
 }
 

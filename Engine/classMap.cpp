@@ -300,7 +300,7 @@ void classMap::SetSurface()
     {
         for (int x = 0; x < (imageSurface->pitch / 4); x++)
         {
-            if (y < 80) {
+          /*  if (y < 80) {
                 pixel = SDL_MapRGBA(imageSurface->format, 255, 0, 0, 0);
             }else  {
                 pixel = SDL_MapRGBA(imageSurface->format, 0, 255, 0, 0);
@@ -310,16 +310,17 @@ void classMap::SetSurface()
             if (x > 80) {
                 pixel = SDL_MapRGBA(imageSurface->format, 0, 0, 255, 0);
             }
+            */
             
             
-         /*   int a;
-            a = (y % 3);
+            int a;
+            a = ((x+(y*256)) % 3);
             switch (a) {
             case 0: { pixel = SDL_MapRGBA(imageSurface->format, 255, 0, 0, 0); break; }
             case 1: { pixel = SDL_MapRGBA(imageSurface->format, 0, 255, 0, 0); break; }
             case 2: { pixel = SDL_MapRGBA(imageSurface->format, 0, 0, 255, 0); break; }
             }
-            */
+            
             
 
               //  pixel = SDL_MapRGBA(imageSurface->format, x, y, 0, 0);
@@ -360,7 +361,8 @@ void classMap::createSurface()
 
     //targetSurface = SDL_CreateRGBSurface(0, w, h, 32, rmask, gmask, bmask, amask);
     //targetSurface = SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask);
-    targetSurface = SDL_CreateRGBSurface(0, 600, 400, 32, rmask, gmask, bmask, amask);
+    //targetSurface = SDL_CreateRGBSurface(0, 600, 400, 32, rmask, gmask, bmask, amask);
+    targetSurface = SDL_CreateRGBSurface(0, 200, 100, 32, rmask, gmask, bmask, amask);
 
     if (targetSurface == NULL)
     {

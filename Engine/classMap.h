@@ -72,7 +72,7 @@ private:
    SDL_Surface* surface;
 
 
-   int blur_extent = 20;
+   int blur_extent = 3;
   
 
     Uint32 rmask, gmask, bmask, amask;

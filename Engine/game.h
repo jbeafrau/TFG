@@ -359,6 +359,13 @@ protected:
     classButton volumeMusicButton;
     classButton achievementsButton;
 
+
+    classButton moveLeftButton;
+    classButton moveRightButton;
+    classButton moveUpButton;
+    classButton moveDownButton;
+
+
     classButton mouseButton;
 
     SDL_Rect tmpRect;

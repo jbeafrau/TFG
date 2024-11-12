@@ -128,10 +128,18 @@ void game::start()
     //baseMap.createSurface((gScreenSurface->w / 10) * 8, (gScreenSurface->h / 10) * 8);
     baseMap.createSurface();
 
+    int width, height;
+    width = 256;
+    height = 256;
+    baseMap.mymap.init();
+    baseMap.mymap.generate(baseMap.mymap.seed_a.frequency, baseMap.mymap.seed_a.octave, baseMap.mymap.seed_a.persistance, 1, 1, width, height);
+    baseMap.mymap.to_surface(baseMap.imageSurface);
+
+
 
     baseMap.imageSurface = SDL_ConvertSurface(baseMap.imageSurface, gScreenSurface->format, 0);
 
-    baseMap.SetSurface();
+    //baseMap.SetSurface();
 
     updateMap();
 
@@ -876,11 +884,11 @@ void game::paintFruit(int x, int y, Uint8 fruit)
 
 void game::screenMain()
 {
-    SDL_Rect dstrect;
+  /*  SDL_Rect dstrect;
     tmpRect.x = gScreenSurface->w / 8 - 1;
     tmpRect.y = 299;
     tmpRect.w = 322;
-    tmpRect.h = 482;
+    tmpRect.h = 482;*/
     //SDL_Color square={0,0,255,0}; blue
     SDL_Color square = { 0,0,0,0 };
 
@@ -928,7 +936,7 @@ void game::screenPlayerName()
     snow1.y = 1;
     snow1.w = gScreenSurface->w;
     snow1.h = gScreenSurface->h;
-    SDL_Rect dstrect;
+   // SDL_Rect dstrect;
 
     drawButton(exitButton);
     drawButton(continueButton);
@@ -1235,7 +1243,7 @@ void game::screenGeneratePlayer()
 
 void game::screenConfigMenu()
 {
-    SDL_Rect dstrect;
+   // SDL_Rect dstrect;
     tmpRect.x = gScreenSurface->w / 8 - 1;
     tmpRect.y = 299;
     tmpRect.w = 322;
@@ -1312,7 +1320,7 @@ void game::screenHomeTown()
     //SDL_RenderCopy(gRenderer, mapTexture, NULL, NULL);
     drawMap();
 
-    SDL_Rect dstrect;
+    //SDL_Rect dstrect;
 
 
   // drawButton(nextButton);
@@ -1450,6 +1458,7 @@ std::string game::getArchetypeName(playerArchetype archetype)
     default:
     {
         // is likely to be an error
+        return "";
     }
     };
 
@@ -1470,7 +1479,7 @@ void game::screenRaces()
     snow1.y = 1;
     snow1.w = gScreenSurface->w;
     snow1.h = gScreenSurface->h;
-    SDL_Rect dstrect;
+   // SDL_Rect dstrect;
 
     drawButton(exitButton);
     drawButton(continueButton);
@@ -1509,7 +1518,7 @@ void game::screenArchetypes()
     snow1.y = 1;
     snow1.w = gScreenSurface->w;
     snow1.h = gScreenSurface->h;
-    SDL_Rect dstrect;
+    //SDL_Rect dstrect;
 
     drawButton(exitButton);
     drawButton(continueButton);

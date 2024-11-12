@@ -3,7 +3,7 @@
 
 //#include "utils.h"
 //#include "tileset.h"
-//#include "mapgenerator.h"
+#include "mapgenerator.h"
 
 
 
@@ -56,7 +56,7 @@ public:
     SDL_Surface* imageSurface = NULL;
     SDL_Surface* targetSurface = NULL;
 
-
+    mapgenerator mymap;
 protected:
 private:
     int startx, starty, endx, endy; //,scale;
@@ -72,12 +72,13 @@ private:
    SDL_Surface* surface;
 
 
-   int blur_extent = 3;
+   int blur_extent = 1;
   
 
     Uint32 rmask, gmask, bmask, amask;
     int width, height;
     int map_cells[256][256];
+
    // mapgenerator mymap;
 
 };

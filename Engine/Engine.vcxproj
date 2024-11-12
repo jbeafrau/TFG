@@ -25,6 +25,8 @@
     <ClCompile Include="classTexture.cpp" />
     <ClCompile Include="classTimer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mapgenerator.cpp" />
+    <ClCompile Include="noiseutils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="classButton.h" />
@@ -32,6 +34,8 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="classTexture.h" />
     <ClInclude Include="classTimer.h" />
+    <ClInclude Include="mapgenerator.h" />
+    <ClInclude Include="noiseutils.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
@@ -98,6 +102,8 @@
     <LibraryPath>..\VCLIB\SDL2_mixer-2.8.0\lib\x64;$(LibraryPath)</LibraryPath>
     <IncludePath>..\VCLIB\SDL2_ttf-2.22.0\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\VCLIB\SDL2_ttf-2.22.0\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\VCLIB\noise;$(IncludePath)</IncludePath>
+    <LibraryPath>..\VCLIB\noise;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,7 +143,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libnoise.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

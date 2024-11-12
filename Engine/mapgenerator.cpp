@@ -32,6 +32,7 @@ void mapgenerator::init ()
 heightMapBuilder.SetSourceModule (myModule);
 heightMapBuilder.SetDestNoiseMap (heightMap);
 
+/*
 seed_a.frequency = rand() % 6 + 1;
 seed_a.octave = rand() % 6 + 1;
 seed_a.persistance = 0.5f;
@@ -39,6 +40,8 @@ seed_a.persistance = 0.5f;
 seed_b.frequency = rand() % 6 + 1;
 seed_b.octave = rand() % 6 + 1;
 seed_b.persistance = 0.5f;
+*/
+
 }
 
 
@@ -128,6 +131,8 @@ utils::RendererImage renderer;
  renderer.AddGradientPoint ( 1.00, utils::Color (255, 255, 255, 255)); // snow
  */
  
+  //standard
+  
  renderer.AddGradientPoint(-1.0000, utils::Color(0, 0, 128, 255)); // deeps
   renderer.AddGradientPoint (-0.2500, utils::Color (  0,   0, 255, 255)); // shallow
   renderer.AddGradientPoint ( 0.0000, utils::Color (  0, 128, 255, 255)); // shore
@@ -139,12 +144,86 @@ utils::RendererImage renderer;
   renderer.AddGradientPoint ( 1.0000, utils::Color (255, 255, 255, 255)); // snow
  
 
+  renderer.EnableLight();
+  renderer.SetLightContrast(3.0);
+  renderer.SetLightBrightness(2.0);
+
+  //LAVA
+  /*
+ renderer.AddGradientPoint (-1.0000, utils::Color (  0,   0, 0, 255)); // deeps
+ renderer.AddGradientPoint (0.0000, utils::Color (  255,   0, 0, 255)); // deeps
+ renderer.AddGradientPoint ( 1.0000, utils::Color (255, 0, 255, 255)); // snow
+ */
+
+ //WATER
+  /*
+ renderer.AddGradientPoint (-1.0000, utils::Color (  0,   0, 0, 255)); // de1eps
+ renderer.AddGradientPoint (0.0000, utils::Color (  0,   0, 128, 255)); // deeps
+ renderer.AddGradientPoint ( 1.0000, utils::Color (0, 0, 255, 255)); // snow
+ */
+
 
  renderer.Render();
-  //utils::WriterBMP writer;
-  //writer.SetSourceImage (image);
-  //writer.SetDestFilename ("map.bmp");
-  //writer.WriteDestFile ();
+
+
+ //TUTO
+ module::RidgedMulti mountainTerrain;
+ module::Billow baseFlatTerrain;
+
+ baseFlatTerrain.SetFrequency(2.0);
+ module::ScaleBias flatTerrain;
+ flatTerrain.SetSourceModule(0, baseFlatTerrain);
+ flatTerrain.SetScale(0.125);
+ flatTerrain.SetBias(-0.75);
+
+ module::Perlin terrainType;
+ //terrainType.SetFrequency (0.5);
+ //terrainType.SetPersistence (0.25);
+
+//float frequency2 = (rand() % 10)/2 + 0.5f;
+ float frequency2 = 0.5 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (1)));
+ terrainType.SetFrequency(frequency2);
+ //terrainType.SetFrequency (0.50);
+ terrainType.SetPersistence(0.25);
+
+ //TURBULENCES
+ module::Select terrainSelector;
+ terrainSelector.SetSourceModule(0, flatTerrain);
+ terrainSelector.SetSourceModule(1, mountainTerrain);
+ terrainSelector.SetControlModule(terrainType);
+ terrainSelector.SetBounds(0.0, 1000.0);
+ terrainSelector.SetEdgeFalloff(0.125);
+ module::Turbulence finalTerrain;
+ finalTerrain.SetSourceModule(0, terrainSelector);
+ finalTerrain.SetFrequency(1.0);
+ finalTerrain.SetPower(0.125);
+
+
+ utils::NoiseMap heightMap2;
+ utils::NoiseMapBuilderPlane heightMapBuilder2;
+ heightMapBuilder2.SetSourceModule(finalTerrain);
+ heightMapBuilder2.SetDestNoiseMap(heightMap2);
+ heightMapBuilder2.SetDestSize(256, 256);
+ heightMapBuilder2.SetBounds(6.0, 10.0, 1.0, 5.0);
+ heightMapBuilder2.Build();
+
+ //utils::RendererImage renderer;
+//  utils::Image image;
+ renderer.SetSourceNoiseMap(heightMap2);
+ renderer.SetDestImage(image);
+ renderer.ClearGradient();
+
+ //STD
+ renderer.AddGradientPoint(-1.00, utils::Color(32, 160, 0, 255)); // grass
+ renderer.AddGradientPoint(-0.25, utils::Color(224, 224, 0, 255)); // dirt
+ renderer.AddGradientPoint(0.25, utils::Color(128, 128, 128, 255)); // rock
+ renderer.AddGradientPoint(1.00, utils::Color(255, 255, 255, 255)); // snow
+
+ renderer.EnableLight();
+ renderer.SetLightContrast(3.0);
+ renderer.SetLightBrightness(2.0);
+ renderer.Render();
+
 
 int width  = image.GetWidth  ();
 int height = image.GetHeight ();

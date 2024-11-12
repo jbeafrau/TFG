@@ -132,7 +132,13 @@ void game::start()
     width = 256;
     height = 256;
     baseMap.mymap.init();
-    baseMap.mymap.generate(baseMap.mymap.seed_a.frequency, baseMap.mymap.seed_a.octave, baseMap.mymap.seed_a.persistance, 1, 1, width, height);
+
+    int octave = rand() % 4 + 3;
+    float frequency = rand() % 8 + 1;
+    //float frequency = 1.0f;
+    float persistance = 0.5f;
+
+    baseMap.mymap.generate(octave, frequency, persistance, 1, 1, width, height);
     baseMap.mymap.to_surface(baseMap.imageSurface);
 
 
@@ -1031,9 +1037,9 @@ void game::screenNotifications()
 
 void game::screenGameOver()
 {
-    tmpRect.x = gScreenSurface->w / 2 - 350;
+    //tmpRect.x = gScreenSurface->w / 2 - 350;
     tmpRect.y = gScreenSurface->h / 4;
-    tmpRect.w = 700;
+   // tmpRect.w = 700;
     tmpRect.h = 100;
 
     tmpRect.x = gScreenSurface->w / 2 - 450;
@@ -1353,15 +1359,16 @@ void game::screenHomeTown()
   //  drawButton(prevButton);
 
 
-    tmpRect.x = gScreenSurface->w / 2 - 200;
+    tmpRect.x = gScreenSurface->w / 2 - 400;
     //tmpRect.y = 100;
     tmpRect.y = gScreenSurface->h / 12;
     
 
-    tmpRect.w = 400;
-    tmpRect.h = 50;
+    tmpRect.w = 800;
+    tmpRect.h = 100;
 
-    drawText("POBLADO INICIAL", tmpRect);
+    //drawText("POBLADO INICIAL", tmpRect);
+    drawTextResize("POBLADO INICIAL", tmpRect);
   
     tmpRect.x = gScreenSurface->w - 500;
     tmpRect.y = gScreenSurface->h - 50;

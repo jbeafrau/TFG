@@ -69,7 +69,7 @@ private:
     SDL_Rect  miniorigin;
     SDL_Rect  minidest;
 
-   SDL_Surface* surface;
+  // SDL_Surface* surface;
 
 
    int blur_extent = 1;

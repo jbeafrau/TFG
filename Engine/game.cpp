@@ -188,6 +188,11 @@ void game::start()
     configButton.setButton(1, gScreenSurface->h -128, 128, 128, "Configuración");
     configButton.setColor(100, 100, 100);
 
+    newMapButton.setButton(gScreenSurface->w / 4, gScreenSurface->h - 128, 128, 128, "New map");
+    newMapButton.setColor(200, 200, 200);
+
+
+
     musicButton.setButton(gScreenSurface->w / 2-100, gScreenSurface->h / 2 + 100, 200, 50, "Cambia canción");
     musicButton.setColor(100, 100, 100);
 
@@ -213,7 +218,7 @@ void game::start()
     //volumeMusicDownButton.setButton(50, 100, 50, 50, "-");
     volumeMusicDownButton.setColor(100, 100, 100);
 
-    mouseButton.setButton(0, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
+    mouseButton.setButton(gScreenSurface->w / 2 - 100, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
     mouseButton.setColor(100, 100, 100);
 
     achievementsButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h - 128, 128, 128, "ACH 0 / 0%");
@@ -685,9 +690,30 @@ void game::drawButton(classButton btn)
 
 void game::drawMap()
 {
+
+
+
+
     SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
     SDL_RenderCopy(gRenderer, txtTexture, NULL, NULL);
 
+
+    SDL_Rect destRect;
+    destRect.x = 1;
+    destRect.y = 1;
+    destRect.w = 256;
+    destRect.h = 256;
+
+
+    SDL_Texture* miniMapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
+    SDL_RenderCopy(gRenderer, miniMapTexture, NULL, &destRect);
+
+    SDL_SetRenderDrawColor(gRenderer,200, 0, 0,0);
+    destRect.x = px;
+    destRect.y = py;
+    destRect.w = 16;
+    destRect.h = 8;
+    SDL_RenderDrawRect(gRenderer, &destRect);
 }
 
 void game::updateMap()
@@ -1357,6 +1383,7 @@ void game::screenHomeTown()
     drawButton(moveUpButton);
     drawButton(moveDownButton);
     
+    drawButton(newMapButton);
 
 }
 
@@ -2132,6 +2159,20 @@ void game::eventsHomeTown()
                 py--;
                 updateMap();
                 baseMap.blur();
+            }//config button
+
+
+            if (newMapButton.clicked(mousex, mousey)) {
+                
+                int width, height;
+                width = 256;
+                height = 256;
+               // baseMap.mymap.init();
+                baseMap.mymap.generate(rand() % 6 + 1, rand() % 6 + 1, 0.5f, 1, 1, width, height);
+                baseMap.mymap.to_surface(baseMap.imageSurface);
+                updateMap();
+                baseMap.blur();
+
             }//config button
 
         }

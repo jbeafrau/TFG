@@ -122,6 +122,8 @@ void game::start()
     timerGameOver.pause();
     //initSDL();
 
+    px = 75;
+    py = 75;
 
     //baseMap.createSurface((gScreenSurface->w / 10) * 8, (gScreenSurface->h / 10) * 8);
     baseMap.createSurface();
@@ -131,20 +133,7 @@ void game::start()
 
     baseMap.SetSurface();
 
-    SDL_Rect srcrect;
-    srcrect.x = 75;
-    srcrect.y = 75;
-    srcrect.w = 40;
-    srcrect.h = 20;
-
-    /*SDL_Rect  dstrect;
-     dstrect.x = 0;
-     dstrect.y = 0;
-     dstrect.w = 256;
-     dstrect.h = 256;*/
-
-
-     SDL_BlitScaled(baseMap.imageSurface, &srcrect, baseMap.targetSurface, NULL);
+    updateMap();
 
  
     // baseMap.targetSurface = SDL_ConvertSurface(baseMap.targetSurface, gScreenSurface->format, 0);
@@ -683,6 +672,35 @@ void game::drawButton(classButton btn)
     target.h = text->h;
     SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, text);
     SDL_RenderCopy(gRenderer, txtTexture, NULL, &target);
+
+}
+
+void game::drawMap()
+{
+    SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
+    SDL_RenderCopy(gRenderer, txtTexture, NULL, NULL);
+
+}
+
+void game::updateMap()
+{
+    SDL_Rect srcrect;
+    srcrect.x = px;
+    srcrect.y = py;
+    //srcrect.w = 40;
+    //srcrect.h = 20;
+
+    srcrect.w = 16;
+    srcrect.h = 8;
+
+    /*SDL_Rect  dstrect;
+     dstrect.x = 0;
+     dstrect.y = 0;
+     dstrect.w = 256;
+     dstrect.h = 256;*/
+
+
+    SDL_BlitScaled(baseMap.imageSurface, &srcrect, baseMap.targetSurface, NULL);
 }
 
 void game::drawButtonSrc(classButton btn, SDL_Texture* texture)
@@ -1289,9 +1307,10 @@ void game::screenHomeTown()
     //drawSquare(target, mapColor);
 
     //SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
-    SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
-    SDL_RenderCopy(gRenderer, mapTexture, NULL, &target);
-
+   // SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
+    //SDL_RenderCopy(gRenderer, mapTexture, NULL, &target);
+    //SDL_RenderCopy(gRenderer, mapTexture, NULL, NULL);
+    drawMap();
 
     SDL_Rect dstrect;
 
@@ -2080,6 +2099,30 @@ void game::eventsHomeTown()
             if (configButton.clicked(mousex, mousey)) {
                 setState(_CONFIGMENU_);
                 previousScreen = _HOMETOWN_;
+            }//config button
+
+            if (moveRightButton.clicked(mousex, mousey)) {
+                px++;
+                updateMap();
+                baseMap.blur();
+            }//config button
+
+            if (moveLeftButton.clicked(mousex, mousey)) {
+                px--;
+                updateMap();
+                baseMap.blur();
+            }//config button
+
+            if (moveDownButton.clicked(mousex, mousey)) {
+                py++;
+                updateMap();
+                baseMap.blur();
+            }//config button
+
+            if (moveUpButton.clicked(mousex, mousey)) {
+                py--;
+                updateMap();
+                baseMap.blur();
             }//config button
 
         }

@@ -184,6 +184,8 @@ public:
     void drawTextBlock(string text, SDL_Rect rect);
     void drawTextResize(string text, SDL_Rect rect);
     void paintFruit(int x, int y, Uint8 fruit);
+    void drawMap();
+    void updateMap();
 
     void drawIMG(SDL_Surface* surface, int x, int y, int value);
     void screenClear();
@@ -248,6 +250,7 @@ protected:
     std::string playerName = "Jugador";
     playerRaces currentRace = _HUMAN_;
     playerArchetype currentArchetype = _FIGHTER_;
+    int px, py;
 
 
     //The application timer

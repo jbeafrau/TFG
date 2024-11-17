@@ -19,14 +19,14 @@ game Game;
 
 
 if (Game.initSDL() == false) {
-    Game.setState(_GAMEOVER_);
+    Game.setState(my_enums::_GAMEOVER_);
 }
 
 Game.loadMedia(Game.getBasePath());
 
 Game.start();
 
-while (Game.getState() != _GAMECLOSE_){
+while (Game.getState() != my_enums::_GAMECLOSE_){
     
     Game.events();
 

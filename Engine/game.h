@@ -5,6 +5,7 @@
 #include "classButton.h"
 #include "classTimer.h"
 #include "classMap.h"
+#include "enum.h"
 #include <cstdlib>
 #include <ctime>       /* time */
 #include<list>
@@ -70,68 +71,7 @@ UPGRADING ONE ATTRIBUTE COSTS Current attribute level +1 SKILL POINTS
 */
 
 
-enum gameState
-{
-    _NULL_ = -1,
-    _INTRO_ = 1,
-    _MAINMENU_ = 2,
-    _NAME_ = 3,
-    _RACES_ = 4,
-    _ARCHETYPES_ = 5,
-    _CONFIGMENU_ = 6,
-    _HOMETOWN_ = 10,
-    _TOWN_SHOP_ = 20,
-    _TOWN_ELDER_ = 30,
-    _ELEMENTAL_TEMPLE_ = 40,
-    _FOREST_WORLD_ = 110,
-    _COAST_WORLD_ = 120,
-    _ELEMENTAL_FIRE_WORLD_ = 130,
-    _ELEMENTAL_WATER_WORLD_ = 140,
-    _ELEMENTAL_EARTH_WORLD_ = 150,
-    _ELEMENTAL_WIND_WORLD_ = 160,
-    _NECRO_WORLD_ = 170,    
-    _FINAL_ARENA_ = 200,
-    _GAMEOVER_ = 900,
-    _GAMECLOSE_ = 999
-};
 
-
-
-
-enum playerRaces
-{
-    _HUMAN_ = 1, //+1 STR
-    _ELF_ = 2, // +1 PER
-    _DARF_ = 3, //+1 RES
-    _HALFING_ = 4, //+1 INT
-    _HALFORC_ = 5, //+1 STR +1 RES -1 PER
-    _BEHOLDER_ = 6//+1 INT +1 PER -1 RES
-};
-
-enum playerArchetype
-{
-    _FIGHTER_ = 1, // +1 STR MELE
-    _ARCHER_ = 2, // +1 DEX ARCHERY
-    _THIEVE_ = 3, // +1 PER SHADOWS
-    _MAGE_ = 4, // +1 INT MAGIC
-    _NECROMANCER_ = 5, // +1 INT RAISEDEAD
-    _SUMMONER_ = 6 // +1 INT SUMMON
-};
-
-enum Skills
-{
-    _MELE_ = 1,
-    _ARCHERY_ = 2,
-    _SHADOWS_ = 3,
-    _MAGIC_ = 4,
-    _RAISEDEAD_ = 5,
-    _SUMMON_ = 6,
-    _SWIM_ = 7,
-    _BARTERING_ = 8,
-    _SHIELDS_ = 9,
-    _FIRSTAID_ = 10
-
-};
 
 class game
 {
@@ -153,12 +93,12 @@ public:
     int dice(int maxValue, int minValue);
 
     int getState();
-    void setState(gameState newState);
+    void setState(my_enums::gameState newState);
 
     std::string getBasePath();
 
-    std::string getRaceName(playerRaces race);
-    std::string getArchetypeName(playerArchetype archetype);
+    std::string getRaceName(my_enums::playerRaces race);
+    std::string getArchetypeName(my_enums::playerArchetype archetype);
 
     void events();
 
@@ -219,7 +159,7 @@ public:
 protected:
     int width = 600;
     int height = 700;
-    int currentState = _INTRO_;
+    int currentState = my_enums::_INTRO_;
 
     int desiredFPS = 60;
 
@@ -248,8 +188,8 @@ protected:
       */
 
     std::string playerName = "Jugador";
-    playerRaces currentRace = _HUMAN_;
-    playerArchetype currentArchetype = _FIGHTER_;
+    my_enums::playerRaces currentRace = my_enums::_HUMAN_;
+    my_enums::playerArchetype currentArchetype = my_enums::_FIGHTER_;
     int px, py;
 
 
@@ -267,7 +207,7 @@ protected:
     int volumeSound = 128;
     int volumeMusic = 128;
 
-    gameState previousScreen = _NULL_;
+    my_enums::gameState previousScreen = my_enums::_NULL_;
 
 
     // bool fight = false;

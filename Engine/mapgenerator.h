@@ -18,7 +18,7 @@
 #include "noiseutils.h"
 #endif
 
- 
+#include "enum.h"
 
 struct seed{
     int octave;
@@ -43,7 +43,7 @@ class mapgenerator
         void generate (int octave, int frequency, float persistance, int bound_x, int bound_y, int sizex, int sizey);
        // void to_color_bmp ();
        // void to_greyscale_bmp ();
-        void to_surface(SDL_Surface *surface);
+        void to_surface(SDL_Surface *surface, int currentState);
         void put_pixel32( SDL_Surface *surface, int x, int y, Uint32 pixel );
     protected:
     private:

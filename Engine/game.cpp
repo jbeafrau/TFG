@@ -139,7 +139,7 @@ void game::start()
     float persistance = 0.5f;
 
     baseMap.mymap.generate(octave, frequency, persistance, 1, 1, width, height);
-    baseMap.mymap.to_surface(baseMap.imageSurface);
+    baseMap.mymap.to_surface(baseMap.imageSurface, my_enums::_HOMETOWN_);
 
 
 
@@ -364,7 +364,7 @@ int game::getState()
     return currentState;
 }
 
-void game::setState(gameState newState)
+void game::setState(my_enums::gameState newState)
 {
     currentState = newState;
 }
@@ -379,30 +379,30 @@ void game::events()
 {
     switch (getState())
     {
-    case _INTRO_:
+    case my_enums::_INTRO_:
     {
         eventsIntro();
         break;
     }
-    case _MAINMENU_:
+    case my_enums::_MAINMENU_:
     {
         eventsMain();
         break;
     }
 
-    case _NAME_:
+    case my_enums::_NAME_:
     {
         eventsName();
         break;
     }
 
-    case _RACES_:
+    case my_enums::_RACES_:
     {
         eventsRaces();
         break;
     }
 
-    case _ARCHETYPES_:
+    case my_enums::_ARCHETYPES_:
     {
         eventsArchetypes();
         break;
@@ -410,7 +410,7 @@ void game::events()
 
 
 
-    case _GAMEOVER_:
+    case my_enums::_GAMEOVER_:
     {
         eventsGameOver();
         break;
@@ -422,13 +422,15 @@ void game::events()
     }
     */
 
-    case _CONFIGMENU_:
+    case my_enums::_CONFIGMENU_:
     {
         eventsConfigMenu();
         break;
     }
 
-    case _HOMETOWN_:
+    case my_enums::_FOREST_WORLD_: case my_enums::_COAST_WORLD_: case my_enums::_ELEMENTAL_FIRE_WORLD_: case my_enums::_ELEMENTAL_WATER_WORLD_: case my_enums::_ELEMENTAL_EARTH_WORLD_: case my_enums::_ELEMENTAL_WIND_WORLD_: case my_enums::_NECRO_WORLD_:
+    case my_enums::_HOMETOWN_:
+
     {
         eventsHomeTown();
         break;
@@ -446,55 +448,49 @@ void game::drawScreens()
 {
     switch (getState())
     {
-    case _INTRO_:
+    case my_enums::_INTRO_:
     {
         screenIntro();
         break;
     }
-    case _MAINMENU_:
+    case my_enums::_MAINMENU_:
     {
         screenMain();
         break;
     }
 
-    case _NAME_:
+    case my_enums::_NAME_:
     {
         screenPlayerName();
         break;
     }
 
-    case _GAMEOVER_:
+    case my_enums::_GAMEOVER_:
     {
         screenGameOver();
         break;
     }
 
-    case _RACES_:
+    case my_enums::_RACES_:
     {
         screenRaces();
         break;
     }
 
-    case _ARCHETYPES_:
+    case my_enums::_ARCHETYPES_:
     {
         screenArchetypes();
         break;
     }
 
-   /* case _GENERATEPLAYER_:
-    {
-        screenGeneratePlayer();
-        break;
-    }
-    */
-
-    case _CONFIGMENU_:
+    case my_enums::_CONFIGMENU_:
     {
         screenConfigMenu();
         break;
     }
 
-    case _HOMETOWN_:
+    case my_enums::_FOREST_WORLD_: case my_enums::_COAST_WORLD_: case my_enums::_ELEMENTAL_FIRE_WORLD_: case my_enums::_ELEMENTAL_WATER_WORLD_: case my_enums::_ELEMENTAL_EARTH_WORLD_: case my_enums::_ELEMENTAL_WIND_WORLD_: case my_enums::_NECRO_WORLD_:
+    case my_enums::_HOMETOWN_:
     {
         screenHomeTown();
         break;
@@ -1061,7 +1057,7 @@ void game::eventsIntro()
         {
             Mix_PlayChannel(-1, audioButton, 0);
             // closeSDL();
-            setState(_GAMEOVER_);
+            setState(my_enums::_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.reset();
             timerGameOver.start();
@@ -1076,13 +1072,13 @@ void game::eventsIntro()
         {
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                setState(_GAMEOVER_);
+                setState(my_enums::_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timer.start();
                 timer.reset();
             }
             if (continueButton.clicked(mousex, mousey)) {
-                setState(_MAINMENU_);
+                setState(my_enums::_MAINMENU_);
                 //quit =true;
                 Mix_PlayChannel(-1, audioButton, 0);
                 //Mix_PlayMusic(music8bit, -1);
@@ -1107,7 +1103,7 @@ void game::eventsMain()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(_GAMEOVER_);
+            setState(my_enums::_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -1119,7 +1115,7 @@ void game::eventsMain()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(_GAMEOVER_);
+                setState(my_enums::_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -1128,8 +1124,8 @@ void game::eventsMain()
             }
 
             if (configButton.clicked(mousex, mousey)) {
-                setState(_CONFIGMENU_);
-                previousScreen = _MAINMENU_;
+                setState(my_enums::_CONFIGMENU_);
+                previousScreen = my_enums::_MAINMENU_;
 
             }
 
@@ -1138,7 +1134,7 @@ void game::eventsMain()
                 //addNotification("Comenzando el juego");
                 addAchievement("Comenzando el juego");
                 SDL_StartTextInput();
-                setState(_NAME_);
+                setState(my_enums::_NAME_);
             }
 
 
@@ -1155,7 +1151,7 @@ void game::eventsMain()
 void game::eventsGameOver()
 {
     if (timerGameOver.getTicks() > 3000) {
-        setState(_GAMECLOSE_);
+        setState(my_enums::_GAMECLOSE_);
         /*  Mix_FadeOutMusic(3000);
 
           while (!Mix_FadeOutMusic(3000) && Mix_PlayingMusic()) {
@@ -1200,7 +1196,7 @@ void game::eventsName()
             Mix_PlayChannel(-1, audioButton, 0);
             //closeSDL();
             SDL_StopTextInput();
-            setState(_GAMEOVER_);
+            setState(my_enums::_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -1241,7 +1237,7 @@ void game::eventsName()
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
                 SDL_StopTextInput();
-                setState(_GAMEOVER_);
+                setState(my_enums::_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -1251,7 +1247,7 @@ void game::eventsName()
                 Mix_PlayChannel(-1, audioButton, 0);
                 SDL_StopTextInput();
                 //setState(_MAINMENU_);
-                setState(_RACES_);
+                setState(my_enums::_RACES_);
                 //Mix_PlayMusic(musicGameOver, -1);
                 //timerGameOver.start();
                 //timerGameOver.reset();
@@ -1399,41 +1395,41 @@ void game::eventsGeneratePlayer()
 
 }
 
-std::string game::getRaceName(playerRaces race)
+std::string game::getRaceName(my_enums::playerRaces race)
 {
 
     switch (race)
     {
-    case _HUMAN_:
+    case my_enums::_HUMAN_:
     {
         return "Humano";
         break;
     }
-    case _ELF_:
+    case my_enums::_ELF_:
     {
         return "Elfo";
         break;
     }
 
-    case _DARF_:
+    case my_enums::_DARF_:
     {
         return "Enano";
         break;
     }
 
-    case _HALFING_:
+    case my_enums::_HALFING_:
     {
         return "Mediano";
         break;
     }
 
-    case _HALFORC_:
+    case my_enums::_HALFORC_:
     {
         return "Medio Orco";
         break;
     }
 
-    case _BEHOLDER_:
+    case my_enums::_BEHOLDER_:
     {
         return "Contemplador";
         break;
@@ -1450,41 +1446,41 @@ std::string game::getRaceName(playerRaces race)
 }
 
 
-std::string game::getArchetypeName(playerArchetype archetype)
+std::string game::getArchetypeName(my_enums::playerArchetype archetype)
 {
 
     switch (archetype)
     {
-    case _FIGHTER_:
+    case my_enums::_FIGHTER_:
     {
         return "Guerrero";
         break;
     }
-    case _ARCHER_:
+    case my_enums::_ARCHER_:
     {
         return "Arquero";
         break;
     }
 
-    case _THIEVE_:
+    case my_enums::_THIEVE_:
     {
         return "Ladrón";
         break;
     }
 
-    case _MAGE_:
+    case my_enums::_MAGE_:
     {
         return "Mago";
         break;
     }
 
-    case _NECROMANCER_:
+    case my_enums::_NECROMANCER_:
     {
         return "Necromante";
         break;
     }
 
-    case _SUMMONER_:
+    case my_enums::_SUMMONER_:
     {
         return "Invocador";
         break;
@@ -1592,7 +1588,7 @@ void game::eventsRaces()
             Mix_PlayChannel(-1, audioButton, 0);
             //closeSDL();
             //SDL_StopTextInput();
-            setState(_GAMEOVER_);
+            setState(my_enums::_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -1607,14 +1603,14 @@ void game::eventsRaces()
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
                SDL_StartTextInput();
-                setState(_NAME_);
+                setState(my_enums::_NAME_);
                 
             }
             if (continueButton.clicked(mousex, mousey)) {
                 // quit =true;
                 Mix_PlayChannel(-1, audioButton, 0);
                // SDL_StopTextInput();
-                setState(_ARCHETYPES_);
+                setState(my_enums::_ARCHETYPES_);
                 //Mix_PlayMusic(musicGameOver, -1);
                 //timerGameOver.start();
                 //timerGameOver.reset();
@@ -1624,38 +1620,38 @@ void game::eventsRaces()
             if (nextButton.clicked(mousex, mousey)) {
                 switch (currentRace)
                 {
-                case _HUMAN_:
+                case my_enums::_HUMAN_:
                 {
-                    currentRace = _ELF_;
+                    currentRace = my_enums::_ELF_;
                     break;
                 }
-                case _ELF_:
+                case my_enums::_ELF_:
                 {
-                    currentRace = _DARF_;
-                    break;
-                }
-
-                case _DARF_:
-                {
-                    currentRace = _HALFING_;
+                    currentRace = my_enums::_DARF_;
                     break;
                 }
 
-                case _HALFING_:
+                case my_enums::_DARF_:
                 {
-                    currentRace = _HALFORC_;
+                    currentRace = my_enums::_HALFING_;
                     break;
                 }
 
-                case _HALFORC_:
+                case my_enums::_HALFING_:
                 {
-                    currentRace = _BEHOLDER_;
+                    currentRace = my_enums::_HALFORC_;
                     break;
                 }
 
-                case _BEHOLDER_:
+                case my_enums::_HALFORC_:
                 {
-                    currentRace = _HUMAN_;
+                    currentRace = my_enums::_BEHOLDER_;
+                    break;
+                }
+
+                case my_enums::_BEHOLDER_:
+                {
+                    currentRace = my_enums::_HUMAN_;
                     break;
                 }
 
@@ -1670,45 +1666,45 @@ void game::eventsRaces()
             if (prevButton.clicked(mousex, mousey)) {
                 switch (currentRace)
                 {
-                case _HUMAN_:
+                case my_enums::_HUMAN_:
                 {
-                    currentRace = _BEHOLDER_;
+                    currentRace = my_enums::_BEHOLDER_;
                     
                    
                     break;
                 }
-                case _ELF_:
+                case my_enums::_ELF_:
                 {
-                    currentRace = _HUMAN_;
+                    currentRace = my_enums::_HUMAN_;
                    
                     break;
                 }
 
-                case _DARF_:
+                case my_enums::_DARF_:
                 {
-                    currentRace = _ELF_;
+                    currentRace = my_enums::_ELF_;
                    
                     break;
                 }
 
-                case _HALFING_:
+                case my_enums::_HALFING_:
                 {
-                    currentRace = _DARF_;
+                    currentRace = my_enums::_DARF_;
                    
                     break;
                 }
 
-                case _HALFORC_:
+                case my_enums::_HALFORC_:
                 {
                     
                     
-                    currentRace = _HALFING_;
+                    currentRace = my_enums::_HALFING_;
                     break;
                 }
 
-                case _BEHOLDER_:
+                case my_enums::_BEHOLDER_:
                 {
-                    currentRace = _HALFORC_;
+                    currentRace = my_enums::_HALFORC_;
                     break;
                 }
 
@@ -1736,7 +1732,7 @@ void game::eventsArchetypes()
             Mix_PlayChannel(-1, audioButton, 0);
             //closeSDL();
             //SDL_StopTextInput();
-            setState(_GAMEOVER_);
+            setState(my_enums::_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -1751,7 +1747,7 @@ void game::eventsArchetypes()
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
                 SDL_StartTextInput();
-                setState(_RACES_);
+                setState(my_enums::_RACES_);
 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -1759,7 +1755,7 @@ void game::eventsArchetypes()
                 Mix_PlayChannel(-1, audioButton, 0);
                // SDL_StopTextInput();
                 Mix_PlayMusic(musicTOWN, -1);
-                setState(_HOMETOWN_);
+                setState(my_enums::_HOMETOWN_);
                 //Mix_PlayMusic(musicGameOver, -1);
                 //timerGameOver.start();
                 //timerGameOver.reset();
@@ -1770,38 +1766,38 @@ void game::eventsArchetypes()
             if (nextButton.clicked(mousex, mousey)) {
                 switch (currentArchetype)
                 {
-                case _FIGHTER_:
+                case my_enums::_FIGHTER_:
                 {
-                    currentArchetype = _ARCHER_;
+                    currentArchetype = my_enums::_ARCHER_;
                     break;
                 }
-                case _ARCHER_:
+                case my_enums::_ARCHER_:
                 {
-                    currentArchetype = _THIEVE_;
-                    break;
-                }
-
-                case _THIEVE_:
-                {
-                    currentArchetype = _MAGE_;
+                    currentArchetype = my_enums::_THIEVE_;
                     break;
                 }
 
-                case _MAGE_:
+                case my_enums::_THIEVE_:
                 {
-                    currentArchetype = _NECROMANCER_;
+                    currentArchetype = my_enums::_MAGE_;
                     break;
                 }
 
-                case _NECROMANCER_:
+                case my_enums::_MAGE_:
                 {
-                    currentArchetype = _SUMMONER_;
+                    currentArchetype = my_enums::_NECROMANCER_;
                     break;
                 }
 
-                case _SUMMONER_:
+                case my_enums::_NECROMANCER_:
                 {
-                    currentArchetype = _FIGHTER_;
+                    currentArchetype = my_enums::_SUMMONER_;
+                    break;
+                }
+
+                case my_enums::_SUMMONER_:
+                {
+                    currentArchetype = my_enums::_FIGHTER_;
                     break;
                 }
 
@@ -1817,38 +1813,38 @@ void game::eventsArchetypes()
             if (prevButton.clicked(mousex, mousey)) {
                 switch (currentArchetype)
                 {
-                case _FIGHTER_:
+                case my_enums::_FIGHTER_:
                 {
-                    currentArchetype = _SUMMONER_;
+                    currentArchetype = my_enums::_SUMMONER_;
                     break;
                 }
-                case _ARCHER_:
+                case my_enums::_ARCHER_:
                 {
-                    currentArchetype = _FIGHTER_;
-                    break;
-                }
-
-                case _THIEVE_:
-                {
-                    currentArchetype = _ARCHER_;
+                    currentArchetype = my_enums::_FIGHTER_;
                     break;
                 }
 
-                case _MAGE_:
+                case my_enums::_THIEVE_:
                 {
-                    currentArchetype = _THIEVE_;
+                    currentArchetype = my_enums::_ARCHER_;
                     break;
                 }
 
-                case _NECROMANCER_:
+                case my_enums::_MAGE_:
                 {
-                    currentArchetype = _MAGE_;
+                    currentArchetype = my_enums::_THIEVE_;
                     break;
                 }
 
-                case _SUMMONER_:
+                case my_enums::_NECROMANCER_:
                 {
-                    currentArchetype = _NECROMANCER_;
+                    currentArchetype = my_enums::_MAGE_;
+                    break;
+                }
+
+                case my_enums::_SUMMONER_:
+                {
+                    currentArchetype = my_enums::_NECROMANCER_;
                     break;
                 }
 
@@ -1877,7 +1873,7 @@ void game::eventsConfigMenu()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(_GAMEOVER_);
+            setState(my_enums::_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -1889,7 +1885,7 @@ void game::eventsConfigMenu()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(_GAMEOVER_);
+                setState(my_enums::_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -2119,7 +2115,7 @@ void game::eventsHomeTown()
         if (e.type == SDL_QUIT)
         {
             Mix_PlayChannel(-1, audioButton, 0);
-            setState(_GAMEOVER_);
+            setState(my_enums::_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -2132,7 +2128,7 @@ void game::eventsHomeTown()
         {
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                setState(_GAMEOVER_);
+                setState(my_enums::_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -2141,8 +2137,8 @@ void game::eventsHomeTown()
             
 
             if (configButton.clicked(mousex, mousey)) {
-                setState(_CONFIGMENU_);
-                previousScreen = _HOMETOWN_;
+                setState(my_enums::_CONFIGMENU_);
+                previousScreen = my_enums::_HOMETOWN_;
             }//config button
 
             if (moveRightButton.clicked(mousex, mousey)) {
@@ -2177,7 +2173,41 @@ void game::eventsHomeTown()
                 height = 256;
                // baseMap.mymap.init();
                 baseMap.mymap.generate(rand() % 6 + 1, rand() % 6 + 1, 0.5f, 1, 1, width, height);
-                baseMap.mymap.to_surface(baseMap.imageSurface);
+
+                switch (getState())
+                {
+                
+                case my_enums::_ELEMENTAL_WATER_WORLD_:
+                {
+                    currentState = my_enums::_HOMETOWN_;
+                    break;
+                }
+
+                case my_enums::_ELEMENTAL_FIRE_WORLD_:
+                {
+                    currentState = my_enums::_ELEMENTAL_WATER_WORLD_;
+                    break;
+                }
+
+                case my_enums::_COAST_WORLD_:
+                {
+                    currentState = my_enums::_ELEMENTAL_FIRE_WORLD_;
+                    break;
+                }
+                case my_enums::_HOMETOWN_:
+                {
+                    currentState = my_enums::_COAST_WORLD_;
+                    break;
+                }
+
+                default:
+                {
+                    // is likely to be an error
+                }
+                };
+
+
+                baseMap.mymap.to_surface(baseMap.imageSurface,getState());
                 updateMap();
                 baseMap.blur();
 

@@ -22,7 +22,6 @@
     <ClCompile Include="classButton.cpp" />
     <ClCompile Include="classMap.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="classTexture.cpp" />
     <ClCompile Include="classTimer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mapgenerator.cpp" />
@@ -32,10 +31,13 @@
     <ClInclude Include="classButton.h" />
     <ClInclude Include="classMap.h" />
     <ClInclude Include="game.h" />
-    <ClInclude Include="classTexture.h" />
     <ClInclude Include="classTimer.h" />
     <ClInclude Include="mapgenerator.h" />
     <ClInclude Include="noiseutils.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="resource2.h" />
+    <ClInclude Include="resource3.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

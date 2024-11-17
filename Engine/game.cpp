@@ -1442,6 +1442,7 @@ std::string game::getRaceName(playerRaces race)
     default:
     {
         // is likely to be an error
+        return "";
     }
     };
 

@@ -5,6 +5,14 @@
 #include "game.h"
 using namespace std;
 
+/*
+    ACHIEVEMENT MASTER
+    TFG Ingeniería informática
+    Jorge Bea Frau
+    Curso 2024-2025
+*/
+
+
 int main( int argc, char * argv[] )
 {
 game Game;
@@ -16,9 +24,7 @@ if (Game.initSDL() == false) {
 
 Game.loadMedia(Game.getBasePath());
 
-
 Game.start();
-
 
 while (Game.getState() != _GAMECLOSE_){
     
@@ -39,6 +45,5 @@ while (Game.getState() != _GAMECLOSE_){
 
 Game.closeSDL();
 
-
-    return 0;
+return 0;
 }

@@ -166,6 +166,7 @@ utils::RendererImage renderer;
  renderer.Render();
 
 
+ /*
  //TUTO
  module::RidgedMulti mountainTerrain;
  module::Billow baseFlatTerrain;
@@ -223,7 +224,7 @@ utils::RendererImage renderer;
  renderer.SetLightContrast(3.0);
  renderer.SetLightBrightness(2.0);
  renderer.Render();
-
+ */
 
 int width  = image.GetWidth  ();
 int height = image.GetHeight ();

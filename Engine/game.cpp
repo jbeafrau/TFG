@@ -1364,7 +1364,43 @@ void game::screenHomeTown()
     tmpRect.h = 100;
 
     //drawText("POBLADO INICIAL", tmpRect);
-    drawTextResize("POBLADO INICIAL", tmpRect);
+    string townName = "";
+    switch (getState())
+    {
+
+
+    case my_enums::_ELEMENTAL_WATER_WORLD_:
+    {
+        townName = "MUNDO ELEMENTAL DE AGUA";
+        break;
+    }
+
+    case my_enums::_ELEMENTAL_FIRE_WORLD_:
+    {
+        townName = "MUNDO ELEMENTAL DE FUEGO";
+        break;
+    }
+
+
+    case my_enums::_COAST_WORLD_:
+    {
+        townName = "ISLAS";
+        break;
+    }
+
+    case my_enums::_HOMETOWN_:
+    {
+        townName = "POBLADO INICIAL";
+        break;
+    }
+
+    default:
+    {
+        townName = "";
+        break;
+    }
+    };
+    drawTextResize(townName, tmpRect);
   
     tmpRect.x = gScreenSurface->w - 500;
     tmpRect.y = gScreenSurface->h - 50;

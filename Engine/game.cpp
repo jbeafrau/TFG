@@ -224,6 +224,18 @@ void game::start()
     //volumeMusicDownButton.setButton(50, 100, 50, 50, "-");
     volumeMusicDownButton.setColor(100, 100, 100);
 
+
+    //blurDownButton.setButton(gScreenSurface->w / 2 + 50, gScreenSurface->h / 2 + 300, 50, 50, "-");
+    //blurDownButton.setColor(100, 100, 100);
+    //blurUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 300, 50, 50, "+");
+    //blurUpButton.setColor(100, 100, 100);
+    //blurButton.setButton(gScreenSurface->w / 2 - 50, gScreenSurface->h / 2 + 300, 100, 50, "BLUR 1 px");
+    //blurButton.setColor(200, 200, 200);
+
+    blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 300, 200, 50, "BLUR ON");
+    blurButton.setColor(100, 100, 100);
+
+
     mouseButton.setButton(gScreenSurface->w / 2 - 100, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
     mouseButton.setColor(100, 100, 100);
 
@@ -737,6 +749,10 @@ void game::updateMap()
 
 
     SDL_BlitScaled(baseMap.imageSurface, &srcrect, baseMap.targetSurface, NULL);
+
+    if (baseMap.getBlur() > 0) {
+        baseMap.blur();
+    }
 }
 
 void game::drawButtonSrc(classButton btn, SDL_Texture* texture)
@@ -1311,6 +1327,10 @@ void game::screenConfigMenu()
     drawButton(volumeMusicUpButton);
     drawButton(volumeMusicButton);
     drawButton(volumeMusicDownButton);
+
+    //drawButton(blurUpButton);
+    drawButton(blurButton);
+    //drawButton(blurDownButton);
 
     // 
     //drawButton(configButton);
@@ -2057,6 +2077,19 @@ void game::eventsConfigMenu()
                 volumeMusicButton.setCaption("MUSIC " + std::to_string(volumeMusic * 100 / 128) + "%");
             }
 
+            if (blurButton.clicked(mousex, mousey)) {
+                int blur = baseMap.getBlur();
+                if (blur == 5) {
+                    blur = 0;
+                    blurButton.setCaption("BLUR OFF");                  
+                }
+                else {
+                    blur = 5;
+                    blurButton.setCaption("BLUR ON");
+                }
+                baseMap.setBlur(blur);
+                updateMap();
+            }
 
 
         }
@@ -2180,25 +2213,26 @@ void game::eventsHomeTown()
             if (moveRightButton.clicked(mousex, mousey)) {
                 px++;
                 updateMap();
-                baseMap.blur();
+                
+                
             }//config button
 
             if (moveLeftButton.clicked(mousex, mousey)) {
                 px--;
                 updateMap();
-                baseMap.blur();
+                //baseMap.blur();
             }//config button
 
             if (moveDownButton.clicked(mousex, mousey)) {
                 py++;
                 updateMap();
-                baseMap.blur();
+                //baseMap.blur();
             }//config button
 
             if (moveUpButton.clicked(mousex, mousey)) {
                 py--;
                 updateMap();
-                baseMap.blur();
+               // baseMap.blur();
             }//config button
 
 
@@ -2258,62 +2292,30 @@ void game::eventsHomeTown()
             case SDLK_a:
                 px--;
                 updateMap();
-                baseMap.blur();
+              //  baseMap.blur();
                 break;
 
             case SDLK_w:
                 py--;
                 updateMap();
-                baseMap.blur();
+               // baseMap.blur();
                 break;
 
             case SDLK_s:
                 py++;
                 updateMap();
-                baseMap.blur();
+              //  baseMap.blur();
                 break;
 
             case SDLK_d:
                 px++;
                 updateMap();
-                baseMap.blur();
+              //  baseMap.blur();
                 break;
 
-         /*   case SDLK_UP:
-                if (!player2.gameOver) {
-                    player2.rotateChip();
-                    if (player2.collide(0, 0)) {
-                        player2.rotateChip();
-                        player2.rotateChip();
-                        player2.rotateChip();
-                    }
-                }
-                // gCurrentSurface = gKeyPressSurfaces[ KEY_PRESS_SURFACE_UP ];
-                break;
-
-            case SDLK_DOWN:
-                if (!player2.gameOver) {
-                    if (!player2.collide(0, 1)) { player2.chipY++; }
-                }
-                break;
-
-            case SDLK_LEFT:
-                if (!player2.gameOver) {
-                    if (!player2.collide(-1, 0))player2.chipX--;
-                }
-                //gCurrentSurface = gKeyPressSurfaces[ KEY_PRESS_SURFACE_LEFT ];
-                break;
-
-            case SDLK_RIGHT:
-                if (!player2.gameOver) {
-                    if (!player2.collide(1, 0))player2.chipX++;
-                }
-                //gCurrentSurface = gKeyPressSurfaces[ KEY_PRESS_SURFACE_RIGHT ];
-                break;*/
 
             default:
-                //gCurrentSurface = gKeyPressSurfaces[ KEY_PRESS_SURFACE_DEFAULT ];
-                break;
+                  break;
             }
         }
 

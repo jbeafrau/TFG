@@ -433,3 +433,15 @@ void classMap::blur() //This manipulates with SDL_Surface and gives it box blur 
         }
     }
 }
+
+
+int classMap::getBlur()
+{
+    return blur_extent;
+}
+
+void classMap::setBlur(int blur)
+{
+    blur_extent = blur;
+
+}

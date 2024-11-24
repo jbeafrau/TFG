@@ -300,6 +300,11 @@ protected:
     classButton volumeMusicDownButton;
     classButton volumeSoundButton;
     classButton volumeMusicButton;
+
+  //  classButton blurDownButton;
+   // classButton blurUpButton;
+    classButton blurButton;
+
     classButton achievementsButton;
 
 
@@ -314,7 +319,7 @@ protected:
 
     SDL_Rect tmpRect;
 
-    classMap mapTown;
+    //classMap mapTown;
 
 private:
 };

@@ -29,6 +29,8 @@ public:
     virtual ~classMap();
     int get_cell(int x, int y);
     void blur();
+    int getBlur();
+    void setBlur(int blur);
     //void createSurface(int w,int h);
     void createSurface();
     void SetSurface();
@@ -72,7 +74,7 @@ private:
   // SDL_Surface* surface;
 
 
-   int blur_extent = 1;
+   int blur_extent = 5;
   
 
     Uint32 rmask, gmask, bmask, amask;

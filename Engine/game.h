@@ -126,6 +126,7 @@ public:
     void paintFruit(int x, int y, Uint8 fruit);
     void drawMap();
     void updateMap();
+    void drawPlayer();
 
     void drawIMG(SDL_Surface* surface, int x, int y, int value);
     void screenClear();
@@ -154,6 +155,8 @@ public:
     void eventsRaces();
     void eventsArchetypes();
 
+    void checkBoundaries();
+
     classMap baseMap;
 
 protected:
@@ -171,7 +174,7 @@ protected:
     std::list<std::string> achievements;
     std::list<std::string> notifications;
 
-    int y1, y2, y3, y4;
+    //int y1, y2, y3, y4;
 
 
     //int players =1;
@@ -181,16 +184,20 @@ protected:
     // int currentPhoto;
     bool musicON = true;
     bool squareDraw = true;
-    /*currentstate:
-      0=stop
-      1-play
-      2-pause
-      */
 
-    std::string playerName = "Jugador";
-    my_enums::playerRaces currentRace = my_enums::_HUMAN_;
-    my_enums::playerArchetype currentArchetype = my_enums::_FIGHTER_;
-    int px, py;
+
+    std::string playerName = "Jugador"; //Player´s name
+    my_enums::playerRaces currentRace = my_enums::_HUMAN_; //Player´s race
+    my_enums::playerArchetype currentArchetype = my_enums::_FIGHTER_; //Player´s archetype
+    int px, py; //Player location in the world
+
+    int cam_x, cam_y;//camera starting vertex (top-left)
+
+    //Number of tiles drawn on screen
+    int cam_size_x = 16;
+    int cam_size_y = 8;
+
+
 
 
     //The application timer

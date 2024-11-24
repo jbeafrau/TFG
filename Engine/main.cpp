@@ -34,6 +34,8 @@ while (Game.getState() != my_enums::_GAMECLOSE_){
 
     Game.drawScreens();
 
+    //Game.drawPlayer();
+
     Game.eventsNotifications();
 
     Game.screenNotifications();

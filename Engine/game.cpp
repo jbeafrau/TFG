@@ -37,10 +37,11 @@ game::game()
 #endif
 
 
-    y1 = dice(250, 400);
+   /* y1 = dice(250, 400);
     y2 = dice(250, 400);
     y3 = dice(250, 400);
     y4 = dice(250, 400);
+    */
 
 }
 
@@ -124,6 +125,9 @@ void game::start()
 
     px = 75;
     py = 75;
+    cam_x = 70;
+    cam_y = 70;
+
 
     //baseMap.createSurface((gScreenSurface->w / 10) * 8, (gScreenSurface->h / 10) * 8);
     baseMap.createSurface();
@@ -725,21 +729,27 @@ void game::drawMap()
     SDL_SetRenderDrawColor(gRenderer,200, 0, 0,0);
     destRect.x = px;
     destRect.y = py;
-    destRect.w = 16;
-    destRect.h = 8;
+    destRect.w = cam_size_x;
+    destRect.h = cam_size_y;
     SDL_RenderDrawRect(gRenderer, &destRect);
 }
 
 void game::updateMap()
 {
+    if (px <= cam_x) { cam_x--; }
+    if (py <= cam_y) { cam_y --; }
+    if (px >= (cam_x + cam_size_x -1)) { cam_x ++; }
+    if (py >= (cam_y + cam_size_y -1)) { cam_y++; }
+
+
     SDL_Rect srcrect;
-    srcrect.x = px;
-    srcrect.y = py;
+    srcrect.x = cam_x;
+    srcrect.y = cam_y;
     //srcrect.w = 40;
     //srcrect.h = 20;
 
-    srcrect.w = 16;
-    srcrect.h = 8;
+    srcrect.w = cam_size_x;
+    srcrect.h = cam_size_y;
 
     /*SDL_Rect  dstrect;
      dstrect.x = 0;
@@ -1367,6 +1377,8 @@ void game::screenHomeTown()
     //SDL_RenderCopy(gRenderer, mapTexture, NULL, &target);
     //SDL_RenderCopy(gRenderer, mapTexture, NULL, NULL);
     drawMap();
+
+    drawPlayer();
 
     //SDL_Rect dstrect;
 
@@ -2321,4 +2333,34 @@ void game::eventsHomeTown()
 
     }
     myTime = (int)(timer.getTicks() / 1000);
+}
+
+void game::drawPlayer()
+{
+    SDL_Color player = { 0,0,200,0 };
+    
+    int tx =  px - cam_x;
+    int ty =  py - cam_y;
+
+    SDL_Rect target;
+    target.x = (gScreenSurface->w / cam_size_x) * tx;
+    target.y = (gScreenSurface->h / cam_size_y) * ty;
+    target.w = gScreenSurface->w / cam_size_x;
+    target.h = gScreenSurface->h / cam_size_y;
+
+    
+
+    drawSquare(target,player);
+    
+
+
+}
+
+void game::checkBoundaries()
+{
+    if (px < 1) { px = 1; }
+    if (py < 1) { py = 1; }
+    if (px > 256) { px = 256; }
+    if (py > 256) { py = 256; }
+
 }

@@ -27,9 +27,6 @@ namespace my_enums
         _GAMECLOSE_ = 999
     };
 
-
-
-
     enum playerRaces
     {
         _HUMAN_ = 1, //+1 STR
@@ -64,5 +61,14 @@ namespace my_enums
         _FIRSTAID_ = 10
 
     };
+
+    enum AItypes
+    {
+        _FRIENDLY_STATIC_ = 1,
+        _FRIENDLY_RANDOM_ = 2,
+        _ENEMYY_STATIC_ = 10,
+        _ENEMY_RANDOM_ = 11
+    };
+
 }
 #endif

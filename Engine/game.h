@@ -70,6 +70,17 @@ UPGRADING ONE ATTRIBUTE COSTS Current attribute level +1 SKILL POINTS
 
 */
 
+struct NPC { //enemy definition
+    int id;
+    int x,y;
+    my_enums::gameState map;
+    string description;
+    int skill;
+    int stamina;
+    int exp;
+    my_enums::AItypes NPCAI;
+};
+
 
 
 
@@ -127,6 +138,7 @@ public:
     void drawMap();
     void updateMap();
     void drawPlayer();
+    void drawNPCs();
 
     void drawIMG(SDL_Surface* surface, int x, int y, int value);
     void screenClear();
@@ -174,13 +186,18 @@ protected:
     std::list<std::string> achievements;
     std::list<std::string> notifications;
 
+
+
+    list<NPC> NPCs; //All NPCs
+    list<NPC> tmpNPCs; //NPCs found in our location
+
     //int y1, y2, y3, y4;
 
 
     //int players =1;
     int currentMusic = 1;
     //int currentState = 0;
-    int currentPlayer = 1;
+   // int currentPlayer = 1;
     // int currentPhoto;
     bool musicON = true;
     bool squareDraw = true;

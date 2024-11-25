@@ -129,6 +129,30 @@ void game::start()
     cam_y = 70;
 
 
+    NPC aNPC;
+    aNPC.id = 1;
+    aNPC.x = 78;
+    aNPC.y = 75;
+    aNPC.map = my_enums::_HOMETOWN_;
+    aNPC.description = "A NPC";
+    aNPC.skill = 5;
+    aNPC.stamina = 20;
+    aNPC.exp = 1;
+    aNPC.NPCAI = my_enums::_FRIENDLY_STATIC_;
+    NPCs.push_back(aNPC);
+
+
+    aNPC.id = 2;
+    aNPC.x = 80;
+    aNPC.y = 75;
+    NPCs.push_back(aNPC);
+
+    aNPC.id = 3;
+    aNPC.x = 82;
+    aNPC.y = 75;
+    NPCs.push_back(aNPC);
+
+
     //baseMap.createSurface((gScreenSurface->w / 10) * 8, (gScreenSurface->h / 10) * 8);
     baseMap.createSurface();
 
@@ -1380,6 +1404,8 @@ void game::screenHomeTown()
 
     drawPlayer();
 
+    drawNPCs();
+
     //SDL_Rect dstrect;
 
 
@@ -2352,6 +2378,45 @@ void game::drawPlayer()
 
     drawSquare(target,player);
     
+
+
+}
+
+
+void game::drawNPCs()
+{
+    SDL_Color NPCColor = { 200,0,0,0 };
+    int tx, ty;
+    SDL_Rect target;
+//    NPC aNPC;
+
+    //list<s_Foe> tmp;
+    for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
+    {
+        if (currentState == it->map) {
+           // s_Foe aFoe;
+            tx = it->x - cam_x;
+            ty = it->y - cam_y;
+
+
+            target.x = (gScreenSurface->w / cam_size_x) * tx;
+            target.y = (gScreenSurface->h / cam_size_y) * ty;
+            target.w = gScreenSurface->w / cam_size_x;
+            target.h = gScreenSurface->h / cam_size_y;
+
+
+
+            drawSquare(target, NPCColor);
+           // tmp.push_back(aFoe);
+        }
+    }
+
+
+    
+
+    
+   
+
 
 
 }

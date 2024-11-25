@@ -348,6 +348,9 @@ protected:
     classButton moveUpButton;
     classButton moveDownButton;
 
+    classButton playerUpButton;
+    classButton playerDownButton;
+
     classButton newMapButton;
 
     classButton mouseButton;

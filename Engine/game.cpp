@@ -255,6 +255,11 @@ void game::start()
     //volumeMusicDownButton.setButton(50, 100, 50, 50, "-");
     volumeMusicDownButton.setColor(100, 100, 100);
 
+    playerUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
+    playerUpButton.setColor(100, 100, 100);
+    playerDownButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
+    playerDownButton.setColor(100, 100, 100);
+
 
     //blurDownButton.setButton(gScreenSurface->w / 2 + 50, gScreenSurface->h / 2 + 300, 50, 50, "-");
     //blurDownButton.setColor(100, 100, 100);
@@ -1031,20 +1036,30 @@ void game::screenPlayerName()
     drawButton(exitButton);
     drawButton(continueButton);
 
+    drawButton(playerUpButton);
+    drawButton(playerDownButton);
+
+    tmpRect.x = gScreenSurface->w / 2 - gScreenSurface->w / 32;
+    tmpRect.y = gScreenSurface->h / 2 - gScreenSurface->h / 16;
+    tmpRect.w = gScreenSurface->w / 16;
+    tmpRect.h = gScreenSurface->h / 8;
+
+    drawPlayerTileset(tmpRect, playerTile);
+
 
     tmpRect.x = gScreenSurface->w / 2 - 200;
     tmpRect.y = 100;
     tmpRect.w = 400;
     tmpRect.h = 50;
 
-    drawText("CAMBIAR NOMBRE", tmpRect);
+    drawText("CAMBIAR NOMBRE E IMAGEN", tmpRect);
     tmpRect.y = 200;
     drawText("Introduce el nombre del jugador", tmpRect);
 
     tmpRect.y = 250;
     drawText(playerName, tmpRect);
     tmpRect.y = 300;
-    drawText("Luego pulsa continuar...", tmpRect);
+    drawText("Cambia la imagen y luego pulsa continuar...", tmpRect);
 }
 
 void game::screenClear()
@@ -1315,6 +1330,19 @@ void game::eventsName()
                 //timerGameOver.reset();
 
             }
+
+            if (playerUpButton.clicked(mousex, mousey)) {
+                playerTile++;
+                if (playerTile > 256) { playerTile = 256; }
+            }
+
+            if (playerDownButton.clicked(mousex, mousey)) {
+                playerTile--;
+                if (playerTile < 1) { playerTile = 1; }
+
+            }
+
+            
         }
 
     }

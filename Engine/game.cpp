@@ -139,17 +139,20 @@ void game::start()
     aNPC.stamina = 20;
     aNPC.exp = 1;
     aNPC.NPCAI = my_enums::_FRIENDLY_STATIC_;
+    aNPC.tile = rand() % 256 + 1;
     NPCs.push_back(aNPC);
 
 
     aNPC.id = 2;
     aNPC.x = 80;
     aNPC.y = 75;
+    aNPC.tile = rand() % 256 + 1;
     NPCs.push_back(aNPC);
 
     aNPC.id = 3;
     aNPC.x = 82;
     aNPC.y = 75;
+    aNPC.tile = rand() % 256 + 1;
     NPCs.push_back(aNPC);
 
 
@@ -626,6 +629,15 @@ bool game::loadMedia(string base)
     SDL_SetColorKey(mouseSurface, SDL_TRUE, // enable color key (transparency)
         SDL_MapRGB(mouseSurface->format, 0x00, 0x00, 0x00)); // This is the color that should be taken as being the 'transparent' part of the image
     mouseTexture = SDL_CreateTextureFromSurface(gRenderer, mouseSurface);
+
+    aFile = images + "creatures_alpha.png";
+    playersSurface = loadSurface(aFile);
+    SDL_SetColorKey(playersSurface, SDL_TRUE, // enable color key (transparency)
+        SDL_MapRGB(playersSurface->format, 0xFF, 0, 0xFF)); // This is the color that should be taken as being the 'transparent' part of the image
+
+    playersTexture = SDL_CreateTextureFromSurface(gRenderer, playersSurface);
+
+
 
     string TTFFile = fonts + "712_serif.ttf";
     //Open the font
@@ -2376,7 +2388,8 @@ void game::drawPlayer()
 
     
 
-    drawSquare(target,player);
+    //drawSquare(target,player);
+    drawPlayerTileset(target, playerTile);
     
 
 
@@ -2406,20 +2419,35 @@ void game::drawNPCs()
 
 
 
-            drawSquare(target, NPCColor);
+           // drawSquare(target, NPCColor);
+            drawPlayerTileset(target, it->tile);
            // tmp.push_back(aFoe);
         }
     }
+}//end
 
 
-    
+//void game::drawPlayerTileset(int x, int y, Uint8 player)
+void game::drawPlayerTileset(SDL_Rect target, Uint8 player)
+{
+    if (player != 0) {
+        int sx;
+        int sy;
+        sy = player / 8;
+        sx = player % 8;
 
-    
-   
-
-
-
-}
+        SDL_Rect playerSrc, playerDest;
+        playerSrc.x = sx * 32 + 1;
+        playerSrc.y = sy * 32 + 1;
+        playerSrc.w = 32;
+        playerSrc.h = 32;
+        //playerDest.x = x;
+        //playerDest.y = y;
+       // playerDest.w = 32;
+       // playerDest.h = 32;
+            SDL_RenderCopy(gRenderer, playersTexture, &playerSrc, &target);
+    }
+}//End 
 
 void game::checkBoundaries()
 {

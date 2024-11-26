@@ -196,14 +196,7 @@ protected:
     list<NPC> NPCs; //All NPCs
     list<NPC> tmpNPCs; //NPCs found in our location
 
-    //int y1, y2, y3, y4;
-
-
-    //int players =1;
     int currentMusic = 1;
-    //int currentState = 0;
-   // int currentPlayer = 1;
-    // int currentPhoto;
     bool musicON = true;
     bool squareDraw = true;
 
@@ -212,7 +205,7 @@ protected:
     my_enums::playerRaces currentRace = my_enums::_HUMAN_; //Player´s race
     my_enums::playerArchetype currentArchetype = my_enums::_FIGHTER_; //Player´s archetype
     int px, py; //Player location in the world
-    int playerTile = 99;
+    int playerTile = 63; //Starting tile for player
 
 
     int cam_x, cam_y;//camera starting vertex (top-left)

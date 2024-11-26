@@ -140,7 +140,7 @@ void game::start()
     aNPC.exp = 1;
     aNPC.NPCAI = my_enums::_FRIENDLY_STATIC_;
     aNPC.tile = rand() % 400 + 1;
-    if ((aNPC.tile % 32) > 20) { aNPC.tile += 12; }
+    //if (((aNPC.tile+1) % 32) > 20) { aNPC.tile += 12; }
     NPCs.push_back(aNPC);
 
 
@@ -148,14 +148,14 @@ void game::start()
     aNPC.x = 80;
     aNPC.y = 75;
     aNPC.tile = rand() % 400 + 1;
-    if ((aNPC.tile % 32) > 20) { aNPC.tile += 12; }
+   // if (((aNPC.tile+1) % 32) > 20) { aNPC.tile += 12; }
     NPCs.push_back(aNPC);
 
     aNPC.id = 3;
     aNPC.x = 82;
     aNPC.y = 75;
     aNPC.tile = rand() % 400 + 1;
-    if ((aNPC.tile % 32) > 20) { aNPC.tile += 12; }
+   // if (((aNPC.tile+1) % 32) > 20) { aNPC.tile += 12; }
     NPCs.push_back(aNPC);
 
 
@@ -641,7 +641,8 @@ bool game::loadMedia(string base)
     aFile = images + "creatures_alpha.png";
     playersSurface = loadSurface(aFile);
     SDL_SetColorKey(playersSurface, SDL_TRUE, // enable color key (transparency)
-        SDL_MapRGB(playersSurface->format, 0xFF, 0, 0xFF)); // This is the color that should be taken as being the 'transparent' part of the image
+    //SDL_MapRGB(playersSurface->format, 0xFF, 0, 0xFF)); // This is the color that should be taken as being the 'transparent' part of the image
+    SDL_MapRGB(playersSurface->format, 71, 108, 108)); // This is the color that should be taken as being the 'transparent' part of the image
 
     playersTexture = SDL_CreateTextureFromSurface(gRenderer, playersSurface);
 
@@ -1258,16 +1259,11 @@ void game::eventsGameOver()
 
 void game::eventsName()
 {
-    //bool quit = false;
 
     //Event handler
     SDL_Event e;
-    //quit = false;
-   // SDL_StartTextInput();
-    //While application is running
-    //while( !quit )
-      //  {
-                    //Handle events on queue
+
+    //Handle events on queue
     while (SDL_PollEvent(&e) != 0)
     {
         //User requests quit
@@ -1286,26 +1282,12 @@ void game::eventsName()
         {
             //Handle backspace
             if (e.key.keysym.sym == SDLK_BACKSPACE && playerName.length() > 0) { playerName.pop_back(); }
-            /* if (currentPlayer == 1) {
-             if( e.key.keysym.sym == SDLK_BACKSPACE && player1.name.length() > 0 ){ player1.name.pop_back();}
-             }else{
-                 if( e.key.keysym.sym == SDLK_BACKSPACE && player2.name.length() > 0 ){ player2.name.pop_back();}
-             }*/
-
 
         }
         //Special text input event
         else if (e.type == SDL_TEXTINPUT)
         {
             playerName += e.text.text;
-            /* if (currentPlayer == 1) {
-                 player1.name += e.text.text;
-             }else{
-                 player2.name += e.text.text;
-             }*/
-
-             //renderText = true;
-         //}
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -1336,14 +1318,14 @@ void game::eventsName()
 
             if (playerUpButton.clicked(mousex, mousey)) {
                 playerTile++;
-                if ((playerTile % 32) > 20) { playerTile += 12; }
-                if (playerTile > 144) { playerTile = 144; }
+               // if (((playerTile +1) % 32) > 20) { playerTile += 12; }
+                if (playerTile > 96) { playerTile = 96; }
             }
 
             if (playerDownButton.clicked(mousex, mousey)) {
                 playerTile--;
-                if ((playerTile % 32) > 20) { playerTile -= 12; }
-                if (playerTile < 99) { playerTile = 99; }
+              //  if (((playerTile+1) % 32) > 20) { playerTile -= 12; }
+                if (playerTile < 63) { playerTile = 63; }
 
             }
 
@@ -2466,8 +2448,8 @@ void game::drawPlayerTileset(SDL_Rect target, int player)
     if (player != 0) {
         int sx;
         int sy;
-        sy = player / 32;
-        sx = player % 32;
+        sy = player / 20;
+        sx = player % 20;
 
         SDL_Rect playerSrc, playerDest;
         playerSrc.x = sx * 32 + 1;

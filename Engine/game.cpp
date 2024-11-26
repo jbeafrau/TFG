@@ -36,13 +36,6 @@ game::game()
     basePath = GetExePath() + "\\";
 #endif
 
-
-   /* y1 = dice(250, 400);
-    y2 = dice(250, 400);
-    y3 = dice(250, 400);
-    y4 = dice(250, 400);
-    */
-
 }
 
 game::~game()
@@ -63,7 +56,6 @@ void game::addNotification(std::string notification)
 
     }
     notifications.push_back(notification);
-
 }
 
 
@@ -78,7 +70,6 @@ void game::addAchievement(std::string achievement)
         achievementsButton.setCaption("ACH " + std::to_string(achievementCounter) + " / " + std::to_string(achievementCounter * 100 / maxAchievements) + "%");
         //"Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60)
     }
-
 }
 
 
@@ -96,9 +87,6 @@ bool game::existAchievement(std::string achievement)
     return returnValue;
 }
 
-
-
-
 void game::eventsNotifications()
 {
     if (notifications.size() > 0) {
@@ -107,10 +95,7 @@ void game::eventsNotifications()
             popupTime = currentTicks;
             notifications.pop_front();
         }
-
     }
-
-
 }
 
 
@@ -140,7 +125,6 @@ void game::start()
     aNPC.exp = 1;
     aNPC.NPCAI = my_enums::_FRIENDLY_STATIC_;
     aNPC.tile = rand() % 400 + 1;
-    //if (((aNPC.tile+1) % 32) > 20) { aNPC.tile += 12; }
     NPCs.push_back(aNPC);
 
 
@@ -148,20 +132,16 @@ void game::start()
     aNPC.x = 80;
     aNPC.y = 75;
     aNPC.tile = rand() % 400 + 1;
-   // if (((aNPC.tile+1) % 32) > 20) { aNPC.tile += 12; }
     NPCs.push_back(aNPC);
 
     aNPC.id = 3;
     aNPC.x = 82;
     aNPC.y = 75;
     aNPC.tile = rand() % 400 + 1;
-   // if (((aNPC.tile+1) % 32) > 20) { aNPC.tile += 12; }
     NPCs.push_back(aNPC);
 
-
-    //baseMap.createSurface((gScreenSurface->w / 10) * 8, (gScreenSurface->h / 10) * 8);
+//Base map creation
     baseMap.createSurface();
-
     int width, height;
     width = 256;
     height = 256;
@@ -175,8 +155,6 @@ void game::start()
     baseMap.mymap.generate(octave, frequency, persistance, 1, 1, width, height);
     baseMap.mymap.to_surface(baseMap.imageSurface, my_enums::_HOMETOWN_);
 
-
-
     baseMap.imageSurface = SDL_ConvertSurface(baseMap.imageSurface, gScreenSurface->format, 0);
 
     //baseMap.SetSurface();
@@ -188,13 +166,14 @@ void game::start()
 
     baseMap.blur();
 
+    //Set game framerate
     ticksPerFrame = (int)(1000 / desiredFPS);
 
     //Hide Window´s cursor
     SDL_ShowCursor(SDL_DISABLE);
 
 
-
+    //Set button´s size, position and caption
     moveLeftButton.setButton(0, gScreenSurface->h / 2, 128, 128, "Left");
     moveLeftButton.setColor(0, 0, 200);
     moveRightButton.setButton(276 , gScreenSurface->h / 2, 128, 128, "Right");
@@ -263,17 +242,8 @@ void game::start()
     playerDownButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
     playerDownButton.setColor(100, 100, 100);
 
-
-    //blurDownButton.setButton(gScreenSurface->w / 2 + 50, gScreenSurface->h / 2 + 300, 50, 50, "-");
-    //blurDownButton.setColor(100, 100, 100);
-    //blurUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 300, 50, 50, "+");
-    //blurUpButton.setColor(100, 100, 100);
-    //blurButton.setButton(gScreenSurface->w / 2 - 50, gScreenSurface->h / 2 + 300, 100, 50, "BLUR 1 px");
-    //blurButton.setColor(200, 200, 200);
-
     blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 300, 200, 50, "BLUR ON");
     blurButton.setColor(100, 100, 100);
-
 
     mouseButton.setButton(gScreenSurface->w / 2 - 100, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
     mouseButton.setColor(100, 100, 100);
@@ -281,11 +251,11 @@ void game::start()
     achievementsButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h - 128, 128, 128, "ACH 0 / 0%");
     achievementsButton.setColor(0, 0, 200);
 
-
-
+    //Play Intro music
     Mix_PlayMusic(musicINTRO, -1);
 }
 
+//Initialize SDL
 bool game::initSDL()
 {
     //Initialization flag
@@ -300,6 +270,7 @@ bool game::initSDL()
     else
     {
         SDL_DisplayMode DM;
+        //Get screen MAX size
         SDL_GetCurrentDisplayMode(0, &DM);
         auto Width = DM.w;
         auto Height = DM.h;
@@ -353,6 +324,7 @@ bool game::initSDL()
     return success;
 }
 
+//Close SDL
 void game::closeSDL()
 {
 
@@ -410,11 +382,13 @@ void game::closeSDL()
 }
 
 
+//get Current game state
 int game::getState()
 {
     return currentState;
 }
 
+//Set Current game state
 void game::setState(my_enums::gameState newState)
 {
     currentState = newState;
@@ -426,6 +400,7 @@ std::string game::getBasePath()
     return basePath;
 }
 
+//Process game events for each state
 void game::events()
 {
     switch (getState())
@@ -494,7 +469,7 @@ void game::events()
     };
 }
 
-
+//Screens for each state
 void game::drawScreens()
 {
     switch (getState())
@@ -556,6 +531,7 @@ void game::drawScreens()
 
 }
 
+//Flip backscreen buffer to monitor
 void game::screenFlip()
 {
     //Paint Mouse Over everything
@@ -580,6 +556,7 @@ void game::screenFlip()
     SDL_RenderPresent(gRenderer);
 }
 
+//Adjust frame time to comply with desired framerate
 void game::adjustFPS()
 {
     currentFrame = FPStimer.getTicks();
@@ -590,6 +567,7 @@ void game::adjustFPS()
 
 }
 
+//Load image into SDL_Surface
 SDL_Surface* game::loadSurface(std::string path)
 {
     //The final optimized image
@@ -618,6 +596,7 @@ SDL_Surface* game::loadSurface(std::string path)
     return optimizedSurface;
 }
 
+//Load all media files (images, sounds and music)
 bool game::loadMedia(string base)
 {
     string images = base + "images\\";
@@ -720,18 +699,21 @@ bool game::loadMedia(string base)
     return success;
 }
 
+//Draw a filled square
 void game::drawSquare(SDL_Rect rect, SDL_Color color)
 {
     SDL_SetRenderDrawColor(gRenderer, color.r, color.g, color.b, 0xFF);
     SDL_RenderFillRect(gRenderer, &rect);
 }
 
+//Draw a square
 void game::drawTransparentSquare(SDL_Rect rect, SDL_Color color)
 {
     SDL_SetRenderDrawColor(gRenderer, color.r, color.g, color.b, 0xFF);
     SDL_RenderDrawRect(gRenderer, &rect);
 }
 
+//Draw a button
 void game::drawButton(classButton btn)
 {
     drawSquare(btn.getRect(), btn.getColor());
@@ -751,22 +733,17 @@ void game::drawButton(classButton btn)
 
 }
 
+//Draw game map
 void game::drawMap()
 {
-
-
-
-
     SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
     SDL_RenderCopy(gRenderer, txtTexture, NULL, NULL);
-
 
     SDL_Rect destRect;
     destRect.x = 1;
     destRect.y = 1;
     destRect.w = 256;
     destRect.h = 256;
-
 
     SDL_Texture* miniMapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
     SDL_RenderCopy(gRenderer, miniMapTexture, NULL, &destRect);
@@ -779,6 +756,7 @@ void game::drawMap()
     SDL_RenderDrawRect(gRenderer, &destRect);
 }
 
+//Update section of map we display on screen
 void game::updateMap()
 {
     if (px <= cam_x) { cam_x--; }
@@ -790,17 +768,10 @@ void game::updateMap()
     SDL_Rect srcrect;
     srcrect.x = cam_x;
     srcrect.y = cam_y;
-    //srcrect.w = 40;
-    //srcrect.h = 20;
 
     srcrect.w = cam_size_x;
     srcrect.h = cam_size_y;
 
-    /*SDL_Rect  dstrect;
-     dstrect.x = 0;
-     dstrect.y = 0;
-     dstrect.w = 256;
-     dstrect.h = 256;*/
 
 
     SDL_BlitScaled(baseMap.imageSurface, &srcrect, baseMap.targetSurface, NULL);
@@ -810,6 +781,8 @@ void game::updateMap()
     }
 }
 
+
+//Draw a button with a texture
 void game::drawButtonSrc(classButton btn, SDL_Texture* texture)
 {
     SDL_Rect target = btn.getRect();
@@ -829,6 +802,7 @@ void game::drawButtonSrc(classButton btn, SDL_Texture* texture)
     SDL_RenderCopy(gRenderer, txtTexture, NULL, &target);
 }
 
+//Draw image into screen
 void game::drawIMG(SDL_Surface* surface, int x, int y, int value)
 {
     SDL_Texture* IMGTexture = SDL_CreateTextureFromSurface(gRenderer, surface);
@@ -846,6 +820,7 @@ void game::drawIMG(SDL_Surface* surface, int x, int y, int value)
     }
 }
 
+//Draw a text into screen
 void game::drawText(string text, SDL_Rect rect)
 {
     //drawSquare(btn.getRect(),btn.getColor());
@@ -868,6 +843,7 @@ void game::drawText(string text, SDL_Rect rect)
     }
 }
 
+//Draw a text into screen aligned
 void game::drawTextL(string text, SDL_Rect rect)
 {
     //drawSquare(btn.getRect(),btn.getColor());
@@ -893,6 +869,7 @@ void game::drawTextL(string text, SDL_Rect rect)
     }
 }
 
+//Draw text block
 void game::drawTextBlock(string text, SDL_Rect rect)
 {
     //drawSquare(btn.getRect(),btn.getColor());
@@ -919,65 +896,6 @@ void game::drawTextResize(string text, SDL_Rect rect)
         SDL_Surface* textSurface = TTF_RenderUTF8_Solid(gFont, text.c_str(), fg);
         SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
         SDL_RenderCopy(gRenderer, txtTexture, NULL, &rect);
-    }
-}
-
-void game::paintFruit(int x, int y, Uint8 fruit)
-{
-    if (fruit != 0) {
-        int sx;
-        int sy;
-        sy = fruit / 8;
-        sx = fruit % 8;
-
-        SDL_Rect foodSrc, fooddstrect;
-        foodSrc.x = sx * 32 + 1;
-        foodSrc.y = sy * 32 + 1;
-        foodSrc.w = 32;
-        foodSrc.h = 32;
-        fooddstrect.x = x;
-        fooddstrect.y = y;
-        fooddstrect.w = 32;
-        fooddstrect.h = 32;
-
-        if (squareDraw == true) {
-            //drawButtonSrc()
-            SDL_Color fg = { 0,0,0,0 };
-            int color = fruit % 6;
-            switch (color) {
-            case 0:
-                // fg={ fruit*4,0,0,0};
-                fg = { 255,0,0,0 };
-                break;
-            case 1:
-                //fg={0,fruit*4,0,0};
-                fg = { 0,255,0,0 };
-                break;
-            case 2:
-                //fg={0,0,fruit*4,0};
-                fg = { 0,0,255,0 };
-                break;
-            case 3:
-                //        fg={fruit*4,fruit*4,0,0};
-                fg = { 255,255,0,0 };
-                break;
-            case 4:
-                //      fg={0,fruit*4,fruit*4,0};
-                fg = { 0,255,255,0 };
-                break;
-            case 5:
-                //fg={fruit*4,0,fruit*4,0};
-                fg = { 255,0,255,0 };
-                break;
-            }
-            drawSquare(fooddstrect, fg);
-            fg = { 0,0,0,0 };
-            drawTransparentSquare(fooddstrect, fg);
-        }
-        else {
-            SDL_RenderCopy(gRenderer, foodTexture, &foodSrc, &fooddstrect);
-        }
-
     }
 }
 
@@ -1014,12 +932,7 @@ void game::screenMain()
 
     drawButton(exitButton);
     drawButton(startButton);
-    //drawButton(musicButton);
-    //drawButton(muteButton);
-    //drawButton(player1Button);
-
     drawButton(configButton);
-
     drawButton(achievementsButton);
 }
 
@@ -1092,10 +1005,7 @@ void game::screenIntro()
 
 void game::screenNotifications()
 {
-    // tmpRect.y = (gScreenSurface->h / 4)*3;
     tmpRect.h = 30;
-
-
     tmpRect.x = 0;
     tmpRect.w = 500;
     int tmpY = 0;
@@ -1107,22 +1017,17 @@ void game::screenNotifications()
             drawTextResize(notification, tmpRect);
             tmpY++;
         }
-
-        //drawTextResize(notifications.front(), tmpRect);
     }
 }
 
 void game::screenGameOver()
 {
-    //tmpRect.x = gScreenSurface->w / 2 - 350;
     tmpRect.y = gScreenSurface->h / 4;
-   // tmpRect.w = 700;
     tmpRect.h = 100;
 
     tmpRect.x = gScreenSurface->w / 2 - 450;
     tmpRect.w = 900;
     drawTextResize("Game Over", tmpRect);
-
 }
 
 void game::eventsIntro()
@@ -1144,8 +1049,6 @@ void game::eventsIntro()
             timerGameOver.start();
         }
         //Special key input
-                          //Special text input event
-
         else if (e.type == SDL_MOUSEMOTION)
         {
         }
@@ -1233,12 +1136,6 @@ void game::eventsGameOver()
 {
     if (timerGameOver.getTicks() > 3000) {
         setState(my_enums::_GAMECLOSE_);
-        /*  Mix_FadeOutMusic(3000);
-
-          while (!Mix_FadeOutMusic(3000) && Mix_PlayingMusic()) {
-              // wait for any fades to complete
-              SDL_Delay(100);
-          }*/
     }
 
     //Event handler
@@ -1333,17 +1230,6 @@ void game::eventsName()
         }
 
     }
-    //screenPlayerName();
-    //SDL_Delay(50);
-//	}
-//Disable text input
-  //  SDL_StopTextInput();
-}
-
-
-void game::screenGeneratePlayer()
-{
-
 }
 
 void game::screenConfigMenu()
@@ -1389,16 +1275,7 @@ void game::screenConfigMenu()
     drawButton(volumeMusicButton);
     drawButton(volumeMusicDownButton);
 
-    //drawButton(blurUpButton);
     drawButton(blurButton);
-    //drawButton(blurDownButton);
-
-    // 
-    //drawButton(configButton);
-//    drawButton(player1Button);
-
-  //  drawButton(achievementsButton);
-
 }
 
 void game::screenHomeTown()
@@ -1408,47 +1285,21 @@ void game::screenHomeTown()
      target.x = 0;
     target.y = 0;
 
-    //target.x = gScreenSurface->w / 10;
-    //target.y = gScreenSurface->h / 10;
-    //target.w = 256;
-    //target.h = 256;
-
-    //target.w = (gScreenSurface->w / 10) * 8;
-    //target.h = (gScreenSurface->h / 10) * 8;
-
     target.w = gScreenSurface->w;
     target.h = gScreenSurface->h;
 
-    //SDL_Color mapColor = { 120,120,120,0 };
-
-    //drawSquare(target, mapColor);
-
-    //SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
-   // SDL_Texture* mapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
-    //SDL_RenderCopy(gRenderer, mapTexture, NULL, &target);
-    //SDL_RenderCopy(gRenderer, mapTexture, NULL, NULL);
     drawMap();
 
     drawPlayer();
 
     drawNPCs();
 
-    //SDL_Rect dstrect;
-
-
-  // drawButton(nextButton);
-  //  drawButton(prevButton);
-
-
     tmpRect.x = gScreenSurface->w / 2 - 400;
-    //tmpRect.y = 100;
     tmpRect.y = gScreenSurface->h / 12;
     
-
     tmpRect.w = 800;
     tmpRect.h = 100;
 
-    //drawText("POBLADO INICIAL", tmpRect);
     string townName = "";
     switch (getState())
     {
@@ -1494,10 +1345,6 @@ void game::screenHomeTown()
 
     drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
 
-
-  
-
-
     drawButton(exitButton);
     drawButton(achievementsButton);
     drawButton(configButton);
@@ -1508,11 +1355,6 @@ void game::screenHomeTown()
     drawButton(moveDownButton);
     
     drawButton(newMapButton);
-
-}
-
-void game::eventsGeneratePlayer()
-{
 
 }
 
@@ -1687,8 +1529,6 @@ void game::screenArchetypes()
     tmpRect.y = 200;
     drawText("Selecciona el arquetipo del personaje", tmpRect);
 
-    //tmpRect.y = 250;
-    //drawText(playerName, tmpRect);
     tmpRect.y = 300;
     drawText("Luego pulsa continuar...", tmpRect);
 
@@ -1707,8 +1547,6 @@ void game::eventsRaces()
         if (e.type == SDL_QUIT)
         {
             Mix_PlayChannel(-1, audioButton, 0);
-            //closeSDL();
-            //SDL_StopTextInput();
             setState(my_enums::_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
@@ -1722,19 +1560,13 @@ void game::eventsRaces()
         {
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                //closeSDL();
                SDL_StartTextInput();
                 setState(my_enums::_NAME_);
                 
             }
             if (continueButton.clicked(mousex, mousey)) {
-                // quit =true;
                 Mix_PlayChannel(-1, audioButton, 0);
-               // SDL_StopTextInput();
                 setState(my_enums::_ARCHETYPES_);
-                //Mix_PlayMusic(musicGameOver, -1);
-                //timerGameOver.start();
-                //timerGameOver.reset();
 
             }
 
@@ -1851,8 +1683,6 @@ void game::eventsArchetypes()
         if (e.type == SDL_QUIT)
         {
             Mix_PlayChannel(-1, audioButton, 0);
-            //closeSDL();
-            //SDL_StopTextInput();
             setState(my_enums::_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
@@ -1872,14 +1702,9 @@ void game::eventsArchetypes()
 
             }
             if (continueButton.clicked(mousex, mousey)) {
-                // quit =true;
                 Mix_PlayChannel(-1, audioButton, 0);
-               // SDL_StopTextInput();
                 Mix_PlayMusic(musicTOWN, -1);
                 setState(my_enums::_HOMETOWN_);
-                //Mix_PlayMusic(musicGameOver, -1);
-                //timerGameOver.start();
-                //timerGameOver.reset();
 
             }//continue
 
@@ -2028,8 +1853,6 @@ void game::eventsConfigMenu()
                 else {
                     musicON = true;
                     muteButton.setCaption("MUSIC ON");
-                    //Mix_Volume(-1, MIX_MAX_VOLUME);
-                    //Mix_VolumeMusic(MIX_MAX_VOLUME);
 
                     Mix_Volume(-1, volumeSound);
                     Mix_VolumeMusic(volumeMusic);
@@ -2100,11 +1923,6 @@ void game::eventsConfigMenu()
 
 
             if (startButton.clicked(mousex, mousey)) {
-                //addNotification("Comenzando el juego");
-                //addAchievement("Comenzando el juego");
-
-               // setState(previousScreen);
-                //setState(_MAINMENU_);
                 setState(previousScreen);
 
             }
@@ -2158,78 +1976,7 @@ void game::eventsConfigMenu()
 
 
         }
-        else if (e.type == SDL_KEYDOWN)
-        {
-            //Select surfaces based on key press
-            switch (e.key.keysym.sym)
-            {
-            case SDLK_a:
-                /*  if (!player1.gameOver) {
-                  if (!player1.collide(-1,0))player1.chipX--;
-                  }*/
-                break;
-
-            case SDLK_w:
-                /*   if (!player1.gameOver) {
-                       player1.rotateChip();
-                       if (player1.collide(0,0)){
-                           player1.rotateChip();
-                           player1.rotateChip();
-                           player1.rotateChip();
-                           }
-                   }*/
-
-                break;
-
-            case SDLK_s:
-                /*  if (!player1.gameOver) {
-              if (!player1.collide(0,1)){player1.chipY++;}
-                  }*/
-                break;
-
-            case SDLK_d:
-                /*   if (!player1.gameOver) {
-                   if (!player1.collide(1,0))player1.chipX++;
-                   }*/
-                break;
-
-            case SDLK_UP:
-                /*      if (!player2.gameOver) {
-                       player2.rotateChip();
-                       if (player2.collide(0,0)){
-                              player2.rotateChip();
-                              player2.rotateChip();
-                              player2.rotateChip();
-                              }
-                      }*/
-
-                break;
-
-            case SDLK_DOWN:
-                /*if (!player2.gameOver) {
-            if (!player2.collide(0,1)){player2.chipY++;}
-                }*/
-                break;
-
-            case SDLK_LEFT:
-                /*if (!player2.gameOver) {
-                if (!player2.collide(-1,0))player2.chipX--;
-                }*/
-
-                break;
-
-            case SDLK_RIGHT:
-                /*                                if (!player2.gameOver) {
-                                                if (!player2.collide(1,0))player2.chipX++;
-                                                }*/
-
-                break;
-
-            default:
-
-                break;
-            }
-        }
+ 
 
         //******************
     }

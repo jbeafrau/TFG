@@ -139,20 +139,23 @@ void game::start()
     aNPC.stamina = 20;
     aNPC.exp = 1;
     aNPC.NPCAI = my_enums::_FRIENDLY_STATIC_;
-    aNPC.tile = rand() % 256 + 1;
+    aNPC.tile = rand() % 400 + 1;
+    if ((aNPC.tile % 32) > 20) { aNPC.tile += 12; }
     NPCs.push_back(aNPC);
 
 
     aNPC.id = 2;
     aNPC.x = 80;
     aNPC.y = 75;
-    aNPC.tile = rand() % 256 + 1;
+    aNPC.tile = rand() % 400 + 1;
+    if ((aNPC.tile % 32) > 20) { aNPC.tile += 12; }
     NPCs.push_back(aNPC);
 
     aNPC.id = 3;
     aNPC.x = 82;
     aNPC.y = 75;
-    aNPC.tile = rand() % 256 + 1;
+    aNPC.tile = rand() % 400 + 1;
+    if ((aNPC.tile % 32) > 20) { aNPC.tile += 12; }
     NPCs.push_back(aNPC);
 
 
@@ -1333,12 +1336,14 @@ void game::eventsName()
 
             if (playerUpButton.clicked(mousex, mousey)) {
                 playerTile++;
-                if (playerTile > 256) { playerTile = 256; }
+                if ((playerTile % 32) > 20) { playerTile += 12; }
+                if (playerTile > 144) { playerTile = 144; }
             }
 
             if (playerDownButton.clicked(mousex, mousey)) {
                 playerTile--;
-                if (playerTile < 1) { playerTile = 1; }
+                if ((playerTile % 32) > 20) { playerTile -= 12; }
+                if (playerTile < 99) { playerTile = 99; }
 
             }
 
@@ -2456,13 +2461,13 @@ void game::drawNPCs()
 
 
 //void game::drawPlayerTileset(int x, int y, Uint8 player)
-void game::drawPlayerTileset(SDL_Rect target, Uint8 player)
+void game::drawPlayerTileset(SDL_Rect target, int player)
 {
     if (player != 0) {
         int sx;
         int sy;
-        sy = player / 8;
-        sx = player % 8;
+        sy = player / 32;
+        sx = player % 32;
 
         SDL_Rect playerSrc, playerDest;
         playerSrc.x = sx * 32 + 1;

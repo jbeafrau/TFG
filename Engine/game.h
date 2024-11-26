@@ -141,7 +141,7 @@ public:
     void drawPlayer();
     void drawNPCs();
     //void drawPlayerTileset(int x, int y, Uint8 player);
-    void drawPlayerTileset(SDL_Rect target, Uint8 player);
+    void drawPlayerTileset(SDL_Rect target, int player);
 
     
 
@@ -212,7 +212,7 @@ protected:
     my_enums::playerRaces currentRace = my_enums::_HUMAN_; //Player´s race
     my_enums::playerArchetype currentArchetype = my_enums::_FIGHTER_; //Player´s archetype
     int px, py; //Player location in the world
-    int playerTile = 10;
+    int playerTile = 99;
 
 
     int cam_x, cam_y;//camera starting vertex (top-left)

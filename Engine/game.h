@@ -83,7 +83,6 @@ struct NPC { //enemy definition
 };
 
 struct item { //item definition
-    int id;
     string name;
     string description;
     int count;
@@ -134,6 +133,9 @@ public:
     void addAchievement(std::string achievement);
     bool existAchievement(std::string achievement);
 
+    void addItem(string name, int value);
+    void updateItem(string name, int value);
+    bool findItem(string name);
 
     void drawSquare(SDL_Rect rect, SDL_Color color);
     void drawTransparentSquare(SDL_Rect rect, SDL_Color color);
@@ -198,15 +200,19 @@ protected:
 
     std::list<std::string> achievements;
     std::list<std::string> notifications;
+    
+    std::list<NPC> NPCs; //All NPCs
+    std::list<NPC> tmpNPCs; //NPCs found in our location
+
+    std::list<item> items; //Player inventory
+    int coins = 0; //Player currency
+    int food = 0; //Player food rations 
 
 
-
-    list<NPC> NPCs; //All NPCs
-    list<NPC> tmpNPCs; //NPCs found in our location
 
     int currentMusic = 1;
     bool musicON = true;
-    bool squareDraw = true;
+    //bool squareDraw = true;
 
 
     std::string playerName = "Jugador"; //Player´s name

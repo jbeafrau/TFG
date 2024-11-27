@@ -2219,3 +2219,41 @@ void game::checkBoundaries()
     if (py > 256) { py = 256; }
 
 }
+
+
+void game::addItem(string name, int value)
+{
+    item aItem;
+    aItem.name = name;
+    aItem.count = value;
+    items.push_back(aItem);
+}
+
+void game::updateItem(string name, int value)
+{
+    for (list<item>::iterator it = items.begin(); it != items.end(); it++)
+    {
+        if (it->name == name) {
+            item aItem;
+            aItem.name = name;
+            aItem.count = it->count + value;
+            items.erase(it);
+            if (aItem.count > 0) { items.push_back(aItem); }
+            break;
+        }
+    }
+}
+
+bool game::findItem(string name)
+{
+    bool found = false;
+    for (list<item>::iterator it = items.begin(); it != items.end(); it++)
+    {
+        if (it->name == name)
+        {
+            found = true;
+            break;
+        }
+    }
+    return found;
+}

@@ -82,6 +82,14 @@ struct NPC { //enemy definition
     int tile;
 };
 
+struct item { //item definition
+    int id;
+    string name;
+    string description;
+    int count;
+    int value;
+    int tile;
+};
 
 
 

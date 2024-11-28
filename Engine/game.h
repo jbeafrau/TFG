@@ -133,7 +133,7 @@ public:
     void addAchievement(std::string achievement);
     bool existAchievement(std::string achievement);
 
-    void addItem(string name, int value);
+    void addItem(string name, string description, int count, int value, int tile);
     void updateItem(string name, int value);
     bool findItem(string name);
 

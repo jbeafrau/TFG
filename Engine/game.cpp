@@ -1706,6 +1706,9 @@ void game::eventsArchetypes()
                 Mix_PlayMusic(musicTOWN, -1);
                 setState(my_enums::_HOMETOWN_);
 
+                addItem("ESPADA", "Una espada mellada", 1, 0, 1);
+                addItem("ARMADURA CUERO", "Armadura ligera de cuero", 1, 0, 1);
+
             }//continue
 
 
@@ -2221,13 +2224,18 @@ void game::checkBoundaries()
 }
 
 
-void game::addItem(string name, int value)
+void game::addItem(string name, string description, int count, int value, int tile)
 {
     item aItem;
     aItem.name = name;
+    aItem.description = description;
     aItem.count = value;
+    aItem.value = value;
+    aItem.tile = tile;
     items.push_back(aItem);
+    addNotification("Has conseguido:" + name);
 }
+
 
 void game::updateItem(string name, int value)
 {

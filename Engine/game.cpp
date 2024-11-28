@@ -248,6 +248,10 @@ void game::start()
     mouseButton.setButton(gScreenSurface->w / 2 - 100, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
     mouseButton.setColor(100, 100, 100);
 
+    inventoryButton.setButton(gScreenSurface->w / 8, gScreenSurface->h - 128, 128, 128, "Inventario");
+    inventoryButton.setColor(0, 0, 200);
+
+
     achievementsButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h - 128, 128, 128, "ACH 0 / 0%");
     achievementsButton.setColor(0, 0, 200);
 
@@ -434,7 +438,11 @@ void game::events()
         break;
     }
 
-
+    case my_enums::_INVENTORY_:
+    {
+        eventsInventory();
+        break;
+    }
 
     case my_enums::_GAMEOVER_:
     {
@@ -506,6 +514,12 @@ void game::drawScreens()
     case my_enums::_ARCHETYPES_:
     {
         screenArchetypes();
+        break;
+    }
+
+    case my_enums::_INVENTORY_:
+    {
+        screenInventory();
         break;
     }
 
@@ -1348,6 +1362,7 @@ void game::screenHomeTown()
     drawButton(exitButton);
     drawButton(achievementsButton);
     drawButton(configButton);
+    drawButton(inventoryButton);
 
     drawButton(moveLeftButton);
     drawButton(moveRightButton);
@@ -1535,6 +1550,62 @@ void game::screenArchetypes()
     tmpRect.y = 400;
     drawText(getArchetypeName(currentArchetype), tmpRect);
 }
+
+
+void game::screenInventory()
+{
+    //quit = false;
+    //while (!quit) {
+        //screenClear();
+       // drawButtonSrc(continueButton, buttonTexture);
+        drawButton(continueButton);
+        drawButton(exitButton);
+        int tmpy = 100;
+        tmpRect.x = gScreenSurface->w / 2 - 200;
+        tmpRect.y = 0;
+        tmpRect.w = 400;
+        tmpRect.h = 50;
+        SDL_Rect target;
+        target.x = tmpRect.x - 50;
+        target.w = tmpRect.w + 40;
+        target.h = tmpRect.h + 25;
+
+        string tmpString = "";
+        tmpString = "Monedas de oro: " + to_string(coins);
+        tmpy += 50;
+        tmpRect.y = tmpy;
+        target.y = tmpRect.y - 25;
+        //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
+        drawText(tmpString, tmpRect);
+
+
+        tmpString = "Raciones de comida: " + to_string(food);
+        tmpy += 50;
+        tmpRect.y = tmpy;
+        target.y = tmpRect.y - 25;
+        //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
+        drawText(tmpString, tmpRect);
+
+        for (list<item>::iterator it = items.begin(); it != items.end(); it++)
+        {
+            tmpy += 50;
+            tmpRect.y = tmpy;
+            target.y = tmpRect.y - 25;
+            if (it->name.substr(0, 2) == "**") {
+                tmpString = it->name.substr(2, it->name.length() - 2) + " (" + to_string(it->count) + ")";
+                // cout << it->name.substr(2,it->name.length() -2) << " (" << it->count << ")" << endl;
+            }
+            else {
+                tmpString = it->name + " (" + to_string(it->count) + ")";
+                // cout << it->name << " (" << it->count << ")" << endl;
+            }
+            //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
+            drawText(tmpString, tmpRect);
+
+        }
+}
+
+
 
 
 void game::eventsRaces()
@@ -1988,6 +2059,53 @@ void game::eventsConfigMenu()
 
 }
 
+
+void game::eventsInventory()
+{
+    //Event handler
+    SDL_Event e;
+
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            setState(my_enums::_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            //******
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+                setState(my_enums::_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+                //addNotification("Saliendo del juego");
+                addAchievement("Saliendo del juego");
+            }
+
+            if (continueButton.clicked(mousex, mousey)) {
+                setState(previousScreen);
+
+            }
+
+        }
+
+        //******************
+    }
+
+    myTime = (int)(timer.getTicks() / 1000);
+
+}
+
+
 void game::eventsHomeTown()
 {
 
@@ -2024,6 +2142,11 @@ void game::eventsHomeTown()
                 setState(my_enums::_CONFIGMENU_);
                 previousScreen = my_enums::_HOMETOWN_;
             }//config button
+
+            if (inventoryButton.clicked(mousex, mousey)) {
+                setState(my_enums::_INVENTORY_);
+                previousScreen = my_enums::_HOMETOWN_;
+            }//inventory button
 
             if (moveRightButton.clicked(mousex, mousey)) {
                 px++;
@@ -2229,7 +2352,7 @@ void game::addItem(string name, string description, int count, int value, int ti
     item aItem;
     aItem.name = name;
     aItem.description = description;
-    aItem.count = value;
+    aItem.count = count;
     aItem.value = value;
     aItem.tile = tile;
     items.push_back(aItem);

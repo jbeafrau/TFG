@@ -11,6 +11,7 @@ namespace my_enums
         _RACES_ = 4,
         _ARCHETYPES_ = 5,
         _CONFIGMENU_ = 6,
+        _INVENTORY_ = 7,
         _HOMETOWN_ = 10,
         _TOWN_SHOP_ = 20,
         _TOWN_ELDER_ = 30,

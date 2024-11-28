@@ -167,6 +167,8 @@ public:
     void screenRaces();
     void screenArchetypes();
 
+    void screenInventory();
+
     void screenGeneratePlayer();
     void screenConfigMenu();
     void screenHomeTown();
@@ -181,6 +183,8 @@ public:
 
     void eventsRaces();
     void eventsArchetypes();
+
+    void eventsInventory();
 
     void checkBoundaries();
 
@@ -205,8 +209,8 @@ protected:
     std::list<NPC> tmpNPCs; //NPCs found in our location
 
     std::list<item> items; //Player inventory
-    int coins = 0; //Player currency
-    int food = 0; //Player food rations 
+    int coins = 50; //Player currency
+    int food = 10; //Player food rations 
 
 
 
@@ -347,6 +351,7 @@ protected:
    // classButton blurUpButton;
     classButton blurButton;
 
+    classButton inventoryButton;
     classButton achievementsButton;
 
 

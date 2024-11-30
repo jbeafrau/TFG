@@ -25,48 +25,6 @@
 
 /*  GAME DESIGN NOTES
  
-MELE
--------
-ATACK: 1D10 + SKILL + STR + WEAPON
-DEFENSE: 1D10 + SKILL + STR + WEAPON + SHIELD
-DAMAGE: WEAPON + 1D STR
-
-BOW
------------
-1D10 + SKILL + DEX + WEAPON
-1D10 + DEX + SHIELD
-DAMAGE: WEAPON +1D STR -1
-
-MAGIC
------------------
-DAMAGE: SPELL + 1D INT
-
-ATTRIBUTES 
-----------------
-(BASE=1 for all, MAX = 5)
-STR
-DEX
-RES
-INT
-PER
-
-LIFE POINTS = 10 + RES*5
-MAGIC POINTS = 10 + ((INT + PER)/2) *5
-
-
-LEVEL = 1 (MAX 20)
-EXPERIENCE  = 0, required for next LEVEL = (Current level^2)*10 (100,400,900, etc)
-
-LEVEL INCREASE BENEFITS:
--------------------------
-MAX LIFE POINTS +5
-SKILL POINTS +1
-
-SKILL POINTS
--------------------
-1 SKILL POINT = 1 NEW SKILL
-UPGRADING ONE ATTRIBUTE COSTS Current attribute level +1 SKILL POINTS
-
 
 */
 
@@ -77,6 +35,7 @@ struct NPC { //enemy definition
     string description;
     int skill;
     int stamina;
+    int luck;
     int exp;
     my_enums::AItypes NPCAI;
     int tile;
@@ -109,7 +68,7 @@ public:
 
 
     void start();
-    int dice(int maxValue, int minValue);
+  //  int dice(int maxValue, int minValue);
 
     int getState();
     void setState(my_enums::gameState newState);
@@ -119,11 +78,10 @@ public:
     std::string getRaceName(my_enums::playerRaces race);
     std::string getArchetypeName(my_enums::playerArchetype archetype);
 
-    void events();
 
-    void drawScreens();
 
-    void screenFlip();
+
+
 
     void adjustFPS();
 
@@ -145,7 +103,7 @@ public:
     void drawTextL(string text, SDL_Rect rect);
     void drawTextBlock(string text, SDL_Rect rect);
     void drawTextResize(string text, SDL_Rect rect);
-    void paintFruit(int x, int y, Uint8 fruit);
+  //  void paintFruit(int x, int y, Uint8 fruit);
     void drawMap();
     void updateMap();
     void drawPlayer();
@@ -156,28 +114,36 @@ public:
     
 
     void drawIMG(SDL_Surface* surface, int x, int y, int value);
+
+
+    void drawScreens();
     void screenClear();
     void screenIntro();
     void screenNotifications();
     void screenMain();
-    void screenName();
+   // void screenName();
     void screenGameOver();
     void screenPlayerName();
-
+    void screenPlayerAttributes();
     void screenRaces();
     void screenArchetypes();
 
     void screenInventory();
 
-    void screenGeneratePlayer();
+    //void screenGeneratePlayer();
     void screenConfigMenu();
     void screenHomeTown();
 
+
+    void screenFlip();
+
+    void events();
     void eventsIntro();
     void eventsMain();
     void eventsGameOver();
     void eventsName();
-    void eventsGeneratePlayer();
+    void eventsPlayerAttributes();
+    //void eventsGeneratePlayer();
     void eventsConfigMenu();
     void eventsHomeTown();
 
@@ -187,6 +153,10 @@ public:
     void eventsInventory();
 
     void checkBoundaries();
+
+    int dice(int maxValue, int minValue);
+    void randomAttributes();
+    
 
     classMap baseMap;
 
@@ -212,17 +182,25 @@ protected:
     int coins = 50; //Player currency
     int food = 10; //Player food rations 
 
+    //Player attributes
+    int skill = 1; //Combat Skill
+    int stamina = 1; //Player hitpoins and posion defense
+    int power = 1; //magic points and magic regeneration rate
+    int luck = 1; //skill improves buy and sell values and posibility to discover how difficult are enemies
+    int max_skill = 1;
+    int max_stamina = 1;
+    int max_power=1;
+    int max_luck = 1;
 
 
     int currentMusic = 1;
     bool musicON = true;
-    //bool squareDraw = true;
 
 
     std::string playerName = "Jugador"; //Player´s name
     my_enums::playerRaces currentRace = my_enums::_HUMAN_; //Player´s race
     my_enums::playerArchetype currentArchetype = my_enums::_FIGHTER_; //Player´s archetype
-    int px, py; //Player location in the world
+    int px=1, py=1; //Player location in the world
     int playerTile = 63; //Starting tile for player
 
 
@@ -254,7 +232,7 @@ protected:
 
     // bool fight = false;
 
-    int mousex, mousey;
+    int mousex=1, mousey=1;
 
     //The window we'll be rendering to
     SDL_Window* gWindow = NULL;
@@ -362,6 +340,8 @@ protected:
 
     classButton playerUpButton;
     classButton playerDownButton;
+
+    classButton rollButton;
 
     classButton newMapButton;
 

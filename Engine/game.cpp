@@ -197,6 +197,9 @@ void game::start()
     continueButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h - 128, 128, 128, "Continuar");
     continueButton.setColor(0, 0, 200);
 
+    rollButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h /2, 128, 128, "Volver a tirar");
+    rollButton.setColor(0, 0, 200);
+
     startButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h / 2 -64, 128, 128, "Jugar");
     startButton.setColor(100, 100, 100);
 
@@ -426,6 +429,12 @@ void game::events()
         break;
     }
 
+    case my_enums::_ATTRIBUTES_:
+    {
+        eventsPlayerAttributes();
+        break;
+    }
+
     case my_enums::_RACES_:
     {
         eventsRaces();
@@ -496,6 +505,12 @@ void game::drawScreens()
     case my_enums::_NAME_:
     {
         screenPlayerName();
+        break;
+    }
+
+    case my_enums::_ATTRIBUTES_:
+    {
+        screenPlayerAttributes();
         break;
     }
 
@@ -950,6 +965,7 @@ void game::screenMain()
     drawButton(achievementsButton);
 }
 
+
 void game::screenPlayerName()
 {
 
@@ -970,10 +986,10 @@ void game::screenPlayerName()
     drawButton(playerUpButton);
     drawButton(playerDownButton);
 
-    tmpRect.x = gScreenSurface->w / 2 - gScreenSurface->w / 32;
-    tmpRect.y = gScreenSurface->h / 2 - gScreenSurface->h / 16;
-    tmpRect.w = gScreenSurface->w / 16;
-    tmpRect.h = gScreenSurface->h / 8;
+    tmpRect.x = gScreenSurface->w / 2 - gScreenSurface->w / (cam_size_x*2);
+    tmpRect.y = gScreenSurface->h / 2 - gScreenSurface->h / (cam_size_y);
+    tmpRect.w = gScreenSurface->w / cam_size_x;
+    tmpRect.h = gScreenSurface->h / cam_size_y;
 
     drawPlayerTileset(tmpRect, playerTile);
 
@@ -992,6 +1008,67 @@ void game::screenPlayerName()
     tmpRect.y = 300;
     drawText("Cambia la imagen y luego pulsa continuar...", tmpRect);
 }
+
+
+void game::screenPlayerAttributes()
+{
+
+
+
+    drawButton(exitButton);
+    drawButton(continueButton);
+    drawButton(rollButton);
+
+   // drawButton(playerUpButton);
+    //drawButton(playerDownButton);
+
+   // tmpRect.x = gScreenSurface->w / 2 - gScreenSurface->w / (cam_size_x * 2);
+   // tmpRect.y = gScreenSurface->h / 2 - gScreenSurface->h / (cam_size_y);
+  //  tmpRect.w = gScreenSurface->w / cam_size_x;
+  //  tmpRect.h = gScreenSurface->h / cam_size_y;
+
+   // drawPlayerTileset(tmpRect, playerTile);
+
+
+ /*  tmpRect.x = gScreenSurface->w / 2 - 200;
+    tmpRect.y = 100;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+
+    drawText("CAMBIAR NOMBRE E IMAGEN", tmpRect);
+    tmpRect.y = 200;
+    drawText("Introduce el nombre del jugador", tmpRect);
+
+    tmpRect.y = 250;
+    drawText(playerName, tmpRect);
+    tmpRect.y = 300;
+    drawText("Cambia la imagen y luego pulsa continuar...", tmpRect);*/
+
+    //drawButtonSrc(continueButton, buttonTexture);
+    //drawButtonSrc(rollButton, wideButtonTexture);
+    tmpRect.x = 100;
+    tmpRect.y = 100;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+    drawText("NUEVO PERSONAJE", tmpRect);
+    tmpRect.y = 150;
+    drawText("Volver a tirar para nueva tirada o continuar", tmpRect);
+
+    tmpRect.w = 100;
+    tmpRect.y = 200;
+    drawTextL("Combate", tmpRect);
+    tmpRect.y = 250;
+    drawTextL("Vitalidad", tmpRect);
+    tmpRect.y = 300;
+    drawTextL("Poder", tmpRect);
+    tmpRect.y = 350;
+    drawTextL("Suerte", tmpRect);
+
+   // drawIMG(shieldTexture, 100, 200, Skill.getCurrent(), 18);
+  //  drawIMG(heartTexture, 100, 250, Stamina.getCurrent(), 30);
+  //  drawIMG(starTexture, 100, 300, Luck.getCurrent(), 18);
+}
+
 
 void game::screenClear()
 {
@@ -1220,7 +1297,8 @@ void game::eventsName()
                 Mix_PlayChannel(-1, audioButton, 0);
                 SDL_StopTextInput();
                 //setState(_MAINMENU_);
-                setState(my_enums::_RACES_);
+                //setState(my_enums::_RACES_);
+                setState(my_enums::_ATTRIBUTES_);
                 //Mix_PlayMusic(musicGameOver, -1);
                 //timerGameOver.start();
                 //timerGameOver.reset();
@@ -1518,17 +1596,6 @@ void game::screenRaces()
 
 void game::screenArchetypes()
 {
-    SDL_Rect snow0, snow1;
-    snow0.x = 1;
-    snow0.y = 1;
-    snow0.w = gScreenSurface->w;
-    snow0.h = gScreenSurface->h;
-    snow1.x = 1;
-    snow1.y = 1;
-    snow1.w = gScreenSurface->w;
-    snow1.h = gScreenSurface->h;
-    //SDL_Rect dstrect;
-
     drawButton(exitButton);
     drawButton(continueButton);
     drawButton(nextButton);
@@ -1631,8 +1698,9 @@ void game::eventsRaces()
         {
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-               SDL_StartTextInput();
-                setState(my_enums::_NAME_);
+               //SDL_StartTextInput();
+               // setState(my_enums::_NAME_);
+                setState(my_enums::_ATTRIBUTES_);
                 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -1878,6 +1946,68 @@ void game::eventsArchetypes()
         }
 
     }
+}
+
+
+
+void game::eventsPlayerAttributes()
+{
+    SDL_Event e;
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            Mix_PlayChannel(-1, audioButton, 0);
+            setState(my_enums::_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            SDL_GetMouseState(&mousex, &mousey);
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+                Mix_PlayChannel(-1, audioButton, 0);
+                //closeSDL();
+                SDL_StartTextInput();
+                //setState(my_enums::_RACES_);
+                setState(my_enums::_NAME_);
+
+            }
+            if (continueButton.clicked(mousex, mousey)) {
+                Mix_PlayChannel(-1, audioButton, 0);
+                //Mix_PlayMusic(musicTOWN, -1);
+                setState(my_enums::_RACES_);
+
+             
+            }//continue
+
+            if (rollButton.clicked(mousex, mousey)) {
+                Mix_PlayChannel(-1, audioButton, 0);
+                //Mix_PlayMusic(musicTOWN, -1);
+                //setState(my_enums::_RACES_);
+
+
+            }//continue
+           
+
+            
+        }
+
+    }
+}
+
+void game::randomAttributes()
+{
+    skill= dice(6, 1) + 6;
+    stamina = dice(6, 1) + dice(6, 1) + 12;
+    power = dice(6, 1) + 6;
+    luck = dice(6, 1) + 6;
 }
 
 

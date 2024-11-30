@@ -113,6 +113,8 @@ void game::start()
     cam_x = 70;
     cam_y = 70;
 
+    randomAttributes();
+
 
     NPC aNPC;
     aNPC.id = 1;
@@ -831,6 +833,39 @@ void game::drawButtonSrc(classButton btn, SDL_Texture* texture)
     SDL_RenderCopy(gRenderer, txtTexture, NULL, &target);
 }
 
+void game::drawIMGBox(int x, int y, int value, int max, SDL_Color color)
+{
+    int tmp;
+   // SDL_Texture* IMGTexture = SDL_CreateTextureFromSurface(gRenderer, surface);
+    SDL_Rect target;
+    target.x = x;
+    target.y = y;
+    target.w = 20;
+    target.h = 20;
+    //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
+    //drawBo
+    drawSquare(target, color);
+   // SDL_Color fg = { 0,0,0,0 };
+
+    while (value > 0) {
+        //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
+        drawSquare(target, color);
+        target.x += 20;
+        value--;
+    }
+
+    color = { 0,0,0,0 };
+    target.x = x;
+    tmp = max;
+    while (tmp > 0) {
+        //drawTransparentSquare(&target ,color);
+      //SDL_RenderCopy( gRenderer, surface, NULL, &target );
+        drawTransparentSquare(target, color);
+        target.x += 20;
+        tmp--;
+    }
+}
+
 //Draw image into screen
 void game::drawIMG(SDL_Surface* surface, int x, int y, int value)
 {
@@ -1064,9 +1099,16 @@ void game::screenPlayerAttributes()
     tmpRect.y = 350;
     drawTextL("Suerte", tmpRect);
 
-   // drawIMG(shieldTexture, 100, 200, Skill.getCurrent(), 18);
-  //  drawIMG(heartTexture, 100, 250, Stamina.getCurrent(), 30);
-  //  drawIMG(starTexture, 100, 300, Luck.getCurrent(), 18);
+   // drawIMG(shieldTexture, 100, 200, skill, 18);
+  //  drawIMG(heartTexture, 100, 250, stamina, 30);
+  //  drawIMG(starTexture, 100, 300, power, 18);
+  //  drawIMG(starTexture, 100, 300, luck, 18);
+    //, SDL_Color color
+
+    drawIMGBox(100, 200, skill, 18, {0,0,200,0});
+  drawIMGBox(100, 250, stamina, 30, { 200,0,0,0 });
+  drawIMGBox(100, 300, power, 18, { 0,200,0,0 });
+  drawIMGBox(100, 350, luck, 18, { 0,200,200,0 });
 }
 
 
@@ -1990,7 +2032,7 @@ void game::eventsPlayerAttributes()
             if (rollButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
                 //Mix_PlayMusic(musicTOWN, -1);
-                //setState(my_enums::_RACES_);
+                randomAttributes();
 
 
             }//continue

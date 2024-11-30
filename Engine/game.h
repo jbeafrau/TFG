@@ -114,6 +114,7 @@ public:
     
 
     void drawIMG(SDL_Surface* surface, int x, int y, int value);
+    void drawIMGBox(int x, int y, int value, int max, SDL_Color color);
 
 
     void drawScreens();

@@ -32,6 +32,8 @@ while (Game.getState() != my_enums::_GAMECLOSE_){
 
     Game.screenClear();
 
+    Game.drawBackground();
+    
     Game.drawScreens();
 
     //Game.drawPlayer();

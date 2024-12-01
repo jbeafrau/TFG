@@ -111,6 +111,7 @@ public:
     //void drawPlayerTileset(int x, int y, Uint8 player);
     void drawPlayerTileset(SDL_Rect target, int player);
 
+    void drawBackground();
     
 
     void drawIMG(SDL_Surface* surface, int x, int y, int value);
@@ -205,7 +206,7 @@ protected:
     int playerTile = 63; //Starting tile for player
 
 
-    int cam_x, cam_y;//camera starting vertex (top-left)
+    int cam_x = 1, cam_y = 1;//camera starting vertex (top-left)
 
     //Number of tiles drawn on screen
     int cam_size_x = 16;
@@ -267,6 +268,10 @@ protected:
     //The final texture
     SDL_Texture* mouseTexture = NULL;
     SDL_Texture* playersTexture = NULL;
+
+    SDL_Surface* bg1Surface = NULL;
+    SDL_Texture* bg1Texture = NULL;
+
 
 
     SDL_Texture* foodTexture = NULL;

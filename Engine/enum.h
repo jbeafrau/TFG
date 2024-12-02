@@ -13,6 +13,7 @@ namespace my_enums
         _ARCHETYPES_ = 6,
         _CONFIGMENU_ = 7,
         _INVENTORY_ = 8,
+        _ACHIEVEMENTS_ = 9,
         _HOMETOWN_ = 10,
         _TOWN_SHOP_ = 20,
         _TOWN_ELDER_ = 30,
@@ -70,6 +71,15 @@ namespace my_enums
         _FRIENDLY_RANDOM_ = 2,
         _ENEMYY_STATIC_ = 10,
         _ENEMY_RANDOM_ = 11
+    };
+
+    enum Achievements
+    {
+        _COMBAT_ = 10,
+        _MISSIONS_ = 20,
+        _NPCS_ = 30,
+        _OPTIONS_ = 40,
+        _HIDDEN_ = 50
     };
 
 }

@@ -59,26 +59,31 @@ void game::addNotification(std::string notification)
 }
 
 
-void game::addAchievement(std::string achievement)
+void game::addAchievement(std::string achievementName, my_enums::Achievements achievementType)
 {
-    if (!existAchievement(achievement)) {
-        achievements.push_back(achievement);
-        addNotification(achievement);
+    if (!existAchievement(achievementName, achievementType )) {
+        achievement newAchievement;
+        newAchievement.name = achievementName;
+        newAchievement.type = achievementType;
+
+        achievements.push_back(newAchievement);
+        addNotification(achievementName);
         Mix_PlayChannel(-1, win, 0);
 
         int achievementCounter = achievements.size();
-        achievementsButton.setCaption("ACH " + std::to_string(achievementCounter) + " / " + std::to_string(achievementCounter * 100 / maxAchievements) + "%");
+      //  achievementsButton.setCaption("ACH " + std::to_string(achievementCounter) + " / " + std::to_string(achievementCounter * 100 / maxAchievements) + "%");
+         achievementsButton.setCaption("ACH " + std::to_string(achievementCounter) );
         //"Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60)
     }
 }
 
 
-bool game::existAchievement(std::string achievement)
+bool game::existAchievement(std::string achievementName, my_enums::Achievements achievementType)
 {
     bool returnValue = false;
 
-    for (std::string currentAchievement : achievements) {
-        if (currentAchievement == achievement) {
+    for (achievement currentAchievement : achievements) {
+        if ((currentAchievement.name == achievementName) && (currentAchievement.type == achievementType) ){
             returnValue = true;
             break;
         }
@@ -455,6 +460,12 @@ void game::events()
         break;
     }
 
+    case my_enums::_ACHIEVEMENTS_:
+    {
+        eventsAchievements();
+        break;
+    }
+
     case my_enums::_GAMEOVER_:
     {
         eventsGameOver();
@@ -537,6 +548,12 @@ void game::drawScreens()
     case my_enums::_INVENTORY_:
     {
         screenInventory();
+        break;
+    }
+
+    case my_enums::_ACHIEVEMENTS_:
+    {
+        screenAchievements();
         break;
     }
 
@@ -658,6 +675,7 @@ bool game::loadMedia(string base)
 
 
     aFile = images + "15771169063_9f6d64ce74_b.jpg";
+     // aFile = images + "12594319284_aac8307463_b.jpg";
 bg1Surface = loadSurface(aFile);
 bg1Texture = SDL_CreateTextureFromSurface(gRenderer, bg1Surface);
 
@@ -869,7 +887,7 @@ void game::drawIMGBox(int x, int y, int value, int max, SDL_Color color)
     target.h = 20;
     //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
     //drawBo
-    drawSquare(target, color);
+   if (value > 0) drawSquare(target, color);
    // SDL_Color fg = { 0,0,0,0 };
 
     while (value > 0) {
@@ -1262,7 +1280,7 @@ void game::eventsMain()
                 timerGameOver.start();
                 timerGameOver.reset();
                 //addNotification("Saliendo del juego");
-                addAchievement("Saliendo del juego");
+                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (configButton.clicked(mousex, mousey)) {
@@ -1271,10 +1289,16 @@ void game::eventsMain()
 
             }
 
+            if (achievementsButton.clicked(mousex, mousey)) {
+                setState(my_enums::_ACHIEVEMENTS_);
+                previousScreen = my_enums::_MAINMENU_;
+
+            }
+
 
             if (startButton.clicked(mousex, mousey)) {
                 //addNotification("Comenzando el juego");
-                addAchievement("Comenzando el juego");
+                addAchievement("Comenzando el juego", my_enums::_OPTIONS_);
                 SDL_StartTextInput();
                 setState(my_enums::_NAME_);
             }
@@ -1739,7 +1763,90 @@ void game::screenInventory()
         }
 }
 
+void game::screenAchievements()
+{
+    
+    drawButton(continueButton);
+    drawButton(exitButton);
+    int combat = 0, missions = 0, npcs = 0, options = 0, hidden = 0;
 
+    for (achievement currentAchievement : achievements) {
+
+        switch (currentAchievement.type)
+        {
+        case my_enums::_COMBAT_:
+        {
+            combat++;
+            break;
+        }
+        case my_enums::_MISSIONS_:
+        {
+            missions++;
+            break;
+        }
+
+        case my_enums::_NPCS_:
+        {
+            npcs++;
+            break;
+        }
+
+        case my_enums::_OPTIONS_:
+        {
+            options++;
+            break;
+        }
+
+        case my_enums::_HIDDEN_:
+        {
+            hidden++;
+            break;
+        }
+
+        default:
+        {
+            // is likely to be an error
+        }
+        };
+    }
+
+    tmpRect.x = gScreenSurface->w / 2 - 250;
+    tmpRect.y = gScreenSurface->h / 8 - 50;
+    tmpRect.w = 500;
+    tmpRect.h = 100;
+    drawTextResize("LOGROS", tmpRect);
+
+
+    tmpRect.x = 100;
+    tmpRect.y = 100;
+    /*tmpRect.w = 400;
+    tmpRect.h = 50;
+    drawText("NUEVO PERSONAJE", tmpRect);
+    tmpRect.y = 150;
+    drawText("Volver a tirar para nueva tirada o continuar", tmpRect);
+    */
+    tmpRect.w = 100;
+    tmpRect.y = 200;
+    drawTextL("Combate", tmpRect);
+    tmpRect.y = 250;
+    drawTextL("Missiones", tmpRect);
+    tmpRect.y = 300;
+    drawTextL("NPCs", tmpRect);
+    tmpRect.y = 350;
+    drawTextL("Opciones", tmpRect);
+    tmpRect.y = 400;
+    drawTextL("Ocultos", tmpRect);
+
+    //combat = 0, missions = 0, npcs = 0, options = 0, hidden = 0;
+
+    drawIMGBox(100, 200, combat, 10, { 200,0,0,0 });
+    drawIMGBox(100, 250, missions, 10, { 200,0,0,0 });
+    drawIMGBox(100, 300, npcs, 10, { 200,0,0,0 });
+    drawIMGBox(100, 350, options, 10, { 200,0,0,0 });
+    drawIMGBox(100, 400, hidden, 10, { 200,0,0,0 });
+
+
+}
 
 
 void game::eventsRaces()
@@ -2107,7 +2214,7 @@ void game::eventsConfigMenu()
                 timerGameOver.start();
                 timerGameOver.reset();
                 //addNotification("Saliendo del juego");
-                addAchievement("Saliendo del juego");
+                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (muteButton.clicked(mousex, mousey)) {
@@ -2117,7 +2224,7 @@ void game::eventsConfigMenu()
                     Mix_Volume(-1, 0);
                     Mix_VolumeMusic(0);
                     //addNotification("Sonido apagado");
-                    addAchievement("Sonido apagado");
+                    addAchievement("Sonido apagado", my_enums::_OPTIONS_);
                     volumeSoundButton.setCaption("SOUND " + std::to_string(volumeSound * 100 / 128) + "%");
                     volumeMusicButton.setCaption("MUSIC " + std::to_string(volumeMusic * 100 / 128) + "%");
                 }
@@ -2128,7 +2235,7 @@ void game::eventsConfigMenu()
                     Mix_Volume(-1, volumeSound);
                     Mix_VolumeMusic(volumeMusic);
                     //addNotification("Sonido activado");
-                    addAchievement("Sonido activado");
+                    addAchievement("Sonido activado", my_enums::_OPTIONS_);
                     volumeSoundButton.setCaption("SOUND " + std::to_string(volumeSound * 100 / 128) + "%");
                     volumeMusicButton.setCaption("MUSIC " + std::to_string(volumeMusic * 100 / 128) + "%");
                 }
@@ -2140,53 +2247,53 @@ void game::eventsConfigMenu()
                 case 1:
                     currentMusic = 2;
                     Mix_PlayMusic(musicDARK, -1);
-                    addAchievement("Musica DARK");
+                    addAchievement("Musica DARK", my_enums::_OPTIONS_);
                     break;
                 case 2:
                     currentMusic = 3;
                     Mix_PlayMusic(musicFOREST, -1);
-                    addAchievement("Musica FOREST");
+                    addAchievement("Musica FOREST", my_enums::_OPTIONS_);
                     break;
                 case 3:
                     currentMusic = 4;
                     Mix_PlayMusic(musicTOWN, -1);
-                    addAchievement("Musica TOWN");
+                    addAchievement("Musica TOWN", my_enums::_OPTIONS_);
                     break;
 
                 case 4:
                     currentMusic = 5;
                     Mix_PlayMusic(musicBATTLE, -1);
-                    addAchievement("Musica BATTLE");
+                    addAchievement("Musica BATTLE", my_enums::_OPTIONS_);
                     break;
 
                 case 5:
                     currentMusic = 6;
                     Mix_PlayMusic(musicBOSS, -1);
-                    addAchievement("Musica BOSS");
+                    addAchievement("Musica BOSS", my_enums::_OPTIONS_);
                     break;
 
                 case 6:
                     currentMusic = 7;
                     Mix_PlayMusic(musicCAVE, -1);
-                    addAchievement("Musica CAVE");
+                    addAchievement("Musica CAVE", my_enums::_OPTIONS_);
                     break;
 
                 case 7:
                     currentMusic = 8;
                     Mix_PlayMusic(musicHERO, -1);
-                    addAchievement("Musica HERO");
+                    addAchievement("Musica HERO", my_enums::_OPTIONS_);
                     break;
 
                 case 8:
                     currentMusic = 9;
                     Mix_PlayMusic(musicMYSTICAL, -1);
-                    addAchievement("Musica MYSTICAL");
+                    addAchievement("Musica MYSTICAL", my_enums::_OPTIONS_);
                     break;
 
                 case 9:
                     currentMusic = 1;
                     Mix_PlayMusic(musicINTRO, -1);
-                    addAchievement("Musica INTRO");
+                    addAchievement("Musica INTRO", my_enums::_OPTIONS_);
                     break;
 
                 }
@@ -2285,7 +2392,7 @@ void game::eventsInventory()
                 timerGameOver.start();
                 timerGameOver.reset();
                 //addNotification("Saliendo del juego");
-                addAchievement("Saliendo del juego");
+                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -2301,6 +2408,52 @@ void game::eventsInventory()
     myTime = (int)(timer.getTicks() / 1000);
 
 }
+
+void game::eventsAchievements()
+{
+    //Event handler
+    SDL_Event e;
+
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            setState(my_enums::_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            //******
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+                setState(my_enums::_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+                //addNotification("Saliendo del juego");
+                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+            }
+
+            if (continueButton.clicked(mousex, mousey)) {
+                setState(previousScreen);
+
+            }
+
+        }
+
+        //******************
+    }
+
+    myTime = (int)(timer.getTicks() / 1000);
+
+}
+
 
 
 void game::eventsHomeTown()
@@ -2339,6 +2492,12 @@ void game::eventsHomeTown()
                 setState(my_enums::_CONFIGMENU_);
                 previousScreen = my_enums::_HOMETOWN_;
             }//config button
+
+            if (achievementsButton.clicked(mousex, mousey)) {
+                setState(my_enums::_ACHIEVEMENTS_);
+                previousScreen = my_enums::_HOMETOWN_;
+
+            }
 
             if (inventoryButton.clicked(mousex, mousey)) {
                 setState(my_enums::_INVENTORY_);

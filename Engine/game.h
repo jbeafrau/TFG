@@ -49,6 +49,11 @@ struct item { //item definition
     int tile;
 };
 
+struct achievement { //Achievement definition
+    string name;
+    my_enums::Achievements type;
+};
+
 
 
 class game
@@ -88,8 +93,8 @@ public:
     void addNotification(std::string notification);
     void eventsNotifications();
 
-    void addAchievement(std::string achievement);
-    bool existAchievement(std::string achievement);
+    void addAchievement(std::string achievementName, my_enums::Achievements achievementType);
+    bool existAchievement(std::string achievementName, my_enums::Achievements achievementType);
 
     void addItem(string name, string description, int count, int value, int tile);
     void updateItem(string name, int value);
@@ -131,6 +136,7 @@ public:
     void screenArchetypes();
 
     void screenInventory();
+    void screenAchievements();
 
     //void screenGeneratePlayer();
     void screenConfigMenu();
@@ -153,6 +159,7 @@ public:
     void eventsArchetypes();
 
     void eventsInventory();
+    void eventsAchievements();
 
     void checkBoundaries();
 
@@ -174,7 +181,7 @@ protected:
     string basePath;
 
 
-    std::list<std::string> achievements;
+    std::list<achievement> achievements;
     std::list<std::string> notifications;
     
     std::list<NPC> NPCs; //All NPCs

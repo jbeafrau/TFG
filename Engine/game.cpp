@@ -784,6 +784,11 @@ void game::drawButton(classButton btn)
     SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, text);
     SDL_RenderCopy(gRenderer, txtTexture, NULL, &target);
 
+    SDL_FreeSurface(text);
+    text = NULL;
+    SDL_DestroyTexture(txtTexture);
+    txtTexture = NULL;
+
 }
 
 //Draw game map
@@ -800,6 +805,12 @@ void game::drawMap()
 
     SDL_Texture* miniMapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
     SDL_RenderCopy(gRenderer, miniMapTexture, NULL, &destRect);
+
+    SDL_DestroyTexture(miniMapTexture);
+    miniMapTexture = NULL;
+    
+    SDL_DestroyTexture(txtTexture);
+    txtTexture = NULL;
 
     SDL_SetRenderDrawColor(gRenderer,200, 0, 0,0);
     destRect.x = px;
@@ -947,6 +958,10 @@ void game::drawText(string text, SDL_Rect rect)
         rect.h = textSurface->h;
         SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
         SDL_RenderCopy(gRenderer, txtTexture, NULL, &rect);
+        SDL_FreeSurface(textSurface);
+        textSurface = NULL;
+        SDL_DestroyTexture(txtTexture);
+        txtTexture = NULL;
     }
 }
 
@@ -973,6 +988,11 @@ void game::drawTextL(string text, SDL_Rect rect)
         rect.h = textSurface->h;
         SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
         SDL_RenderCopy(gRenderer, txtTexture, NULL, &rect);
+
+        SDL_FreeSurface(textSurface);
+        textSurface = NULL;
+        SDL_DestroyTexture(txtTexture);
+        txtTexture = NULL;
     }
 }
 
@@ -993,6 +1013,11 @@ void game::drawTextBlock(string text, SDL_Rect rect)
         rect.h = textSurface->h;
         SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
         SDL_RenderCopy(gRenderer, txtTexture, NULL, &rect);
+
+        SDL_FreeSurface(textSurface);
+        textSurface = NULL;
+        SDL_DestroyTexture(txtTexture);
+        txtTexture = NULL;
     }
 }
 
@@ -1003,6 +1028,11 @@ void game::drawTextResize(string text, SDL_Rect rect)
         SDL_Surface* textSurface = TTF_RenderUTF8_Solid(gFont, text.c_str(), fg);
         SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
         SDL_RenderCopy(gRenderer, txtTexture, NULL, &rect);
+
+        SDL_FreeSurface(textSurface);
+        textSurface = NULL;
+        SDL_DestroyTexture(txtTexture);
+        txtTexture = NULL;
     }
 }
 

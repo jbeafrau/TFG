@@ -174,7 +174,7 @@ protected:
     int height = 700;
     int currentState = my_enums::_INTRO_;
 
-    int desiredFPS = 30;
+    int desiredFPS = 60;
 
     SDL_Rect mouseRect;
 
@@ -279,6 +279,8 @@ protected:
     SDL_Surface* bg1Surface = NULL;
     SDL_Texture* bg1Texture = NULL;
 
+    SDL_Surface* bg2Surface = NULL;
+    SDL_Texture* bg2Texture = NULL;
 
 
     SDL_Texture* foodTexture = NULL;

@@ -673,11 +673,16 @@ bool game::loadMedia(string base)
 
     playersTexture = SDL_CreateTextureFromSurface(gRenderer, playersSurface);
 
-
+   
     aFile = images + "15771169063_9f6d64ce74_b.jpg";
+
      // aFile = images + "12594319284_aac8307463_b.jpg";
 bg1Surface = loadSurface(aFile);
 bg1Texture = SDL_CreateTextureFromSurface(gRenderer, bg1Surface);
+
+aFile = images + "334968999_40607c07ce_b.jpg";
+bg2Surface = loadSurface(aFile);
+bg2Texture = SDL_CreateTextureFromSurface(gRenderer, bg2Surface);
 
 
     string TTFFile = fonts + "712_serif.ttf";
@@ -856,8 +861,13 @@ void game::drawBackground()
      //   SDL_Color fg = { 0,0,0,0 };
 
        // drawSquare(tmpRect, fg);
-        
+        if (getState() == my_enums::_INTRO_) {
         SDL_RenderCopy(gRenderer, bg1Texture, NULL, NULL);
+        }
+        else {
+            SDL_RenderCopy(gRenderer, bg2Texture, NULL, NULL);
+
+        }
       //  tmpRect.x = 401;
        // SDL_RenderCopy(gRenderer, playersTexture, NULL, &tmpRect);
     }

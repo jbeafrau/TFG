@@ -68,6 +68,7 @@ public:
 
     void closeSDL();
     SDL_Surface* loadSurface(std::string path);
+    SDL_Texture* loadTexture(std::string path);
 
 
 
@@ -132,8 +133,8 @@ public:
     void screenGameOver();
     void screenPlayerName();
     void screenPlayerAttributes();
-    void screenRaces();
-    void screenArchetypes();
+    void screenPlayerRaces();
+    void screenPlayerArchetypes();
 
     void screenInventory();
     void screenAchievements();
@@ -149,14 +150,14 @@ public:
     void eventsIntro();
     void eventsMain();
     void eventsGameOver();
-    void eventsName();
+    void eventsPlayerName();
     void eventsPlayerAttributes();
     //void eventsGeneratePlayer();
     void eventsConfigMenu();
     void eventsHomeTown();
 
-    void eventsRaces();
-    void eventsArchetypes();
+    void eventsPlayerRaces();
+    void eventsPlayerArchetypes();
 
     void eventsInventory();
     void eventsAchievements();
@@ -262,12 +263,14 @@ protected:
 
     SDL_Surface* buttonSurface = NULL;
 
-    SDL_Surface* buttonCloseSurface = NULL;
+   /* SDL_Surface* buttonCloseSurface = NULL;
     SDL_Surface* buttonMusicSurface = NULL;
     SDL_Surface* buttonSocialSurface = NULL;
     SDL_Surface* buttonPauseSurface = NULL;
     SDL_Surface* buttonPlaySurface = NULL;
     SDL_Surface* buttonDangerSurface = NULL;
+    */
+
     SDL_Surface* mouseSurface = NULL;
 
     SDL_Surface* playersSurface = NULL;
@@ -283,15 +286,21 @@ protected:
     SDL_Texture* bg2Texture = NULL;
 
 
-    SDL_Texture* foodTexture = NULL;
-    SDL_Texture* buttonTexture = NULL;
+    //SDL_Texture* foodTexture = NULL;
+    //SDL_Texture* buttonTexture = NULL;
 
     SDL_Texture* buttonCloseTexture = NULL;
-    SDL_Texture* buttonMusicTexture = NULL;
-    SDL_Texture* buttonSocialTexture = NULL;
-    SDL_Texture* buttonPauseTexture = NULL;
+    SDL_Texture* buttonNextTexture = NULL;
+    SDL_Texture* buttonPrevTexture = NULL;
+    SDL_Texture* buttonAcceptTexture = NULL;
+    SDL_Texture* buttonSoundOffTexture = NULL;
+    SDL_Texture* buttonSoundOnTexture = NULL;
+    SDL_Texture* buttonConfigTexture = NULL;
+    SDL_Texture* buttonRollDiceTexture = NULL;
+    SDL_Texture* buttonMapTexture = NULL;
+    SDL_Texture* buttonBackpackTexture = NULL;
     SDL_Texture* buttonPlayTexture = NULL;
-    SDL_Texture* buttonDangerTexture = NULL;
+    SDL_Texture* buttonCancelTexture = NULL;
 
     //Globally used font
     TTF_Font* gFont = NULL;
@@ -327,6 +336,8 @@ protected:
     classButton player1Button;
     //classButton player2Button;
     classButton continueButton;
+    classButton backButton;
+
     //classButton rollButton;
     classButton muteButton;
     //classButton typeButton;

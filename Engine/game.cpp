@@ -201,8 +201,11 @@ void game::start()
     exitButton.setColor(200, 0, 0);
 
     //continueButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 - 64, 128, 128, "Continuar");
-    continueButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h - 128, 128, 128, "Continuar");
+    continueButton.setButton(gScreenSurface->w / 2 +32 , gScreenSurface->h - 128, 128, 128, "Continuar");
     continueButton.setColor(0, 0, 200);
+
+    backButton.setButton(gScreenSurface->w / 2 - 160 , gScreenSurface->h - 128, 128, 128, "Volver");
+    backButton.setColor(0, 0, 200);
 
     rollButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h /2, 128, 128, "Volver a tirar");
     rollButton.setColor(0, 0, 200);
@@ -432,7 +435,7 @@ void game::events()
 
     case my_enums::_NAME_:
     {
-        eventsName();
+        eventsPlayerName();
         break;
     }
 
@@ -444,13 +447,13 @@ void game::events()
 
     case my_enums::_RACES_:
     {
-        eventsRaces();
+        eventsPlayerRaces();
         break;
     }
 
     case my_enums::_ARCHETYPES_:
     {
-        eventsArchetypes();
+        eventsPlayerArchetypes();
         break;
     }
 
@@ -535,13 +538,13 @@ void game::drawScreens()
 
     case my_enums::_RACES_:
     {
-        screenRaces();
+        screenPlayerRaces();
         break;
     }
 
     case my_enums::_ARCHETYPES_:
     {
-        screenArchetypes();
+        screenPlayerArchetypes();
         break;
     }
 
@@ -644,6 +647,42 @@ SDL_Surface* game::loadSurface(std::string path)
     return optimizedSurface;
 }
 
+//Load image into SDL_Texture
+SDL_Texture* game::loadTexture(std::string path)
+{
+    //The final optimized image
+    SDL_Surface* optimizedSurface = NULL;
+
+
+    SDL_Texture* tmpTexture = NULL;
+
+    //Load image at specified path
+    SDL_Surface* loadedSurface = IMG_Load(path.c_str());
+    if (loadedSurface == NULL)
+    {
+        printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
+    }
+    else
+    {
+        //Convert surface to screen format
+        optimizedSurface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, 0);
+        SDL_SetColorKey(optimizedSurface, SDL_TRUE, // enable color key (transparency)
+            //SDL_MapRGB(playersSurface->format, 0xFF, 0, 0xFF)); // This is the color that should be taken as being the 'transparent' part of the image
+            SDL_MapRGB(optimizedSurface->format, 0, 0, 0));
+        if (optimizedSurface == NULL)
+        {
+            printf("Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+        }
+
+        //Get rid of old loaded surface
+        SDL_FreeSurface(loadedSurface);
+    }
+
+    tmpTexture = SDL_CreateTextureFromSurface(gRenderer, optimizedSurface);
+    SDL_FreeSurface(optimizedSurface);
+    return tmpTexture;
+}
+
 //Load all media files (images, sounds and music)
 bool game::loadMedia(string base)
 {
@@ -683,6 +722,20 @@ bg1Texture = SDL_CreateTextureFromSurface(gRenderer, bg1Surface);
 aFile = images + "334968999_40607c07ce_b.jpg";
 bg2Surface = loadSurface(aFile);
 bg2Texture = SDL_CreateTextureFromSurface(gRenderer, bg2Surface);
+
+
+buttonCloseTexture    = loadTexture(images + "exit-door.png");
+buttonNextTexture     = loadTexture(images + "clockwise-rotation.png");
+buttonPrevTexture     = loadTexture(images + "anticlockwise-rotation.png");
+buttonAcceptTexture   = loadTexture(images + "check-mark.png");
+buttonSoundOffTexture = loadTexture(images + "speaker-off.png");
+buttonSoundOnTexture  = loadTexture(images + "speaker.png");
+buttonConfigTexture   = loadTexture(images + "settings-knobs.png");
+buttonRollDiceTexture = loadTexture(images + "rolling-dices.png");
+buttonMapTexture      = loadTexture(images + "treasure-map.png");
+buttonBackpackTexture = loadTexture(images + "backpack.png");
+buttonPlayTexture     = loadTexture(images + "play-button.png");
+buttonCancelTexture   = loadTexture(images + "cancel.png");
 
 
     string TTFFile = fonts + "712_serif.ttf";
@@ -879,11 +932,13 @@ void game::drawBackground()
 void game::drawButtonSrc(classButton btn, SDL_Texture* texture)
 {
     SDL_Rect target = btn.getRect();
-
+    drawSquare(target, { 100, 100, 100, 0 });
+    
 
     SDL_RenderCopy(gRenderer, texture, NULL, &target);
 
     SDL_Color fg = { 0,0,0,0 };
+    SDL_Color bg = { 150,150,150,0 };
     SDL_Surface* text = TTF_RenderUTF8_Solid(gFont, btn.getCaption().c_str(), fg);
 
     if (text->w <= target.w) {
@@ -1077,32 +1132,37 @@ void game::screenMain()
 
     drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
 
-    drawButton(exitButton);
-    drawButton(startButton);
-    drawButton(configButton);
+    //drawButton(exitButton);
+    //drawButton(startButton);
+    //drawButton(configButton);
     drawButton(achievementsButton);
+
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(startButton, buttonPlayTexture);
+
+    drawButtonSrc(configButton, buttonConfigTexture);
+    //drawButtonSrc(startButton, buttonAcceptTexture);
 }
+
 
 
 void game::screenPlayerName()
 {
 
-    SDL_Rect snow0, snow1;
-    snow0.x = 1;
-    snow0.y = 1;
-    snow0.w = gScreenSurface->w;
-    snow0.h = gScreenSurface->h;
-    snow1.x = 1;
-    snow1.y = 1;
-    snow1.w = gScreenSurface->w;
-    snow1.h = gScreenSurface->h;
    // SDL_Rect dstrect;
 
-    drawButton(exitButton);
-    drawButton(continueButton);
+   // drawButton(exitButton);
+   // drawButton(continueButton);
 
-    drawButton(playerUpButton);
-    drawButton(playerDownButton);
+   // drawButton(playerUpButton);
+    //drawButton(playerDownButton);
+
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(continueButton, buttonAcceptTexture);
+
+    drawButtonSrc(playerUpButton, buttonNextTexture);
+    drawButtonSrc(playerDownButton, buttonPrevTexture);
+
 
     tmpRect.x = gScreenSurface->w / 2 - gScreenSurface->w / (cam_size_x*2);
     tmpRect.y = gScreenSurface->h / 2 - gScreenSurface->h / (cam_size_y);
@@ -1133,37 +1193,16 @@ void game::screenPlayerAttributes()
 
 
 
-    drawButton(exitButton);
-    drawButton(continueButton);
-    drawButton(rollButton);
+   // drawButton(exitButton);
+   // drawButton(continueButton);
+   // drawButton(rollButton);
 
-   // drawButton(playerUpButton);
-    //drawButton(playerDownButton);
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(continueButton, buttonAcceptTexture);
+    drawButtonSrc(backButton, buttonCancelTexture);
 
-   // tmpRect.x = gScreenSurface->w / 2 - gScreenSurface->w / (cam_size_x * 2);
-   // tmpRect.y = gScreenSurface->h / 2 - gScreenSurface->h / (cam_size_y);
-  //  tmpRect.w = gScreenSurface->w / cam_size_x;
-  //  tmpRect.h = gScreenSurface->h / cam_size_y;
+    drawButtonSrc(rollButton, buttonRollDiceTexture);
 
-   // drawPlayerTileset(tmpRect, playerTile);
-
-
- /*  tmpRect.x = gScreenSurface->w / 2 - 200;
-    tmpRect.y = 100;
-    tmpRect.w = 400;
-    tmpRect.h = 50;
-
-    drawText("CAMBIAR NOMBRE E IMAGEN", tmpRect);
-    tmpRect.y = 200;
-    drawText("Introduce el nombre del jugador", tmpRect);
-
-    tmpRect.y = 250;
-    drawText(playerName, tmpRect);
-    tmpRect.y = 300;
-    drawText("Cambia la imagen y luego pulsa continuar...", tmpRect);*/
-
-    //drawButtonSrc(continueButton, buttonTexture);
-    //drawButtonSrc(rollButton, wideButtonTexture);
     tmpRect.x = 100;
     tmpRect.y = 100;
     tmpRect.w = 400;
@@ -1204,9 +1243,10 @@ void game::screenClear()
 void game::screenIntro()
 {
 
-    drawButton(exitButton);
-    drawButton(continueButton);
-
+    drawButtonSrc(exitButton,buttonCloseTexture);
+    //drawButton(exitButton);
+    drawButtonSrc(continueButton,buttonPlayTexture);
+    //drawButton(continueButton);
     tmpRect.x = gScreenSurface->w / 2 - 350;
     tmpRect.y = gScreenSurface->h / 4;
     tmpRect.w = 700;
@@ -1376,7 +1416,7 @@ void game::eventsGameOver()
 
 
 
-void game::eventsName()
+void game::eventsPlayerName()
 {
 
     //Event handler
@@ -1486,17 +1526,29 @@ void game::screenConfigMenu()
 
     //drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
 
-    drawButton(exitButton);
-    drawButton(startButton);
+
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(startButton, buttonAcceptTexture);
+
+    drawButtonSrc(volumeSoundUpButton, buttonNextTexture);
+    drawButtonSrc(volumeSoundDownButton, buttonPrevTexture);
+
+    drawButtonSrc(volumeMusicUpButton, buttonNextTexture);
+    drawButtonSrc(volumeMusicDownButton, buttonPrevTexture);
+
+
+
+//    drawButton(exitButton);
+//    drawButton(startButton);
     drawButton(musicButton);
     drawButton(muteButton);
-    drawButton(volumeSoundUpButton);
+  //  drawButton(volumeSoundUpButton);
     drawButton(volumeSoundButton);
-    drawButton(volumeSoundDownButton);
+  //  drawButton(volumeSoundDownButton);
 
-    drawButton(volumeMusicUpButton);
+    //drawButton(volumeMusicUpButton);
     drawButton(volumeMusicButton);
-    drawButton(volumeMusicDownButton);
+    //drawButton(volumeMusicDownButton);
 
     drawButton(blurButton);
 }
@@ -1568,10 +1620,10 @@ void game::screenHomeTown()
 
     drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
 
-    drawButton(exitButton);
+   // drawButton(exitButton);
     drawButton(achievementsButton);
-    drawButton(configButton);
-    drawButton(inventoryButton);
+   // drawButton(configButton);
+    //drawButton(inventoryButton);
 
     drawButton(moveLeftButton);
     drawButton(moveRightButton);
@@ -1579,6 +1631,15 @@ void game::screenHomeTown()
     drawButton(moveDownButton);
     
     drawButton(newMapButton);
+
+
+
+
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(configButton, buttonConfigTexture);
+    drawButtonSrc(newMapButton, buttonMapTexture);
+    drawButtonSrc(inventoryButton, buttonBackpackTexture);
+    //drawButtonSrc(prevButton, buttonPrevTexture);
 
 }
 
@@ -1685,24 +1746,21 @@ std::string game::getArchetypeName(my_enums::playerArchetype archetype)
 
 
 
-void game::screenRaces()
+void game::screenPlayerRaces()
 {
-    string tmpRace;
-    SDL_Rect snow0, snow1;
-    snow0.x = 1;
-    snow0.y = 1;
-    snow0.w = gScreenSurface->w;
-    snow0.h = gScreenSurface->h;
-    snow1.x = 1;
-    snow1.y = 1;
-    snow1.w = gScreenSurface->w;
-    snow1.h = gScreenSurface->h;
+
    // SDL_Rect dstrect;
 
-    drawButton(exitButton);
-    drawButton(continueButton);
-    drawButton(nextButton);
-    drawButton(prevButton);
+    //drawButton(exitButton);
+    //drawButton(continueButton);
+    //drawButton(nextButton);
+    //drawButton(prevButton);
+
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(continueButton, buttonAcceptTexture);
+    drawButtonSrc(backButton, buttonCancelTexture);
+    drawButtonSrc(nextButton, buttonNextTexture);
+    drawButtonSrc(prevButton, buttonPrevTexture);
 
 
     tmpRect.x = gScreenSurface->w / 2 - 200;
@@ -1725,12 +1783,18 @@ void game::screenRaces()
 
 }
 
-void game::screenArchetypes()
+void game::screenPlayerArchetypes()
 {
-    drawButton(exitButton);
-    drawButton(continueButton);
-    drawButton(nextButton);
-    drawButton(prevButton);
+    //drawButton(exitButton);
+    //drawButton(continueButton);
+    //drawButton(nextButton);
+    //drawButton(prevButton);
+
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(continueButton, buttonPlayTexture);
+    drawButtonSrc(backButton, buttonCancelTexture);
+    drawButtonSrc(nextButton, buttonNextTexture);
+    drawButtonSrc(prevButton, buttonPrevTexture);
 
 
     tmpRect.x = gScreenSurface->w / 2 - 200;
@@ -1756,8 +1820,13 @@ void game::screenInventory()
     //while (!quit) {
         //screenClear();
        // drawButtonSrc(continueButton, buttonTexture);
-        drawButton(continueButton);
-        drawButton(exitButton);
+        //drawButton(continueButton);
+        //drawButton(exitButton);
+
+
+        drawButtonSrc(exitButton, buttonCloseTexture);
+        drawButtonSrc(continueButton, buttonAcceptTexture);
+
         int tmpy = 100;
         tmpRect.x = gScreenSurface->w / 2 - 200;
         tmpRect.y = 0;
@@ -1806,8 +1875,11 @@ void game::screenInventory()
 void game::screenAchievements()
 {
     
-    drawButton(continueButton);
-    drawButton(exitButton);
+    //drawButton(continueButton);
+    //drawButton(exitButton);
+
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(continueButton, buttonAcceptTexture);
     int combat = 0, missions = 0, npcs = 0, options = 0, hidden = 0;
 
     for (achievement currentAchievement : achievements) {
@@ -1889,7 +1961,7 @@ void game::screenAchievements()
 }
 
 
-void game::eventsRaces()
+void game::eventsPlayerRaces()
 {
     SDL_Event e;
     //Handle events on queue
@@ -1912,9 +1984,11 @@ void game::eventsRaces()
         {
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-               //SDL_StartTextInput();
-               // setState(my_enums::_NAME_);
-                setState(my_enums::_ATTRIBUTES_);
+                //closeSDL();
+                setState(my_enums::_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
                 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -1922,6 +1996,14 @@ void game::eventsRaces()
                 setState(my_enums::_ARCHETYPES_);
 
             }
+
+            if (backButton.clicked(mousex, mousey)) {
+                Mix_PlayChannel(-1, audioButton, 0);
+                //SDL_StartTextInput();
+                // setState(my_enums::_NAME_);
+                setState(my_enums::_ATTRIBUTES_);
+
+            }//back
 
             if (nextButton.clicked(mousex, mousey)) {
                 switch (currentRace)
@@ -2026,7 +2108,7 @@ void game::eventsRaces()
     }
 }
 
-void game::eventsArchetypes()
+void game::eventsPlayerArchetypes()
 {
     SDL_Event e;
     //Handle events on queue
@@ -2048,10 +2130,15 @@ void game::eventsArchetypes()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
+               
+
+
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
-                SDL_StartTextInput();
-                setState(my_enums::_RACES_);
+                setState(my_enums::_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -2063,6 +2150,14 @@ void game::eventsArchetypes()
                 addItem("ARMADURA CUERO", "Armadura ligera de cuero", 1, 0, 1);
 
             }//continue
+
+            if (backButton.clicked(mousex, mousey)) {
+                Mix_PlayChannel(-1, audioButton, 0);
+                //closeSDL();
+                SDL_StartTextInput();
+                setState(my_enums::_RACES_);
+
+            }//back
 
 
             if (nextButton.clicked(mousex, mousey)) {
@@ -2186,11 +2281,14 @@ void game::eventsPlayerAttributes()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
+                
+
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
-                SDL_StartTextInput();
-                //setState(my_enums::_RACES_);
-                setState(my_enums::_NAME_);
+                setState(my_enums::_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -2200,6 +2298,16 @@ void game::eventsPlayerAttributes()
 
              
             }//continue
+
+            if (backButton.clicked(mousex, mousey)) {
+                Mix_PlayChannel(-1, audioButton, 0);
+                //closeSDL();
+                SDL_StartTextInput();
+                //setState(my_enums::_RACES_);
+                setState(my_enums::_NAME_);
+
+
+            }//back
 
             if (rollButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);

@@ -103,6 +103,73 @@ void game::eventsNotifications()
     }
 }
 
+void game::deleteNPCs(int x, int y)
+{
+
+        bool empty = false;
+        while (empty != true)
+        {
+            empty = true;
+            for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
+            {
+                if ((it->x == x) && (y == it->y)){
+                    empty = false;
+                    NPCs.erase(it);
+                    break;
+
+                }
+            }
+        }
+    
+
+}
+
+list<NPC> game::getNPCs(int x, int y)
+{
+    list<NPC> tmp;
+    for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
+    {
+        if ((x == it->x) && (y == it->y)) {
+            NPC aNPC;
+
+            aNPC.id = it->id;
+            aNPC.x = it->x;
+            aNPC.y = it->y;
+            aNPC.map = it->map;
+            aNPC.description = it->description;
+            aNPC.skill = it->skill;
+            aNPC.stamina = it->stamina;
+            aNPC.exp = it->exp;
+            aNPC.NPCAI = it->NPCAI;
+            aNPC.tile = it->tile;
+
+            /* s_Foe aFoe;
+            aFoe.id = it->id;
+            aFoe.description = it->description;
+            aFoe.skill = it->skill;
+            aFoe.stamina = it->stamina;
+            */
+           
+            tmp.push_back(aNPC);
+        }
+    }
+
+    return tmp;
+}
+
+void game::phaseNPCs()
+{
+    tmpNPCs = getNPCs(px,py);
+    if (tmpNPCs.size() > 0) {
+        addNotification("There are NPCS here...");
+        previousScreen = my_enums::_HOMETOWN_;
+        setState(my_enums::_FIGHT_);
+
+
+    }
+
+}
+
 
 void game::start()
 {
@@ -131,7 +198,7 @@ void game::start()
     aNPC.stamina = 20;
     aNPC.exp = 1;
     aNPC.NPCAI = my_enums::_FRIENDLY_STATIC_;
-    aNPC.tile = rand() % 400 + 1;
+    aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
 
 
@@ -469,6 +536,12 @@ void game::events()
         break;
     }
 
+    case my_enums::_FIGHT_:
+    {
+        eventsFight();
+        break;
+    }
+
     case my_enums::_GAMEOVER_:
     {
         eventsGameOver();
@@ -560,6 +633,11 @@ void game::drawScreens()
         break;
     }
 
+    case my_enums::_FIGHT_:
+    {
+        screenFight();
+        break;
+    }
     case my_enums::_CONFIGMENU_:
     {
         screenConfigMenu();
@@ -1961,6 +2039,24 @@ void game::screenAchievements()
 }
 
 
+
+void game::screenFight()
+{
+    
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(continueButton, buttonAcceptTexture);
+
+    tmpRect.x = gScreenSurface->w / 2 - 200;
+    tmpRect.y = 0;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+   
+    drawText("¡¡COMBATE!!", tmpRect);
+
+
+}
+
+
 void game::eventsPlayerRaces()
 {
     SDL_Event e;
@@ -2556,6 +2652,55 @@ void game::eventsInventory()
     myTime = (int)(timer.getTicks() / 1000);
 
 }
+
+
+void game::eventsFight()
+{
+    //Event handler
+    SDL_Event e;
+
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            setState(my_enums::_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            //******
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+                setState(my_enums::_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+                //addNotification("Saliendo del juego");
+                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+            }
+
+            if (continueButton.clicked(mousex, mousey)) {
+
+                deleteNPCs(px, py);
+                setState(previousScreen);
+
+            }
+
+        }
+
+        //******************
+    }
+
+    myTime = (int)(timer.getTicks() / 1000);
+
+}
+
 
 void game::eventsAchievements()
 {

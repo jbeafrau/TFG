@@ -142,7 +142,7 @@ public:
     //void screenGeneratePlayer();
     void screenConfigMenu();
     void screenHomeTown();
-
+    void screenFight();
 
     void screenFlip();
 
@@ -162,11 +162,16 @@ public:
     void eventsInventory();
     void eventsAchievements();
 
+    void eventsFight();
+
     void checkBoundaries();
 
     int dice(int maxValue, int minValue);
     void randomAttributes();
     
+    void phaseNPCs();
+    list<NPC> getNPCs(int x, int y);
+    void deleteNPCs(int x, int y);
 
     classMap baseMap;
 

@@ -72,7 +72,7 @@ void game::addAchievement(std::string achievementName, my_enums::Achievements ac
 
         int achievementCounter = achievements.size();
       //  achievementsButton.setCaption("ACH " + std::to_string(achievementCounter) + " / " + std::to_string(achievementCounter * 100 / maxAchievements) + "%");
-         achievementsButton.setCaption("ACH " + std::to_string(achievementCounter) );
+         achievementsButton.setCaption(std::to_string(achievementCounter*2) +" %");
         //"Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60)
     }
 }
@@ -162,8 +162,11 @@ void game::phaseNPCs()
     tmpNPCs = getNPCs(px,py);
     if (tmpNPCs.size() > 0) {
         //addNotification("There are NPCS here...");
+        //currentMusic = 5;
+       // Mix_PlayMusic(musicBOSS, -1);
         previousScreen = my_enums::_HOMETOWN_;
         setState(my_enums::_FIGHT_);
+       
 
 
     }
@@ -298,14 +301,17 @@ void game::start()
     player1Button.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 100, 200, 50, "Nombre Jugador");
     player1Button.setColor(100, 100, 100);
 
-    //configButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 150, 200, 50, "Configuración");
+
     configButton.setButton(1, gScreenSurface->h -128, 128, 128, "Configuración");
     configButton.setColor(100, 100, 100);
-
-    newMapButton.setButton(gScreenSurface->w / 4, gScreenSurface->h - 128, 128, 128, "New map");
+    inventoryButton.setButton(129, gScreenSurface->h - 128, 128, 128, "Inventario");
+    inventoryButton.setColor(0, 0, 200);
+    playerButton.setButton(257, gScreenSurface->h - 128, 128, 128, "Personaje");
+    playerButton.setColor(0, 0, 200);
+    newMapButton.setButton(385, gScreenSurface->h - 128, 128, 128, "New map");
     newMapButton.setColor(200, 200, 200);
-
-
+    achievementsButton.setButton(513, gScreenSurface->h - 128, 128, 128, "0 %");
+    achievementsButton.setColor(0, 0, 200);
 
     musicButton.setButton(gScreenSurface->w / 2-100, gScreenSurface->h / 2 + 100, 200, 50, "Cambia canción");
     musicButton.setColor(100, 100, 100);
@@ -313,24 +319,23 @@ void game::start()
     muteButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 2 + 150, 200, 50, "MUSIC ON");
     muteButton.setColor(100, 100, 100);
 
-    volumeSoundUpButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 2 + 200, 50, 50, "+");
-    volumeSoundUpButton.setColor(100, 100, 100);
+    volumeSoundDownButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 2 + 200, 50, 50, "+");
+    volumeSoundDownButton.setColor(100, 100, 100);
 
     volumeSoundButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 2 + 200, 100, 50, "SOUND 100%");
     volumeSoundButton.setColor(200, 200, 200);
 
-    volumeSoundDownButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 200, 50, 50, "-");
-    volumeSoundDownButton.setColor(100, 100, 100);
+    volumeSoundUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 200, 50, 50, "-");
+    volumeSoundUpButton.setColor(100, 100, 100);
 
-    volumeMusicUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
-    volumeMusicUpButton.setColor(100, 100, 100);
+    volumeMusicDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
+    volumeMusicDownButton.setColor(100, 100, 100);
 
     volumeMusicButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 2 + 250, 100, 50, "MUSIC 100%");
     volumeMusicButton.setColor(200, 200, 200);
 
-    volumeMusicDownButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
-    //volumeMusicDownButton.setButton(50, 100, 50, 50, "-");
-    volumeMusicDownButton.setColor(100, 100, 100);
+    volumeMusicUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
+    volumeMusicUpButton.setColor(100, 100, 100);
 
     playerUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
     playerUpButton.setColor(100, 100, 100);
@@ -343,12 +348,7 @@ void game::start()
     mouseButton.setButton(gScreenSurface->w / 2 - 100, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
     mouseButton.setColor(100, 100, 100);
 
-    inventoryButton.setButton(gScreenSurface->w / 8, gScreenSurface->h - 128, 128, 128, "Inventario");
-    inventoryButton.setColor(0, 0, 200);
-
-
-    achievementsButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h - 128, 128, 128, "ACH 0 / 0%");
-    achievementsButton.setColor(0, 0, 200);
+    
 
     //Play Intro music
     Mix_PlayMusic(musicINTRO, -1);
@@ -527,6 +527,12 @@ void game::events()
         break;
     }
 
+    case my_enums::_PLAYER_:
+    {
+        eventsPlayer();
+        break;
+    }
+
     case my_enums::_RACES_:
     {
         eventsPlayerRaces();
@@ -615,6 +621,12 @@ void game::drawScreens()
     case my_enums::_ATTRIBUTES_:
     {
         screenPlayerAttributes();
+        break;
+    }
+
+    case my_enums::_PLAYER_:
+    {
+        screenPlayer();
         break;
     }
 
@@ -838,6 +850,8 @@ buttonUpTexture = loadTexture(images + "up-button.png");
 buttonDownTexture = loadTexture(images + "down-button.png");
 buttonLeftTexture = loadTexture(images + "left-button.png");
 buttonRightTexture = loadTexture(images + "right-button.png");
+
+buttonPlayerTexture = loadTexture(images + "histogram.png");
 
     string TTFFile = fonts + "712_serif.ttf";
     //Open the font
@@ -1346,6 +1360,47 @@ void game::screenPlayerAttributes()
 }
 
 
+void game::screenPlayer()
+{
+
+
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(continueButton, buttonAcceptTexture);
+   // drawButtonSrc(backButton, buttonCancelTexture);
+
+   // drawButtonSrc(rollButton, buttonRollDiceTexture);
+
+    tmpRect.x = 100;
+    tmpRect.y = 100;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+    drawText("Ficha del personaje", tmpRect);
+    //tmpRect.y = 150;
+    //drawText("Volver a tirar para nueva tirada o continuar", tmpRect);
+
+    tmpRect.w = 100;
+    tmpRect.y = 200;
+    drawTextL("Combate", tmpRect);
+    tmpRect.y = 250;
+    drawTextL("Vitalidad", tmpRect);
+    tmpRect.y = 300;
+    drawTextL("Poder", tmpRect);
+    tmpRect.y = 350;
+    drawTextL("Suerte", tmpRect);
+
+    drawIMGBox(100, 200, skill, 18, { 0,0,200,0 });
+    drawIMGBox(100, 250, stamina, 30, { 200,0,0,0 });
+    drawIMGBox(100, 300, power, 18, { 0,200,0,0 });
+    drawIMGBox(100, 350, luck, 18, { 0,200,200,0 });
+
+    tmpRect.y = 500;
+    drawTextL("Nivel:" + to_string(level), tmpRect);
+    tmpRect.y = 550;
+    drawTextL("Experiencia:" + to_string(exp) + "/" + to_string((level*level)*100), tmpRect);
+}
+
+
+
 void game::screenClear()
 {
     SDL_SetRenderDrawColor(gRenderer, 0x99, 0x99, 0x99, 0x99);
@@ -1755,6 +1810,7 @@ void game::screenHomeTown()
 
     drawButtonSrc(achievementsButton, buttonStarsTexture);
 
+    drawButtonSrc(playerButton, buttonPlayerTexture);
 
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(configButton, buttonConfigTexture);
@@ -2533,6 +2589,53 @@ void game::eventsPlayerAttributes()
     }
 }
 
+
+void game::eventsPlayer()
+{
+    SDL_Event e;
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            Mix_PlayChannel(-1, audioButton, 0);
+            setState(my_enums::_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            SDL_GetMouseState(&mousex, &mousey);
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+
+
+                Mix_PlayChannel(-1, audioButton, 0);
+                //closeSDL();
+                setState(my_enums::_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+
+            }
+            if (continueButton.clicked(mousex, mousey)) {
+                setState(previousScreen);
+
+
+            }//continue
+
+
+
+        }
+
+    }
+}
+
+
 void game::randomAttributes()
 {
     skill= dice(6, 1) + 6;
@@ -2799,7 +2902,7 @@ void game::eventsFight()
             }
 
             if (continueButton.clicked(mousex, mousey)) {
-
+                Mix_PlayMusic(musicTOWN, -1);
                 deleteNPCs(px, py);
                 setState(previousScreen);
 
@@ -2907,6 +3010,11 @@ void game::eventsHomeTown()
 
             if (inventoryButton.clicked(mousex, mousey)) {
                 setState(my_enums::_INVENTORY_);
+                previousScreen = my_enums::_HOMETOWN_;
+            }//inventory button
+
+            if (playerButton.clicked(mousex, mousey)) {
+                setState(my_enums::_PLAYER_);
                 previousScreen = my_enums::_HOMETOWN_;
             }//inventory button
 

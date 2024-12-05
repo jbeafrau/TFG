@@ -143,6 +143,7 @@ public:
     void screenConfigMenu();
     void screenHomeTown();
     void screenFight();
+    void screenPlayer();
 
     void screenFlip();
 
@@ -163,6 +164,8 @@ public:
     void eventsAchievements();
 
     void eventsFight();
+
+    void eventsPlayer();
 
     void checkBoundaries();
 
@@ -221,7 +224,8 @@ protected:
     my_enums::playerArchetype currentArchetype = my_enums::_FIGHTER_; //Player´s archetype
     int px=1, py=1; //Player location in the world
     int playerTile = 63; //Starting tile for player
-
+    int exp = 0; //current experience
+    int level = 1; // current player level
 
     int cam_x = 1, cam_y = 1;//camera starting vertex (top-left)
 
@@ -316,6 +320,7 @@ protected:
     SDL_Texture* buttonDownTexture = NULL;
     SDL_Texture* buttonLeftTexture = NULL;
     SDL_Texture* buttonRightTexture = NULL;
+    SDL_Texture* buttonPlayerTexture = NULL;
 
     //Globally used font
     TTF_Font* gFont = NULL;
@@ -375,7 +380,7 @@ protected:
 
     classButton inventoryButton;
     classButton achievementsButton;
-
+    classButton playerButton;
 
     classButton moveLeftButton;
     classButton moveRightButton;

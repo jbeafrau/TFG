@@ -818,8 +818,11 @@ bg2Texture = SDL_CreateTextureFromSurface(gRenderer, bg2Surface);
 
 
 buttonCloseTexture    = loadTexture(images + "exit-door.png");
-buttonNextTexture     = loadTexture(images + "clockwise-rotation.png");
-buttonPrevTexture     = loadTexture(images + "anticlockwise-rotation.png");
+//buttonNextTexture     = loadTexture(images + "clockwise-rotation.png");
+//buttonPrevTexture     = loadTexture(images + "anticlockwise-rotation.png");
+buttonNextTexture = loadTexture(images + "next-button.png");
+buttonPrevTexture     = loadTexture(images + "previous-button.png");
+
 buttonAcceptTexture   = loadTexture(images + "check-mark.png");
 buttonSoundOffTexture = loadTexture(images + "speaker-off.png");
 buttonSoundOnTexture  = loadTexture(images + "speaker.png");

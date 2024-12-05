@@ -1194,7 +1194,7 @@ void game::drawTextBlock(string text, SDL_Rect rect)
 
 void game::drawTextResize(string text, SDL_Rect rect)
 {
-    SDL_Color fg = { 0,0,0,0 };
+    
     if (text.length() > 0) {
         SDL_Surface* textSurface = TTF_RenderUTF8_Solid(gFont, text.c_str(), fg);
         SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
@@ -1367,7 +1367,9 @@ void game::screenIntro()
 
     tmpRect.x = gScreenSurface->w / 2 - 450;
     tmpRect.w = 900;
+    fg = { 128, 0, 128, 0 };
     drawTextResize("Achievement master", tmpRect);
+    fg = { 0, 0, 0, 0 };
 }
 
 

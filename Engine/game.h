@@ -320,6 +320,9 @@ protected:
     //Globally used font
     TTF_Font* gFont = NULL;
 
+    //drawing collor
+    SDL_Color fg = { 0,0,0,0 };
+
     Mix_Music* musicINTRO = NULL;
     Mix_Music* musicDARK = NULL;
     Mix_Music* musicFOREST = NULL;

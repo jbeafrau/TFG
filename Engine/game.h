@@ -312,6 +312,11 @@ protected:
     SDL_Texture* buttonCancelTexture = NULL;
     SDL_Texture* buttonStarsTexture = NULL;
 
+    SDL_Texture* buttonUpTexture = NULL;
+    SDL_Texture* buttonDownTexture = NULL;
+    SDL_Texture* buttonLeftTexture = NULL;
+    SDL_Texture* buttonRightTexture = NULL;
+
     //Globally used font
     TTF_Font* gFont = NULL;
 

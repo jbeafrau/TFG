@@ -263,13 +263,13 @@ void game::start()
 
 
     //Set button´s size, position and caption
-    moveLeftButton.setButton(0, gScreenSurface->h / 2, 128, 128, "Left");
+    moveLeftButton.setButton(0, gScreenSurface->h / 2, 128, 128, "A");
     moveLeftButton.setColor(0, 0, 200);
-    moveRightButton.setButton(276 , gScreenSurface->h / 2, 128, 128, "Right");
+    moveRightButton.setButton(276 , gScreenSurface->h / 2, 128, 128, "D");
     moveRightButton.setColor(0, 0, 200);
-    moveUpButton.setButton(138, gScreenSurface->h / 2 -138, 128, 128, "Up");
+    moveUpButton.setButton(138, gScreenSurface->h / 2 -138, 128, 128, "W");
     moveUpButton.setColor(0, 0, 200);
-    moveDownButton.setButton(138, gScreenSurface->h / 2, 128, 128, "Down");
+    moveDownButton.setButton(138, gScreenSurface->h / 2, 128, 128, "S");
     moveDownButton.setColor(0, 0, 200);
 
 
@@ -834,6 +834,11 @@ buttonPlayTexture     = loadTexture(images + "play-button.png");
 buttonCancelTexture   = loadTexture(images + "cancel.png");
 buttonStarsTexture    = loadTexture(images + "stars-stack.png");
 
+buttonUpTexture = loadTexture(images + "up-button.png");
+buttonDownTexture = loadTexture(images + "down-button.png");
+buttonLeftTexture = loadTexture(images + "left-button.png");
+buttonRightTexture = loadTexture(images + "right-button.png");
+
     string TTFFile = fonts + "712_serif.ttf";
     //Open the font
     gFont = TTF_OpenFont(TTFFile.c_str(), 28);
@@ -1029,8 +1034,13 @@ void game::drawButtonSrc(classButton btn, SDL_Texture* texture)
 {
     SDL_Rect target = btn.getRect();
     drawSquare(target, { 100, 100, 100, 0 });
-    
 
+    SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
+    SDL_RenderDrawLine(gRenderer,target.x,target.y, target.x+target.w, target.y);
+    SDL_RenderDrawLine(gRenderer, target.x, target.y, target.x , target.y + target.h);
+    SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+    SDL_RenderDrawLine(gRenderer, target.x, target.y+target.h, target.x + target.w, target.y + target.h);
+    SDL_RenderDrawLine(gRenderer, target.x+target.w, target.y, target.x+target.w, target.y + target.h);
     SDL_RenderCopy(gRenderer, texture, NULL, &target);
 
     SDL_Color fg = { 0,0,0,0 };
@@ -1258,12 +1268,15 @@ void game::screenPlayerName()
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
 
-    drawButtonSrc(playerUpButton, buttonNextTexture);
-    drawButtonSrc(playerDownButton, buttonPrevTexture);
+    //drawButtonSrc(playerUpButton, buttonNextTexture);
+    //drawButtonSrc(playerDownButton, buttonPrevTexture);
+
+    drawButtonSrc(nextButton, buttonNextTexture);
+    drawButtonSrc(prevButton, buttonPrevTexture);
 
 
     tmpRect.x = gScreenSurface->w / 2 - gScreenSurface->w / (cam_size_x*2);
-    tmpRect.y = gScreenSurface->h / 2 - gScreenSurface->h / (cam_size_y);
+    tmpRect.y = gScreenSurface->h / 2;
     tmpRect.w = gScreenSurface->w / cam_size_x;
     tmpRect.h = gScreenSurface->h / cam_size_y;
 
@@ -1281,7 +1294,8 @@ void game::screenPlayerName()
 
     tmpRect.y = 250;
     drawText(playerName, tmpRect);
-    tmpRect.y = 300;
+    //tmpRect.y = 300;
+    tmpRect.y = gScreenSurface->h / 2 - 50;
     drawText("Cambia la imagen y luego pulsa continuar...", tmpRect);
 }
 
@@ -1305,7 +1319,7 @@ void game::screenPlayerAttributes()
     tmpRect.y = 100;
     tmpRect.w = 400;
     tmpRect.h = 50;
-    drawText("NUEVO PERSONAJE", tmpRect);
+    drawText("Atributos del personaje", tmpRect);
     tmpRect.y = 150;
     drawText("Volver a tirar para nueva tirada o continuar", tmpRect);
 
@@ -1574,13 +1588,14 @@ void game::eventsPlayerName()
 
             }
 
-            if (playerUpButton.clicked(mousex, mousey)) {
+
+            if (nextButton.clicked(mousex, mousey)) {
                 playerTile++;
                // if (((playerTile +1) % 32) > 20) { playerTile += 12; }
                 if (playerTile > 96) { playerTile = 96; }
             }
 
-            if (playerDownButton.clicked(mousex, mousey)) {
+            if (prevButton.clicked(mousex, mousey)) {
                 playerTile--;
               //  if (((playerTile+1) % 32) > 20) { playerTile -= 12; }
                 if (playerTile < 63) { playerTile = 63; }
@@ -1723,10 +1738,16 @@ void game::screenHomeTown()
    // drawButton(configButton);
     //drawButton(inventoryButton);
 
-    drawButton(moveLeftButton);
+  /*  drawButton(moveLeftButton);
     drawButton(moveRightButton);
     drawButton(moveUpButton);
     drawButton(moveDownButton);
+    */
+
+    drawButtonSrc(moveLeftButton, buttonLeftTexture);
+    drawButtonSrc(moveRightButton, buttonRightTexture);
+    drawButtonSrc(moveUpButton, buttonUpTexture);
+    drawButtonSrc(moveDownButton, buttonDownTexture);
     
     drawButton(newMapButton);
 
@@ -1875,7 +1896,9 @@ void game::screenPlayerRaces()
     tmpRect.y = 300;
     drawText("Luego pulsa continuar...", tmpRect);
 
-    tmpRect.y = 400;
+    //tmpRect.y = 400;
+    tmpRect.y = gScreenSurface->h / 2 +64;
+    tmpRect.x = gScreenSurface->w / 2 -100;
     drawText(getRaceName(currentRace), tmpRect);
 
 
@@ -1907,7 +1930,9 @@ void game::screenPlayerArchetypes()
     tmpRect.y = 300;
     drawText("Luego pulsa continuar...", tmpRect);
 
-    tmpRect.y = 400;
+   // tmpRect.y = 400;
+    tmpRect.y = gScreenSurface->h / 2 + 64;
+    tmpRect.x = gScreenSurface->w / 2 - 100;
     drawText(getArchetypeName(currentArchetype), tmpRect);
 }
 

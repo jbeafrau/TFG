@@ -310,6 +310,7 @@ protected:
     SDL_Texture* buttonBackpackTexture = NULL;
     SDL_Texture* buttonPlayTexture = NULL;
     SDL_Texture* buttonCancelTexture = NULL;
+    SDL_Texture* buttonStarsTexture = NULL;
 
     //Globally used font
     TTF_Font* gFont = NULL;

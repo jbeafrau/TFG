@@ -829,7 +829,7 @@ buttonMapTexture      = loadTexture(images + "treasure-map.png");
 buttonBackpackTexture = loadTexture(images + "backpack.png");
 buttonPlayTexture     = loadTexture(images + "play-button.png");
 buttonCancelTexture   = loadTexture(images + "cancel.png");
-
+buttonStarsTexture    = loadTexture(images + "stars-stack.png");
 
     string TTFFile = fonts + "712_serif.ttf";
     //Open the font
@@ -1228,7 +1228,9 @@ void game::screenMain()
     //drawButton(exitButton);
     //drawButton(startButton);
     //drawButton(configButton);
-    drawButton(achievementsButton);
+    //drawButton(achievementsButton);
+
+    drawButtonSrc(achievementsButton, buttonStarsTexture);
 
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(startButton, buttonPlayTexture);
@@ -1714,7 +1716,7 @@ void game::screenHomeTown()
     drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
 
    // drawButton(exitButton);
-    drawButton(achievementsButton);
+   // drawButton(achievementsButton);
    // drawButton(configButton);
     //drawButton(inventoryButton);
 
@@ -1725,7 +1727,7 @@ void game::screenHomeTown()
     
     drawButton(newMapButton);
 
-
+    drawButtonSrc(achievementsButton, buttonStarsTexture);
 
 
     drawButtonSrc(exitButton, buttonCloseTexture);

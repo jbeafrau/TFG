@@ -207,6 +207,10 @@ protected:
     int max_power=1;
     int max_luck = 1;
 
+    //combat information
+    int playerDice = 0;
+    int foeDice = 0;
+    int turn = 0;
 
     int currentMusic = 1;
     bool musicON = true;

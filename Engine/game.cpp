@@ -161,7 +161,7 @@ void game::phaseNPCs()
 {
     tmpNPCs = getNPCs(px,py);
     if (tmpNPCs.size() > 0) {
-        addNotification("There are NPCS here...");
+        //addNotification("There are NPCS here...");
         previousScreen = my_enums::_HOMETOWN_;
         setState(my_enums::_FIGHT_);
 
@@ -193,25 +193,40 @@ void game::start()
     aNPC.x = 78;
     aNPC.y = 75;
     aNPC.map = my_enums::_HOMETOWN_;
-    aNPC.description = "A NPC";
-    aNPC.skill = 5;
-    aNPC.stamina = 20;
+    aNPC.description = "NPC UNO";
+    aNPC.skill = rand() % 10 + 1;
+    aNPC.stamina = rand() % 10 + 11;
     aNPC.exp = 1;
     aNPC.NPCAI = my_enums::_FRIENDLY_STATIC_;
     aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
 
 
+    aNPC.description = "NPC DOS";
     aNPC.id = 2;
     aNPC.x = 80;
     aNPC.y = 75;
-    aNPC.tile = rand() % 400 + 1;
+    aNPC.skill = rand() % 10 + 1;
+    aNPC.stamina = rand() % 10 + 11;
+    aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
 
+    aNPC.description = "NPC TRES";
     aNPC.id = 3;
     aNPC.x = 82;
     aNPC.y = 75;
-    aNPC.tile = rand() % 400 + 1;
+    aNPC.skill = rand() % 10 + 1;
+    aNPC.stamina = rand() % 10 + 11;
+    aNPC.tile = rand() % 300 + 1;
+    NPCs.push_back(aNPC);
+
+    aNPC.description = "NPC CUATRO";
+    aNPC.id = 4;
+    aNPC.x = 78;
+    aNPC.y = 75;
+    aNPC.skill = rand() % 10 + 1;
+    aNPC.stamina = rand() % 10 + 11;
+    aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
 
 //Base map creation
@@ -2052,6 +2067,68 @@ void game::screenFight()
     tmpRect.h = 50;
    
     drawText("¡¡COMBATE!!", tmpRect);
+
+
+    int tmp = 0;
+
+    //cout << "<<Combate!!>>" << endl;
+
+    tmpRect.x = 150;
+    tmpRect.y = 50;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+    drawText("<<Combate!!>>", tmpRect);
+    tmpRect.x = 100;
+    for (list<NPC>::iterator it = tmpNPCs.begin(); it != tmpNPCs.end(); it++)
+    {
+        tmp++;
+
+        tmpRect.w = 100;
+        tmpRect.h = 100;
+        tmpRect.y = tmp * 200;
+        drawPlayerTileset(tmpRect, it->tile);
+
+        tmpRect.y = tmp * 200 +100;
+        tmpRect.h = 50;
+        drawTextL("Enemigo", tmpRect);
+        tmpRect.w = 200;
+        drawText(it->description, tmpRect);
+        tmpRect.w = 100;
+
+        tmpRect.y = 125 + tmp * 200;
+        drawTextL("Habilidad", tmpRect);
+        tmpRect.y = 150 + tmp * 200;
+        drawTextL("Vitalidad", tmpRect);
+       
+        drawIMGBox(100, 125 + tmp * 200, it->skill, it->skill, { 0,0,200,0 });
+        drawIMGBox(100, 150 + tmp * 200, it->stamina, it->stamina, { 200,0,0,0 });
+
+
+    }
+
+    tmpRect.w = 100;
+    tmpRect.h = 100;
+    tmpRect.x = 100;
+    tmpRect.y = gScreenSurface->h - 250;
+    drawTextL("Tu ataque", tmpRect);
+    tmpRect.y = gScreenSurface->h - 200;
+    drawTextL("Ataque enemigo", tmpRect);
+   // drawIMG(blueSurface, 100, gScreenSurface->h - 250, playerDice);
+   // drawIMG(redSurface, 100, gScreenSurface->h - 200, foeDice);
+
+    drawIMGBox(100, gScreenSurface->h - 250, playerDice, 18, { 0,0,200,0 });
+    drawIMGBox(100, gScreenSurface->h - 200, foeDice, 18, { 200,0,0,0 });
+
+    tmpRect.y = gScreenSurface->h - 150;
+    drawTextL("Turno:", tmpRect);
+    drawText(to_string(turn), tmpRect);
+    tmpRect.y = gScreenSurface->h - 100;
+    drawTextL("Vitalidad:", tmpRect);
+   // drawIMG(redSurface, 100, gScreenSurface->h - 100, Stamina.getCurrent());
+
+    drawIMGBox(100, gScreenSurface->h - 100, stamina, 18, { 200,0,0,0 });
+
+   // drawButton(buttonAttack);
 
 
 }

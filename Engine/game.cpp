@@ -693,8 +693,8 @@ void game::screenFlip()
 
     SDL_RenderCopy(gRenderer, mouseTexture, NULL, &mouseRect);
 
-    mouseButton.setCaption("X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
-    drawButton(mouseButton);
+    //mouseButton.setCaption("X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
+    //drawButton(mouseButton);
 
     //Flip image to monitor
     SDL_RenderPresent(gRenderer);
@@ -2073,11 +2073,12 @@ void game::screenFight()
 
     //cout << "<<Combate!!>>" << endl;
 
-    tmpRect.x = 150;
+    /*tmpRect.x = 150;
     tmpRect.y = 50;
     tmpRect.w = 400;
     tmpRect.h = 50;
     drawText("<<Combate!!>>", tmpRect);
+    */
     tmpRect.x = 100;
     for (list<NPC>::iterator it = tmpNPCs.begin(); it != tmpNPCs.end(); it++)
     {
@@ -2085,23 +2086,26 @@ void game::screenFight()
 
         tmpRect.w = 100;
         tmpRect.h = 100;
-        tmpRect.y = tmp * 200;
+        tmpRect.x = 1;
+        tmpRect.y = tmp * 100;
         drawPlayerTileset(tmpRect, it->tile);
 
-        tmpRect.y = tmp * 200 +100;
+        tmpRect.x = 101;
+        //tmpRect.y = tmp * 100;
         tmpRect.h = 50;
-        drawTextL("Enemigo", tmpRect);
+        drawText("Enemigo", tmpRect);
         tmpRect.w = 200;
+        tmpRect.x = 201;
         drawText(it->description, tmpRect);
         tmpRect.w = 100;
-
-        tmpRect.y = 125 + tmp * 200;
-        drawTextL("Habilidad", tmpRect);
-        tmpRect.y = 150 + tmp * 200;
-        drawTextL("Vitalidad", tmpRect);
+        tmpRect.x = 101;
+        tmpRect.y = 25 + tmp * 100;
+        drawText("Habilidad", tmpRect);
+        tmpRect.y = 50 + tmp * 100;
+        drawText("Vitalidad", tmpRect);
        
-        drawIMGBox(100, 125 + tmp * 200, it->skill, it->skill, { 0,0,200,0 });
-        drawIMGBox(100, 150 + tmp * 200, it->stamina, it->stamina, { 200,0,0,0 });
+        drawIMGBox(200, 25 + tmp * 100, it->skill, it->skill, { 0,0,200,0 });
+        drawIMGBox(200, 50 + tmp * 100, it->stamina, it->stamina, { 200,0,0,0 });
 
 
     }

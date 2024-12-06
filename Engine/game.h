@@ -322,6 +322,13 @@ protected:
     SDL_Texture* buttonRightTexture = NULL;
     SDL_Texture* buttonPlayerTexture = NULL;
 
+    SDL_Texture* buttonSwordTexture = NULL;
+    SDL_Texture* buttonSpellTexture = NULL;
+    SDL_Texture* buttonPotionHealthTexture = NULL;
+    SDL_Texture* buttonPotionMagicTexture = NULL;
+
+  
+
     //Globally used font
     TTF_Font* gFont = NULL;
 
@@ -391,6 +398,13 @@ protected:
     classButton playerDownButton;
 
     classButton rollButton;
+
+    classButton fightButton;
+    classButton spellButton;
+    classButton potionHealthButton;
+    classButton potionMagicButton;
+
+
 
     classButton newMapButton;
 

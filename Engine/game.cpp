@@ -287,7 +287,6 @@ void game::start()
     exitButton.setButton(gScreenSurface->w - 128, 0, 128, 128, "Salir");
     exitButton.setColor(200, 0, 0);
 
-    //continueButton.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 - 64, 128, 128, "Continuar");
     continueButton.setButton(gScreenSurface->w / 2 +32 , gScreenSurface->h - 128, 128, 128, "Continuar");
     continueButton.setColor(0, 0, 200);
 
@@ -317,28 +316,21 @@ void game::start()
 
     musicButton.setButton(gScreenSurface->w / 2-100, gScreenSurface->h / 2 + 100, 200, 50, "Cambia canción");
     musicButton.setColor(100, 100, 100);
-
     muteButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 2 + 150, 200, 50, "MUSIC ON");
     muteButton.setColor(100, 100, 100);
-
     volumeSoundDownButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 2 + 200, 50, 50, "+");
     volumeSoundDownButton.setColor(100, 100, 100);
-
     volumeSoundButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 2 + 200, 100, 50, "SOUND 100%");
     volumeSoundButton.setColor(200, 200, 200);
-
     volumeSoundUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 200, 50, 50, "-");
     volumeSoundUpButton.setColor(100, 100, 100);
-
     volumeMusicDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
     volumeMusicDownButton.setColor(100, 100, 100);
-
     volumeMusicButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 2 + 250, 100, 50, "MUSIC 100%");
     volumeMusicButton.setColor(200, 200, 200);
-
     volumeMusicUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
     volumeMusicUpButton.setColor(100, 100, 100);
-
+    
     playerUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
     playerUpButton.setColor(100, 100, 100);
     playerDownButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
@@ -351,6 +343,20 @@ void game::start()
     mouseButton.setColor(100, 100, 100);
 
     
+    fightButton.setButton(1, gScreenSurface->h -128, 128, 128, "Atacar");
+    fightButton.setColor(100, 100, 100);
+    spellButton.setButton(129, gScreenSurface->h -128, 128, 128, "Magia");
+    spellButton.setColor(100, 100, 100);
+
+    potionHealthButton.setButton(257, gScreenSurface->h - 128, 128, 128, "+Salud");
+    potionHealthButton.setColor(100, 100, 100);
+    potionMagicButton.setButton(385, gScreenSurface->h - 128, 128, 128, "+Magia");
+    potionMagicButton.setColor(100, 100, 100);
+
+    
+    blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 300, 200, 50, "BLUR ON");
+    blurButton.setColor(100, 100, 100);
+
 
     //Play Intro music
     Mix_PlayMusic(musicINTRO, -1);
@@ -854,6 +860,12 @@ buttonLeftTexture = loadTexture(images + "left-button.png");
 buttonRightTexture = loadTexture(images + "right-button.png");
 
 buttonPlayerTexture = loadTexture(images + "histogram.png");
+
+buttonSwordTexture = loadTexture(images + "sword-brandish.png");
+buttonSpellTexture = loadTexture(images + "spell-book.png");
+buttonPotionHealthTexture = loadTexture(images + "potion-health.png");
+buttonPotionMagicTexture = loadTexture(images + "potion-magic.png");
+
 
     string TTFFile = fonts + "712_serif.ttf";
     //Open the font
@@ -2151,6 +2163,11 @@ void game::screenFight()
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
 
+    drawButtonSrc(fightButton, buttonSwordTexture);
+    drawButtonSrc(spellButton, buttonSpellTexture);
+    drawButtonSrc(potionHealthButton, buttonPotionHealthTexture);
+    drawButtonSrc(potionMagicButton, buttonPotionMagicTexture);
+
     tmpRect.x = gScreenSurface->w / 2 - 200;
     tmpRect.y = 0;
     tmpRect.w = 400;
@@ -2204,23 +2221,27 @@ void game::screenFight()
     tmpRect.h = 100;
     tmpRect.x = 100;
     tmpRect.y = gScreenSurface->h - 250;
-    drawTextL("Tu ataque", tmpRect);
-    tmpRect.y = gScreenSurface->h - 200;
-    drawTextL("Ataque enemigo", tmpRect);
-   // drawIMG(blueSurface, 100, gScreenSurface->h - 250, playerDice);
-   // drawIMG(redSurface, 100, gScreenSurface->h - 200, foeDice);
+  //  drawTextL("Tu ataque", tmpRect);
+    drawTextL("Vitalidad:", tmpRect);
+    drawIMGBox(100, gScreenSurface->h - 250, stamina, 18, { 200,0,0,0 });
 
-    drawIMGBox(100, gScreenSurface->h - 250, playerDice, 18, { 0,0,200,0 });
-    drawIMGBox(100, gScreenSurface->h - 200, foeDice, 18, { 200,0,0,0 });
+    tmpRect.y = gScreenSurface->h - 200;
+    drawTextL("Poder:", tmpRect);
+    drawIMGBox(100, gScreenSurface->h - 200, power, 18, { 128,0,128,0 });
+ //   drawTextL("Ataque enemigo", tmpRect);
+
+
+//    drawIMGBox(100, gScreenSurface->h - 250, playerDice, 18, { 0,0,200,0 });
+ //   drawIMGBox(100, gScreenSurface->h - 200, foeDice, 18, { 200,0,0,0 });
 
     tmpRect.y = gScreenSurface->h - 150;
     drawTextL("Turno:", tmpRect);
     drawText(to_string(turn), tmpRect);
-    tmpRect.y = gScreenSurface->h - 100;
-    drawTextL("Vitalidad:", tmpRect);
+    //tmpRect.y = gScreenSurface->h - 100;
+    
    // drawIMG(redSurface, 100, gScreenSurface->h - 100, Stamina.getCurrent());
 
-    drawIMGBox(100, gScreenSurface->h - 100, stamina, 18, { 200,0,0,0 });
+   
 
    // drawButton(buttonAttack);
 
@@ -2909,6 +2930,40 @@ void game::eventsFight()
                 setState(previousScreen);
 
             }
+
+            if (fightButton.clicked(mousex, mousey)) {
+                int good = dice(10, 1) + skill;
+                int bad = dice(10, 1) + tmpNPCs.begin()->skill;
+                playerDice = good;
+                foeDice = bad;
+                int damage = 1;
+
+                if (good > bad) {
+                    NPC tmpNPC = tmpNPCs.front();
+                    tmpNPC.stamina -= damage;
+                    if (tmpNPC.stamina <= 0) {
+                        //   cout << "Has derrotado a " << tmpFoe.description << endl;
+                        //Mix_PlayChannel(-1, audioMaleDeath, 0);
+                        tmpNPCs.pop_front();
+                    }
+                    else {
+                        tmpNPCs.pop_front();
+                        tmpNPCs.push_front(tmpNPC);
+                    }
+                }
+            }
+
+
+            if (tmpNPCs.size() == 0) {
+                Mix_PlayMusic(musicTOWN, -1);
+                deleteNPCs(px, py);
+                setState(previousScreen);
+
+            }
+
+
+            //    drawIMGBox(100, gScreenSurface->h - 250, playerDice, 18, { 0,0,200,0 });
+ //   drawIMGBox(100, gScreenSurface->h - 200, foeDice, 18, { 200,0,0,0 });
 
         }
 

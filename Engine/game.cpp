@@ -159,16 +159,18 @@ list<NPC> game::getNPCs(int x, int y)
 
 void game::phaseNPCs()
 {
-    tmpNPCs = getNPCs(px,py);
-    if (tmpNPCs.size() > 0) {
-        //addNotification("There are NPCS here...");
-        //currentMusic = 5;
-       // Mix_PlayMusic(musicBOSS, -1);
-        previousScreen = my_enums::_HOMETOWN_;
-        setState(my_enums::_FIGHT_);
-       
+    if (getState() != my_enums::_FIGHT_){
+     tmpNPCs = getNPCs(px,py);
+     if (tmpNPCs.size() > 0) {
+         //addNotification("There are NPCS here...");
+         //currentMusic = 5;
+         Mix_PlayMusic(musicBATTLE, -1);
+         previousScreen = my_enums::_HOMETOWN_;
+         setState(my_enums::_FIGHT_);
+        
 
 
+     }
     }
 
 }

@@ -200,7 +200,7 @@ void game::start()
     aNPC.map = my_enums::_HOMETOWN_;
     aNPC.description = "NPC UNO";
     aNPC.skill = rand() % 10 + 1;
-    aNPC.stamina = rand() % 10 + 11;
+    aNPC.stamina = rand() % 10 + 5;
     aNPC.exp = 1;
     aNPC.NPCAI = my_enums::_FRIENDLY_STATIC_;
     aNPC.tile = rand() % 300 + 1;
@@ -212,7 +212,7 @@ void game::start()
     aNPC.x = 80;
     aNPC.y = 75;
     aNPC.skill = rand() % 10 + 1;
-    aNPC.stamina = rand() % 10 + 11;
+    aNPC.stamina = rand() % 10 + 5;
     aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
 
@@ -220,7 +220,7 @@ void game::start()
     aNPC.id = 3;
     aNPC.x = 82;
     aNPC.y = 75;
-    aNPC.skill = rand() % 10 + 1;
+    aNPC.skill = rand() % 10 + 10;
     aNPC.stamina = rand() % 10 + 11;
     aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
@@ -523,6 +523,12 @@ void game::events()
         break;
     }
 
+    case my_enums::_HERO_:
+    {
+        eventsHero();
+        break;
+    }
+
     case my_enums::_NAME_:
     {
         eventsPlayerName();
@@ -617,6 +623,12 @@ void game::drawScreens()
     case my_enums::_MAINMENU_:
     {
         screenMain();
+        break;
+    }
+
+    case my_enums::_HERO_:
+    {
+        screenHero();
         break;
     }
 
@@ -1445,14 +1457,17 @@ void game::screenIntro()
 void game::screenNotifications()
 {
     tmpRect.h = 30;
-    tmpRect.x = 0;
+    //tmpRect.x = 0;
+    tmpRect.x = gScreenSurface->w / 2 - 250;
+
     tmpRect.w = 500;
     int tmpY = 0;
     if (notifications.size() > 0) {
 
         for (std::string notification : notifications) {
 
-            tmpRect.y = ((gScreenSurface->h / 4) * 3) + (tmpY * 30);
+            //tmpRect.y = ((gScreenSurface->h / 4) * 3) + (tmpY * 30);
+            tmpRect.y = gScreenSurface->h - (notifications.size()*30 +30) + (tmpY * 30);
             drawTextResize(notification, tmpRect);
             tmpY++;
         }
@@ -2067,6 +2082,24 @@ void game::screenInventory()
         }
 }
 
+
+void game::screenHero()
+{
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(continueButton, buttonAcceptTexture);
+
+    tmpRect.x = gScreenSurface->w / 2 - 200;
+    tmpRect.y = 0;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+    drawText("Heroe inmortal", tmpRect);
+
+    tmpRect.y = gScreenSurface->h / 2;
+    drawText("¿Te rindes o vas a seguir luchando?", tmpRect);
+ 
+}
+
+
 void game::screenAchievements()
 {
     
@@ -2161,7 +2194,7 @@ void game::screenFight()
 {
     
     drawButtonSrc(exitButton, buttonCloseTexture);
-    drawButtonSrc(continueButton, buttonAcceptTexture);
+    //drawButtonSrc(continueButton, buttonAcceptTexture);
 
     drawButtonSrc(fightButton, buttonSwordTexture);
     drawButtonSrc(spellButton, buttonSpellTexture);
@@ -2892,8 +2925,7 @@ void game::eventsInventory()
 
 }
 
-
-void game::eventsFight()
+void game::eventsHero()
 {
     //Event handler
     SDL_Event e;
@@ -2925,24 +2957,75 @@ void game::eventsFight()
             }
 
             if (continueButton.clicked(mousex, mousey)) {
+                Mix_PlayMusic(musicINTRO, -1);
+                setState(my_enums::_MAINMENU_);
+
+            }
+
+        }
+
+        //******************
+    }
+
+    myTime = (int)(timer.getTicks() / 1000);
+
+}
+
+void game::eventsFight()
+{
+    //Event handler
+    SDL_Event e;
+
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            setState(my_enums::_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            //******
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+                setState(my_enums::_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+                //addNotification("Saliendo del juego");
+                deleteNPCs(px, py);
+                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+            }
+
+           /* if (continueButton.clicked(mousex, mousey)) {
                 Mix_PlayMusic(musicTOWN, -1);
                 deleteNPCs(px, py);
                 setState(previousScreen);
 
-            }
+            }*/
 
             if (fightButton.clicked(mousex, mousey)) {
                 int good = dice(10, 1) + skill;
                 int bad = dice(10, 1) + tmpNPCs.begin()->skill;
-                playerDice = good;
-                foeDice = bad;
+               // playerDice = good;
+              //  foeDice = bad;
                 int damage = 1;
 
                 if (good > bad) {
+                    
+
                     NPC tmpNPC = tmpNPCs.front();
+                    addNotification("Has herido a "+ tmpNPC.description +"!!");
                     tmpNPC.stamina -= damage;
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
+                         addNotification("Has derrotado a "+ tmpNPC.description +"!!");
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         tmpNPCs.pop_front();
                     }
@@ -2951,7 +3034,31 @@ void game::eventsFight()
                         tmpNPCs.push_front(tmpNPC);
                     }
                 }
-            }
+
+                if (tmpNPCs.size() > 0){
+                    int good = dice(10, 1) + skill;
+                    int bad = dice(10, 1) + tmpNPCs.begin()->skill;
+                    if (bad > good) {
+                        stamina -= damage;
+                        addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                        if (stamina <= 0) {
+                            addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                            setState(my_enums::_HERO_);
+                            deleteNPCs(px, py);
+                            //Mix_PlayMusic(musicGameOver, -1);
+                            Mix_PlayMusic(musicHERO, -1);
+                            timerGameOver.start();
+                            timerGameOver.reset();
+                            //addNotification("Saliendo del juego");
+                            addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                        }
+
+                    }
+
+                }
+
+                turn++;
+            }//fightbutton click
 
 
             if (tmpNPCs.size() == 0) {

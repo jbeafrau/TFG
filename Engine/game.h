@@ -144,6 +144,7 @@ public:
     void screenHomeTown();
     void screenFight();
     void screenPlayer();
+    void screenHero();
 
     void screenFlip();
 
@@ -164,6 +165,7 @@ public:
     void eventsAchievements();
 
     void eventsFight();
+    void eventsHero();
 
     void eventsPlayer();
 

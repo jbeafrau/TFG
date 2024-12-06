@@ -19,6 +19,7 @@ namespace my_enums
         _TOWN_SHOP_ = 20,
         _TOWN_ELDER_ = 25,
         _FIGHT_ = 30,
+        _HERO_ = 35,
         _ELEMENTAL_TEMPLE_ = 40,
         _FOREST_WORLD_ = 110,
         _COAST_WORLD_ = 120,

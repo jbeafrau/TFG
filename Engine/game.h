@@ -65,6 +65,9 @@ public:
     bool initSDL();
     //Loads media
     bool loadMedia(string base);
+    void loadNPCs();
+    void monsterGenerator();
+    void loadPlayerDefault();
 
     void closeSDL();
     SDL_Surface* loadSurface(std::string path);
@@ -201,6 +204,8 @@ protected:
     std::list<item> items; //Player inventory
     int coins = 50; //Player currency
     int food = 10; //Player food rations 
+    int potions_health = 0;
+    int potions_power = 0;
 
     //Player attributes
     int skill = 1; //Combat Skill

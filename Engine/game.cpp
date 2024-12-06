@@ -175,16 +175,13 @@ void game::phaseNPCs()
 
 }
 
-
-void game::start()
+void game::monsterGenerator()
 {
-    timer.start();
-    FPStimer.start();
-    timer.pause();
-    timerGameOver.start();
-    timerGameOver.pause();
-    //initSDL();
+    //todo
+}
 
+void game::loadPlayerDefault()
+{
     px = 75;
     py = 75;
     cam_x = 70;
@@ -192,6 +189,11 @@ void game::start()
 
     randomAttributes();
 
+}
+
+void game::loadNPCs()
+{
+    NPCs.clear();
 
     NPC aNPC;
     aNPC.id = 1;
@@ -220,7 +222,7 @@ void game::start()
     aNPC.id = 3;
     aNPC.x = 82;
     aNPC.y = 75;
-    aNPC.skill = rand() % 10 + 10;
+    aNPC.skill = rand() % 10 + 15;
     aNPC.stamina = rand() % 10 + 11;
     aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
@@ -233,6 +235,23 @@ void game::start()
     aNPC.stamina = rand() % 10 + 11;
     aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
+
+}
+
+void game::start()
+{
+    timer.start();
+    FPStimer.start();
+    timer.pause();
+    timerGameOver.start();
+    timerGameOver.pause();
+    //initSDL();
+
+    loadPlayerDefault();
+
+    loadNPCs();
+
+   
 
 //Base map creation
     baseMap.createSurface();
@@ -1464,10 +1483,12 @@ void game::screenNotifications()
     int tmpY = 0;
     if (notifications.size() > 0) {
 
+        int base_y = gScreenSurface->h - (notifications.size() * 30 + 30);
+        if (base_y < gScreenSurface->h * 3 / 4) { base_y = gScreenSurface->h * 3 / 4; }
         for (std::string notification : notifications) {
 
             //tmpRect.y = ((gScreenSurface->h / 4) * 3) + (tmpY * 30);
-            tmpRect.y = gScreenSurface->h - (notifications.size()*30 +30) + (tmpY * 30);
+            tmpRect.y = base_y + (tmpY * 30);
             drawTextResize(notification, tmpRect);
             tmpY++;
         }
@@ -2088,14 +2109,21 @@ void game::screenHero()
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
 
-    tmpRect.x = gScreenSurface->w / 2 - 200;
+  /*  tmpRect.x = gScreenSurface->w / 2 - 200;
     tmpRect.y = 0;
     tmpRect.w = 400;
     tmpRect.h = 50;
     drawText("Heroe inmortal", tmpRect);
+*/
+    tmpRect.y = gScreenSurface->h / 4;
+    tmpRect.h = 100;
+
+    tmpRect.x = gScreenSurface->w / 2 - 450;
+    tmpRect.w = 900;
+    drawTextResize("Heroe inmortal", tmpRect);
 
     tmpRect.y = gScreenSurface->h / 2;
-    drawText("¿Te rindes o vas a seguir luchando?", tmpRect);
+    drawTextResize("¿Te rindes o vas a seguir luchando?", tmpRect);
  
 }
 
@@ -2256,11 +2284,11 @@ void game::screenFight()
     tmpRect.y = gScreenSurface->h - 250;
   //  drawTextL("Tu ataque", tmpRect);
     drawTextL("Vitalidad:", tmpRect);
-    drawIMGBox(100, gScreenSurface->h - 250, stamina, 18, { 200,0,0,0 });
+    drawIMGBox(100, gScreenSurface->h - 250, stamina, max_stamina, { 200,0,0,0 });
 
     tmpRect.y = gScreenSurface->h - 200;
     drawTextL("Poder:", tmpRect);
-    drawIMGBox(100, gScreenSurface->h - 200, power, 18, { 128,0,128,0 });
+    drawIMGBox(100, gScreenSurface->h - 200, power, max_power, { 128,0,128,0 });
  //   drawTextL("Ataque enemigo", tmpRect);
 
 

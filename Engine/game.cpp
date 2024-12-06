@@ -2123,7 +2123,8 @@ void game::screenHero()
     drawTextResize("Heroe inmortal", tmpRect);
 
     tmpRect.y = gScreenSurface->h / 2;
-    drawTextResize("¿Te rindes o vas a seguir luchando?", tmpRect);
+    //drawTextResize("¿Te rindes o vas a seguir luchando?", tmpRect);
+    drawTextBlock("Has sido derrotado, pero cuando piensas que ya todo está perdido una voz en tu interior te llama y sientes que nuevas energías recorren tu cuerpo,  ¿Te rindes o vas a seguir luchando?", tmpRect);
  
 }
 
@@ -2726,6 +2727,8 @@ void game::randomAttributes()
     stamina = dice(6, 1) + dice(6, 1) + 12;
     power = dice(6, 1) + 6;
     luck = dice(6, 1) + 6;
+    max_stamina = stamina;
+    max_power = power;
 }
 
 
@@ -3078,7 +3081,7 @@ void game::eventsFight()
                             timerGameOver.start();
                             timerGameOver.reset();
                             //addNotification("Saliendo del juego");
-                            addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                            //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                         }
 
                     }

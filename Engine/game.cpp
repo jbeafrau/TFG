@@ -1160,8 +1160,10 @@ void game::drawIMGBoxSmall(int x, int y, int w, int h, int value, int max, SDL_C
     SDL_Rect target;
     target.x = x;
     target.y = y;
-    target.w = 20;
-    target.h = 20;
+   // target.w = 20;
+    target.w = w / max;
+
+    target.h = h;
     //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
     //drawBo
     if (value > 0) drawSquare(target, color);
@@ -1170,7 +1172,7 @@ void game::drawIMGBoxSmall(int x, int y, int w, int h, int value, int max, SDL_C
     while (value > 0) {
         //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
         drawSquare(target, color);
-        target.x += 20;
+        target.x += w / max;
         value--;
     }
 
@@ -1181,7 +1183,7 @@ void game::drawIMGBoxSmall(int x, int y, int w, int h, int value, int max, SDL_C
         //drawTransparentSquare(&target ,color);
       //SDL_RenderCopy( gRenderer, surface, NULL, &target );
         drawTransparentSquare(target, color);
-        target.x += 20;
+        target.x += w/max;
         tmp--;
     }
 }
@@ -3548,8 +3550,8 @@ void game::drawPlayer()
     //drawSquare(target,player);
     drawPlayerTileset(target, playerTile);
     
-    drawIMGBox(target.x, target.y - 100, stamina, max_stamina, { 200,0,0,0 });
-    drawIMGBox(target.x, target.y - 50, power, max_power, { 128,0,128,0 });
+    drawIMGBoxSmall(target.x, target.y - 40, gScreenSurface->w / cam_size_x , 20 , stamina, max_stamina, { 200,0,0,0 });
+    drawIMGBoxSmall(target.x, target.y - 20, gScreenSurface->w / cam_size_x, 20, power, max_power, { 128,0,128,0 });
 
 
 }

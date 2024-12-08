@@ -193,13 +193,14 @@ public:
     int dice(int maxValue, int minValue);
     void randomAttributes();
     
-    void phaseNPCs(int x, int y);
+    void phaseNPCs();
 
     list<NPC> getNPCs(int x, int y);
     void deleteNPCs(int x, int y);
 
 
     list<SHOP> getShops(int x, int y);
+    void cleanShop(int x, int y, int option);
 
 
     void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, my_enums::AItypes NPCAI, int tile);

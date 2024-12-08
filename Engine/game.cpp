@@ -157,10 +157,10 @@ list<NPC> game::getNPCs(int x, int y)
     return tmp;
 }
 
-void game::phaseNPCs(int x, int y)
+void game::phaseNPCs()
 {
     if (getState() != my_enums::_FIGHT_){
-     tmpNPCs = getNPCs(x,y);
+     tmpNPCs = getNPCs(tmpx,tmpy);
      if (tmpNPCs.size() > 0) {
          //addNotification("There are NPCS here...");
          //currentMusic = 5;
@@ -171,8 +171,8 @@ void game::phaseNPCs(int x, int y)
              setState(my_enums::_SHOP_);
 
          }else{
-             px = x;
-             py = y;
+             px = tmpx;
+             py = tmpy;
              updateMap();
             Mix_PlayMusic(musicBATTLE, -1);
             previousScreen = my_enums::_HOMETOWN_;
@@ -183,8 +183,8 @@ void game::phaseNPCs(int x, int y)
 
      }
      else {
-         px = x;
-         py = y;
+         px = tmpx;
+         py = tmpy;
      }
     }
 
@@ -251,6 +251,11 @@ void game::eventsShops()
     //Event handler
     SDL_Event e;
 
+    //Info to cleanup shop options
+    int shop_x = 0;
+    int shop_y = 0;
+    int shop_option = 0;
+
     //Handle events on queue
     while (SDL_PollEvent(&e) != 0)
     {
@@ -292,8 +297,9 @@ void game::eventsShops()
             int itC = -1;
             int tmpShop = -1;
             int option = -1;
+          
+
             for (list<SHOP>::iterator it = tmpSHOPs.begin(); it != tmpSHOPs.end(); it++) {
-                {
                     itC++;
                     switch (itC) {
                     case 0:
@@ -391,6 +397,15 @@ void game::eventsShops()
 
                                         //addItem(it->description, it->value);
                                        // myBook.cleanShop(currentlocation, it->option);
+
+                                        shop_x = tmpx;
+                                        shop_y = tmpy;
+                                        shop_option = it->option;
+                                        //cleanShop(tmpx, tmpy, it->option);
+                                       // tmpShop = -1;
+                                      //  tmpSHOPs = getShops(tmpx, tmpy);
+                                       // break;
+
                                     }
 
                                 }//gold
@@ -410,18 +425,31 @@ void game::eventsShops()
                                     //popup(tmpStr);
                                     addNotification(tmpStr);
                                     food -= it->value2;
-                                    //myBook.cleanShop(currentlocation, it->option);
+                                    shop_x = tmpx;
+                                    shop_y = tmpy;
+                                    shop_option = it->option;
+                                    //cleanShop(tmpx,tmpy, it->option);
+                                   // tmpShop = -1;
+                                    
+                                    
+
+
                                 }//food
                             }//compra / venta
-
+                            
+                            //tmpSHOPs.size();
                             //tmpShops = myBook.getShops(currentlocation);
+                           // tmpSHOPs = getShops(tmpx, tmpy);
+                            //tmpSHOPs.size();
                         }  //found option
                     }//for shops
+
+                    if (shop_x !=0){
+                         cleanShop(shop_x, shop_y, shop_option); 
+                    }
+
                 }//which button?
-
-
-            }
-
+               
 
 
         }//mouse events
@@ -431,7 +459,40 @@ void game::eventsShops()
 
 }//events shops
 
-//******************************** SHOPSSHOPS
+void game::cleanShop(int x, int y, int option)
+{
+    bool empty = false;
+    while (empty != true)
+    {
+        empty = true;
+        for (list<SHOP>::iterator it = SHOPs.begin(); it != SHOPs.end(); it++)
+        {
+            if (it->x == x && it->y == y && it->option == option) {
+                empty = false;
+                SHOPs.erase(it);
+                break;
+
+            }
+        }
+    }
+
+
+    empty = false;
+    while (empty != true)
+    {
+        empty = true;
+        for (list<SHOP>::iterator it = tmpSHOPs.begin(); it != tmpSHOPs.end(); it++)
+        {
+            if (it->x == x && it->y == y && it->option == option) {
+                empty = false;
+                tmpSHOPs.erase(it);
+                break;
+
+            }
+        }
+    }
+}
+
 
 /*
             if (inventoryButton.clicked(mousex, mousey)) {
@@ -3932,7 +3993,7 @@ void game::eventsHomeTown()
         if (left)tmpx--;
         if (up)tmpy--;
         if (down)tmpy++;
-        phaseNPCs(tmpx, tmpy);
+        phaseNPCs();
 
 
 

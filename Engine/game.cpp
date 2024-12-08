@@ -157,23 +157,289 @@ list<NPC> game::getNPCs(int x, int y)
     return tmp;
 }
 
-void game::phaseNPCs()
+void game::phaseNPCs(int x, int y)
 {
     if (getState() != my_enums::_FIGHT_){
-     tmpNPCs = getNPCs(px,py);
+     tmpNPCs = getNPCs(x,y);
      if (tmpNPCs.size() > 0) {
          //addNotification("There are NPCS here...");
          //currentMusic = 5;
-         Mix_PlayMusic(musicBATTLE, -1);
-         previousScreen = my_enums::_HOMETOWN_;
-         setState(my_enums::_FIGHT_);
+        
+         if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_SHOP_) {
+             tmpSHOPs = getShops(tmpx, tmpy);
+             previousScreen = my_enums::_HOMETOWN_;
+             setState(my_enums::_SHOP_);
+
+         }else{
+             px = x;
+             py = y;
+             updateMap();
+            Mix_PlayMusic(musicBATTLE, -1);
+            previousScreen = my_enums::_HOMETOWN_;
+            setState(my_enums::_FIGHT_);
+         }
         
 
 
      }
+     else {
+         px = x;
+         py = y;
+     }
     }
 
 }
+
+
+void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string description, int skill, int stamina, my_enums::AItypes NPCAI, int tile)
+{
+
+    NPC aNPC;
+    aNPC.id = id;
+    aNPC.x = x;
+    aNPC.y = y;
+    aNPC.map = map;
+    aNPC.description = description;
+    aNPC.skill = skill;
+    aNPC.stamina = stamina;
+    aNPC.exp = ((aNPC.skill + aNPC.stamina) / 10) + 1;
+    aNPC.NPCAI = NPCAI;
+    aNPC.tile = tile;
+    NPCs.push_back(aNPC);
+
+}
+
+void game::addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2)
+{
+    SHOP aShop;
+    aShop.id = id;
+    aShop.x = x;
+    aShop.y = y;
+    aShop.option = option;
+    aShop.description = description;
+    aShop.value = value;
+    aShop.description2 = description2;
+    aShop.value2 = value2;
+    SHOPs.push_back(aShop);
+
+}
+
+
+list<SHOP> game::getShops(int x, int y)
+{
+    list<SHOP> tmp;
+    for (list<SHOP>::iterator it = SHOPs.begin(); it != SHOPs.end(); it++)
+    {
+        if ((x == it->x) && (y == it->y)) {
+            SHOP aShop;
+            aShop.id = it->id;
+            aShop.x = it->x;
+            aShop.y = it->y;
+            aShop.option = it->option;
+            aShop.description = it->description;
+            aShop.value = it->value;
+            aShop.description2 = it->description2;
+            aShop.value2 = it->value2;
+            tmp.push_back(aShop);
+        }
+    }
+    return tmp;
+}
+
+void game::eventsShops()
+{
+    //Event handler
+    SDL_Event e;
+
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            setState(my_enums::_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            //******
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+                setState(my_enums::_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+                //addNotification("Saliendo del juego");
+                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+            }
+
+            if (continueButton.clicked(mousex, mousey)) {
+                setState(previousScreen);
+                tmpx = px;
+                tmpy = py;
+                left = false;
+                right = false;
+                up = false;
+                down = false;
+
+            }
+
+            string tmpStr = "";
+            int itC = -1;
+            int tmpShop = -1;
+            int option = -1;
+            for (list<SHOP>::iterator it = tmpSHOPs.begin(); it != tmpSHOPs.end(); it++) {
+                {
+                    itC++;
+                    switch (itC) {
+                    case 0:
+                        if (shop0.clicked(mousex, mousey)) {
+                            tmpShop = itC;
+                            Mix_PlayChannel(-1, audioButton, 0);
+
+                        }
+                        break;
+                    case 1:
+                        if (shop1.clicked(mousex, mousey)) {
+                            Mix_PlayChannel(-1, audioButton, 0);
+                            tmpShop = itC;
+                        }
+                        break;
+                    case 2:
+                        if (shop2.clicked(mousex, mousey)) {
+                            Mix_PlayChannel(-1, audioButton, 0);
+                            tmpShop = itC;
+                        }
+                        break;
+                    case 3:
+                        if (shop3.clicked(mousex, mousey)) {
+                            Mix_PlayChannel(-1, audioButton, 0);
+                            tmpShop = itC;
+                        }
+                        break;
+                    case 4:
+                        if (shop4.clicked(mousex, mousey)) {
+
+                            Mix_PlayChannel(-1, audioButton, 0);
+                            tmpShop = itC;
+                        }
+                        break;
+                    case 5:
+                        if (shop5.clicked(mousex, mousey)) {
+
+                            Mix_PlayChannel(-1, audioButton, 0);
+                            tmpShop = itC;
+                        }
+                        break;
+                    }
+
+                }//for tmpshops
+
+                if (tmpShop > -1) {
+                    for (list<SHOP>::iterator it = tmpSHOPs.begin(); it != tmpSHOPs.end(); it++) {
+                        option++;
+                        if (option == tmpShop) {//clicked this item...
+                            if (it->value < 0) {
+                                //venta
+                                if (findItem(it->description) == true) {
+                                    //tenemos el objeto
+                                    updateItem(it->description, it->value);
+                                    coins += it->value2;
+                                    tmpStr = "Vendes ";
+                                    if (it->description == "FOOD") {
+                                        tmpStr = tmpStr + " raciones de comida";
+                                    }
+                                    else {
+                                        tmpStr = tmpStr + it->description;
+                                    }
+                                    //popup(tmpStr);
+                                    addNotification(tmpStr);
+                                    //break;
+                                }
+                                else {
+                                    tmpStr = "No tienes eso..";
+                                    //popup(tmpStr);
+                                    addNotification(tmpStr);
+                                    //break;
+                                }//fin venta
+                            }
+                            else {
+                                //compra
+                                   //if (it->)
+
+                                if (it->description2 == "GOLD" and coins >= it->value2) {
+                                    coins -= it->value2;
+                                    tmpStr = "Compras ";
+                                    if (it->description == "FOOD") {
+                                        tmpStr = tmpStr + " raciones de comida";
+                                        //popup(tmpStr);
+                                        addNotification(tmpStr);
+                                        food += it->value;
+                                        // break;
+                                    }
+                                    else {
+                                        tmpStr = tmpStr + it->description;
+                                        //popup(tmpStr);
+                                        addNotification(tmpStr);
+
+
+                                        addItem(it->description, it->description, it->value, it->value2, 1);
+
+                                        //addItem(it->description, it->value);
+                                       // myBook.cleanShop(currentlocation, it->option);
+                                    }
+
+                                }//gold
+                                if (it->description2 == "FOOD" and food >= it->value2) {
+                                    tmpStr = "Compras ";
+                                    if (it->description == "FOOD") {
+                                        tmpStr = tmpStr + " raciones de comida";
+                                        //popup(tmpStr);
+                                        addNotification(tmpStr);
+                                        food += it->value;
+                                    }
+                                    else {
+                                        // addItem(it->description, it->value);
+                                        addItem(it->description, it->description, it->value, it->value2, 1);
+                                        tmpStr = tmpStr + it->description;
+                                    }
+                                    //popup(tmpStr);
+                                    addNotification(tmpStr);
+                                    food -= it->value2;
+                                    //myBook.cleanShop(currentlocation, it->option);
+                                }//food
+                            }//compra / venta
+
+                            //tmpShops = myBook.getShops(currentlocation);
+                        }  //found option
+                    }//for shops
+                }//which button?
+
+
+            }
+
+
+
+        }//mouse events
+
+        //******************
+    }//SDL events
+
+}//events shops
+
+//******************************** SHOPSSHOPS
+
+/*
+            if (inventoryButton.clicked(mousex, mousey)) {
+                Mix_PlayChannel(-1, audioButton, 0);
+                screenInventory();
+            }
+  */          
+
 
 void game::monsterGenerator()
 {
@@ -195,50 +461,37 @@ void game::loadNPCs()
 {
     NPCs.clear();
 
-    NPC aNPC;
-    aNPC.id = 1;
-    aNPC.x = 78;
-    aNPC.y = 75;
-    aNPC.map = my_enums::_HOMETOWN_;
-    aNPC.description = "NPC UNO";
-    aNPC.skill = dice(10 , 1);
-    aNPC.stamina = dice(10, 5);
-    aNPC.exp = ((aNPC.skill + aNPC.stamina)/10) +1;
-    aNPC.NPCAI = my_enums::_FRIENDLY_STATIC_;
-    aNPC.tile = rand() % 300 + 1;
-    NPCs.push_back(aNPC);
 
+    addNPC(1, 78, 75, my_enums::_HOMETOWN_, "NPC UNO", dice(10, 1), dice(10, 5), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
+    addNPC(2, 80, 75, my_enums::_HOMETOWN_, "NPC DOS", dice(10, 1), dice(10, 5), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
+    addNPC(3, 82, 75, my_enums::_HOMETOWN_, "NPC TRES", dice(10, 10), dice(10, 10), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
+    addNPC(4, 78, 75, my_enums::_HOMETOWN_, "NPC CUATRO", dice(10, 1), dice(10, 5), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
+    addNPC(5, 79, 71, my_enums::_HOMETOWN_, "Tienda del pueblo1", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
+    addNPC(5, 80, 71, my_enums::_HOMETOWN_, "Tienda del pueblo2", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
+    addNPC(5, 81, 71, my_enums::_HOMETOWN_, "Tienda del pueblo3", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
+    addNPC(5, 82, 71, my_enums::_HOMETOWN_, "Tienda del pueblo4", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
+    addNPC(5, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo4", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
 
-    aNPC.description = "NPC DOS";
-    aNPC.id = 2;
-    aNPC.x = 80;
-    aNPC.y = 75;
-    aNPC.skill = dice(10, 1);
-    aNPC.stamina = dice(10, 5);
-    aNPC.exp = ((aNPC.skill + aNPC.stamina) / 10) + 1;
-    aNPC.tile = rand() % 300 + 1;
-    NPCs.push_back(aNPC);
+}
 
-    aNPC.description = "NPC TRES";
-    aNPC.id = 3;
-    aNPC.x = 82;
-    aNPC.y = 75;
-    aNPC.skill = dice(10, 10);
-    aNPC.stamina = dice(10, 10);
-    aNPC.exp = ((aNPC.skill + aNPC.stamina) / 10) + 1;
-    aNPC.tile = rand() % 300 + 1;
-    NPCs.push_back(aNPC);
+void game::loadShops()
+{
 
-    aNPC.description = "NPC CUATRO";
-    aNPC.id = 4;
-    aNPC.x = 78;
-    aNPC.y = 75;
-    aNPC.skill = dice(10, 1);
-    aNPC.stamina = dice(10, 5);
-    aNPC.exp = ((aNPC.skill + aNPC.stamina) / 10) + 1;
-    aNPC.tile = rand() % 300 + 1;
-    NPCs.push_back(aNPC);
+    SHOPs.clear();
 
+        addShop(36, 79, 71, 1 , "**ANILLO DE INVISIBILIDAD" , 1 , "GOLD", 10);
+        addShop(36, 79, 71, 2 , "**ANILLO DE FUEGO" , 1 , "GOLD", 8);
+        addShop(36, 79, 71, 3 , "**ANILLO DE HIELO" , 1 , "GOLD", 7);
+        addShop(52, 80, 71, 1 , "**CUCHILLO ARROJADIZO" , 1 , "GOLD", 4);
+        addShop(52, 80, 71, 2 , "**CUERDA ESCALAR" , 1 , "GOLD", 2);
+        addShop(52, 80, 71, 3 , "**GANCHO DE CARNICERO" , 1 , "GOLD", 2);
+        addShop(52, 80, 71, 4 , "**PINCHO DE HIERRO" , 1 , "GOLD", 1);
+        addShop(52, 80, 71, 5 , "**LINTERNA" , 1 , "GOLD", 3);
+        addShop(287, 81, 71, 1 , "FOOD" , 1 , "GOLD", 4);
+        addShop(293, 82, 71, 1 , "**PETALOS MAGICOS" , 10 , "FOOD", 2);
+        addShop(293, 82, 71, 2 , "**PETALOS MAGICOS" , 10 , "GOLD", 2);
+        addShop(302, 83, 71, 1 , "**GEMA" , -2 , "GOLD", 9);
+                                                                   
 }
 
 void game::start()
@@ -253,6 +506,8 @@ void game::start()
     loadPlayerDefault();
 
     loadNPCs();
+
+    loadShops();
 
    
 
@@ -378,6 +633,14 @@ void game::start()
     
     blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 300, 200, 50, "BLUR ON");
     blurButton.setColor(100, 100, 100);
+
+
+    shop0.setButton(50, gScreenSurface->h / 2, gScreenSurface->w - 100, 50, "0");
+    shop1.setButton(50, gScreenSurface->h / 2 + 50, gScreenSurface->w - 100, 50, "1");
+    shop2.setButton(50, gScreenSurface->h / 2 + 100, gScreenSurface->w - 100, 50, "2");
+    shop3.setButton(50, gScreenSurface->h / 2 + 150, gScreenSurface->w - 100, 50, "3");
+    shop4.setButton(50, gScreenSurface->h / 2 + 200, gScreenSurface->w - 100, 50, "4");
+    shop5.setButton(50, gScreenSurface->h / 2 + 250, gScreenSurface->w - 100, 50, "5");
 
 
     //Play Intro music
@@ -551,6 +814,12 @@ void game::events()
         break;
     }
 
+    case my_enums::_SHOP_:
+    {
+        eventsShops();
+        break;
+    }
+
     case my_enums::_NAME_:
     {
         eventsPlayerName();
@@ -654,6 +923,12 @@ void game::drawScreens()
         break;
     }
 
+    case my_enums::_SHOP_:
+    {
+        screenShops();
+        break;
+    }
+
     case my_enums::_NAME_:
     {
         screenPlayerName();
@@ -707,6 +982,8 @@ void game::drawScreens()
         screenFight();
         break;
     }
+
+ 
     case my_enums::_CONFIGMENU_:
     {
         screenConfigMenu();
@@ -1479,8 +1756,105 @@ void game::screenPlayer()
     tmpRect.y = 500;
     drawText("Nivel:" + to_string(level), tmpRect);
     tmpRect.y = 550;
-    tmpRect.w = 150;
+    tmpRect.w = 200;
     drawText("Experiencia:" + to_string(exp) + "/" + to_string((level*level)*100), tmpRect);
+}
+
+void game::screenShops()
+{
+
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(continueButton, buttonAcceptTexture);
+
+    //drawButtonSrc(exitButton, closeTexture);
+    //drawButtonSrc(continueButton, buttonTexture);
+   
+    //drawButtonSrc(inventoryButton, buttonTexture);
+
+    
+
+    std::string tmpStr;
+
+    SDL_Rect target;
+    tmpRect.x = 50;
+    tmpRect.y = 50;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+    target.x = tmpRect.x - 50;
+    target.y = tmpRect.y - 25;
+    target.w = tmpRect.w + 40;
+    target.h = tmpRect.h + 25;
+   // SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
+   // drawText(aLoc.name + "(" + to_string(aLoc.id) + ")", tmpRect);
+    tmpRect.y = 100;
+    //tmpRect.w = gScreenRect.w - 100;
+    target.x = tmpRect.x - 25;
+    target.y = tmpRect.y - 25;
+    target.w = tmpRect.w + 100;
+    target.h = tmpRect.h + 50;
+    //drawTextBlockBG(aLoc.description, tmpRect);
+
+    int itC = 0;
+    for (list<SHOP>::iterator it = tmpSHOPs.begin() ; it != tmpSHOPs.end(); it++) {
+
+        if (it->value > 0) { tmpStr = "comprar " + to_string(it->value); }
+        else {
+            tmpStr = "vender " + to_string(it->value);
+        }
+        tmpStr = tmpStr + " unidades de ";
+        if (it->description == "FOOD") {
+            tmpStr = tmpStr + " raciones de comida";
+        }
+        else {
+
+            if (it->description.substr(0, 2) == "**") {
+                tmpStr = tmpStr + it->description.substr(2, it->description.length() - 2);
+                // cout << it->name.substr(2,it->name.length() -2) << " (" << it->count << ")" << endl;
+            }
+            else {
+                tmpStr = tmpStr + it->description;
+                // cout << it->name << " (" << it->count << ")" << endl;
+            }
+
+            // tmpStr = tmpStr + it->description;
+        }
+        tmpStr = tmpStr + " por " + to_string(it->value2);
+        if (it->description2 == "GOLD") { tmpStr = tmpStr + " monedas de oro"; }
+        if (it->description2 == "FOOD") { tmpStr = tmpStr + " raciones de comida"; }
+        // cout << endl;
+
+        switch (itC) {
+        case 0:
+            shop0.setCaption(tmpStr);
+            drawButtonSrc(shop0, buttonAcceptTexture);
+            break;
+        case 1:
+            shop1.setCaption(tmpStr);
+            drawButtonSrc(shop1, buttonAcceptTexture);
+            break;
+        case 2:
+            shop2.setCaption(tmpStr);
+            drawButtonSrc(shop2, buttonAcceptTexture);
+            break;
+        case 3:
+            shop3.setCaption(tmpStr);
+            drawButtonSrc(shop3, buttonAcceptTexture);
+            break;
+        case 4:
+            shop4.setCaption(tmpStr);
+            drawButtonSrc(shop4, buttonAcceptTexture);
+            break;
+        case 5:
+            shop5.setCaption(tmpStr);
+            drawButtonSrc(shop5, buttonAcceptTexture);
+            break;
+        }
+        itC++;
+        // cout <<  "-> " << it->description << "(" << it->targetId << ")" << endl;
+    }
+
+
+
 }
 
 
@@ -3383,6 +3757,10 @@ void game::eventsAchievements()
 
 void game::eventsHomeTown()
 {
+    left = false;
+    right = false;
+    up = false;
+    down = false;
 
     SDL_Event e;
     //Handle events on queue
@@ -3435,27 +3813,31 @@ void game::eventsHomeTown()
             }//inventory button
 
             if (moveRightButton.clicked(mousex, mousey)) {
-                px++;
-                updateMap();
+                right = true;
+                //px++;
+                //updateMap();
                 
                 
             }//config button
 
             if (moveLeftButton.clicked(mousex, mousey)) {
-                px--;
-                updateMap();
+                left = true;
+                //px--;
+                //updateMap();
                 //baseMap.blur();
             }//config button
 
             if (moveDownButton.clicked(mousex, mousey)) {
-                py++;
-                updateMap();
+                down = true;
+                //py++;
+                //updateMap();
                 //baseMap.blur();
             }//config button
 
             if (moveUpButton.clicked(mousex, mousey)) {
-                py--;
-                updateMap();
+                up = true;
+                //py--;
+                //updateMap();
                // baseMap.blur();
             }//config button
 
@@ -3514,34 +3896,45 @@ void game::eventsHomeTown()
             switch (e.key.keysym.sym)
             {
             case SDLK_a:
-                px--;
-                updateMap();
-              //  baseMap.blur();
+                left = true;
+                //px--;
+                //updateMap();
+              
                 break;
 
             case SDLK_w:
-                py--;
-                updateMap();
-               // baseMap.blur();
+                up = true;
+                //py--;
+                //updateMap();
                 break;
 
             case SDLK_s:
-                py++;
-                updateMap();
-              //  baseMap.blur();
+                down = true;
+                //py++;
+                //updateMap();
                 break;
 
             case SDLK_d:
-                px++;
-                updateMap();
-              //  baseMap.blur();
+                right = true;
+                //px++;
+                //updateMap();
                 break;
 
 
             default:
                   break;
             }
-        }
+        }//event management
+
+        tmpx = px;
+        tmpy = py;
+        if (right)tmpx++;
+        if (left)tmpx--;
+        if (up)tmpy--;
+        if (down)tmpy++;
+        phaseNPCs(tmpx, tmpy);
+
+
 
     }
    // myTime = (int)(timer.getTicks() / 1000);

@@ -15,6 +15,7 @@ namespace my_enums
         _INVENTORY_ = 8,
         _ACHIEVEMENTS_ = 9,
         _PLAYER_ = 10,
+        _SHOP_ = 11,
         _HOMETOWN_ = 15,
         _TOWN_SHOP_ = 20,
         _TOWN_ELDER_ = 25,
@@ -72,6 +73,8 @@ namespace my_enums
     {
         _FRIENDLY_STATIC_ = 1,
         _FRIENDLY_RANDOM_ = 2,
+        _FRIENDLY_FOLLOW_ = 3,
+        _FRIENDLY_SHOP_ = 8,
         _ENEMYY_STATIC_ = 10,
         _ENEMY_RANDOM_ = 11
     };

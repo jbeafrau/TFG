@@ -54,6 +54,16 @@ struct achievement { //Achievement definition
     my_enums::Achievements type;
 };
 
+struct SHOP { // shop definition
+    int id;
+    int x, y;
+    int option;
+    string description;
+    //LUCKROLL,SKILL,STAMINA,LUCK,GOLD,FOOD,SKILLPOTION,STAMINAPOTION,LUCKPOTION
+    int value;
+    string description2;
+    int value2;
+};
 
 
 class game
@@ -66,6 +76,8 @@ public:
     //Loads media
     bool loadMedia(string base);
     void loadNPCs();
+    void loadShops();
+
     void monsterGenerator();
     void loadPlayerDefault();
 
@@ -149,6 +161,7 @@ public:
     void screenFight();
     void screenPlayer();
     void screenHero();
+    void screenShops();
 
     void screenFlip();
 
@@ -173,14 +186,26 @@ public:
 
     void eventsPlayer();
 
+    void eventsShops();
+
     void checkBoundaries();
 
     int dice(int maxValue, int minValue);
     void randomAttributes();
     
-    void phaseNPCs();
+    void phaseNPCs(int x, int y);
+
     list<NPC> getNPCs(int x, int y);
     void deleteNPCs(int x, int y);
+
+
+    list<SHOP> getShops(int x, int y);
+
+
+    void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, my_enums::AItypes NPCAI, int tile);
+    void addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2);
+
+
 
 
     void timeEvents();
@@ -205,6 +230,9 @@ protected:
     std::list<NPC> NPCs; //All NPCs
     std::list<NPC> tmpNPCs; //NPCs found in our location
 
+    list<SHOP> SHOPs; // All Shops
+    list<SHOP> tmpSHOPs; // Shops Found in our location
+
     std::list<item> items; //Player inventory
     int coins = 50; //Player currency
     int food = 10; //Player food rations 
@@ -222,6 +250,12 @@ protected:
     int max_power=1;
     int max_luck = 1;
 
+    // movement attributes
+    bool left = false;
+    bool right = false;
+    bool up = false;
+    bool down = false;
+
     //combat information
     int playerDice = 0;
     int foeDice = 0;
@@ -235,6 +269,10 @@ protected:
     my_enums::playerRaces currentRace = my_enums::_HUMAN_; //Player´s race
     my_enums::playerArchetype currentArchetype = my_enums::_FIGHTER_; //Player´s archetype
     int px=1, py=1; //Player location in the world
+
+    int tmpx = 1;
+    int tmpy = 1;
+
     int playerTile = 63; //Starting tile for player
     int exp = 0; //current experience
     int level = 1; // current player level
@@ -417,6 +455,14 @@ protected:
     classButton potionHealthButton;
     classButton potionMagicButton;
 
+
+
+    classButton shop0;
+    classButton shop1;
+    classButton shop2;
+    classButton shop3;
+    classButton shop4;
+    classButton shop5;
 
 
     classButton newMapButton;

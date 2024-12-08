@@ -117,6 +117,20 @@ void classMap::generateTiles()
     }//for
 
 
+    for (int x = 78; x <= 84; x++)
+    {
+        map_cells[x][70] = 9;
+        map_cells[x][73] = 9;
+    }
+
+    for (int y = 70; y <= 73; y++)
+    {
+        map_cells[78][y] = 9;
+        map_cells[84][y] = 9;
+    }
+
+    map_cells[81][73] = 37;
+
 
 }
 

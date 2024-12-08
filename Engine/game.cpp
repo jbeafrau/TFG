@@ -184,10 +184,12 @@ void game::phaseNPCs()
 
      }
      else {
+         if(!collide(tmpx,tmpy)){
          px = tmpx;
          py = tmpy;
          checkBoundaries();
          updateMap();
+         }
      }
     }
 
@@ -212,7 +214,7 @@ void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string de
 
 }
 
-void game::addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2)
+void game::addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile)
 {
     SHOP aShop;
     aShop.id = id;
@@ -223,6 +225,7 @@ void game::addShop(int id, int x, int y, int option, std::string description, in
     aShop.value = value;
     aShop.description2 = description2;
     aShop.value2 = value2;
+    aShop.tile = tile;
     SHOPs.push_back(aShop);
 
 }
@@ -396,7 +399,7 @@ void game::eventsShops()
                                         addNotification(tmpStr);
 
 
-                                        addItem(it->description, it->description, it->value, it->value2, 1);
+                                        addItem(it->description, it->description, it->value, it->value2, it->tile);
 
                                         //addItem(it->description, it->value);
                                        // myBook.cleanShop(currentlocation, it->option);
@@ -422,7 +425,7 @@ void game::eventsShops()
                                     }
                                     else {
                                         // addItem(it->description, it->value);
-                                        addItem(it->description, it->description, it->value, it->value2, 1);
+                                        addItem(it->description, it->description, it->value, it->value2, it->tile);
                                         tmpStr = tmpStr + it->description;
                                     }
                                     //popup(tmpStr);
@@ -521,6 +524,14 @@ void game::loadPlayerDefault()
 
 }
 
+
+bool game::collide(int x, int y)
+{
+    bool tmp = false;
+    if (baseMap.get_cell(x,y) == 9) tmp = true;
+    return tmp;
+}
+
 void game::loadNPCs()
 {
     NPCs.clear();
@@ -543,20 +554,21 @@ void game::loadShops()
 
     SHOPs.clear();
 
-        addShop(36, 79, 71, 1 , "**ANILLO DE INVISIBILIDAD" , 1 , "GOLD", 10);
-        addShop(36, 79, 71, 2 , "**ANILLO DE FUEGO" , 1 , "GOLD", 8);
-        addShop(36, 79, 71, 3 , "**ANILLO DE HIELO" , 1 , "GOLD", 7);
-        addShop(52, 80, 71, 1 , "**CUCHILLO ARROJADIZO" , 1 , "GOLD", 4);
-        addShop(52, 80, 71, 2 , "**CUERDA ESCALAR" , 1 , "GOLD", 2);
-        addShop(52, 80, 71, 3 , "**GANCHO DE CARNICERO" , 1 , "GOLD", 2);
-        addShop(52, 80, 71, 4 , "**PINCHO DE HIERRO" , 1 , "GOLD", 1);
-        addShop(52, 80, 71, 5 , "**LINTERNA" , 1 , "GOLD", 3);
-        addShop(287, 81, 71, 1 , "FOOD" , 1 , "GOLD", 4);
-        addShop(293, 82, 71, 1 , "**PETALOS MAGICOS" , 10 , "FOOD", 2);
-        addShop(293, 82, 71, 2 , "**PETALOS MAGICOS" , 10 , "GOLD", 2);
-        addShop(302, 83, 71, 1 , "**GEMA" , -2 , "GOLD", 9);
+        addShop(36, 79, 71, 1 , "**ANILLO DE INVISIBILIDAD" , 1 , "GOLD", 10,229);
+        addShop(36, 79, 71, 2 , "**ANILLO DE FUEGO" , 1 , "GOLD", 8,238);
+        addShop(36, 79, 71, 3 , "**ANILLO DE HIELO" , 1 , "GOLD", 7,231);
+        addShop(52, 80, 71, 1 , "**CUCHILLO ARROJADIZO" , 1 , "GOLD", 4,30);
+        addShop(52, 80, 71, 2 , "**CUERDA ESCALAR" , 1 , "GOLD", 2,1);
+        addShop(52, 80, 71, 3 , "**GANCHO DE CARNICERO" , 1 , "GOLD", 2,30);
+        addShop(52, 80, 71, 4 , "**PINCHO DE HIERRO" , 1 , "GOLD", 1,30);
+        addShop(52, 80, 71, 5 , "**LINTERNA" , 1 , "GOLD", 3,329);
+        addShop(287, 81, 71, 1 , "FOOD" , 1 , "GOLD", 4,207);
+        addShop(293, 82, 71, 1 , "**PETALOS MAGICOS" , 10 , "FOOD", 2,1);
+        addShop(293, 82, 71, 2 , "**PETALOS MAGICOS" , 10 , "GOLD", 2,1);
+        addShop(302, 83, 71, 1 , "**GEMA" , -2 , "GOLD", 9,338);
                                                                    
 }
+
 
 void game::start()
 {

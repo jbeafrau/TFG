@@ -62,7 +62,8 @@ struct SHOP { // shop definition
     //LUCKROLL,SKILL,STAMINA,LUCK,GOLD,FOOD,SKILLPOTION,STAMINAPOTION,LUCKPOTION
     int value;
     string description2;
-    int value2;
+    int value2; 
+    int tile;
 };
 
 
@@ -131,6 +132,8 @@ public:
     void drawNPCs();
     //void drawPlayerTileset(int x, int y, Uint8 player);
     void drawTileset(SDL_Rect target, SDL_Texture* texture, int player, int columns);
+
+    bool collide(int x, int y);
 
     void drawBackground();
     
@@ -204,7 +207,7 @@ public:
 
 
     void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, my_enums::AItypes NPCAI, int tile);
-    void addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2);
+    void addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile);
 
 
 

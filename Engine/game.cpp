@@ -531,7 +531,7 @@ void game::loadNPCs()
     addNPC(5, 80, 71, my_enums::_HOMETOWN_, "Tienda del pueblo2", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
     addNPC(5, 81, 71, my_enums::_HOMETOWN_, "Tienda del pueblo3", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
     addNPC(5, 82, 71, my_enums::_HOMETOWN_, "Tienda del pueblo4", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
-    addNPC(5, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo4", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
+    addNPC(5, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
 
 }
 
@@ -1837,10 +1837,13 @@ void game::screenShops()
     std::string tmpStr;
 
     SDL_Rect target;
-    tmpRect.x = 50;
+    tmpRect.x = gScreenSurface->w /2 -200;
     tmpRect.y = 50;
     tmpRect.w = 400;
     tmpRect.h = 50;
+    drawTextResize(tmpNPCs.begin()->description, tmpRect);
+
+    
     target.x = tmpRect.x - 50;
     target.y = tmpRect.y - 25;
     target.w = tmpRect.w + 40;

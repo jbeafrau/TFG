@@ -29,16 +29,16 @@
 */
 
 struct NPC { //enemy definition
-    int id;
-    int x,y;
+    int id=0;
+    int x=0,y=0;
     my_enums::gameState map;
-    string description;
-    int skill;
-    int stamina;
-    int luck;
-    int exp;
+    string description="";
+    int skill=0;
+    int stamina=0;
+    int luck=0;
+    int exp=0;
     my_enums::AItypes NPCAI;
-    int tile;
+    int tile=0;
 };
 
 struct item { //item definition
@@ -125,6 +125,7 @@ public:
 
     void drawIMG(SDL_Surface* surface, int x, int y, int value);
     void drawIMGBox(int x, int y, int value, int max, SDL_Color color);
+    void drawIMGBoxSmall(int x, int y, int w, int h, int value, int max, SDL_Color color);
 
 
     void drawScreens();
@@ -181,6 +182,9 @@ public:
     list<NPC> getNPCs(int x, int y);
     void deleteNPCs(int x, int y);
 
+
+    void timeEvents();
+
     classMap baseMap;
 
 protected:
@@ -206,6 +210,7 @@ protected:
     int food = 10; //Player food rations 
     int potions_health = 1;
     int potions_power = 0;
+    int powerRegeneration = 0;
 
     //Player attributes
     int skill = 1; //Combat Skill
@@ -251,6 +256,7 @@ protected:
     int ticksPerFrame = 0;
     int currentFrame = 0;
     int myTime = 0;
+    int prevTime = 0;
     int minutes = 0;
     int popupTime = 0;
     int maxAchievements = 7;

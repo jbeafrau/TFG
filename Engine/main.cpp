@@ -47,6 +47,8 @@ while (Game.getState() != my_enums::_GAMECLOSE_){
     Game.screenFlip();
 
     Game.adjustFPS();
+
+    Game.timeEvents();
 }
 
 Game.closeSDL();

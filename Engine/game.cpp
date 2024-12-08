@@ -201,9 +201,9 @@ void game::loadNPCs()
     aNPC.y = 75;
     aNPC.map = my_enums::_HOMETOWN_;
     aNPC.description = "NPC UNO";
-    aNPC.skill = rand() % 10 + 1;
-    aNPC.stamina = rand() % 10 + 5;
-    aNPC.exp = 1;
+    aNPC.skill = dice(10 , 1);
+    aNPC.stamina = dice(10, 5);
+    aNPC.exp = ((aNPC.skill + aNPC.stamina)/10) +1;
     aNPC.NPCAI = my_enums::_FRIENDLY_STATIC_;
     aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
@@ -213,8 +213,9 @@ void game::loadNPCs()
     aNPC.id = 2;
     aNPC.x = 80;
     aNPC.y = 75;
-    aNPC.skill = rand() % 10 + 1;
-    aNPC.stamina = rand() % 10 + 5;
+    aNPC.skill = dice(10, 1);
+    aNPC.stamina = dice(10, 5);
+    aNPC.exp = ((aNPC.skill + aNPC.stamina) / 10) + 1;
     aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
 
@@ -222,8 +223,9 @@ void game::loadNPCs()
     aNPC.id = 3;
     aNPC.x = 82;
     aNPC.y = 75;
-    aNPC.skill = rand() % 10 + 15;
-    aNPC.stamina = rand() % 10 + 11;
+    aNPC.skill = dice(10, 10);
+    aNPC.stamina = dice(10, 10);
+    aNPC.exp = ((aNPC.skill + aNPC.stamina) / 10) + 1;
     aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
 
@@ -231,8 +233,9 @@ void game::loadNPCs()
     aNPC.id = 4;
     aNPC.x = 78;
     aNPC.y = 75;
-    aNPC.skill = rand() % 10 + 1;
-    aNPC.stamina = rand() % 10 + 11;
+    aNPC.skill = dice(10, 1);
+    aNPC.stamina = dice(10, 5);
+    aNPC.exp = ((aNPC.skill + aNPC.stamina) / 10) + 1;
     aNPC.tile = rand() % 300 + 1;
     NPCs.push_back(aNPC);
 
@@ -1150,6 +1153,39 @@ void game::drawIMGBox(int x, int y, int value, int max, SDL_Color color)
     }
 }
 
+void game::drawIMGBoxSmall(int x, int y, int w, int h, int value, int max, SDL_Color color)
+{
+    int tmp;
+    // SDL_Texture* IMGTexture = SDL_CreateTextureFromSurface(gRenderer, surface);
+    SDL_Rect target;
+    target.x = x;
+    target.y = y;
+    target.w = 20;
+    target.h = 20;
+    //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
+    //drawBo
+    if (value > 0) drawSquare(target, color);
+    // SDL_Color fg = { 0,0,0,0 };
+
+    while (value > 0) {
+        //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
+        drawSquare(target, color);
+        target.x += 20;
+        value--;
+    }
+
+    color = { 0,0,0,0 };
+    target.x = x;
+    tmp = max;
+    while (tmp > 0) {
+        //drawTransparentSquare(&target ,color);
+      //SDL_RenderCopy( gRenderer, surface, NULL, &target );
+        drawTransparentSquare(target, color);
+        target.x += 20;
+        tmp--;
+    }
+}
+
 //Draw image into screen
 void game::drawIMG(SDL_Surface* surface, int x, int y, int value)
 {
@@ -1398,10 +1434,10 @@ void game::screenPlayerAttributes()
   //  drawIMG(starTexture, 100, 300, luck, 18);
     //, SDL_Color color
 
-    drawIMGBox(100, 200, skill, 18, {0,0,200,0});
-  drawIMGBox(100, 250, stamina, 30, { 200,0,0,0 });
-  drawIMGBox(100, 300, power, 18, { 0,200,0,0 });
-  drawIMGBox(100, 350, luck, 18, { 0,200,200,0 });
+  drawIMGBox(100, 200, skill, max_skill, { 0,0,200,0 });
+  drawIMGBox(100, 250, stamina, max_stamina, { 200,0,0,0 });
+  drawIMGBox(100, 300, power, max_power, { 128,0,128,0 });
+  drawIMGBox(100, 350, luck, max_luck, { 0,200,200,0 });
 }
 
 
@@ -1433,14 +1469,15 @@ void game::screenPlayer()
     tmpRect.y = 350;
     drawTextL("Suerte", tmpRect);
 
-    drawIMGBox(100, 200, skill, 18, { 0,0,200,0 });
-    drawIMGBox(100, 250, stamina, 30, { 200,0,0,0 });
-    drawIMGBox(100, 300, power, 18, { 0,200,0,0 });
-    drawIMGBox(100, 350, luck, 18, { 0,200,200,0 });
+    drawIMGBox(100, 200, skill, max_skill, { 0,0,200,0 });
+    drawIMGBox(100, 250, stamina, max_stamina, { 200,0,0,0 });
+    drawIMGBox(100, 300, power, max_power, { 128,0,128,0 });
+    drawIMGBox(100, 350, luck, max_luck, { 0,200,200,0 });
 
     tmpRect.y = 500;
     drawTextL("Nivel:" + to_string(level), tmpRect);
     tmpRect.y = 550;
+    tmpRect.w = 150;
     drawTextL("Experiencia:" + to_string(exp) + "/" + to_string((level*level)*100), tmpRect);
 }
 
@@ -1610,7 +1647,7 @@ void game::eventsMain()
         //******************
     }
 
-    myTime = (int)(timer.getTicks() / 1000);
+   // myTime = (int)(timer.getTicks() / 1000);
 }
 
 void game::eventsGameOver()
@@ -1788,6 +1825,10 @@ void game::screenHomeTown()
     drawPlayer();
 
     drawNPCs();
+
+
+
+
 
     tmpRect.x = gScreenSurface->w / 2 - 400;
     tmpRect.y = gScreenSurface->h / 12;
@@ -2226,7 +2267,11 @@ void game::screenFight()
     //drawButtonSrc(continueButton, buttonAcceptTexture);
 
     drawButtonSrc(fightButton, buttonSwordTexture);
-    drawButtonSrc(spellButton, buttonSpellTexture);
+    
+    
+    if (power>0) {
+        drawButtonSrc(spellButton, buttonSpellTexture);
+    }
 
     if (potions_health > 0) {
         drawButtonSrc(potionHealthButton, buttonPotionHealthTexture);
@@ -2735,6 +2780,8 @@ void game::randomAttributes()
     luck = dice(6, 1) + 6;
     max_stamina = stamina;
     max_power = power;
+    max_skill = skill;
+    max_luck = luck;
 }
 
 
@@ -2912,7 +2959,6 @@ void game::eventsConfigMenu()
         //******************
     }
 
-    myTime = (int)(timer.getTicks() / 1000);
 
 }
 
@@ -2958,9 +3004,29 @@ void game::eventsInventory()
         //******************
     }
 
-    myTime = (int)(timer.getTicks() / 1000);
+
 
 }
+
+void game::timeEvents()
+{
+myTime = (int)(timer.getTicks() / 1000);
+
+//Power recharges with time...
+if (getState() != my_enums::_FIGHT_)//You dont recharge magic while fighting
+{
+    if (myTime != prevTime) {
+        prevTime = myTime;
+        powerRegeneration++;
+        if (powerRegeneration >= (30 - max_power)) {
+            power++;
+            if (power > max_power) power = max_power;
+            powerRegeneration = 0;
+        }
+    }
+}
+}//timeEvents
+
 
 void game::eventsHero()
 {
@@ -2994,6 +3060,10 @@ void game::eventsHero()
             }
 
             if (continueButton.clicked(mousex, mousey)) {
+                //Reset everything except achievements
+                notifications.clear();
+                loadPlayerDefault();
+                loadNPCs();
                 Mix_PlayMusic(musicINTRO, -1);
                 setState(my_enums::_MAINMENU_);
 
@@ -3004,7 +3074,7 @@ void game::eventsHero()
         //******************
     }
 
-    myTime = (int)(timer.getTicks() / 1000);
+   // myTime = (int)(timer.getTicks() / 1000);
 
 }
 
@@ -3048,6 +3118,7 @@ void game::eventsFight()
             }*/
 
             if (fightButton.clicked(mousex, mousey)) {
+                turn++;
                 int good = dice(10, 1) + skill;
                 int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                // playerDice = good;
@@ -3063,6 +3134,7 @@ void game::eventsFight()
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
                          addNotification("Has derrotado a "+ tmpNPC.description +"!!");
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
+                         exp += tmpNPC.exp;
                         tmpNPCs.pop_front();
                     }
                     else {
@@ -3094,7 +3166,7 @@ void game::eventsFight()
 
                 }
 
-                turn++;
+              
             }//fightbutton click
 
             //Health potion
@@ -3103,6 +3175,32 @@ void game::eventsFight()
                     potions_health--;
                     stamina += 10;
                     if (stamina > max_stamina)stamina = max_stamina;
+                    turn++;
+
+                    int damage = 1;
+                    //Process enemy attack
+                    if (tmpNPCs.size() > 0) {
+                        int good = dice(10, 1) + skill;
+                        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
+                        if (bad > good) {
+                            stamina -= damage;
+                            addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                            if (stamina <= 0) {
+                                turn = 0;
+                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                                setState(my_enums::_HERO_);
+                                deleteNPCs(px, py);
+                                //Mix_PlayMusic(musicGameOver, -1);
+                                Mix_PlayMusic(musicHERO, -1);
+                                timerGameOver.start();
+                                timerGameOver.reset();
+                                //addNotification("Saliendo del juego");
+                                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                            }
+
+                        }
+
+                    }//enemy attack
                 }
             }
 
@@ -3113,11 +3211,90 @@ void game::eventsFight()
                     potions_power--;
                     power += 10;
                     if (power > max_power)power = max_power;
+                    turn++;
+
+                    int damage = 1;
+                    //Process enemy attack
+                    if (tmpNPCs.size() > 0) {
+                        int good = dice(10, 1) + skill;
+                        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
+                        if (bad > good) {
+                            stamina -= damage;
+                            addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                            if (stamina <= 0) {
+                                turn = 0;
+                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                                setState(my_enums::_HERO_);
+                                deleteNPCs(px, py);
+                                //Mix_PlayMusic(musicGameOver, -1);
+                                Mix_PlayMusic(musicHERO, -1);
+                                timerGameOver.start();
+                                timerGameOver.reset();
+                                //addNotification("Saliendo del juego");
+                                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                            }
+
+                        }
+
+                    }//enemy attack
                 }
             }
 
+            //magic attack
+            if (spellButton.clicked(mousex, mousey)){
+                if (power > 0) {
+                    turn++;
+                    int damage = 1;
+                    int attackPower = dice(power, 1);
+
+                    NPC tmpNPC = tmpNPCs.front();
+                    addNotification("Has herido a " + tmpNPC.description + "!!");
+                    tmpNPC.stamina -= attackPower;
+                    power -= attackPower;
+                    if (tmpNPC.stamina <= 0) {
+                        //   cout << "Has derrotado a " << tmpFoe.description << endl;
+                        addNotification("Has derrotado a " + tmpNPC.description + "!!");
+                        //Mix_PlayChannel(-1, audioMaleDeath, 0);
+                        exp += tmpNPC.exp;
+                        tmpNPCs.pop_front();
+                    }
+                    else {
+                        tmpNPCs.pop_front();
+                        tmpNPCs.push_front(tmpNPC);
+                    }
+
+                    //Process enemy attack
+                    if (tmpNPCs.size() > 0) {
+                        int good = dice(10, 1) + skill;
+                        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
+                        if (bad > good) {
+                            stamina -= damage;
+                            addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                            if (stamina <= 0) {
+                                turn = 0;
+                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                                setState(my_enums::_HERO_);
+                                deleteNPCs(px, py);
+                                //Mix_PlayMusic(musicGameOver, -1);
+                                Mix_PlayMusic(musicHERO, -1);
+                                timerGameOver.start();
+                                timerGameOver.reset();
+                                //addNotification("Saliendo del juego");
+                                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                            }
+
+                        }
+
+                    }
+
+
+
+                }//player has power
+            }//magic attack
+
 
             if (tmpNPCs.size() == 0) {
+                turn = 0;
                 Mix_PlayMusic(musicTOWN, -1);
                 deleteNPCs(px, py);
                 setState(previousScreen);
@@ -3133,7 +3310,7 @@ void game::eventsFight()
         //******************
     }//events
 
-    myTime = (int)(timer.getTicks() / 1000);
+   // myTime = (int)(timer.getTicks() / 1000);
 
     
 
@@ -3181,7 +3358,7 @@ void game::eventsAchievements()
         //******************
     }
 
-    myTime = (int)(timer.getTicks() / 1000);
+    //myTime = (int)(timer.getTicks() / 1000);
 
 }
 
@@ -3350,7 +3527,7 @@ void game::eventsHomeTown()
         }
 
     }
-    myTime = (int)(timer.getTicks() / 1000);
+   // myTime = (int)(timer.getTicks() / 1000);
 }
 
 void game::drawPlayer()
@@ -3371,6 +3548,8 @@ void game::drawPlayer()
     //drawSquare(target,player);
     drawPlayerTileset(target, playerTile);
     
+    drawIMGBox(target.x, target.y - 100, stamina, max_stamina, { 200,0,0,0 });
+    drawIMGBox(target.x, target.y - 50, power, max_power, { 128,0,128,0 });
 
 
 }
@@ -3416,16 +3595,19 @@ void game::drawPlayerTileset(SDL_Rect target, int player)
         sy = player / 20;
         sx = player % 20;
 
-        SDL_Rect playerSrc, playerDest;
+        SDL_Rect playerSrc;
         playerSrc.x = sx * 32 + 1;
         playerSrc.y = sy * 32 + 1;
         playerSrc.w = 32;
         playerSrc.h = 32;
-        //playerDest.x = x;
-        //playerDest.y = y;
-       // playerDest.w = 32;
-       // playerDest.h = 32;
-            SDL_RenderCopy(gRenderer, playersTexture, &playerSrc, &target);
+        SDL_RenderCopy(gRenderer, playersTexture, &playerSrc, &target);
+
+
+        //drawIMGBox(100, 250, stamina, max_stamina, { 200,0,0,0 });
+        //drawIMGBox(100, 300, power, max_power, { 128,0,128,0 });
+
+       
+
     }
 }//End 
 

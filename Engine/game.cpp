@@ -246,6 +246,8 @@ list<SHOP> game::getShops(int x, int y)
             aShop.value = it->value;
             aShop.description2 = it->description2;
             aShop.value2 = it->value2;
+            aShop.tile = it->tile;
+
             tmp.push_back(aShop);
         }
     }
@@ -541,11 +543,11 @@ void game::loadNPCs()
     addNPC(2, 80, 75, my_enums::_HOMETOWN_, "NPC DOS", dice(10, 1), dice(10, 5), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
     addNPC(3, 82, 75, my_enums::_HOMETOWN_, "NPC TRES", dice(10, 10), dice(10, 10), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
     addNPC(4, 78, 75, my_enums::_HOMETOWN_, "NPC CUATRO", dice(10, 1), dice(10, 5), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
-    addNPC(5, 79, 71, my_enums::_HOMETOWN_, "Tienda del pueblo1", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
-    addNPC(5, 80, 71, my_enums::_HOMETOWN_, "Tienda del pueblo2", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
-    addNPC(5, 81, 71, my_enums::_HOMETOWN_, "Tienda del pueblo3", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
-    addNPC(5, 82, 71, my_enums::_HOMETOWN_, "Tienda del pueblo4", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
-    addNPC(5, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1, my_enums::_FRIENDLY_SHOP_, dice(300, 2));
+    addNPC(5, 79, 71, my_enums::_HOMETOWN_, "Tienda del pueblo1", 1, 1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(5, 80, 71, my_enums::_HOMETOWN_, "Tienda del pueblo2", 1, 1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(5, 81, 71, my_enums::_HOMETOWN_, "Tienda del pueblo3", 1, 1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(5, 82, 71, my_enums::_HOMETOWN_, "Tienda del pueblo4", 1, 1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(5, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1, my_enums::_FRIENDLY_SHOP_, 74);
 
 }
 
@@ -663,11 +665,15 @@ void game::start()
     inventoryButton.setColor(0, 0, 200);
     playerButton.setButton(257, gScreenSurface->h - 128, 128, 128, "Personaje");
     playerButton.setColor(0, 0, 200);
-    newMapButton.setButton(385, gScreenSurface->h - 128, 128, 128, "New map");
-    newMapButton.setColor(200, 200, 200);
+    mapButton.setButton(385, gScreenSurface->h - 128, 128, 128, "View map");
+    mapButton.setColor(200, 200, 200);
     achievementsButton.setButton(513, gScreenSurface->h - 128, 128, 128, "0 %");
     achievementsButton.setColor(0, 0, 200);
 
+    
+    newMapButton.setButton(gScreenSurface->w -128, gScreenSurface->h /2, 128, 128, "New map");
+    newMapButton.setColor(200, 200, 200);
+    
     musicButton.setButton(gScreenSurface->w / 2-100, gScreenSurface->h / 2 + 100, 200, 50, "Cambia canción");
     musicButton.setColor(100, 100, 100);
     muteButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 2 + 150, 200, 50, "MUSIC ON");
@@ -1398,7 +1404,7 @@ void game::drawMap()
    // srcrect.w = cam_size_x;
     //srcrect.h = cam_size_y;
 
-
+    //draw second layer tiles
     int size_x = gScreenSurface->w / cam_size_x;
     int size_y = gScreenSurface->h / cam_size_y;
 
@@ -1422,7 +1428,7 @@ void game::drawMap()
 
 
     SDL_Rect destRect;
-    destRect.x = 1;
+   /* destRect.x = 1;
     destRect.y = 1;
     destRect.w = 256;
     destRect.h = 256;
@@ -1431,17 +1437,91 @@ void game::drawMap()
     SDL_RenderCopy(gRenderer, miniMapTexture, NULL, &destRect);
 
     SDL_DestroyTexture(miniMapTexture);
-    miniMapTexture = NULL;
+    miniMapTexture = NULL;*/
     
     SDL_DestroyTexture(txtTexture);
     txtTexture = NULL;
 
-    SDL_SetRenderDrawColor(gRenderer,200, 0, 0,0);
+  /*  SDL_SetRenderDrawColor(gRenderer, 200, 0, 0, 0);
     destRect.x = px;
     destRect.y = py;
     destRect.w = cam_size_x;
     destRect.h = cam_size_y;
     SDL_RenderDrawRect(gRenderer, &destRect);
+    */
+}
+
+void game::drawMiniMap()
+{
+    SDL_Rect destRect;
+    /*destRect.x = 1;
+    destRect.y = 1;
+    destRect.w = 256;
+    destRect.h = 256;
+
+    */
+
+    destRect.x = gScreenSurface->w / 2 - 256;
+    destRect.y = gScreenSurface->h / 2 - 256;
+    destRect.w = 512;
+    destRect.h = 512;
+
+
+    SDL_Texture* miniMapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
+    SDL_RenderCopy(gRenderer, miniMapTexture, NULL, &destRect);
+
+    SDL_DestroyTexture(miniMapTexture);
+    miniMapTexture = NULL;
+
+
+
+
+    SDL_SetRenderDrawColor(gRenderer, 200, 0, 0, 0);
+    destRect.x += (cam_x - 1) * 2;
+    destRect.y += (cam_y - 1) * 2;
+    destRect.w = cam_size_x * 2;
+    destRect.h = cam_size_y * 2;
+    SDL_RenderDrawRect(gRenderer, &destRect);
+
+    screenFlip();
+
+
+    //SDL_Delay(3000);
+
+
+
+    bool quit = false;
+    while (!quit)
+    {
+    //Event handler
+    SDL_Event e;
+
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            setState(my_enums::_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            //******
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            quit = true;
+
+        }
+
+        //******************
+    }//events
+}//while not quite
+
+    
 }
 
 //Update section of map we display on screen
@@ -1854,11 +1934,25 @@ void game::screenPlayer()
 
    // drawButtonSrc(rollButton, buttonRollDiceTexture);
 
+    int tmpy = 100;
+    tmpRect.x = gScreenSurface->w / 2 - 200;
+    tmpRect.y = 0;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+    //SDL_Rect target;
+    //target.x = tmpRect.x - 50;
+    //target.w = tmpRect.w + 40;
+    //target.h = tmpRect.h + 25;
+
+
+    drawTextResize("Ficha del personaje", tmpRect);
+
+
     tmpRect.x = 100;
     tmpRect.y = 100;
     tmpRect.w = 400;
     tmpRect.h = 50;
-    drawText("Ficha del personaje", tmpRect);
+
     //tmpRect.y = 150;
     //drawText("Volver a tirar para nueva tirada o continuar", tmpRect);
 
@@ -2400,7 +2494,7 @@ void game::screenHomeTown()
     drawButtonSrc(moveUpButton, buttonUpTexture);
     drawButtonSrc(moveDownButton, buttonDownTexture);
     
-    drawButton(newMapButton);
+    //drawButton(newMapButton);
 
     drawButtonSrc(achievementsButton, buttonStarsTexture);
 
@@ -2409,6 +2503,7 @@ void game::screenHomeTown()
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(configButton, buttonConfigTexture);
     drawButtonSrc(newMapButton, buttonMapTexture);
+    drawButtonSrc(mapButton, buttonMapTexture);
     drawButtonSrc(inventoryButton, buttonBackpackTexture);
     //drawButtonSrc(prevButton, buttonPrevTexture);
 
@@ -2611,6 +2706,10 @@ void game::screenInventory()
         //target.x = tmpRect.x - 50;
         //target.w = tmpRect.w + 40;
         //target.h = tmpRect.h + 25;
+
+
+        drawTextResize("Inventario", tmpRect);
+
 
         string tmpString = "";
         tmpString = "Monedas de oro: " + to_string(coins);
@@ -3977,6 +4076,10 @@ void game::eventsHomeTown()
                // baseMap.blur();
             }//config button
 
+            if (mapButton.clicked(mousex, mousey)) {
+                drawMiniMap();
+            }//map button
+
 
             if (newMapButton.clicked(mousex, mousey)) {
                 
@@ -4025,7 +4128,7 @@ void game::eventsHomeTown()
                 updateMap();
                 baseMap.blur();
 
-            }//config button
+            }//new map button
 
         }
         else if (e.type == SDL_KEYDOWN)

@@ -127,6 +127,7 @@ public:
     void drawTextResize(string text, SDL_Rect rect);
   //  void paintFruit(int x, int y, Uint8 fruit);
     void drawMap();
+    void drawMiniMap();
     void updateMap();
     void drawPlayer();
     void drawNPCs();
@@ -475,6 +476,7 @@ protected:
 
 
     classButton newMapButton;
+    classButton mapButton;
 
     classButton mouseButton;
 

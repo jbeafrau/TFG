@@ -1951,7 +1951,8 @@ void game::screenPlayer()
     drawTextResize("Ficha del personaje", tmpRect);
 
 
-    tmpRect.x = 100;
+    //tmpRect.x = 100;
+    tmpRect.x = gScreenSurface->w/2 - 200;
     tmpRect.y = 100;
     tmpRect.w = 400;
     tmpRect.h = 50;
@@ -1969,10 +1970,18 @@ void game::screenPlayer()
     tmpRect.y = 350;
     drawTextL("Suerte", tmpRect);
 
-    drawIMGBox(100, 200, skill, max_skill, { 0,0,200,0 });
+
+    drawIMGBox(gScreenSurface->w / 2 - 200, 200, skill, max_skill, { 0,0,200,0 });
+    drawIMGBox(gScreenSurface->w / 2 - 200, 250, stamina, max_stamina, { 200,0,0,0 });
+    drawIMGBox(gScreenSurface->w / 2 - 200, 300, power, max_power, { 128,0,128,0 });
+    drawIMGBox(gScreenSurface->w / 2 - 200, 350, luck, max_luck, { 0,200,200,0 });
+
+  /*  drawIMGBox(100, 200, skill, max_skill, {0,0,200,0});
     drawIMGBox(100, 250, stamina, max_stamina, { 200,0,0,0 });
     drawIMGBox(100, 300, power, max_power, { 128,0,128,0 });
     drawIMGBox(100, 350, luck, max_luck, { 0,200,200,0 });
+
+    */
 
     tmpRect.y = 500;
     drawText("Nivel:" + to_string(level), tmpRect);
@@ -2855,7 +2864,8 @@ void game::screenAchievements()
     drawTextResize("LOGROS", tmpRect);
 
 
-    tmpRect.x = 100;
+    //tmpRect.x = 100;
+    tmpRect.x = gScreenSurface->w / 2 - 250;
     tmpRect.y = 100;
     /*tmpRect.w = 400;
     tmpRect.h = 50;
@@ -2877,11 +2887,18 @@ void game::screenAchievements()
 
     //combat = 0, missions = 0, npcs = 0, options = 0, hidden = 0;
 
-    drawIMGBox(100, 200, combat, 10, { 200,0,0,0 });
+    drawIMGBox(gScreenSurface->w / 2 - 250, 200, combat, 10, { 200,0,0,0 });
+    drawIMGBox(gScreenSurface->w / 2 - 250, 250, missions, 10, { 200,0,0,0 });
+    drawIMGBox(gScreenSurface->w / 2 - 250, 300, npcs, 10, { 200,0,0,0 });
+    drawIMGBox(gScreenSurface->w / 2 - 250, 350, options, 10, { 200,0,0,0 });
+    drawIMGBox(gScreenSurface->w / 2 - 250, 400, hidden, 10, { 200,0,0,0 });
+
+    /*drawIMGBox(100, 200, combat, 10, {200,0,0,0});
     drawIMGBox(100, 250, missions, 10, { 200,0,0,0 });
     drawIMGBox(100, 300, npcs, 10, { 200,0,0,0 });
     drawIMGBox(100, 350, options, 10, { 200,0,0,0 });
     drawIMGBox(100, 400, hidden, 10, { 200,0,0,0 });
+    */
 
 
 }

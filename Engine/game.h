@@ -204,7 +204,7 @@ protected:
     std::list<item> items; //Player inventory
     int coins = 50; //Player currency
     int food = 10; //Player food rations 
-    int potions_health = 0;
+    int potions_health = 1;
     int potions_power = 0;
 
     //Player attributes

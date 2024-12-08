@@ -2227,8 +2227,14 @@ void game::screenFight()
 
     drawButtonSrc(fightButton, buttonSwordTexture);
     drawButtonSrc(spellButton, buttonSpellTexture);
-    drawButtonSrc(potionHealthButton, buttonPotionHealthTexture);
-    drawButtonSrc(potionMagicButton, buttonPotionMagicTexture);
+
+    if (potions_health > 0) {
+        drawButtonSrc(potionHealthButton, buttonPotionHealthTexture);
+    }
+
+    if (potions_power > 0) {
+        drawButtonSrc(potionMagicButton, buttonPotionMagicTexture);
+    }
 
     tmpRect.x = gScreenSurface->w / 2 - 200;
     tmpRect.y = 0;
@@ -3048,9 +3054,8 @@ void game::eventsFight()
               //  foeDice = bad;
                 int damage = 1;
 
+                //Process player attack
                 if (good > bad) {
-                    
-
                     NPC tmpNPC = tmpNPCs.front();
                     addNotification("Has herido a "+ tmpNPC.description +"!!");
                     tmpNPC.stamina -= damage;
@@ -3066,6 +3071,7 @@ void game::eventsFight()
                     }
                 }
 
+                //Process enemy attack
                 if (tmpNPCs.size() > 0){
                     int good = dice(10, 1) + skill;
                     int bad = dice(10, 1) + tmpNPCs.begin()->skill;
@@ -3091,6 +3097,25 @@ void game::eventsFight()
                 turn++;
             }//fightbutton click
 
+            //Health potion
+            if (potions_health > 0) {
+                if (potionHealthButton.clicked(mousex, mousey)) {
+                    potions_health--;
+                    stamina += 10;
+                    if (stamina > max_stamina)stamina = max_stamina;
+                }
+            }
+
+            //Power potion
+            if (potions_power > 0) {
+                
+                if (potionMagicButton.clicked(mousex, mousey)) {
+                    potions_power--;
+                    power += 10;
+                    if (power > max_power)power = max_power;
+                }
+            }
+
 
             if (tmpNPCs.size() == 0) {
                 Mix_PlayMusic(musicTOWN, -1);
@@ -3106,9 +3131,11 @@ void game::eventsFight()
         }
 
         //******************
-    }
+    }//events
 
     myTime = (int)(timer.getTicks() / 1000);
+
+    
 
 }
 

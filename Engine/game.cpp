@@ -173,6 +173,7 @@ void game::phaseNPCs()
          }else{
              px = tmpx;
              py = tmpy;
+             checkBoundaries();
              updateMap();
             Mix_PlayMusic(musicBATTLE, -1);
             previousScreen = my_enums::_HOMETOWN_;
@@ -185,6 +186,8 @@ void game::phaseNPCs()
      else {
          px = tmpx;
          py = tmpy;
+         checkBoundaries();
+         updateMap();
      }
     }
 
@@ -1197,6 +1200,15 @@ bool game::loadMedia(string base)
 
     playersTexture = SDL_CreateTextureFromSurface(gRenderer, playersSurface);
 
+
+    aFile = images + "items_alpha.png";
+    itemsSurface = loadSurface(aFile);
+    SDL_SetColorKey(itemsSurface, SDL_TRUE, // enable color key (transparency)
+        //SDL_MapRGB(playersSurface->format, 0xFF, 0, 0xFF)); // This is the color that should be taken as being the 'transparent' part of the image
+        SDL_MapRGB(itemsSurface->format, 71, 108, 108)); // This is the color that should be taken as being the 'transparent' part of the image
+
+    itemsTexture = SDL_CreateTextureFromSurface(gRenderer, itemsSurface);
+
    
     aFile = images + "15771169063_9f6d64ce74_b.jpg";
 
@@ -1382,10 +1394,7 @@ void game::drawMap()
 //Update section of map we display on screen
 void game::updateMap()
 {
-    if (px <= cam_x) { cam_x--; }
-    if (py <= cam_y) { cam_y --; }
-    if (px >= (cam_x + cam_size_x -1)) { cam_x ++; }
-    if (py >= (cam_y + cam_size_y -1)) { cam_y++; }
+
 
 
     SDL_Rect srcrect;
@@ -1715,8 +1724,9 @@ void game::screenPlayerName()
     tmpRect.w = gScreenSurface->w / cam_size_x;
     tmpRect.h = gScreenSurface->h / cam_size_y;
 
-    drawPlayerTileset(tmpRect, playerTile);
+    //drawPlayerTileset(tmpRect, playerTile);
 
+    drawTileset(tmpRect, playersTexture, playerTile);
 
     tmpRect.x = gScreenSurface->w / 2 - 200;
     tmpRect.y = 100;
@@ -2544,16 +2554,16 @@ void game::screenInventory()
         tmpRect.y = 0;
         tmpRect.w = 400;
         tmpRect.h = 50;
-        SDL_Rect target;
-        target.x = tmpRect.x - 50;
-        target.w = tmpRect.w + 40;
-        target.h = tmpRect.h + 25;
+        //SDL_Rect target;
+        //target.x = tmpRect.x - 50;
+        //target.w = tmpRect.w + 40;
+        //target.h = tmpRect.h + 25;
 
         string tmpString = "";
         tmpString = "Monedas de oro: " + to_string(coins);
         tmpy += 50;
         tmpRect.y = tmpy;
-        target.y = tmpRect.y - 25;
+        //target.y = tmpRect.y - 25;
         //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
 
@@ -2561,21 +2571,21 @@ void game::screenInventory()
         tmpString = "Raciones de comida: " + to_string(food);
         tmpy += 50;
         tmpRect.y = tmpy;
-        target.y = tmpRect.y - 25;
+        //target.y = tmpRect.y - 25;
         //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
 
         tmpString = "Pociones de vitalidad: " + to_string(potions_health);
         tmpy += 50;
         tmpRect.y = tmpy;
-        target.y = tmpRect.y - 25;
+       // target.y = tmpRect.y - 25;
         //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
 
         tmpString = "Pociones de poder: " + to_string(potions_power);
         tmpy += 50;
         tmpRect.y = tmpy;
-        target.y = tmpRect.y - 25;
+       // target.y = tmpRect.y - 25;
         //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
 
@@ -2584,16 +2594,24 @@ void game::screenInventory()
         {
             tmpy += 50;
             tmpRect.y = tmpy;
-            target.y = tmpRect.y - 25;
+            //target.y = tmpRect.y - 25;
+            //target.x = tmpRect.x - 50;
+
+            tmpRect.x = gScreenSurface->w / 2 - 250;
+            tmpRect.w = 50;
+            drawTileset(tmpRect, itemsTexture, it->tile);
+
             if (it->name.substr(0, 2) == "**") {
-                tmpString = it->name.substr(2, it->name.length() - 2) + " (" + to_string(it->count) + ")";
+                tmpString = it->name.substr(2, it->name.length() - 2) + " (" + to_string(it->count) + ") valor:" + to_string(it->value);
                 // cout << it->name.substr(2,it->name.length() -2) << " (" << it->count << ")" << endl;
             }
             else {
-                tmpString = it->name + " (" + to_string(it->count) + ")";
+                tmpString = it->name + " (" + to_string(it->count) + ") valor:" + to_string(it->value);
                 // cout << it->name << " (" << it->count << ")" << endl;
             }
             //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
+            tmpRect.w = 400;
+            tmpRect.x = gScreenSurface->w / 2 - 200;
             drawText(tmpString, tmpRect);
 
         }
@@ -2763,7 +2781,8 @@ void game::screenFight()
         tmpRect.h = 100;
         tmpRect.x = 1;
         tmpRect.y = tmp * 100;
-        drawPlayerTileset(tmpRect, it->tile);
+        //drawPlayerTileset(tmpRect, it->tile);
+        drawTileset(tmpRect, playersTexture, it->tile);
 
         tmpRect.x = 101;
         //tmpRect.y = tmp * 100;
@@ -3002,8 +3021,8 @@ void game::eventsPlayerArchetypes()
                 Mix_PlayMusic(musicTOWN, -1);
                 setState(my_enums::_HOMETOWN_);
 
-                addItem("ESPADA", "Una espada mellada", 1, 0, 1);
-                addItem("ARMADURA CUERO", "Armadura ligera de cuero", 1, 0, 1);
+                addItem("ESPADA", "Una espada mellada", 1, 1, 40);
+                addItem("ARMADURA CUERO", "Armadura ligera de cuero", 1, 1, 114);
 
             }//continue
 
@@ -3948,6 +3967,7 @@ void game::eventsHomeTown()
 
 
                 baseMap.mymap.to_surface(baseMap.imageSurface,getState());
+               
                 updateMap();
                 baseMap.blur();
 
@@ -4020,7 +4040,8 @@ void game::drawPlayer()
     
 
     //drawSquare(target,player);
-    drawPlayerTileset(target, playerTile);
+    //drawPlayerTileset(target, playerTile);
+    drawTileset(target, playersTexture, playerTile);
     
     drawIMGBoxSmall(target.x, target.y - 40, gScreenSurface->w / cam_size_x , 20 , stamina, max_stamina, { 200,0,0,0 });
     drawIMGBoxSmall(target.x, target.y - 20, gScreenSurface->w / cam_size_x, 20, power, max_power, { 128,0,128,0 });
@@ -4053,7 +4074,7 @@ void game::drawNPCs()
 
 
            // drawSquare(target, NPCColor);
-            drawPlayerTileset(target, it->tile);
+            drawTileset(target, playersTexture, it->tile);
            // tmp.push_back(aFoe);
         }
     }
@@ -4061,7 +4082,7 @@ void game::drawNPCs()
 
 
 //void game::drawPlayerTileset(int x, int y, Uint8 player)
-void game::drawPlayerTileset(SDL_Rect target, int player)
+void game::drawTileset(SDL_Rect target,SDL_Texture *texture, int player)
 {
     if (player != 0) {
         int sx;
@@ -4074,8 +4095,8 @@ void game::drawPlayerTileset(SDL_Rect target, int player)
         playerSrc.y = sy * 32 + 1;
         playerSrc.w = 32;
         playerSrc.h = 32;
-        SDL_RenderCopy(gRenderer, playersTexture, &playerSrc, &target);
-
+       // SDL_RenderCopy(gRenderer, playersTexture, &playerSrc, &target);
+        SDL_RenderCopy(gRenderer,texture, &playerSrc, &target);
 
         //drawIMGBox(100, 250, stamina, max_stamina, { 200,0,0,0 });
         //drawIMGBox(100, 300, power, max_power, { 128,0,128,0 });
@@ -4091,6 +4112,11 @@ void game::checkBoundaries()
     if (py < 1) { py = 1; }
     if (px > 256) { px = 256; }
     if (py > 256) { py = 256; }
+
+    if (px <= cam_x) { cam_x--; }
+    if (py <= cam_y) { cam_y--; }
+    if (px >= (cam_x + cam_size_x - 1)) { cam_x++; }
+    if (py >= (cam_y + cam_size_y - 1)) { cam_y++; }
 
 }
 

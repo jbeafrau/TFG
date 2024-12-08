@@ -130,7 +130,7 @@ public:
     void drawPlayer();
     void drawNPCs();
     //void drawPlayerTileset(int x, int y, Uint8 player);
-    void drawPlayerTileset(SDL_Rect target, int player);
+    void drawTileset(SDL_Rect target, SDL_Texture* texture, int player);
 
     void drawBackground();
     
@@ -339,10 +339,15 @@ protected:
     SDL_Surface* mouseSurface = NULL;
 
     SDL_Surface* playersSurface = NULL;
+    SDL_Surface* itemsSurface = NULL;
+    SDL_Surface* locationsSurface = NULL;
 
     //The final texture
     SDL_Texture* mouseTexture = NULL;
     SDL_Texture* playersTexture = NULL;
+    SDL_Texture* itemsTexture = NULL;
+    SDL_Texture* locationsTexture = NULL;
+
 
     SDL_Surface* bg1Surface = NULL;
     SDL_Texture* bg1Texture = NULL;

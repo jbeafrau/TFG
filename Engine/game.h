@@ -130,7 +130,7 @@ public:
     void drawPlayer();
     void drawNPCs();
     //void drawPlayerTileset(int x, int y, Uint8 player);
-    void drawTileset(SDL_Rect target, SDL_Texture* texture, int player);
+    void drawTileset(SDL_Rect target, SDL_Texture* texture, int player, int columns);
 
     void drawBackground();
     

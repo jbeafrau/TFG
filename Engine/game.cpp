@@ -589,6 +589,7 @@ void game::start()
 
     baseMap.mymap.generate(octave, frequency, persistance, 1, 1, width, height);
     baseMap.mymap.to_surface(baseMap.imageSurface, my_enums::_HOMETOWN_);
+    baseMap.generateTiles();
 
     baseMap.imageSurface = SDL_ConvertSurface(baseMap.imageSurface, gScreenSurface->format, 0);
 
@@ -1209,6 +1210,14 @@ bool game::loadMedia(string base)
 
     itemsTexture = SDL_CreateTextureFromSurface(gRenderer, itemsSurface);
 
+
+    aFile = images + "terrain_alpha.png";
+    locationsSurface = loadSurface(aFile);
+    SDL_SetColorKey(locationsSurface, SDL_TRUE, // enable color key (transparency)
+        //SDL_MapRGB(playersSurface->format, 0xFF, 0, 0xFF)); // This is the color that should be taken as being the 'transparent' part of the image
+        SDL_MapRGB(locationsSurface->format, 255, 0, 255)); // This is the color that should be taken as being the 'transparent' part of the image
+
+    locationsTexture = SDL_CreateTextureFromSurface(gRenderer, locationsSurface);
    
     aFile = images + "15771169063_9f6d64ce74_b.jpg";
 
@@ -1365,8 +1374,40 @@ void game::drawButton(classButton btn)
 //Draw game map
 void game::drawMap()
 {
+    //Draw base map
     SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.targetSurface);
     SDL_RenderCopy(gRenderer, txtTexture, NULL, NULL);
+
+    //draw tiles
+    SDL_Rect srcrect;
+   // srcrect.x = cam_x;
+   // srcrect.y = cam_y;
+
+   // srcrect.w = cam_size_x;
+    //srcrect.h = cam_size_y;
+
+
+    int size_x = gScreenSurface->w / cam_size_x;
+    int size_y = gScreenSurface->h / cam_size_y;
+
+    for (int x = cam_x; x < cam_x + cam_size_x; x++) {
+        for (int y = cam_y; y < cam_y + cam_size_y; y++) {
+            int ax = (x - cam_x)* size_x;
+            int ay = (y - cam_y)* size_y;
+            srcrect.x = ax;
+            srcrect.y = ay;
+            srcrect.w = size_x;
+            srcrect.h = size_y;
+            int tile = baseMap.get_cell(x, y);
+            if (tile > 0) {
+                drawTileset(srcrect, locationsTexture, tile,30);
+            }
+
+        }
+
+    }
+
+
 
     SDL_Rect destRect;
     destRect.x = 1;
@@ -1726,7 +1767,7 @@ void game::screenPlayerName()
 
     //drawPlayerTileset(tmpRect, playerTile);
 
-    drawTileset(tmpRect, playersTexture, playerTile);
+    drawTileset(tmpRect, playersTexture, playerTile,20);
 
     tmpRect.x = gScreenSurface->w / 2 - 200;
     tmpRect.y = 100;
@@ -2599,7 +2640,7 @@ void game::screenInventory()
 
             tmpRect.x = gScreenSurface->w / 2 - 250;
             tmpRect.w = 50;
-            drawTileset(tmpRect, itemsTexture, it->tile);
+            drawTileset(tmpRect, itemsTexture, it->tile,20);
 
             if (it->name.substr(0, 2) == "**") {
                 tmpString = it->name.substr(2, it->name.length() - 2) + " (" + to_string(it->count) + ") valor:" + to_string(it->value);
@@ -2782,7 +2823,7 @@ void game::screenFight()
         tmpRect.x = 1;
         tmpRect.y = tmp * 100;
         //drawPlayerTileset(tmpRect, it->tile);
-        drawTileset(tmpRect, playersTexture, it->tile);
+        drawTileset(tmpRect, playersTexture, it->tile,20);
 
         tmpRect.x = 101;
         //tmpRect.y = tmp * 100;
@@ -3967,6 +4008,7 @@ void game::eventsHomeTown()
 
 
                 baseMap.mymap.to_surface(baseMap.imageSurface,getState());
+                baseMap.generateTiles();
                
                 updateMap();
                 baseMap.blur();
@@ -4041,7 +4083,7 @@ void game::drawPlayer()
 
     //drawSquare(target,player);
     //drawPlayerTileset(target, playerTile);
-    drawTileset(target, playersTexture, playerTile);
+    drawTileset(target, playersTexture, playerTile,20);
     
     drawIMGBoxSmall(target.x, target.y - 40, gScreenSurface->w / cam_size_x , 20 , stamina, max_stamina, { 200,0,0,0 });
     drawIMGBoxSmall(target.x, target.y - 20, gScreenSurface->w / cam_size_x, 20, power, max_power, { 128,0,128,0 });
@@ -4074,7 +4116,7 @@ void game::drawNPCs()
 
 
            // drawSquare(target, NPCColor);
-            drawTileset(target, playersTexture, it->tile);
+            drawTileset(target, playersTexture, it->tile,20);
            // tmp.push_back(aFoe);
         }
     }
@@ -4082,13 +4124,13 @@ void game::drawNPCs()
 
 
 //void game::drawPlayerTileset(int x, int y, Uint8 player)
-void game::drawTileset(SDL_Rect target,SDL_Texture *texture, int player)
+void game::drawTileset(SDL_Rect target,SDL_Texture *texture, int player, int columns)
 {
     if (player != 0) {
         int sx;
         int sy;
-        sy = player / 20;
-        sx = player % 20;
+        sy = player / columns;
+        sx = player % columns;
 
         SDL_Rect playerSrc;
         playerSrc.x = sx * 32 + 1;

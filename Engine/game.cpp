@@ -1514,7 +1514,10 @@ void game::drawMiniMap()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             quit = true;
-
+        }
+        else if (e.type == SDL_KEYDOWN)
+        {
+            quit = true;
         }
 
         //******************

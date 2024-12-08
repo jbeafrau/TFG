@@ -209,7 +209,7 @@ protected:
     int coins = 50; //Player currency
     int food = 10; //Player food rations 
     int potions_health = 1;
-    int potions_power = 0;
+    int potions_power = 1;
     int powerRegeneration = 0;
 
     //Player attributes

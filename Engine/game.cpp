@@ -1477,10 +1477,10 @@ void game::screenPlayer()
     drawIMGBox(100, 350, luck, max_luck, { 0,200,200,0 });
 
     tmpRect.y = 500;
-    drawTextL("Nivel:" + to_string(level), tmpRect);
+    drawText("Nivel:" + to_string(level), tmpRect);
     tmpRect.y = 550;
     tmpRect.w = 150;
-    drawTextL("Experiencia:" + to_string(exp) + "/" + to_string((level*level)*100), tmpRect);
+    drawText("Experiencia:" + to_string(exp) + "/" + to_string((level*level)*100), tmpRect);
 }
 
 
@@ -2126,6 +2126,21 @@ void game::screenInventory()
         target.y = tmpRect.y - 25;
         //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
+
+        tmpString = "Pociones de vitalidad: " + to_string(potions_health);
+        tmpy += 50;
+        tmpRect.y = tmpy;
+        target.y = tmpRect.y - 25;
+        //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
+        drawText(tmpString, tmpRect);
+
+        tmpString = "Pociones de poder: " + to_string(potions_power);
+        tmpy += 50;
+        tmpRect.y = tmpy;
+        target.y = tmpRect.y - 25;
+        //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
+        drawText(tmpString, tmpRect);
+
 
         for (list<item>::iterator it = items.begin(); it != items.end(); it++)
         {

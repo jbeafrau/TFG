@@ -717,6 +717,7 @@ void game::start()
     potionMagicButton.setButton(gScreenSurface->w-128, gScreenSurface->h - 128, 128, 128, "+Magia");
     potionMagicButton.setColor(100, 100, 100);
 
+    foodButton.setButton(gScreenSurface->w - 128, gScreenSurface->h - 128, 128, 128, "Comer");
     
     blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 300, 200, 50, "BLUR ON");
     blurButton.setColor(100, 100, 100);
@@ -1291,6 +1292,7 @@ buttonPlayerTexture = loadTexture(images + "histogram.png");
 
 buttonPotionHealthTexture = loadTexture(images + "potion-health.png");
 buttonPotionMagicTexture = loadTexture(images + "potion-magic.png");
+buttonFoodTexture = loadTexture(images + "bread.png");
 
 
     string TTFFile = fonts + "712_serif.ttf";
@@ -2546,6 +2548,11 @@ void game::screenHomeTown()
     drawButtonSrc(newMapButton, buttonMapTexture);
     drawButtonSrc(mapButton, buttonMapTexture);
     drawButtonSrc(inventoryButton, buttonBackpackTexture);
+
+
+    if (food > 0) {
+        drawButtonSrc(foodButton, buttonFoodTexture);
+    }
     //drawButtonSrc(prevButton, buttonPrevTexture);
 
 }
@@ -2961,18 +2968,17 @@ void game::screenFight()
 {
     
     drawButtonSrc(exitButton, buttonCloseTexture);
-    //drawButtonSrc(continueButton, buttonAcceptTexture);
-
+    
+    //All players can use normal attacks
     drawButtonSrc(fightButton, buttonSwordTexture);
     
-
-    drawButtonSrc(bowButton, buttonBowTexture);
-    drawButtonSrc(hideButton, buttonHideTexture);
+    if(hasSkill("ARQUERO"))drawButtonSrc(bowButton, buttonBowTexture);
+    if (hasSkill("SUBTERFUGIO"))drawButtonSrc(hideButton, buttonHideTexture);
     
     if (power>0) {
-        drawButtonSrc(spellButton, buttonSpellTexture);
-        drawButtonSrc(drainButton, buttonDrainTexture);
-        drawButtonSrc(summonButton, buttonSummonTexture);
+        if (hasSkill("MAGIA"))drawButtonSrc(spellButton, buttonSpellTexture);
+        if (hasSkill("DRENAR"))drawButtonSrc(drainButton, buttonDrainTexture);
+        if (hasSkill("INVOCAR"))drawButtonSrc(summonButton, buttonSummonTexture);
     }
 
     if (potions_health > 0) {
@@ -4221,6 +4227,15 @@ void game::eventsHomeTown()
                 setState(my_enums::_PLAYER_);
                 previousScreen = my_enums::_HOMETOWN_;
             }//inventory button
+
+            if(food>0){
+            if (foodButton.clicked(mousex, mousey)) {
+                food--;
+                stamina += 4;
+                if (stamina > max_stamina)stamina = max_stamina;
+                
+            }//food button
+            }
 
             if (moveRightButton.clicked(mousex, mousey)) {
                 right = true;

@@ -397,6 +397,7 @@ protected:
 
     SDL_Texture* buttonPotionHealthTexture = NULL;
     SDL_Texture* buttonPotionMagicTexture = NULL;
+    SDL_Texture* buttonFoodTexture = NULL;
 
   
 
@@ -479,6 +480,7 @@ protected:
 
     classButton potionHealthButton;
     classButton potionMagicButton;
+    classButton foodButton;
 
 
 

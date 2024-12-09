@@ -574,12 +574,13 @@ void game::loadShops()
 
 void game::start()
 {
+    
+    //Initialize timers
     timer.start();
     FPStimer.start();
     timer.pause();
     timerGameOver.start();
     timerGameOver.pause();
-    //initSDL();
 
     loadPlayerDefault();
 
@@ -703,14 +704,17 @@ void game::start()
     mouseButton.setColor(100, 100, 100);
 
     
-    fightButton.setButton(1, gScreenSurface->h -128, 128, 128, "Atacar");
-    fightButton.setColor(100, 100, 100);
-    spellButton.setButton(129, gScreenSurface->h -128, 128, 128, "Magia");
-    spellButton.setColor(100, 100, 100);
+    fightButton.setButton(1,   gScreenSurface->h -128, 128, 128, "Atacar");
+    bowButton.setButton(128, gScreenSurface->h - 128, 128, 128, "Arco");
+    spellButton.setButton(256, gScreenSurface->h -128, 128, 128, "Magia");
+    drainButton.setButton(384, gScreenSurface->h - 128, 128, 128, "Drenar");
+    hideButton.setButton(512, gScreenSurface->h - 128, 128, 128, "Subterfugio");
+    summonButton.setButton(640, gScreenSurface->h - 128, 128, 128, "Invocar");
 
-    potionHealthButton.setButton(257, gScreenSurface->h - 128, 128, 128, "+Salud");
+    
+    potionHealthButton.setButton(gScreenSurface->w-256, gScreenSurface->h - 128, 128, 128, "+Salud");
     potionHealthButton.setColor(100, 100, 100);
-    potionMagicButton.setButton(385, gScreenSurface->h - 128, 128, 128, "+Magia");
+    potionMagicButton.setButton(gScreenSurface->w-128, gScreenSurface->h - 128, 128, 128, "+Magia");
     potionMagicButton.setColor(100, 100, 100);
 
     
@@ -1265,6 +1269,18 @@ buttonPlayTexture     = loadTexture(images + "play-button.png");
 buttonCancelTexture   = loadTexture(images + "cancel.png");
 buttonStarsTexture    = loadTexture(images + "stars-stack.png");
 
+
+buttonSwordTexture = loadTexture(images + "sword-brandish.png");
+buttonBowTexture = loadTexture(images + "archer.png");
+buttonSpellTexture = loadTexture(images + "spell-book.png");
+buttonDrainTexture = loadTexture(images + "dead-head.png");
+buttonHideTexture = loadTexture(images + "invisible.png");
+buttonSummonTexture = loadTexture(images + "magic-hat.png");
+
+
+//classButton bowButton;
+//classButton drainButton;
+
 buttonUpTexture = loadTexture(images + "up-button.png");
 buttonDownTexture = loadTexture(images + "down-button.png");
 buttonLeftTexture = loadTexture(images + "left-button.png");
@@ -1272,8 +1288,7 @@ buttonRightTexture = loadTexture(images + "right-button.png");
 
 buttonPlayerTexture = loadTexture(images + "histogram.png");
 
-buttonSwordTexture = loadTexture(images + "sword-brandish.png");
-buttonSpellTexture = loadTexture(images + "spell-book.png");
+
 buttonPotionHealthTexture = loadTexture(images + "potion-health.png");
 buttonPotionMagicTexture = loadTexture(images + "potion-magic.png");
 
@@ -2950,9 +2965,14 @@ void game::screenFight()
 
     drawButtonSrc(fightButton, buttonSwordTexture);
     
+
+    drawButtonSrc(bowButton, buttonBowTexture);
+    drawButtonSrc(hideButton, buttonHideTexture);
     
     if (power>0) {
         drawButtonSrc(spellButton, buttonSpellTexture);
+        drawButtonSrc(drainButton, buttonDrainTexture);
+        drawButtonSrc(summonButton, buttonSummonTexture);
     }
 
     if (potions_health > 0) {

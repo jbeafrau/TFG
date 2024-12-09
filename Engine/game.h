@@ -389,7 +389,12 @@ protected:
     SDL_Texture* buttonPlayerTexture = NULL;
 
     SDL_Texture* buttonSwordTexture = NULL;
+    SDL_Texture* buttonBowTexture = NULL;
     SDL_Texture* buttonSpellTexture = NULL;
+    SDL_Texture* buttonDrainTexture = NULL;
+    SDL_Texture* buttonHideTexture = NULL;
+    SDL_Texture* buttonSummonTexture = NULL;
+
     SDL_Texture* buttonPotionHealthTexture = NULL;
     SDL_Texture* buttonPotionMagicTexture = NULL;
 
@@ -466,7 +471,12 @@ protected:
     classButton rollButton;
 
     classButton fightButton;
+    classButton bowButton;
     classButton spellButton;
+    classButton drainButton;
+    classButton hideButton;
+    classButton summonButton;
+
     classButton potionHealthButton;
     classButton potionMagicButton;
 

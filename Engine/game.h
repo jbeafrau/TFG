@@ -107,6 +107,9 @@ public:
 
     void adjustFPS();
 
+    void addSkill(std::string skill);
+    bool hasSkill(std::string skill);
+
     void addNotification(std::string notification);
     void eventsNotifications();
 
@@ -229,8 +232,10 @@ protected:
     string basePath;
 
 
-    std::list<achievement> achievements;
-    std::list<std::string> notifications;
+    std::list<achievement> achievements; //Player´s achievements 
+    std::list<std::string> skills; //Player´s skills
+    std::list<std::string> notifications; //Te,porary on screen notifications
+
     
     std::list<NPC> NPCs; //All NPCs
     std::list<NPC> tmpNPCs; //NPCs found in our location

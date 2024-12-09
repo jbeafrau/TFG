@@ -1948,7 +1948,7 @@ void game::screenPlayer()
     //target.h = tmpRect.h + 25;
 
 
-    drawTextResize("Ficha del personaje", tmpRect);
+    drawTextResize("Ficha del personaje: " +playerName, tmpRect);
 
 
     //tmpRect.x = 100;
@@ -1956,6 +1956,11 @@ void game::screenPlayer()
     tmpRect.y = 100;
     tmpRect.w = 400;
     tmpRect.h = 50;
+    drawTextResize(getRaceName(currentRace) + " / "+ getArchetypeName(currentArchetype), tmpRect);
+  //  drawTextResize("Raza: " + getRaceName(currentRace), tmpRect);
+
+   // tmpRect.y = 150;
+    //drawTextResize("Arquetipo: " + getArchetypeName(currentArchetype), tmpRect);
 
     //tmpRect.y = 150;
     //drawText("Volver a tirar para nueva tirada o continuar", tmpRect);
@@ -1976,18 +1981,27 @@ void game::screenPlayer()
     drawIMGBox(gScreenSurface->w / 2 - 200, 300, power, max_power, { 128,0,128,0 });
     drawIMGBox(gScreenSurface->w / 2 - 200, 350, luck, max_luck, { 0,200,200,0 });
 
-  /*  drawIMGBox(100, 200, skill, max_skill, {0,0,200,0});
-    drawIMGBox(100, 250, stamina, max_stamina, { 200,0,0,0 });
-    drawIMGBox(100, 300, power, max_power, { 128,0,128,0 });
-    drawIMGBox(100, 350, luck, max_luck, { 0,200,200,0 });
-
-    */
 
     tmpRect.y = 500;
     drawText("Nivel:" + to_string(level), tmpRect);
     tmpRect.y = 550;
     tmpRect.w = 200;
     drawText("Experiencia:" + to_string(exp) + "/" + to_string((level*level)*100), tmpRect);
+
+
+    tmpRect.y = 200;
+    tmpRect.x = gScreenSurface->w / 2 + 200;
+    drawTextResize("HABILIDADES: ", tmpRect);
+    tmpy = 200;
+    for (std::string skill : skills)
+    {
+        tmpy += 50;
+        tmpRect.y = tmpy;
+        drawText(skill, tmpRect);
+
+    }
+
+
 }
 
 void game::screenShops()
@@ -2807,6 +2821,29 @@ void game::screenHero()
 }
 
 
+void game::addSkill(std::string skill)
+{
+    if(!hasSkill(skill)){
+    skills.push_back(skill);
+    addNotification("Has aprendido la habilidad: "+skill);
+    }
+}
+
+bool game::hasSkill(std::string skill)
+{
+    bool returnValue = false;
+
+    for (std::string askill : skills) {
+        if (askill == skill){
+            returnValue = true;
+            break;
+        }
+    }
+
+    return returnValue;
+}
+
+
 void game::screenAchievements()
 {
     
@@ -3195,6 +3232,104 @@ void game::eventsPlayerArchetypes()
 
                 addItem("ESPADA", "Una espada mellada", 1, 1, 40);
                 addItem("ARMADURA CUERO", "Armadura ligera de cuero", 1, 1, 114);
+
+                //Add skill depending on archetype
+                switch (currentArchetype)
+                {
+                case my_enums::_FIGHTER_:
+                {
+                    addSkill("MELEE");
+                    break;
+                }
+                case my_enums::_ARCHER_:
+                {
+                    addSkill("ARQUERO");
+                    break;
+                }
+
+                case my_enums::_THIEVE_:
+                {
+                    addSkill("SUBTERFUGIO");
+                    break;
+                }
+
+                case my_enums::_MAGE_:
+                {
+                    addSkill("MAGIA");
+                    break;
+                }
+
+                case my_enums::_NECROMANCER_:
+                {
+                    addSkill("DRENAR");
+                    break;
+                }
+
+                case my_enums::_SUMMONER_:
+                {
+                    addSkill("INVOCAR");
+                    break;
+                }
+                default:
+                {
+                    // is likely to be an error
+                }
+                };
+
+                //Update attributes depending on the race
+                switch (currentRace)
+                {
+                case my_enums::_HUMAN_:
+                {
+                    max_skill += 1;
+                    skill = max_skill;
+                    break;
+                }
+                case my_enums::_ELF_:
+                {
+                    max_power += 1;
+                    power = max_power;
+                    break;
+                }
+
+                case my_enums::_DARF_:
+                {
+                    max_stamina += 2;
+                    stamina = max_stamina;
+                    break;
+                }
+
+                case my_enums::_HALFING_:
+                {
+                    max_luck += 2;
+                    luck = max_luck;
+                    break;
+                }
+
+                case my_enums::_HALFORC_:
+                {
+                    max_skill += 2;
+                    skill = max_skill;
+                    max_power -= 1;
+                    power = max_power;
+                }
+
+                case my_enums::_BEHOLDER_:
+                {
+                    max_power += 2;
+                    power = max_power;
+                    max_skill -= 1;
+                    skill = max_skill;
+                    break;
+                }
+
+                default:
+                {
+                    // is likely to be an error
+                }
+                };
+
+
 
             }//continue
 

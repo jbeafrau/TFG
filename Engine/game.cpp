@@ -3974,6 +3974,7 @@ void game::eventsFight()
 
                 //Process enemy attack
                 if (tmpNPCs.size() > 0){
+                    addAnimation( 1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
                     int good = dice(10, 1) + skill;
                     int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                     if (bad > good) {
@@ -4011,6 +4012,8 @@ void game::eventsFight()
                     int damage = 1;
                     //Process enemy attack
                     if (tmpNPCs.size() > 0) {
+                        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
+
                         int good = dice(10, 1) + skill;
                         int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                         if (bad > good) {
@@ -4048,6 +4051,8 @@ void game::eventsFight()
                     int damage = 1;
                     //Process enemy attack
                     if (tmpNPCs.size() > 0) {
+                        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
+
                         int good = dice(10, 1) + skill;
                         int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                         if (bad > good) {
@@ -4098,6 +4103,8 @@ void game::eventsFight()
 
                     //Process enemy attack
                     if (tmpNPCs.size() > 0) {
+                        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
+
                         int good = dice(10, 1) + skill;
                         int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                         if (bad > good) {

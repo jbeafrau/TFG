@@ -2994,27 +2994,26 @@ void game::screenFight()
     tmpRect.w = 400;
     tmpRect.h = 50;
    
-    drawText("¡¡COMBATE!!", tmpRect);
+    drawTextResize("¡¡COMBATE!!", tmpRect);
 
 
     int tmp = 0;
 
-    //cout << "<<Combate!!>>" << endl;
-
-    /*tmpRect.x = 150;
-    tmpRect.y = 50;
-    tmpRect.w = 400;
-    tmpRect.h = 50;
-    drawText("<<Combate!!>>", tmpRect);
-    */
+  
     tmpRect.x = 100;
+    SDL_Rect square;
+    square.x = 1;
+    square.w = 500;
+    square.h = 100;
+
     for (list<NPC>::iterator it = tmpNPCs.begin(); it != tmpNPCs.end(); it++)
     {
         tmp++;
-
+        
         tmpRect.w = 100;
         tmpRect.h = 100;
         tmpRect.x = 1;
+
         tmpRect.y = tmp * 100;
         //drawPlayerTileset(tmpRect, it->tile);
         drawTileset(tmpRect, playersTexture, it->tile,20);
@@ -3035,7 +3034,9 @@ void game::screenFight()
        
         drawIMGBox(200, 25 + tmp * 100, it->skill, it->skill, { 0,0,200,0 });
         drawIMGBox(200, 50 + tmp * 100, it->stamina, it->stamina, { 200,0,0,0 });
-
+        square.y = tmp * 100;
+        SDL_SetRenderDrawColor(gRenderer, 200, 0, 0, 0);
+        SDL_RenderDrawRect(gRenderer, &square);
 
     }
 
@@ -3065,6 +3066,13 @@ void game::screenFight()
     tmpRect.x = gScreenSurface->w / 2 - 200;
     tmpRect.h = 100;
     drawTileset(tmpRect, playersTexture, playerTile, 20);
+
+    square.x = gScreenSurface->w / 2 - 200;
+    square.y = gScreenSurface->h / 2 - 250;
+    square.w = 600;
+    SDL_SetRenderDrawColor(gRenderer, 0, 200, 0, 0);
+    SDL_RenderDrawRect(gRenderer, &square);
+
 
 //    drawIMGBox(100, gScreenSurface->h - 250, playerDice, 18, { 0,0,200,0 });
  //   drawIMGBox(100, gScreenSurface->h - 200, foeDice, 18, { 200,0,0,0 });
@@ -3938,6 +3946,7 @@ void game::eventsFight()
             }*/
 
             if (fightButton.clicked(mousex, mousey)) {
+                addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, buttonSwordTexture);
                 turn++;
                 int good = dice(10, 1) + skill;
                 int bad = dice(10, 1) + tmpNPCs.begin()->skill;
@@ -3986,7 +3995,7 @@ void game::eventsFight()
 
                 }
                
-                addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250,1,100,100,100, buttonSwordTexture);
+              
             }//fightbutton click
 
             //Health potion
@@ -4066,6 +4075,7 @@ void game::eventsFight()
             //magic attack
             if (spellButton.clicked(mousex, mousey)){
                 if (power > 0) {
+                    addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, buttonSpellTexture);
                     turn++;
                     int damage = 1;
                     int attackPower = dice(power, 1);

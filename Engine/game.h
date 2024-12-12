@@ -73,6 +73,8 @@ struct animation {
     int endy;
     int w;
     int h;
+    float incx;
+    float incy;
     SDL_Texture* texture;
 };
 

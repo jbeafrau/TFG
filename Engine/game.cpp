@@ -3040,22 +3040,35 @@ void game::screenFight()
     }
 
     tmpRect.w = 100;
-    tmpRect.h = 100;
+    tmpRect.h = 50;
     tmpRect.x = 100;
-    tmpRect.y = gScreenSurface->h - 250;
+    //tmpRect.x = 100;
+    tmpRect.x = gScreenSurface->w / 2;
+    
+    tmpRect.y = gScreenSurface->h / 2 - 250;
+    drawTextL(playerName, tmpRect);
+    tmpRect.y = gScreenSurface->h/2 - 225;
   //  drawTextL("Tu ataque", tmpRect);
     drawTextL("Vitalidad:", tmpRect);
-    drawIMGBox(100, gScreenSurface->h - 250, stamina, max_stamina, { 200,0,0,0 });
+    //drawIMGBox(100, gScreenSurface->h/2 - 250, stamina, max_stamina, { 200,0,0,0 });
+    drawIMGBox(gScreenSurface->w / 2, gScreenSurface->h / 2 - 225, stamina, max_stamina, { 200,0,0,0 });
+    
 
-    tmpRect.y = gScreenSurface->h - 200;
+    tmpRect.y = gScreenSurface->h/2 - 200;
     drawTextL("Poder:", tmpRect);
-    drawIMGBox(100, gScreenSurface->h - 200, power, max_power, { 128,0,128,0 });
+    //drawIMGBox(100, gScreenSurface->h/2 - 200, power, max_power, { 128,0,128,0 });
+    drawIMGBox(gScreenSurface->w / 2, gScreenSurface->h / 2 - 200, power, max_power, { 128,0,128,0 });
  //   drawTextL("Ataque enemigo", tmpRect);
 
 
+    tmpRect.y = gScreenSurface->h / 2 - 250; 
+    tmpRect.x = gScreenSurface->w / 2 - 200;
+    tmpRect.h = 100;
+    drawTileset(tmpRect, playersTexture, playerTile, 20);
+
 //    drawIMGBox(100, gScreenSurface->h - 250, playerDice, 18, { 0,0,200,0 });
  //   drawIMGBox(100, gScreenSurface->h - 200, foeDice, 18, { 200,0,0,0 });
-
+    tmpRect.x = gScreenSurface->w / 2;
     tmpRect.y = gScreenSurface->h - 150;
     drawTextL("Turno:", tmpRect);
     drawText(to_string(turn), tmpRect);
@@ -3973,12 +3986,14 @@ void game::eventsFight()
 
                 }
                
-                addAnimation(fightButton.getRect().x, fightButton.getRect().y,1,100,100,100, buttonSwordTexture);
+                addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250,1,100,100,100, buttonSwordTexture);
             }//fightbutton click
 
             //Health potion
             if (potions_health > 0) {
                 if (potionHealthButton.clicked(mousex, mousey)) {
+
+                    addAnimation(potionHealthButton.getRect().x, potionHealthButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, buttonPotionHealthTexture);
                     potions_health--;
                     stamina += 10;
                     if (stamina > max_stamina)stamina = max_stamina;
@@ -4015,6 +4030,7 @@ void game::eventsFight()
             if (potions_power > 0) {
                 
                 if (potionMagicButton.clicked(mousex, mousey)) {
+                    addAnimation(potionMagicButton.getRect().x, potionMagicButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, buttonPotionMagicTexture);
                     potions_power--;
                     power += 10;
                     if (power > max_power)power = max_power;
@@ -4382,6 +4398,10 @@ void game::addAnimation(int startx, int starty, int endx, int endy, int w, int h
     anime.w = w;
     anime.h = h;
     anime.texture = texture;
+
+    anime.incx = abs(endx - startx) / desiredFPS;
+    anime.incy = abs(endy - starty) / desiredFPS;
+
     animations.push_back(anime);
 
 }
@@ -4390,10 +4410,10 @@ void game::playAnimations() {
     if(animations.size() >0) {
     for (list<animation>::iterator it = animations.begin(); it != animations.end(); it++)
     {
-        if (it->startx > it->endx)it->startx--;
-        if (it->startx < it->endx)it->startx++;
-        if (it->starty > it->endy)it->starty--;
-        if (it->starty < it->endy)it->starty++;
+        if (it->startx > it->endx)it->startx-= it->incx;
+        if (it->startx < it->endx)it->startx+= it->incx;
+        if (it->starty > it->endy)it->starty-= it->incy;
+        if (it->starty < it->endy)it->starty+= it->incy;
 
         //if (currentState == it->map) {
         //    // s_Foe aFoe;
@@ -4405,7 +4425,9 @@ void game::playAnimations() {
     std::list<animation>::iterator i = animations.begin();
     while (i != animations.end())
     {
-        bool animationEnd = ((i)->startx == (i)->endx)&& ((i)->starty == (i)->endy);
+        int difx = abs((i)->startx - (i)->endx);
+        int dify = abs((i)->starty - (i)->endy);
+        bool animationEnd = (difx < 10)&& (dify < 10);
         if (animationEnd)
         {
             animations.erase(i++);  // alternatively, i = items.erase(i);

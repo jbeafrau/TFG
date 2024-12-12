@@ -66,6 +66,16 @@ struct SHOP { // shop definition
     int tile;
 };
 
+struct animation {
+    int startx;
+    int starty;
+    int endx;
+    int endy;
+    int w;
+    int h;
+    SDL_Texture* texture;
+};
+
 
 class game
 {
@@ -96,16 +106,14 @@ public:
     void setState(my_enums::gameState newState);
 
     std::string getBasePath();
+    void adjustFPS();
+
+    void addAnimation(int startx, int starty, int endx, int endy, int w, int h, SDL_Texture* texture);
+    void playAnimations();
 
     std::string getRaceName(my_enums::playerRaces race);
     std::string getArchetypeName(my_enums::playerArchetype archetype);
-
-
-
-
-
-
-    void adjustFPS();
+      
 
     void addSkill(std::string skill);
     bool hasSkill(std::string skill);
@@ -236,12 +244,13 @@ protected:
     std::list<std::string> skills; //Player´s skills
     std::list<std::string> notifications; //Te,porary on screen notifications
 
+    std::list<animation> animations; //Animations
     
     std::list<NPC> NPCs; //All NPCs
     std::list<NPC> tmpNPCs; //NPCs found in our location
 
-    list<SHOP> SHOPs; // All Shops
-    list<SHOP> tmpSHOPs; // Shops Found in our location
+    std::list<SHOP> SHOPs; // All Shops
+    std::list<SHOP> tmpSHOPs; // Shops Found in our location
 
     std::list<item> items; //Player inventory
     int coins = 50; //Player currency

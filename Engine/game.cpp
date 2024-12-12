@@ -3972,8 +3972,8 @@ void game::eventsFight()
                     }
 
                 }
-
-              
+               
+                addAnimation(fightButton.getRect().x, fightButton.getRect().y,1,100,100,100, buttonSwordTexture);
             }//fightbutton click
 
             //Health potion
@@ -4369,6 +4369,61 @@ void game::eventsHomeTown()
 
     }
    // myTime = (int)(timer.getTicks() / 1000);
+}
+
+
+void game::addAnimation(int startx, int starty, int endx, int endy, int w, int h, SDL_Texture* texture)
+{
+    animation anime;
+    anime.startx = startx;
+    anime.starty = starty;
+    anime.endy = endy;
+    anime.endx = endx;
+    anime.w = w;
+    anime.h = h;
+    anime.texture = texture;
+    animations.push_back(anime);
+
+}
+
+void game::playAnimations() {
+    if(animations.size() >0) {
+    for (list<animation>::iterator it = animations.begin(); it != animations.end(); it++)
+    {
+        if (it->startx > it->endx)it->startx--;
+        if (it->startx < it->endx)it->startx++;
+        if (it->starty > it->endy)it->starty--;
+        if (it->starty < it->endy)it->starty++;
+
+        //if (currentState == it->map) {
+        //    // s_Foe aFoe;
+        //    tx = it->x - cam_x;
+        //        }
+
+    }
+
+    std::list<animation>::iterator i = animations.begin();
+    while (i != animations.end())
+    {
+        bool animationEnd = ((i)->startx == (i)->endx)&& ((i)->starty == (i)->endy);
+        if (animationEnd)
+        {
+            animations.erase(i++);  // alternatively, i = items.erase(i);
+        }
+        else
+        {
+           
+            SDL_Rect tmprect;
+            tmprect.x = (i)->startx;
+            tmprect.y = (i)->starty;
+            tmprect.w = (i)->w;
+            tmprect.h = (i)->h;
+            SDL_RenderCopy(gRenderer, (i)->texture, NULL, &tmprect);
+            ++i;
+        }
+    }
+    }
+
 }
 
 void game::drawPlayer()

@@ -3946,7 +3946,7 @@ void game::eventsFight()
             }*/
 
             if (fightButton.clicked(mousex, mousey)) {
-                addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, buttonSwordTexture);
+                addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1,buttonSwordTexture);
                 turn++;
                 int good = dice(10, 1) + skill;
                 int bad = dice(10, 1) + tmpNPCs.begin()->skill;
@@ -4002,7 +4002,7 @@ void game::eventsFight()
             if (potions_health > 0) {
                 if (potionHealthButton.clicked(mousex, mousey)) {
 
-                    addAnimation(potionHealthButton.getRect().x, potionHealthButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, buttonPotionHealthTexture);
+                    addAnimation(potionHealthButton.getRect().x, potionHealthButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100,1, buttonPotionHealthTexture);
                     potions_health--;
                     stamina += 10;
                     if (stamina > max_stamina)stamina = max_stamina;
@@ -4039,7 +4039,7 @@ void game::eventsFight()
             if (potions_power > 0) {
                 
                 if (potionMagicButton.clicked(mousex, mousey)) {
-                    addAnimation(potionMagicButton.getRect().x, potionMagicButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, buttonPotionMagicTexture);
+                    addAnimation(potionMagicButton.getRect().x, potionMagicButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1,buttonPotionMagicTexture);
                     potions_power--;
                     power += 10;
                     if (power > max_power)power = max_power;
@@ -4075,7 +4075,7 @@ void game::eventsFight()
             //magic attack
             if (spellButton.clicked(mousex, mousey)){
                 if (power > 0) {
-                    addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, buttonSpellTexture);
+                    addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100,1, buttonSpellTexture);
                     turn++;
                     int damage = 1;
                     int attackPower = dice(power, 1);
@@ -4256,6 +4256,11 @@ void game::eventsHomeTown()
 
             if(food>0){
             if (foodButton.clicked(mousex, mousey)) {
+                int tx = px - cam_x;
+                int ty = py - cam_y;
+
+                addAnimation(foodButton.getRect().x, foodButton.getRect().y, (gScreenSurface->w / cam_size_x) * tx, (gScreenSurface->h / cam_size_y) * ty, gScreenSurface->w / cam_size_x, gScreenSurface->h / cam_size_y, 1, buttonFoodTexture);
+
                 food--;
                 stamina += 4;
                 if (stamina > max_stamina)stamina = max_stamina;
@@ -4398,7 +4403,7 @@ void game::eventsHomeTown()
 }
 
 
-void game::addAnimation(int startx, int starty, int endx, int endy, int w, int h, SDL_Texture* texture)
+void game::addAnimation(int startx, int starty, int endx, int endy, int w, int h, int s, SDL_Texture* texture)
 {
     animation anime;
     anime.startx = startx;
@@ -4408,7 +4413,8 @@ void game::addAnimation(int startx, int starty, int endx, int endy, int w, int h
     anime.w = w;
     anime.h = h;
     anime.texture = texture;
-
+    anime.seconds = s;
+    anime.ticks = SDL_GetTicks();
     anime.incx = abs(endx - startx) / desiredFPS;
     anime.incy = abs(endy - starty) / desiredFPS;
 
@@ -4435,9 +4441,12 @@ void game::playAnimations() {
     std::list<animation>::iterator i = animations.begin();
     while (i != animations.end())
     {
-        int difx = abs((i)->startx - (i)->endx);
-        int dify = abs((i)->starty - (i)->endy);
-        bool animationEnd = (difx < 10)&& (dify < 10);
+        //int difx = abs((i)->startx - (i)->endx);
+        //int dify = abs((i)->starty - (i)->endy);
+      //  bool animationEnd = (difx < 10)&& (dify < 10);
+
+        bool animationEnd = (SDL_GetTicks() - (i)->ticks) > ((i)->seconds * 1000);
+        //int s,
         if (animationEnd)
         {
             animations.erase(i++);  // alternatively, i = items.erase(i);

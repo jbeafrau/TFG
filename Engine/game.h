@@ -75,6 +75,8 @@ struct animation {
     int h;
     float incx;
     float incy;
+    int seconds;
+    int ticks;
     SDL_Texture* texture;
 };
 
@@ -110,7 +112,7 @@ public:
     std::string getBasePath();
     void adjustFPS();
 
-    void addAnimation(int startx, int starty, int endx, int endy, int w, int h, SDL_Texture* texture);
+    void addAnimation(int startx, int starty, int endx, int endy, int w, int h, int s,SDL_Texture* texture);
     void playAnimations();
 
     std::string getRaceName(my_enums::playerRaces race);

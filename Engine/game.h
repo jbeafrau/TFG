@@ -249,6 +249,11 @@ protected:
     int magicKill = 0;
     int achievementGroup = 0;
 
+    bool growing = true;
+    int eyesize = 100;
+    int introCounter = 0;
+    int introTile = 1;
+
 
     std::list<achievement> achievements; //Player´s achievements 
     std::list<std::string> skills; //Player´s skills

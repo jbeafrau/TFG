@@ -2161,6 +2161,37 @@ void game::screenIntro()
     fg = { 128, 0, 128, 0 };
     drawTextResize("Achievement master", tmpRect);
     fg = { 0, 0, 0, 0 };
+
+    tmpRect.x = gScreenSurface->w / 2 - (248 - eyesize)/2;
+    tmpRect.y = gScreenSurface->h / 2 - (248 - eyesize) / 2;
+    tmpRect.w = 248 - eyesize;
+    tmpRect.h = 248 - eyesize;
+
+    for(int x = 0; x < (gScreenSurface->w / 100) + 2; x++)
+    {
+        for(int y = 0; y < (gScreenSurface->h / 100) + 2; y++)
+        {
+           // draw_sprite(window, renderer, paper, x * 100 + 1, y * 100 + 1);
+            drawTileset(tmpRect, playersTexture, introTile, 20);
+        }
+    }
+    if (growing)
+    {
+        eyesize++;
+    }
+    else
+    {
+        eyesize--;
+    }
+
+    if (eyesize > 200) growing = false;
+    if (eyesize < 48) growing = true;
+    introCounter++;
+    if (introCounter == 15) {
+        introCounter = 0;
+        introTile++;
+        if (introTile > 300)introTile = 1;
+    }
 }
 
 

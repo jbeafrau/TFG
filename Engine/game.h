@@ -245,7 +245,8 @@ protected:
 
     string basePath;
 
-    
+    int killCount = 0;
+    int magicKill = 0;
 
 
     std::list<achievement> achievements; //Player´s achievements 

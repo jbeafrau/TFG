@@ -2830,6 +2830,7 @@ void game::screenHero()
 {
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
+    drawButtonSrc(achievementsButton, buttonStarsTexture);
 
   /*  tmpRect.x = gScreenSurface->w / 2 - 200;
     tmpRect.y = 0;
@@ -3673,7 +3674,7 @@ void game::eventsConfigMenu()
                 timerGameOver.start();
                 timerGameOver.reset();
                 //addNotification("Saliendo del juego");
-                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (muteButton.clicked(mousex, mousey)) {
@@ -3683,7 +3684,7 @@ void game::eventsConfigMenu()
                     Mix_Volume(-1, 0);
                     Mix_VolumeMusic(0);
                     //addNotification("Sonido apagado");
-                    addAchievement("Sonido apagado", my_enums::_OPTIONS_);
+                    addAchievement("La ley del silencio", my_enums::_OPTIONS_);
                     volumeSoundButton.setCaption("SOUND " + std::to_string(volumeSound * 100 / 128) + "%");
                     volumeMusicButton.setCaption("MUSIC " + std::to_string(volumeMusic * 100 / 128) + "%");
                 }
@@ -3694,7 +3695,7 @@ void game::eventsConfigMenu()
                     Mix_Volume(-1, volumeSound);
                     Mix_VolumeMusic(volumeMusic);
                     //addNotification("Sonido activado");
-                    addAchievement("Sonido activado", my_enums::_OPTIONS_);
+                    addAchievement("Música para mis oídos", my_enums::_OPTIONS_);
                     volumeSoundButton.setCaption("SOUND " + std::to_string(volumeSound * 100 / 128) + "%");
                     volumeMusicButton.setCaption("MUSIC " + std::to_string(volumeMusic * 100 / 128) + "%");
                 }
@@ -3707,53 +3708,53 @@ void game::eventsConfigMenu()
                 case 1:
                     currentMusic = 2;
                     Mix_PlayMusic(musicDARK, -1);
-                    addAchievement("Musica DARK", my_enums::_OPTIONS_);
+                   // addAchievement("Musica DARK", my_enums::_OPTIONS_);
                     break;
                 case 2:
                     currentMusic = 3;
                     Mix_PlayMusic(musicFOREST, -1);
-                    addAchievement("Musica FOREST", my_enums::_OPTIONS_);
+                    //addAchievement("Musica FOREST", my_enums::_OPTIONS_);
                     break;
                 case 3:
                     currentMusic = 4;
                     Mix_PlayMusic(musicTOWN, -1);
-                    addAchievement("Musica TOWN", my_enums::_OPTIONS_);
+                  //  addAchievement("Musica TOWN", my_enums::_OPTIONS_);
                     break;
 
                 case 4:
                     currentMusic = 5;
                     Mix_PlayMusic(musicBATTLE, -1);
-                    addAchievement("Musica BATTLE", my_enums::_OPTIONS_);
+                    //addAchievement("Musica BATTLE", my_enums::_OPTIONS_);
                     break;
 
                 case 5:
                     currentMusic = 6;
                     Mix_PlayMusic(musicBOSS, -1);
-                    addAchievement("Musica BOSS", my_enums::_OPTIONS_);
+                  //  addAchievement("Musica BOSS", my_enums::_OPTIONS_);
                     break;
 
                 case 6:
                     currentMusic = 7;
                     Mix_PlayMusic(musicCAVE, -1);
-                    addAchievement("Musica CAVE", my_enums::_OPTIONS_);
+                   // addAchievement("Musica CAVE", my_enums::_OPTIONS_);
                     break;
 
                 case 7:
                     currentMusic = 8;
                     Mix_PlayMusic(musicHERO, -1);
-                    addAchievement("Musica HERO", my_enums::_OPTIONS_);
+                   // addAchievement("Musica HERO", my_enums::_OPTIONS_);
                     break;
 
                 case 8:
                     currentMusic = 9;
                     Mix_PlayMusic(musicMYSTICAL, -1);
-                    addAchievement("Musica MYSTICAL", my_enums::_OPTIONS_);
+                  //  addAchievement("Musica MYSTICAL", my_enums::_OPTIONS_);
                     break;
 
                 case 9:
                     currentMusic = 1;
                     Mix_PlayMusic(musicINTRO, -1);
-                    addAchievement("Musica INTRO", my_enums::_OPTIONS_);
+                  //  addAchievement("Musica INTRO", my_enums::_OPTIONS_);
                     break;
 
                 }
@@ -3878,6 +3879,13 @@ if (getState() != my_enums::_FIGHT_)//You dont recharge magic while fighting
 {
     if (myTime != prevTime) {
         prevTime = myTime;
+
+        if (debugMode) {
+            if (NPCs.size()<50){
+            addNPC(1, dice(10, 80), dice(10, 80), my_enums::_HOMETOWN_, "MALO", dice(10, 1), dice(10, 5), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
+        }
+        }
+
         powerRegeneration++;
         if (powerRegeneration >= (30 - max_power)) {
             power++;
@@ -3927,6 +3935,13 @@ void game::eventsHero()
                 loadNPCs();
                 Mix_PlayMusic(musicINTRO, -1);
                 setState(my_enums::_MAINMENU_);
+                addAchievement("Heroe Inmortal", my_enums::_HIDDEN_);
+
+            }
+
+            if (achievementsButton.clicked(mousex, mousey)) {
+                setState(my_enums::_ACHIEVEMENTS_);
+                previousScreen = my_enums::_MAINMENU_;
 
             }
 
@@ -3968,15 +3983,10 @@ void game::eventsFight()
                 timerGameOver.reset();
                 //addNotification("Saliendo del juego");
                 deleteNPCs(px, py);
-                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
-           /* if (continueButton.clicked(mousex, mousey)) {
-                Mix_PlayMusic(musicTOWN, -1);
-                deleteNPCs(px, py);
-                setState(previousScreen);
-
-            }*/
+   
 
             if (fightButton.clicked(mousex, mousey)) {
                 addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1,buttonSwordTexture);
@@ -3998,6 +4008,12 @@ void game::eventsFight()
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                          exp += tmpNPC.exp;
                         tmpNPCs.pop_front();
+
+
+                        killCount++;
+                        addAchievement("Primera victoria", my_enums::_COMBAT_);
+                        if(killCount == 10)addAchievement("Le estas pillando el punto", my_enums::_COMBAT_);
+                        if (killCount == 100)addAchievement("Massacre", my_enums::_COMBAT_);
                     }
                     else {
                         tmpNPCs.pop_front();
@@ -4018,6 +4034,7 @@ void game::eventsFight()
                             setState(my_enums::_HERO_);
                             deleteNPCs(px, py);
                             //Mix_PlayMusic(musicGameOver, -1);
+                            addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
                             Mix_PlayMusic(musicHERO, -1);
                             timerGameOver.start();
                             timerGameOver.reset();
@@ -4058,6 +4075,7 @@ void game::eventsFight()
                                 setState(my_enums::_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
+                                addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
                                 Mix_PlayMusic(musicHERO, -1);
                                 timerGameOver.start();
                                 timerGameOver.reset();
@@ -4097,6 +4115,7 @@ void game::eventsFight()
                                 setState(my_enums::_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
+                                addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
                                 Mix_PlayMusic(musicHERO, -1);
                                 timerGameOver.start();
                                 timerGameOver.reset();
@@ -4128,6 +4147,13 @@ void game::eventsFight()
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         exp += tmpNPC.exp;
                         tmpNPCs.pop_front();
+
+                        magicKill++;
+                        addAchievement("Abracadabra", my_enums::_COMBAT_);
+                        if (magicKill == 10)addAchievement("La fuerza crece en ti", my_enums::_COMBAT_);
+                        if (magicKill == 100)addAchievement("Desintegrar", my_enums::_COMBAT_);
+
+
                     }
                     else {
                         tmpNPCs.pop_front();

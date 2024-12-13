@@ -35,6 +35,7 @@ struct NPC { //enemy definition
     string description="";
     int skill=0;
     int stamina=0;
+    int power = 0;
     int luck=0;
     int exp=0;
     my_enums::AItypes NPCAI;

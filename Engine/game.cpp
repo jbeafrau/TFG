@@ -2966,7 +2966,15 @@ void game::screenAchievements()
     drawIMGBox(100, 350, options, 10, { 200,0,0,0 });
     drawIMGBox(100, 400, hidden, 10, { 200,0,0,0 });
     */
+    SDL_Rect square;
 
+    square.x = gScreenSurface->w / 2;
+    square.y =  200;
+    square.w = 200;
+    square.h = 200;
+    SDL_SetRenderDrawColor(gRenderer, 0, 0, 200, 0);
+    SDL_RenderDrawRect(gRenderer, &square);
+    drawTextResize(achievementsButton.getCaption(), square);
 
 }
 

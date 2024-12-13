@@ -142,13 +142,6 @@ list<NPC> game::getNPCs(int x, int y)
             aNPC.exp = it->exp;
             aNPC.NPCAI = it->NPCAI;
             aNPC.tile = it->tile;
-
-            /* s_Foe aFoe;
-            aFoe.id = it->id;
-            aFoe.description = it->description;
-            aFoe.skill = it->skill;
-            aFoe.stamina = it->stamina;
-            */
            
             tmp.push_back(aNPC);
         }
@@ -502,14 +495,6 @@ void game::cleanShop(int x, int y, int option)
 }
 
 
-/*
-            if (inventoryButton.clicked(mousex, mousey)) {
-                Mix_PlayChannel(-1, audioButton, 0);
-                screenInventory();
-            }
-  */          
-
-
 void game::monsterGenerator()
 {
     //todo
@@ -575,6 +560,10 @@ void game::loadShops()
 void game::start()
 {
     
+    btnx = gScreenSurface->w / 32;
+    btny = gScreenSurface->h / 16;
+
+
     //Initialize timers
     timer.start();
     FPStimer.start();
@@ -649,10 +638,13 @@ void game::start()
     prevButton.setButton(gScreenSurface->w / 2 - 256, gScreenSurface->h /2, 128, 128, "Anterior");
     prevButton.setColor(128, 128, 128);
 
-    exitButton.setButton(gScreenSurface->w - 128, 0, 128, 128, "Salir");
+    //exitButton.setButton(gScreenSurface->w - 128, 0, 128, 128, "Salir");
+    exitButton.setButton(gScreenSurface->w - btnx, 0, btnx, btny, "Salir");
     exitButton.setColor(200, 0, 0);
 
-    continueButton.setButton(gScreenSurface->w / 2 +32 , gScreenSurface->h - 128, 128, 128, "Continuar");
+  //  continueButton.setButton(gScreenSurface->w / 2 +32 , gScreenSurface->h - 128, 128, 128, "Continuar");
+
+    continueButton.setButton(gScreenSurface->w / 2 -btnx, gScreenSurface->h/4*3, btnx*2, btny*2, "Continuar");
     continueButton.setColor(0, 0, 200);
 
     backButton.setButton(gScreenSurface->w / 2 - 160 , gScreenSurface->h - 128, 128, 128, "Volver");
@@ -667,7 +659,7 @@ void game::start()
     player1Button.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 100, 200, 50, "Nombre Jugador");
     player1Button.setColor(100, 100, 100);
 
-
+    /*
     configButton.setButton(1, gScreenSurface->h -128, 128, 128, "Configuración");
     configButton.setColor(100, 100, 100);
     inventoryButton.setButton(129, gScreenSurface->h - 128, 128, 128, "Inventario");
@@ -675,7 +667,17 @@ void game::start()
     playerButton.setButton(257, gScreenSurface->h - 128, 128, 128, "Personaje");
     playerButton.setColor(0, 0, 200);
     mapButton.setButton(385, gScreenSurface->h - 128, 128, 128, "View map");
+    mapButton.setColor(200, 200, 200);*/
+
+    configButton.setButton(1, 1, btnx, btny, "Configuración");
+    configButton.setColor(100, 100, 100);
+    inventoryButton.setButton(1+btnx, 1, btnx, btny, "Inventario");
+    inventoryButton.setColor(0, 0, 200);
+    playerButton.setButton(1+btnx*2, 1, btnx, btny, "Personaje");
+    playerButton.setColor(0, 0, 200);
+    mapButton.setButton(1+btnx*3, 1, btnx, btny, "View map");
     mapButton.setColor(200, 200, 200);
+
     achievementsButton.setButton(513, gScreenSurface->h - 128, 128, 128, "0 %");
     achievementsButton.setColor(0, 0, 200);
 
@@ -2145,16 +2147,10 @@ void game::screenClear()
 
 void game::screenIntro()
 {
-
     drawButtonSrc(exitButton,buttonCloseTexture);
-    //drawButton(exitButton);
     drawButtonSrc(continueButton,buttonPlayTexture);
-    //drawButton(continueButton);
-   // tmpRect.x = gScreenSurface->w / 2 - 350;
     tmpRect.y = gScreenSurface->h / 4;
-   // tmpRect.w = 700;
     tmpRect.h = 100;
-
 
     tmpRect.x = gScreenSurface->w / 2 - 450;
     tmpRect.w = 900;
@@ -2171,7 +2167,6 @@ void game::screenIntro()
     {
         for(int y = 0; y < (gScreenSurface->h / 100) + 2; y++)
         {
-           // draw_sprite(window, renderer, paper, x * 100 + 1, y * 100 + 1);
             drawTileset(tmpRect, playersTexture, introTile, 20);
         }
     }

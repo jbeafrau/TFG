@@ -254,6 +254,9 @@ protected:
     int introCounter = 0;
     int introTile = 1;
 
+    int btnx = 0;
+    int btny = 0;
+
 
     std::list<achievement> achievements; //Player´s achievements 
     std::list<std::string> skills; //Player´s skills

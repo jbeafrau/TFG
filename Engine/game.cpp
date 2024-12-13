@@ -703,15 +703,21 @@ void game::start()
     mouseButton.setButton(gScreenSurface->w / 2 - 100, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
     mouseButton.setColor(100, 100, 100);
 
-    
+    /*
     fightButton.setButton(1,   gScreenSurface->h -128, 128, 128, "Atacar");
     bowButton.setButton(128, gScreenSurface->h - 128, 128, 128, "Arco");
     spellButton.setButton(256, gScreenSurface->h -128, 128, 128, "Magia");
     drainButton.setButton(384, gScreenSurface->h - 128, 128, 128, "Drenar");
     hideButton.setButton(512, gScreenSurface->h - 128, 128, 128, "Subterfugio");
     summonButton.setButton(640, gScreenSurface->h - 128, 128, 128, "Invocar");
+    */
+    fightButton.setButton(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 50, 128, 128, "Atacar");
+    bowButton.setButton(gScreenSurface->w / 2 - 200 +128, gScreenSurface->h / 2 - 50, 128, 128, "Arco");
+    spellButton.setButton(gScreenSurface->w / 2 - 200 +128*2, gScreenSurface->h / 2 - 50, 128, 128, "Magia");
+    drainButton.setButton(gScreenSurface->w / 2 - 200 + 128 *3, gScreenSurface->h / 2 - 50, 128, 128, "Drenar");
+    hideButton.setButton(gScreenSurface->w / 2 - 200 + 128 *4, gScreenSurface->h / 2 - 50, 128, 128, "Subterfugio");
+    summonButton.setButton(gScreenSurface->w / 2 - 200 + 128 *5, gScreenSurface->h / 2 - 50, 128, 128, "Invocar");
 
-    
     potionHealthButton.setButton(gScreenSurface->w-256, gScreenSurface->h - 128, 128, 128, "+Salud");
     potionHealthButton.setColor(100, 100, 100);
     potionMagicButton.setButton(gScreenSurface->w-128, gScreenSurface->h - 128, 128, 128, "+Magia");
@@ -3075,6 +3081,8 @@ void game::screenFight()
     SDL_SetRenderDrawColor(gRenderer, 0, 200, 0, 0);
     SDL_RenderDrawRect(gRenderer, &square);
 
+    tmpRect.y = gScreenSurface->h / 2 - 50;
+    //melee
 
 //    drawIMGBox(100, gScreenSurface->h - 250, playerDice, 18, { 0,0,200,0 });
  //   drawIMGBox(100, gScreenSurface->h - 200, foeDice, 18, { 200,0,0,0 });

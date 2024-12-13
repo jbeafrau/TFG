@@ -670,7 +670,9 @@ void game::start()
     rollButton.setColor(0, 0, 200);
 
     //startButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h / 2 -64, 128, 128, "Jugar");
-    startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2 - 64, btnx*2, btny*2, "Jugar");
+    //startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2 - 64, btnx*2, btny*2, "Jugar");
+    startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 4 * 3 , btnx * 2, btny * 2, "Jugar");
+
     startButton.setColor(100, 100, 100);
 
     player1Button.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 100, 200, 50, "Nombre Jugador");
@@ -1308,6 +1310,7 @@ buttonBackpackTexture = loadTexture(images + "backpack.png");
 buttonPlayTexture     = loadTexture(images + "play-button.png");
 buttonCancelTexture   = loadTexture(images + "cancel.png");
 buttonStarsTexture    = loadTexture(images + "stars-stack.png");
+buttonBackTexture     = loadTexture(images + "anticlockwise-rotation.png");
 
 
 buttonSwordTexture = loadTexture(images + "sword-brandish.png");
@@ -1926,14 +1929,15 @@ void game::screenPlayerName()
     tmpRect.w = 400;
     tmpRect.h = 50;
 
-    drawText("CAMBIAR NOMBRE E IMAGEN", tmpRect);
+    drawTextResize("CAMBIAR NOMBRE E IMAGEN", tmpRect);
     tmpRect.y = 200;
     drawText("Introduce el nombre del jugador", tmpRect);
 
     tmpRect.y = 250;
     drawText(playerName, tmpRect);
     //tmpRect.y = 300;
-    tmpRect.y = gScreenSurface->h / 2 - 50;
+   // tmpRect.y = gScreenSurface->h / 2 - 50;
+    tmpRect.y = gScreenSurface->h / 4*3 -50;
     drawText("Cambia la imagen y luego pulsa continuar...", tmpRect);
 }
 
@@ -1949,15 +1953,17 @@ void game::screenPlayerAttributes()
 
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
-    drawButtonSrc(backButton, buttonCancelTexture);
+    drawButtonSrc(backButton, buttonBackTexture);
 
     drawButtonSrc(rollButton, buttonRollDiceTexture);
 
-    tmpRect.x = 100;
+    //tmpRect.x = 100;
+    tmpRect.x = gScreenSurface->w/2 -200;
+
     tmpRect.y = 100;
     tmpRect.w = 400;
     tmpRect.h = 50;
-    drawText("Atributos del personaje", tmpRect);
+    drawTextResize("Atributos del personaje", tmpRect);
     tmpRect.y = 150;
     drawText("Volver a tirar para nueva tirada o continuar", tmpRect);
 
@@ -1976,11 +1982,18 @@ void game::screenPlayerAttributes()
   //  drawIMG(starTexture, 100, 300, power, 18);
   //  drawIMG(starTexture, 100, 300, luck, 18);
     //, SDL_Color color
-
-  drawIMGBox(100, 200, skill, max_skill, { 0,0,200,0 });
+/*
+drawIMGBox(100, 200, skill, max_skill, { 0,0,200,0 });
   drawIMGBox(100, 250, stamina, max_stamina, { 200,0,0,0 });
   drawIMGBox(100, 300, power, max_power, { 128,0,128,0 });
   drawIMGBox(100, 350, luck, max_luck, { 0,200,200,0 });
+*/
+  drawIMGBox(gScreenSurface->w / 2 - 200, 200, skill, max_skill, { 0,0,200,0 });
+  drawIMGBox(gScreenSurface->w / 2 - 200, 250, stamina, max_stamina, { 200,0,0,0 });
+  drawIMGBox(gScreenSurface->w / 2 - 200, 300, power, max_power, { 128,0,128,0 });
+  drawIMGBox(gScreenSurface->w / 2 - 200, 350, luck, max_luck, { 0,200,200,0 });
+
+  
 }
 
 
@@ -2744,7 +2757,8 @@ void game::screenPlayerRaces()
 
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
-    drawButtonSrc(backButton, buttonCancelTexture);
+   // drawButtonSrc(backButton, buttonCancelTexture);
+    drawButtonSrc(backButton, buttonBackTexture);
     drawButtonSrc(nextButton, buttonNextTexture);
     drawButtonSrc(prevButton, buttonPrevTexture);
 
@@ -2754,13 +2768,14 @@ void game::screenPlayerRaces()
     tmpRect.w = 400;
     tmpRect.h = 50;
 
-    drawText("RAZA DEL JUGADOR", tmpRect);
+    drawTextResize("RAZA DEL JUGADOR", tmpRect);
     tmpRect.y = 200;
     drawText("Selecciona la raza del personaje", tmpRect);
 
     //tmpRect.y = 250;
     //drawText(playerName, tmpRect);
-    tmpRect.y = 300;
+   // tmpRect.y = 300;
+    tmpRect.y = gScreenSurface->h / 4 * 3 - 50;
     drawText("Luego pulsa continuar...", tmpRect);
 
     //tmpRect.y = 400;
@@ -2780,7 +2795,8 @@ void game::screenPlayerArchetypes()
 
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonPlayTexture);
-    drawButtonSrc(backButton, buttonCancelTexture);
+   // drawButtonSrc(backButton, buttonCancelTexture);
+    drawButtonSrc(backButton, buttonBackTexture);
     drawButtonSrc(nextButton, buttonNextTexture);
     drawButtonSrc(prevButton, buttonPrevTexture);
 
@@ -2790,11 +2806,12 @@ void game::screenPlayerArchetypes()
     tmpRect.w = 400;
     tmpRect.h = 50;
 
-    drawText("ARQUETIPO DEL JUGADOR", tmpRect);
+    drawTextResize("ARQUETIPO DEL JUGADOR", tmpRect);
     tmpRect.y = 200;
     drawText("Selecciona el arquetipo del personaje", tmpRect);
 
-    tmpRect.y = 300;
+   // tmpRect.y = 300;
+    tmpRect.y = gScreenSurface->h / 4 * 3 - 50;
     drawText("Luego pulsa continuar...", tmpRect);
 
    // tmpRect.y = 400;
@@ -4041,7 +4058,7 @@ void game::eventsHero()
 
             if (achievementsButton.clicked(mousex, mousey)) {
                 setState(my_enums::_ACHIEVEMENTS_);
-                previousScreen = my_enums::_MAINMENU_;
+                previousScreen = my_enums::_HERO_;
 
             }
 

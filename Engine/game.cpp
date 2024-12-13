@@ -639,7 +639,7 @@ void game::start()
     prevButton.setColor(128, 128, 128);
 
     //exitButton.setButton(gScreenSurface->w - 128, 0, 128, 128, "Salir");
-    exitButton.setButton(gScreenSurface->w - btnx, 0, btnx, btny, "Salir");
+    exitButton.setButton(gScreenSurface->w - btnx, 0, btnx, btny, " ");
     exitButton.setColor(200, 0, 0);
 
   //  continueButton.setButton(gScreenSurface->w / 2 +32 , gScreenSurface->h - 128, 128, 128, "Continuar");
@@ -668,18 +668,24 @@ void game::start()
     playerButton.setColor(0, 0, 200);
     mapButton.setButton(385, gScreenSurface->h - 128, 128, 128, "View map");
     mapButton.setColor(200, 200, 200);*/
+    //foodButton.setButton(gScreenSurface->w - 128, gScreenSurface->h - 128, 128, 128, "Comer");
 
-    configButton.setButton(1, 1, btnx, btny, "Configuración");
-    configButton.setColor(100, 100, 100);
-    inventoryButton.setButton(1+btnx, 1, btnx, btny, "Inventario");
-    inventoryButton.setColor(0, 0, 200);
-    playerButton.setButton(1+btnx*2, 1, btnx, btny, "Personaje");
-    playerButton.setColor(0, 0, 200);
-    mapButton.setButton(1+btnx*3, 1, btnx, btny, "View map");
-    mapButton.setColor(200, 200, 200);
-
-    achievementsButton.setButton(513, gScreenSurface->h - 128, 128, 128, "0 %");
+     //  achievementsButton.setButton(513, gScreenSurface->h - 128, 128, 128, "0 %");
+    //achievementsButton.setButton(gScreenSurface->w / 2 - btnx, 1, btnx * 2, btny * 2, "0 %");
+    achievementsButton.setButton(1, 1, btnx, btny, "0 %");
     achievementsButton.setColor(0, 0, 200);
+
+    configButton.setButton(1 + btnx, 1, btnx, btny, " ");
+    configButton.setColor(100, 100, 100);
+    inventoryButton.setButton(1+btnx*2, 1, btnx, btny, " ");
+    inventoryButton.setColor(0, 0, 200);
+    playerButton.setButton(1+btnx*3, 1, btnx, btny, " ");
+    playerButton.setColor(0, 0, 200);
+    mapButton.setButton(1+btnx*4, 1, btnx, btny, " ");
+    mapButton.setColor(200, 200, 200);
+    foodButton.setButton(1 + btnx * 5, 1, btnx, btny, " ");
+
+ 
 
     
     newMapButton.setButton(gScreenSurface->w -128, gScreenSurface->h /2, 128, 128, "New map");
@@ -733,7 +739,7 @@ void game::start()
     potionMagicButton.setButton(gScreenSurface->w-128, gScreenSurface->h - 128, 128, 128, "+Magia");
     potionMagicButton.setColor(100, 100, 100);
 
-    foodButton.setButton(gScreenSurface->w - 128, gScreenSurface->h - 128, 128, 128, "Comer");
+    
     
     blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 300, 200, 50, "BLUR ON");
     blurButton.setColor(100, 100, 100);

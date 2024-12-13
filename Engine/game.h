@@ -247,6 +247,7 @@ protected:
 
     int killCount = 0;
     int magicKill = 0;
+    int achievementGroup = 0;
 
 
     std::list<achievement> achievements; //Player´s achievements 
@@ -500,6 +501,7 @@ protected:
     classButton potionMagicButton;
     classButton foodButton;
 
+    classButton titleButton;
 
 
     classButton shop0;
@@ -514,6 +516,12 @@ protected:
     classButton mapButton;
 
     classButton mouseButton;
+
+    classButton achievementGroup0Button;
+    classButton achievementGroup1Button;
+    classButton achievementGroup2Button;
+    classButton achievementGroup3Button;
+    classButton achievementGroup4Button;
 
     SDL_Rect tmpRect;
 

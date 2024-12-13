@@ -625,6 +625,14 @@ void game::start()
 
 
     //Set button´s size, position and caption
+    titleButton.setButton(gScreenSurface->w / 2 - 450, gScreenSurface->h / 4, 900, 100, "");
+
+    achievementGroup0Button.setButton(gScreenSurface->w / 2 - 250, 200, 100, 50, "");
+    achievementGroup1Button.setButton(gScreenSurface->w / 2 - 250, 250, 100, 50, "");
+    achievementGroup2Button.setButton(gScreenSurface->w / 2 - 250, 300, 100, 50, "");
+    achievementGroup3Button.setButton(gScreenSurface->w / 2 - 250, 350, 100, 50, "");
+    achievementGroup4Button.setButton(gScreenSurface->w / 2 - 250, 400, 100, 50, "");
+
     moveLeftButton.setButton(0, gScreenSurface->h / 2, 128, 128, "A");
     moveLeftButton.setColor(0, 0, 200);
     moveRightButton.setButton(276 , gScreenSurface->h / 2, 128, 128, "D");
@@ -2142,9 +2150,9 @@ void game::screenIntro()
     //drawButton(exitButton);
     drawButtonSrc(continueButton,buttonPlayTexture);
     //drawButton(continueButton);
-    tmpRect.x = gScreenSurface->w / 2 - 350;
+   // tmpRect.x = gScreenSurface->w / 2 - 350;
     tmpRect.y = gScreenSurface->h / 4;
-    tmpRect.w = 700;
+   // tmpRect.w = 700;
     tmpRect.h = 100;
 
 
@@ -2226,6 +2234,11 @@ void game::eventsIntro()
                 //Mix_PlayMusic(music8bit, -1);
                 timer.start();
             }
+
+            if (titleButton.clicked(mousex, mousey)) {
+                
+                    addAchievement("El nombre del juego", my_enums::_HIDDEN_);
+            }
         }
 
     }
@@ -2262,7 +2275,7 @@ void game::eventsMain()
                 timerGameOver.start();
                 timerGameOver.reset();
                 //addNotification("Saliendo del juego");
-                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (configButton.clicked(mousex, mousey)) {
@@ -2280,7 +2293,7 @@ void game::eventsMain()
 
             if (startButton.clicked(mousex, mousey)) {
                 //addNotification("Comenzando el juego");
-                addAchievement("Comenzando el juego", my_enums::_OPTIONS_);
+                addAchievement("Comenzando el juego", my_enums::_HIDDEN_);
                 SDL_StartTextInput();
                 setState(my_enums::_NAME_);
             }
@@ -2884,6 +2897,13 @@ void game::screenAchievements()
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
     int combat = 0, missions = 0, npcs = 0, options = 0, hidden = 0;
+    int aCounter = 0;
+    SDL_Rect square;
+
+    square.x = gScreenSurface->w / 2;
+    square.y = 450;
+    square.w = 200;
+    square.h = 50;
 
     for (achievement currentAchievement : achievements) {
 
@@ -2892,29 +2912,54 @@ void game::screenAchievements()
         case my_enums::_COMBAT_:
         {
             combat++;
+            if (achievementGroup == 0) {
+                square.y = 450+ aCounter*50;
+                drawText(currentAchievement.name, square);
+                aCounter++;
+            }
             break;
         }
         case my_enums::_MISSIONS_:
         {
             missions++;
+            if (achievementGroup == 1) {
+                square.y = 450 + aCounter * 50;
+                drawText(currentAchievement.name, square);
+                aCounter++;
+            }
             break;
         }
 
         case my_enums::_NPCS_:
         {
             npcs++;
+            if (achievementGroup == 2) {
+                square.y = 450 + aCounter * 50;
+                drawText(currentAchievement.name, square);
+                aCounter++;
+            }
             break;
         }
 
         case my_enums::_OPTIONS_:
         {
             options++;
+            if (achievementGroup == 3) {
+                square.y = 450 + aCounter * 50;
+                drawText(currentAchievement.name, square);
+                aCounter++;
+            }
             break;
         }
 
         case my_enums::_HIDDEN_:
         {
             hidden++;
+            if (achievementGroup == 4) {
+                square.y = 450 + aCounter * 50;
+                drawText(currentAchievement.name, square);
+                aCounter++;
+            }
             break;
         }
 
@@ -2932,15 +2977,9 @@ void game::screenAchievements()
     drawTextResize("LOGROS", tmpRect);
 
 
-    //tmpRect.x = 100;
     tmpRect.x = gScreenSurface->w / 2 - 250;
     tmpRect.y = 100;
-    /*tmpRect.w = 400;
-    tmpRect.h = 50;
-    drawText("NUEVO PERSONAJE", tmpRect);
-    tmpRect.y = 150;
-    drawText("Volver a tirar para nueva tirada o continuar", tmpRect);
-    */
+
     tmpRect.w = 100;
     tmpRect.y = 200;
     drawTextL("Combate", tmpRect);
@@ -2967,7 +3006,7 @@ void game::screenAchievements()
     drawIMGBox(100, 350, options, 10, { 200,0,0,0 });
     drawIMGBox(100, 400, hidden, 10, { 200,0,0,0 });
     */
-    SDL_Rect square;
+    //SDL_Rect square;
 
     square.x = gScreenSurface->w / 2;
     square.y =  200;
@@ -2976,6 +3015,15 @@ void game::screenAchievements()
     SDL_SetRenderDrawColor(gRenderer, 0, 0, 200, 0);
     SDL_RenderDrawRect(gRenderer, &square);
     drawTextResize(achievementsButton.getCaption(), square);
+
+
+    SDL_SetRenderDrawColor(gRenderer, 200, 0, 0, 0);
+    square.x = gScreenSurface->w / 2 - 400;
+    square.y = 200+achievementGroup*50;
+    square.h = 50;
+    square.w = 400;
+   
+    SDL_RenderDrawRect(gRenderer, &square);
 
 }
 
@@ -3925,7 +3973,7 @@ void game::eventsHero()
                 timerGameOver.start();
                 timerGameOver.reset();
                 //addNotification("Saliendo del juego");
-                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -3934,8 +3982,9 @@ void game::eventsHero()
                 loadPlayerDefault();
                 loadNPCs();
                 Mix_PlayMusic(musicINTRO, -1);
-                setState(my_enums::_MAINMENU_);
                 addAchievement("Heroe Inmortal", my_enums::_HIDDEN_);
+                setState(my_enums::_MAINMENU_);
+                
 
             }
 
@@ -4250,6 +4299,26 @@ void game::eventsAchievements()
             if (continueButton.clicked(mousex, mousey)) {
                 setState(previousScreen);
 
+            }
+
+            if (achievementGroup0Button.clicked(mousex, mousey)) {
+                achievementGroup = 0;
+            }
+
+            if (achievementGroup1Button.clicked(mousex, mousey)) {
+                achievementGroup = 1;
+            }
+
+            if (achievementGroup2Button.clicked(mousex, mousey)) {
+                achievementGroup = 2;
+            }
+
+            if (achievementGroup3Button.clicked(mousex, mousey)) {
+                achievementGroup = 3;
+            }
+
+            if (achievementGroup4Button.clicked(mousex, mousey)) {
+                achievementGroup = 4;
             }
 
         }

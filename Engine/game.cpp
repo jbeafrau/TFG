@@ -622,6 +622,7 @@ void game::start()
     achievementGroup3Button.setButton(gScreenSurface->w / 2 - 250, 350, 100, 50, "");
     achievementGroup4Button.setButton(gScreenSurface->w / 2 - 250, 400, 100, 50, "");
 
+    /*
     moveLeftButton.setButton(0, gScreenSurface->h / 2, 128, 128, "A");
     moveLeftButton.setColor(0, 0, 200);
     moveRightButton.setButton(276 , gScreenSurface->h / 2, 128, 128, "D");
@@ -630,12 +631,26 @@ void game::start()
     moveUpButton.setColor(0, 0, 200);
     moveDownButton.setButton(138, gScreenSurface->h / 2, 128, 128, "S");
     moveDownButton.setColor(0, 0, 200);
+    */
 
-
+    moveLeftButton.setButton(gScreenSurface->w- btnx*3, gScreenSurface->h / 4*3, btnx,btny, "A");
+    moveLeftButton.setColor(0, 0, 200);
+    moveDownButton.setButton(gScreenSurface->w - btnx * 2, gScreenSurface->h / 4 * 3, btnx, btny, "S");
+    moveDownButton.setColor(0, 0, 200);
+    moveRightButton.setButton(gScreenSurface->w - btnx , gScreenSurface->h / 4 * 3, btnx, btny, "D");
+    moveRightButton.setColor(0, 0, 200);
+    moveUpButton.setButton(gScreenSurface->w - btnx * 2, gScreenSurface->h / 4 * 3 - btny, btnx, btny, "W");
+    moveUpButton.setColor(0, 0, 200);
+    
+    /*
     nextButton.setButton(gScreenSurface->w / 2 +128, gScreenSurface->h /2, 128, 128, "Siguiente");
     nextButton.setColor(128, 128, 128);
-
     prevButton.setButton(gScreenSurface->w / 2 - 256, gScreenSurface->h /2, 128, 128, "Anterior");
+    prevButton.setColor(128, 128, 128);
+    */
+    nextButton.setButton(gScreenSurface->w / 2 + 128, gScreenSurface->h / 2, btnx*2,btny*2, "Siguiente");
+    nextButton.setColor(128, 128, 128);
+    prevButton.setButton(gScreenSurface->w / 2 - 256, gScreenSurface->h / 2, btnx*2, btny*2, "Anterior");
     prevButton.setColor(128, 128, 128);
 
     //exitButton.setButton(gScreenSurface->w - 128, 0, 128, 128, "Salir");
@@ -643,17 +658,19 @@ void game::start()
     exitButton.setColor(200, 0, 0);
 
   //  continueButton.setButton(gScreenSurface->w / 2 +32 , gScreenSurface->h - 128, 128, 128, "Continuar");
-
     continueButton.setButton(gScreenSurface->w / 2 -btnx, gScreenSurface->h/4*3, btnx*2, btny*2, "Continuar");
     continueButton.setColor(0, 0, 200);
 
-    backButton.setButton(gScreenSurface->w / 2 - 160 , gScreenSurface->h - 128, 128, 128, "Volver");
+   // backButton.setButton(gScreenSurface->w / 2 - 160 , gScreenSurface->h - 128, 128, 128, "Volver");
+    backButton.setButton(gScreenSurface->w / 2 - btnx*3, gScreenSurface->h / 4 * 3, btnx * 2, btny * 2, "Volver");
     backButton.setColor(0, 0, 200);
 
-    rollButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h /2, 128, 128, "Volver a tirar");
+   // rollButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h /2, 128, 128, "Volver a tirar");
+    rollButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2, btnx*2, btny*2, "Volver a tirar");
     rollButton.setColor(0, 0, 200);
 
-    startButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h / 2 -64, 128, 128, "Jugar");
+    //startButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h / 2 -64, 128, 128, "Jugar");
+    startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2 - 64, btnx*2, btny*2, "Jugar");
     startButton.setColor(100, 100, 100);
 
     player1Button.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 100, 200, 50, "Nombre Jugador");
@@ -1836,7 +1853,7 @@ void game::screenMain()
     //SDL_Color square={0,0,255,0}; blue
     SDL_Color square = { 0,0,0,0 };
 
-    tmpRect.w = 32;
+   /* tmpRect.w = 32;
     tmpRect.h = 32;
     tmpRect.x = gScreenSurface->w / 8;
     tmpRect.y = gScreenSurface->h / 8 - 50;
@@ -1844,8 +1861,9 @@ void game::screenMain()
     tmpRect.h = 50;
     tmpRect.x = gScreenSurface->w / 8;
     tmpRect.y = gScreenSurface->h / 8;
-    tmpRect.x = gScreenSurface->w / 2 - 350;
-    tmpRect.y = gScreenSurface->h / 8 - 50;
+    */
+    tmpRect.x = gScreenSurface->w / 2 - 250;
+    tmpRect.y = gScreenSurface->h / 4;
     tmpRect.w = 500;
     tmpRect.h = 100;
     drawTextResize("Menu Principal", tmpRect);
@@ -2200,7 +2218,8 @@ void game::screenNotifications()
 {
     tmpRect.h = 30;
     //tmpRect.x = 0;
-    tmpRect.x = gScreenSurface->w / 2 - 250;
+    //tmpRect.x = gScreenSurface->w / 2 - 250;
+    tmpRect.x = 1;
 
     tmpRect.w = 500;
     int tmpY = 0;

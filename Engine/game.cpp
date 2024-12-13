@@ -2437,7 +2437,9 @@ void game::screenConfigMenu()
 
 //    drawButton(exitButton);
 //    drawButton(startButton);
-    drawButton(musicButton);
+    if (debugMode) {
+        drawButton(musicButton);
+    }
     drawButton(muteButton);
   //  drawButton(volumeSoundUpButton);
     drawButton(volumeSoundButton);
@@ -3376,7 +3378,20 @@ void game::eventsPlayerArchetypes()
                 }
                 };
 
-
+                if (debugMode) {
+                    addSkill("MELEE");
+                
+                    addSkill("ARQUERO");
+                
+                    addSkill("SUBTERFUGIO");
+              
+                    addSkill("MAGIA");
+               
+                    addSkill("DRENAR");
+                
+                    addSkill("INVOCAR");
+                    //****
+                }
 
             }//continue
 
@@ -3669,6 +3684,7 @@ void game::eventsConfigMenu()
                 }
             }
 
+            if (debugMode) {
             if (musicButton.clicked(mousex, mousey)) {
                 switch (currentMusic) {
 
@@ -3726,6 +3742,7 @@ void game::eventsConfigMenu()
 
                 }
             }
+        }
 
 
             if (startButton.clicked(mousex, mousey)) {

@@ -231,6 +231,7 @@ public:
     void timeEvents();
 
     classMap baseMap;
+    bool debugMode = false;
 
 protected:
     int width = 600;
@@ -242,6 +243,8 @@ protected:
     SDL_Rect mouseRect;
 
     string basePath;
+
+    
 
 
     std::list<achievement> achievements; //Player´s achievements 

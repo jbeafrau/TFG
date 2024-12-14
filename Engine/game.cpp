@@ -154,7 +154,7 @@ list<NPC> game::getNPCs(int x, int y)
 
 void game::phaseNPCs()
 {
-    if (getState() != my_enums::_FIGHT_){
+    
      tmpNPCs = getNPCs(tmpx,tmpy);
      if (tmpNPCs.size() > 0) {
          //addNotification("There are NPCS here...");
@@ -165,14 +165,16 @@ void game::phaseNPCs()
              previousScreen = my_enums::_HOMETOWN_;
              setState(my_enums::_SHOP_);
 
-         }else{
-             px = tmpx;
-             py = tmpy;
-             checkBoundaries();
-             updateMap();
-            Mix_PlayMusic(musicBATTLE, -1);
-            previousScreen = my_enums::_HOMETOWN_;
-            setState(my_enums::_FIGHT_);
+         }else if (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_) {
+             if (getState() != my_enums::_FIGHT_) {
+                 px = tmpx;
+                 py = tmpy;
+                 checkBoundaries();
+                 updateMap();
+                 Mix_PlayMusic(musicBATTLE, -1);
+                 previousScreen = my_enums::_HOMETOWN_;
+                 setState(my_enums::_FIGHT_);
+             }
          }
         
 
@@ -186,7 +188,7 @@ void game::phaseNPCs()
          updateMap();
          }
      }
-    }
+    
 
 }
 
@@ -574,6 +576,8 @@ void game::start()
     timer.pause();
     timerGameOver.start();
     timerGameOver.pause();
+
+    ticksAI = SDL_GetTicks();
 
     loadPlayerDefault();
 
@@ -4002,8 +4006,66 @@ void game::eventsInventory()
 
 }
 
+void game::processAI()
+{
+    for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
+    {
+        //only update NPCs in current map
+        if (it->map == currentState) {
+            if (it->NPCAI == my_enums::_ENEMY_RANDOM_ || it->NPCAI == my_enums::_FRIENDLY_RANDOM_) {
+                int tmpx = it->x;
+                int tmpy = it->y;
+                switch (dice(4, 1)) {
+               
+                case 1:
+                {
+                    tmpx++;
+                    break;
+                }
+
+                case 2:
+                {
+                    tmpx--;
+                    break;
+                }
+
+                case 3:
+                {
+                    tmpy++;
+                    break;
+                }
+
+                case 4:
+                {
+                    tmpy--;
+                    break;
+                }
+
+                }//switch
+                if (tmpx < 0)tmpx = 1;
+                if (tmpy < 0)tmpy = 1;
+                if (tmpx > 250)tmpx = 250;
+                if (tmpy > 250)tmpy = 250;
+                if (!collide(tmpx, tmpy)) {
+                    it->x = tmpx;
+                    it->y = tmpy;
+                }
+
+            }
+
+
+        }
+
+    }
+}
+
 void game::timeEvents()
 {
+
+if ((SDL_GetTicks() - ticksAI) > 1000) {
+    ticksAI = SDL_GetTicks();
+        processAI();
+    }
 myTime = (int)(timer.getTicks() / 1000);
 
 //Power recharges with time...
@@ -4014,7 +4076,7 @@ if (getState() != my_enums::_FIGHT_)//You dont recharge magic while fighting
 
         if (debugMode) {
             if (NPCs.size()<20){
-            addNPC(1, dice(10, 80), dice(10, 80), my_enums::_HOMETOWN_, "MALO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
+            addNPC(1, dice(10, 80), dice(10, 80), my_enums::_HOMETOWN_, "MALO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_RANDOM_, dice(300, 2));
         }
         }
 

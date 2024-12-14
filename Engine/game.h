@@ -228,7 +228,7 @@ public:
     void addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile);
 
 
-
+    void processAI();
 
     void timeEvents();
 
@@ -298,6 +298,8 @@ protected:
     int playerDice = 0;
     int foeDice = 0;
     int turn = 0;
+
+    int ticksAI = 0;
 
     int currentMusic = 1;
     bool musicON = true;

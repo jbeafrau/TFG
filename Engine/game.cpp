@@ -4056,11 +4056,32 @@ void game::processAI()
             if (it->NPCAI == my_enums::_ENEMY_FOLLOW_ ) {
                 int tmpx = it->x;
                 int tmpy = it->y;
+
+
+                if (((px < it->x) || (px > it->x))&&(py == it->y)) {
+                    if (px < it->x) { tmpx--; }
+                    if (px > it->x) { tmpx++; }
+                }else if (((py < it->y) || (py > it->y)) && (px == it->x)) {
+                    if (py < it->y) { tmpy--; }
+                    if (py > it->y) { tmpy++; }
+                }
+                else if ((px != it->x) && (py != it->y)) {
+                    int d = dice(2, 1);
+                    if (d == 1) {
+                        if (px < it->x) { tmpx--; }
+                        if (px > it->x) { tmpx++; }
+                    }
+                    else {
+                        if (py < it->y) { tmpy--; }
+                        if (py > it->y) { tmpy++; }
+                    }
+                }
+                /*
                 if (px < it->x) { tmpx--; }
                 if (py < it->y) { tmpy--; }
                 if (px > it->x) { tmpx++; }
                 if (py > it->y) { tmpy++; }
-
+                */
               
                 if (!collide(tmpx, tmpy)) {
                     it->x = tmpx;

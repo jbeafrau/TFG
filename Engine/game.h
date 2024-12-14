@@ -40,6 +40,7 @@ struct NPC { //enemy definition
     int exp=0;
     my_enums::AItypes NPCAI;
     int tile=0;
+    bool discovery = false;
 };
 
 struct item { //item definition
@@ -223,7 +224,7 @@ public:
     void cleanShop(int x, int y, int option);
 
 
-    void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, my_enums::AItypes NPCAI, int tile);
+    void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, int power, int luck, my_enums::AItypes NPCAI, int tile);
     void addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile);
 
 

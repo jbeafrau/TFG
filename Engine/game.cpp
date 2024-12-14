@@ -139,6 +139,8 @@ list<NPC> game::getNPCs(int x, int y)
             aNPC.description = it->description;
             aNPC.skill = it->skill;
             aNPC.stamina = it->stamina;
+            aNPC.power = it->power;
+            aNPC.luck = it->luck;
             aNPC.exp = it->exp;
             aNPC.NPCAI = it->NPCAI;
             aNPC.tile = it->tile;
@@ -189,7 +191,7 @@ void game::phaseNPCs()
 }
 
 
-void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string description, int skill, int stamina, my_enums::AItypes NPCAI, int tile)
+void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string description, int skill, int stamina, int power, int luck, my_enums::AItypes NPCAI, int tile)
 {
 
     NPC aNPC;
@@ -200,6 +202,8 @@ void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string de
     aNPC.description = description;
     aNPC.skill = skill;
     aNPC.stamina = stamina;
+    aNPC.power = power;
+    aNPC.luck = luck;
     aNPC.exp = ((aNPC.skill + aNPC.stamina) / 10) + 1;
     aNPC.NPCAI = NPCAI;
     aNPC.tile = tile;
@@ -524,15 +528,15 @@ void game::loadNPCs()
     NPCs.clear();
 
 
-    addNPC(1, 78, 75, my_enums::_HOMETOWN_, "NPC UNO", dice(10, 1), dice(10, 5), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
-    addNPC(2, 80, 75, my_enums::_HOMETOWN_, "NPC DOS", dice(10, 1), dice(10, 5), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
-    addNPC(3, 82, 75, my_enums::_HOMETOWN_, "NPC TRES", dice(10, 10), dice(10, 10), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
-    addNPC(4, 78, 75, my_enums::_HOMETOWN_, "NPC CUATRO", dice(10, 1), dice(10, 5), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
-    addNPC(5, 79, 71, my_enums::_HOMETOWN_, "Tienda del pueblo1", 1, 1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(5, 80, 71, my_enums::_HOMETOWN_, "Tienda del pueblo2", 1, 1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(5, 81, 71, my_enums::_HOMETOWN_, "Tienda del pueblo3", 1, 1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(5, 82, 71, my_enums::_HOMETOWN_, "Tienda del pueblo4", 1, 1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(5, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(1, 78, 75, my_enums::_HOMETOWN_, "NPC UNO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
+    addNPC(2, 80, 75, my_enums::_HOMETOWN_, "NPC DOS", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
+    addNPC(3, 82, 75, my_enums::_HOMETOWN_, "NPC TRES", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
+    addNPC(4, 78, 75, my_enums::_HOMETOWN_, "NPC CUATRO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
+    addNPC(5, 79, 71, my_enums::_HOMETOWN_, "Tienda del pueblo1", 1, 1, 1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(5, 80, 71, my_enums::_HOMETOWN_, "Tienda del pueblo2", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(5, 81, 71, my_enums::_HOMETOWN_, "Tienda del pueblo3", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(5, 82, 71, my_enums::_HOMETOWN_, "Tienda del pueblo4", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(5, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
 
 }
 
@@ -3172,9 +3176,13 @@ void game::screenFight()
         drawText("Habilidad", tmpRect);
         tmpRect.y = 50 + tmp * 100;
         drawText("Vitalidad", tmpRect);
-       
+        tmpRect.y = 75 + tmp * 100;
+        drawText("Poder", tmpRect);
+
         drawIMGBox(200, 25 + tmp * 100, it->skill, it->skill, { 0,0,200,0 });
         drawIMGBox(200, 50 + tmp * 100, it->stamina, it->stamina, { 200,0,0,0 });
+        drawIMGBox(200, 75 + tmp * 100, it->power, it->power, { 128,0,128,0 });
+
         square.y = tmp * 100;
         SDL_SetRenderDrawColor(gRenderer, 200, 0, 0, 0);
         SDL_RenderDrawRect(gRenderer, &square);
@@ -4005,8 +4013,8 @@ if (getState() != my_enums::_FIGHT_)//You dont recharge magic while fighting
         prevTime = myTime;
 
         if (debugMode) {
-            if (NPCs.size()<50){
-            addNPC(1, dice(10, 80), dice(10, 80), my_enums::_HOMETOWN_, "MALO", dice(10, 1), dice(10, 5), my_enums::_FRIENDLY_STATIC_, dice(300, 2));
+            if (NPCs.size()<20){
+            addNPC(1, dice(10, 80), dice(10, 80), my_enums::_HOMETOWN_, "MALO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
         }
         }
 

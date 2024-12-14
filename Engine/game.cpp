@@ -165,7 +165,7 @@ void game::phaseNPCs()
              previousScreen = my_enums::_HOMETOWN_;
              setState(my_enums::_SHOP_);
 
-         }else if (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_) {
+         }else if (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_) {
              if (getState() != my_enums::_FIGHT_) {
                  px = tmpx;
                  py = tmpy;
@@ -531,7 +531,7 @@ void game::loadNPCs()
 
 
     addNPC(1, 78, 75, my_enums::_HOMETOWN_, "NPC UNO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
-    addNPC(2, 80, 75, my_enums::_HOMETOWN_, "NPC DOS", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
+    addNPC(2, 80, 75, my_enums::_HOMETOWN_, "NPC DOS", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_FOLLOW_, dice(300, 2));
     addNPC(3, 82, 75, my_enums::_HOMETOWN_, "NPC TRES", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
     addNPC(4, 78, 75, my_enums::_HOMETOWN_, "NPC CUATRO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
     addNPC(5, 79, 71, my_enums::_HOMETOWN_, "Tienda del pueblo1", 1, 1, 1,1, my_enums::_FRIENDLY_SHOP_, 74);
@@ -4046,6 +4046,22 @@ void game::processAI()
                 if (tmpy < 0)tmpy = 1;
                 if (tmpx > 250)tmpx = 250;
                 if (tmpy > 250)tmpy = 250;
+                if (!collide(tmpx, tmpy)) {
+                    it->x = tmpx;
+                    it->y = tmpy;
+                }
+
+            }
+
+            if (it->NPCAI == my_enums::_ENEMY_FOLLOW_ ) {
+                int tmpx = it->x;
+                int tmpy = it->y;
+                if (px < it->x) { tmpx--; }
+                if (py < it->y) { tmpy--; }
+                if (px > it->x) { tmpx++; }
+                if (py > it->y) { tmpy++; }
+
+              
                 if (!collide(tmpx, tmpy)) {
                     it->x = tmpx;
                     it->y = tmpy;

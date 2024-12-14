@@ -76,7 +76,8 @@ namespace my_enums
         _FRIENDLY_FOLLOW_ = 3,
         _FRIENDLY_SHOP_ = 8,
         _ENEMY_STATIC_ = 10,
-        _ENEMY_RANDOM_ = 11
+        _ENEMY_RANDOM_ = 11,
+        _ENEMY_FOLLOW_ = 12
     };
 
     enum Achievements

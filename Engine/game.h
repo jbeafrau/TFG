@@ -82,6 +82,16 @@ struct animation {
     SDL_Texture* texture;
 };
 
+struct EVENT {
+    int x;
+    int y;
+    my_enums::gameState map;
+    string description;
+    //GOLD,FOOD,TELEPORT,IF
+    int value;
+    int value2;
+};
+
 
 class game
 {
@@ -215,16 +225,13 @@ public:
     void randomAttributes();
     
     void phaseNPCs();
+    void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, int power, int luck, my_enums::AItypes NPCAI, int tile);
 
     list<NPC> getNPCs(int x, int y);
     void deleteNPCs(int x, int y);
 
-
     list<SHOP> getShops(int x, int y);
     void cleanShop(int x, int y, int option);
-
-
-    void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, int power, int luck, my_enums::AItypes NPCAI, int tile);
     void addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile);
 
 
@@ -270,6 +277,9 @@ protected:
 
     std::list<SHOP> SHOPs; // All Shops
     std::list<SHOP> tmpSHOPs; // Shops Found in our location
+
+    std::list<EVENT> EVENTs; // All Shops
+    std::list<EVENT> tmpEVENTs; // Shops Found in our location
 
     std::list<item> items; //Player inventory
     int coins = 50; //Player currency

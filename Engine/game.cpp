@@ -4062,9 +4062,19 @@ void game::processAI()
 void game::timeEvents()
 {
 
-if ((SDL_GetTicks() - ticksAI) > 1000) {
-    ticksAI = SDL_GetTicks();
-        processAI();
+    if (getState() != my_enums::_FIGHT_) {
+        if ((SDL_GetTicks() - ticksAI) > 1000) {
+            ticksAI = SDL_GetTicks();
+            processAI();
+            tmpNPCs = getNPCs(px, py);
+            if (tmpNPCs.size() > 0) {
+
+                    Mix_PlayMusic(musicBATTLE, -1);
+                    previousScreen = my_enums::_HOMETOWN_;
+                    setState(my_enums::_FIGHT_);
+                
+            }
+        }
     }
 myTime = (int)(timer.getTicks() / 1000);
 

@@ -4174,6 +4174,118 @@ void game::eventsFight()
               
             }//fightbutton click
 
+
+
+            if (bowButton.clicked(mousex, mousey)) {
+                addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1, buttonBowTexture);
+                turn++;
+                int good = dice(10, 1) + skill;
+                int bad = dice(10, 1) + tmpNPCs.begin()->skill;
+                // playerDice = good;
+               //  foeDice = bad;
+                int damage = 1;
+
+                //Process player attack
+                if (good > bad) {
+                    NPC tmpNPC = tmpNPCs.front();
+                    addNotification("Has herido a " + tmpNPC.description + "!!");
+                    tmpNPC.stamina -= damage;
+                    if (tmpNPC.stamina <= 0) {
+                        //   cout << "Has derrotado a " << tmpFoe.description << endl;
+                        addNotification("Has derrotado a " + tmpNPC.description + "!!");
+                        //Mix_PlayChannel(-1, audioMaleDeath, 0);
+                        exp += tmpNPC.exp;
+                        tmpNPCs.pop_front();
+
+
+                        killCount++;
+                        addAchievement("Guillermo Tell", my_enums::_COMBAT_);
+                        if (killCount == 10)addAchievement("Le estas pillando el punto", my_enums::_COMBAT_);
+                        if (killCount == 100)addAchievement("Massacre", my_enums::_COMBAT_);
+                    }
+                    else {
+                        tmpNPCs.pop_front();
+                        tmpNPCs.push_front(tmpNPC);
+                    }
+                }
+
+                //Process enemy attack
+                if (tmpNPCs.size() > 0) {
+                    int goodLuck = dice(10, 1) + luck;
+                    int badLuck = dice(10, 1) + tmpNPCs.begin()->luck;
+                    if (goodLuck > badLuck) {
+                        addNotification("Evitas el ataque");
+                    }else{
+                    addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
+                    int good = dice(10, 1) + skill;
+                    int bad = dice(10, 1) + tmpNPCs.begin()->skill;
+                    if (bad > good) {
+                        stamina -= damage;
+                        addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                        if (stamina <= 0) {
+                            addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                            setState(my_enums::_HERO_);
+                            deleteNPCs(px, py);
+                            //Mix_PlayMusic(musicGameOver, -1);
+                            addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
+                            Mix_PlayMusic(musicHERO, -1);
+                            timerGameOver.start();
+                            timerGameOver.reset();
+                            //addNotification("Saliendo del juego");
+                            //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                        }
+
+                    }
+                }//Luck
+
+                }
+
+
+            }//bow button click
+
+
+            if (hideButton.clicked(mousex, mousey)) {
+                addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1, buttonHideTexture);
+                turn++;
+
+                NPC tmpNPC = tmpNPCs.front();
+                int damage = 1;
+               
+
+                int goodLuck = dice(10, 1) + luck;
+                int badLuck = dice(10, 1) + tmpNPCs.begin()->luck;
+                if (goodLuck > badLuck) {
+                    addNotification("Ataque por sorpresa");
+                    tmpNPC.stamina -= (damage +1);
+                    if (tmpNPC.stamina <= 0) {
+                        //   cout << "Has derrotado a " << tmpFoe.description << endl;
+                        addNotification("Has derrotado a " + tmpNPC.description + "!!");
+                        //Mix_PlayChannel(-1, audioMaleDeath, 0);
+                        exp += tmpNPC.exp;
+                        tmpNPCs.pop_front();
+
+                        magicKill++;
+                        addAchievement("Asesino", my_enums::_COMBAT_);
+                        if (magicKill == 10)addAchievement("La fuerza crece en ti", my_enums::_COMBAT_);
+                        if (magicKill == 100)addAchievement("Desintegrar", my_enums::_COMBAT_);
+
+
+                    }
+                    else {
+                        tmpNPCs.pop_front();
+                        tmpNPCs.push_front(tmpNPC);
+                    }
+                }
+                else {
+                    addNotification("Te han descubierto ");
+                    stamina -= damage;
+                }
+
+
+
+            }//stealth button click
+
+
             //Health potion
             if (potions_health > 0) {
                 if (potionHealthButton.clicked(mousex, mousey)) {
@@ -4261,8 +4373,11 @@ void game::eventsFight()
                     turn++;
                     int damage = 1;
                     int attackPower = dice(power, 1);
-
+                    
                     NPC tmpNPC = tmpNPCs.front();
+                    if (attackPower > tmpNPC.stamina)attackPower = tmpNPC.stamina;
+
+
                     addNotification("Has herido a " + tmpNPC.description + "!!");
                     tmpNPC.stamina -= attackPower;
                     power -= attackPower;

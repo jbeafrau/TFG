@@ -426,6 +426,9 @@ protected:
     SDL_Texture* buttonPotionMagicTexture = NULL;
     SDL_Texture* buttonFoodTexture = NULL;
 
+    //SDL_Texture* buttonSoundOnTexture = NULL;
+   // SDL_Texture* buttonSoundOffTexture = NULL;
+
     SDL_Texture* buttonBackTexture = NULL;
 
     //Globally used font

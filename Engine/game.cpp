@@ -710,30 +710,31 @@ void game::start()
     newMapButton.setButton(gScreenSurface->w -128, gScreenSurface->h /2, 128, 128, "New map");
     newMapButton.setColor(200, 200, 200);
     
-    musicButton.setButton(gScreenSurface->w / 2-100, gScreenSurface->h / 2 + 100, 200, 50, "Cambia canción");
+    musicButton.setButton(gScreenSurface->w / 2-100, gScreenSurface->h / 3 + 100, 200, 50, "Cambia canción");
     musicButton.setColor(100, 100, 100);
-    muteButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 2 + 150, 200, 50, "MUSIC ON");
+    muteButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 3 + 150, 200, 50, "MUSIC ON");
     muteButton.setColor(100, 100, 100);
-    volumeSoundDownButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 2 + 200, 50, 50, "+");
+    volumeSoundDownButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 3 + 200, 50, 50, "+");
     volumeSoundDownButton.setColor(100, 100, 100);
-    volumeSoundButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 2 + 200, 100, 50, "SOUND 100%");
+    volumeSoundButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 3 + 200, 100, 50, "SOUND 100%");
     volumeSoundButton.setColor(200, 200, 200);
-    volumeSoundUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 200, 50, 50, "-");
+    volumeSoundUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 3 + 200, 50, 50, "-");
     volumeSoundUpButton.setColor(100, 100, 100);
-    volumeMusicDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
+    volumeMusicDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 250, 50, 50, "+");
     volumeMusicDownButton.setColor(100, 100, 100);
-    volumeMusicButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 2 + 250, 100, 50, "MUSIC 100%");
+    volumeMusicButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 3 + 250, 100, 50, "MUSIC 100%");
     volumeMusicButton.setColor(200, 200, 200);
-    volumeMusicUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
+    volumeMusicUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 3 + 250, 50, 50, "-");
     volumeMusicUpButton.setColor(100, 100, 100);
-    
+    blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 300, 200, 50, "BLUR ON");
+    blurButton.setColor(100, 100, 100);
+
     playerUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
     playerUpButton.setColor(100, 100, 100);
     playerDownButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
     playerDownButton.setColor(100, 100, 100);
 
-    blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 300, 200, 50, "BLUR ON");
-    blurButton.setColor(100, 100, 100);
+  
 
     mouseButton.setButton(gScreenSurface->w / 2 - 100, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
     mouseButton.setColor(100, 100, 100);
@@ -760,9 +761,6 @@ void game::start()
 
     
     
-    blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 300, 200, 50, "BLUR ON");
-    blurButton.setColor(100, 100, 100);
-
 
     shop0.setButton(50, gScreenSurface->h / 2, gScreenSurface->w - 100, 50, "0");
     shop1.setButton(50, gScreenSurface->h / 2 + 50, gScreenSurface->w - 100, 50, "1");
@@ -1320,6 +1318,9 @@ buttonDrainTexture = loadTexture(images + "dead-head.png");
 buttonHideTexture = loadTexture(images + "invisible.png");
 buttonSummonTexture = loadTexture(images + "magic-hat.png");
 
+
+buttonSoundOnTexture  = loadTexture(images + "speaker.png");
+buttonSoundOffTexture = loadTexture(images + "speaker-off.png");
 
 //classButton bowButton;
 //classButton drainButton;
@@ -2478,7 +2479,7 @@ void game::eventsPlayerName()
 void game::screenConfigMenu()
 {
    // SDL_Rect dstrect;
-    tmpRect.x = gScreenSurface->w / 8 - 1;
+    /*tmpRect.x = gScreenSurface->w / 8 - 1;
     tmpRect.y = 299;
     tmpRect.w = 322;
     tmpRect.h = 482;
@@ -2493,46 +2494,53 @@ void game::screenConfigMenu()
     tmpRect.h = 50;
     tmpRect.x = gScreenSurface->w / 8;
     tmpRect.y = gScreenSurface->h / 8;
-    tmpRect.x = gScreenSurface->w / 2 - 350;
+    */
+    tmpRect.x = gScreenSurface->w / 2 - 250;
     tmpRect.y = gScreenSurface->h / 8 - 50;
     tmpRect.w = 500;
     tmpRect.h = 100;
     drawTextResize("Menu Configuración", tmpRect);
-
+    /*
     tmpRect.x = gScreenSurface->w - 500;
     tmpRect.y = gScreenSurface->h - 50;
     tmpRect.w = 500;
     tmpRect.h = 50;
-
+    */
     //drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
 
 
     drawButtonSrc(exitButton, buttonCloseTexture);
-    drawButtonSrc(startButton, buttonAcceptTexture);
+    
 
     drawButtonSrc(volumeSoundUpButton, buttonNextTexture);
     drawButtonSrc(volumeSoundDownButton, buttonPrevTexture);
+    drawButton(volumeSoundButton);
 
     drawButtonSrc(volumeMusicUpButton, buttonNextTexture);
     drawButtonSrc(volumeMusicDownButton, buttonPrevTexture);
+    drawButton(volumeMusicButton);
+    
 
-
-
-//    drawButton(exitButton);
-//    drawButton(startButton);
     if (debugMode) {
         drawButton(musicButton);
     }
-    drawButton(muteButton);
-  //  drawButton(volumeSoundUpButton);
-    drawButton(volumeSoundButton);
-  //  drawButton(volumeSoundDownButton);
 
-    //drawButton(volumeMusicUpButton);
-    drawButton(volumeMusicButton);
-    //drawButton(volumeMusicDownButton);
+    if (musicON == false) {
+        drawButtonSrc(muteButton, buttonSoundOffTexture);
+    }
+    else {
+        drawButtonSrc(muteButton, buttonSoundOnTexture);
+    }
+    
+
+    
+  
+  
+   
 
     drawButton(blurButton);
+
+    drawButtonSrc(startButton, buttonAcceptTexture);
 }
 
 void game::screenHomeTown()

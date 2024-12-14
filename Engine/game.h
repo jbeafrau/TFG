@@ -90,6 +90,10 @@ struct EVENT {
     //GOLD,FOOD,TELEPORT,IF
     int value;
     int value2;
+    int newx;
+    int newy;
+    my_enums::gameState newMap;
+    int tile;
 };
 
 

@@ -297,6 +297,8 @@ protected:
     int btnx = 0;
     int btny = 0;
 
+    std::string currentChat = "";
+
 
     std::list<achievement> achievements; //Player´s achievements 
     std::list<std::string> skills; //Player´s skills

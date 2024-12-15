@@ -577,6 +577,7 @@ void game::eventsChat()
                 right = false;
                 up = false;
                 down = false;
+                currentChat = " " ;
 
             }
 
@@ -636,7 +637,8 @@ void game::eventsChat()
                 for (list<CHAT>::iterator it = tmpCHATs.begin(); it != tmpCHATs.end(); it++) {
                     option++;
                     if (option == tmpChat) {//clicked this item...
-                        addNotification(it->answer);
+                        //addNotification(it->answer);
+                        currentChat = it->answer;
                         
                       
                     }  //found option
@@ -2534,6 +2536,15 @@ void game::screenChat()
         // cout <<  "-> " << it->description << "(" << it->targetId << ")" << endl;
     }
 
+
+
+
+    target.x = 50;
+    target.y = gScreenSurface->h / 4;
+    target.w = gScreenSurface->w - 100;
+    target.h = 200;
+    drawSquare(target, { 200,200,200 });
+    drawTextBlock(currentChat, target);
 
 
 }

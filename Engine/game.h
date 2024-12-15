@@ -37,10 +37,12 @@ struct NPC { //enemy definition
     int stamina=0;
     int power = 0;
     int luck=0;
+    int damage = 0;
     int exp=0;
     my_enums::AItypes NPCAI;
     int tile=0;
     bool discovery = false;
+    SDL_Rect boundaries;
 };
 
 struct item { //item definition
@@ -236,7 +238,7 @@ public:
     void randomAttributes();
     
     void phaseNPCs();
-    void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, int power, int luck, my_enums::AItypes NPCAI, int tile);
+    void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, int power, int luck, int damage, my_enums::AItypes NPCAI, int tile, SDL_Rect boundaries);
 
     list<NPC> getNPCs(int x, int y);
     void deleteNPCs(int x, int y);

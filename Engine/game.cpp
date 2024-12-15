@@ -141,9 +141,11 @@ list<NPC> game::getNPCs(int x, int y)
             aNPC.stamina = it->stamina;
             aNPC.power = it->power;
             aNPC.luck = it->luck;
+            aNPC.damage = it->damage;
             aNPC.exp = it->exp;
             aNPC.NPCAI = it->NPCAI;
             aNPC.tile = it->tile;
+            aNPC.boundaries = it->boundaries;
            
             tmp.push_back(aNPC);
         }
@@ -193,7 +195,7 @@ void game::phaseNPCs()
 }
 
 
-void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string description, int skill, int stamina, int power, int luck, my_enums::AItypes NPCAI, int tile)
+void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string description, int skill, int stamina, int power, int luck, int damage, my_enums::AItypes NPCAI, int tile, SDL_Rect boundaries)
 {
 
     NPC aNPC;
@@ -206,9 +208,11 @@ void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string de
     aNPC.stamina = stamina;
     aNPC.power = power;
     aNPC.luck = luck;
+    aNPC.damage = damage;
     aNPC.exp = ((aNPC.skill + aNPC.stamina) / 10) + 1;
     aNPC.NPCAI = NPCAI;
     aNPC.tile = tile;
+    aNPC.boundaries = boundaries;
     NPCs.push_back(aNPC);
 
 }
@@ -559,15 +563,15 @@ void game::loadNPCs()
     NPCs.clear();
 
 
-    addNPC(1, 78, 75, my_enums::_HOMETOWN_, "NPC UNO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
-    addNPC(2, 80, 75, my_enums::_HOMETOWN_, "NPC DOS", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_FOLLOW_, dice(300, 2));
-    addNPC(3, 82, 75, my_enums::_HOMETOWN_, "NPC TRES", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
-    addNPC(4, 78, 75, my_enums::_HOMETOWN_, "NPC CUATRO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
+    addNPC(1, 78, 75, my_enums::_HOMETOWN_, "NPC UNO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), {1,1,255,255});
+    addNPC(2, 80, 75, my_enums::_HOMETOWN_, "NPC DOS", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
+    addNPC(3, 82, 75, my_enums::_HOMETOWN_, "NPC TRES", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), dice(3, 2), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
+    addNPC(4, 78, 75, my_enums::_HOMETOWN_, "NPC CUATRO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
    
-    addNPC(5, 106, 155, my_enums::_HOMETOWN_, "Tienda de comida", 1, 1, 1,1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(6, 112, 155, my_enums::_HOMETOWN_, "Tienda de armas", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(7, 106, 161, my_enums::_HOMETOWN_, "Tienda de armaduras", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(8, 112, 161, my_enums::_HOMETOWN_, "Tienda de pociones", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(5, 106, 155, my_enums::_HOMETOWN_, "Tienda de comida", 1, 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(6, 112, 155, my_enums::_HOMETOWN_, "Tienda de armas", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(7, 106, 161, my_enums::_HOMETOWN_, "Tienda de armaduras", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(8, 112, 161, my_enums::_HOMETOWN_, "Tienda de pociones", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     //addNPC(8, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
 
 }
@@ -4306,7 +4310,7 @@ if (getState() != my_enums::_FIGHT_)//You dont recharge magic while fighting
 
         if (debugMode) {
             if (NPCs.size()<20){
-            addNPC(1, dice(10, 80), dice(10, 80), my_enums::_HOMETOWN_, "MALO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_RANDOM_, dice(300, 2));
+            addNPC(1, dice(10, 80), dice(10, 80), my_enums::_HOMETOWN_, "MALO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, dice(300, 2), { 1,1,255,255 });
         }
         }
 
@@ -4421,6 +4425,10 @@ void game::eventsFight()
                // playerDice = good;
               //  foeDice = bad;
                 int damage = 1;
+                int enemyDamage = 1;
+
+                if (hasSkill("MELEE")) { good++; }
+                if (itemWeapon != "") { damage += getItem(itemWeapon).bonus; }
 
                 //Process player attack
                 if (good > bad) {
@@ -4449,10 +4457,16 @@ void game::eventsFight()
                 //Process enemy attack
                 if (tmpNPCs.size() > 0){
                     addAnimation( 1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
-                    int good = dice(10, 1) + skill;
+                    int good = dice(10, 1) + skill ;
+                    if (hasSkill("MELEE")) { good++; }
+                    if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                    if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
+                    if (alternate != "") { good += getItem(alternate).bonus; }
+                   
                     int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                     if (bad > good) {
-                        stamina -= damage;
+                        enemyDamage = tmpNPCs.begin()->damage;
+                        stamina -= enemyDamage;
                         addNotification(tmpNPCs.begin()->description + " te ha herido!!");
                         if (stamina <= 0) {
                             addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
@@ -4484,6 +4498,9 @@ void game::eventsFight()
                 // playerDice = good;
                //  foeDice = bad;
                 int damage = 1;
+
+                
+                if (itemWeapon != "") { damage += getItem(itemWeapon).bonus; }
 
                 //Process player attack
                 if (good > bad) {
@@ -4518,9 +4535,15 @@ void game::eventsFight()
                     }else{
                     addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
                     int good = dice(10, 1) + skill;
+                    if (hasSkill("MELEE")) { good++; }
+                    if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                    if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
+                    if (alternate != "") { good += getItem(alternate).bonus; }
+
                     int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                     if (bad > good) {
-                        stamina -= damage;
+                        int enemyDamage = tmpNPCs.begin()->damage;
+                        stamina -= enemyDamage;
                         addNotification(tmpNPCs.begin()->description + " te ha herido!!");
                         if (stamina <= 0) {
                             addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
@@ -4550,8 +4573,9 @@ void game::eventsFight()
                 turn++;
 
                 NPC tmpNPC = tmpNPCs.front();
-                int damage = 1;
-               
+                int damage = 2;
+                if (itemWeapon != "") { damage += getItem(itemWeapon).bonus; }
+                    
 
                 int goodLuck = dice(10, 1) + luck;
                 int badLuck = dice(10, 1) + tmpNPCs.begin()->luck;
@@ -4579,7 +4603,8 @@ void game::eventsFight()
                 }
                 else {
                     addNotification("Te han descubierto ");
-                    stamina -= damage;
+                    int enemyDamage = tmpNPCs.begin()->damage;
+                    stamina -= enemyDamage;
                 }
 
 
@@ -4603,9 +4628,14 @@ void game::eventsFight()
                         addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
 
                         int good = dice(10, 1) + skill;
+                        if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
+                        if (alternate != "") { good += getItem(alternate).bonus; }
+
                         int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                         if (bad > good) {
-                            stamina -= damage;
+                            int enemyDamage = tmpNPCs.begin()->damage;
+                            stamina -= enemyDamage;
                             addNotification(tmpNPCs.begin()->description + " te ha herido!!");
                             if (stamina <= 0) {
                                 turn = 0;
@@ -4643,9 +4673,14 @@ void game::eventsFight()
                         addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
 
                         int good = dice(10, 1) + skill;
+                        if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
+                        if (alternate != "") { good += getItem(alternate).bonus; }
+
                         int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                         if (bad > good) {
-                            stamina -= damage;
+                            int enemyDamage = tmpNPCs.begin()->damage;
+                            stamina -= enemyDamage;
                             addNotification(tmpNPCs.begin()->description + " te ha herido!!");
                             if (stamina <= 0) {
                                 turn = 0;
@@ -4706,9 +4741,14 @@ void game::eventsFight()
                         addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
 
                         int good = dice(10, 1) + skill;
+                        if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
+                        if (alternate != "") { good += getItem(alternate).bonus; }
+
                         int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                         if (bad > good) {
-                            stamina -= damage;
+                            int enemyDamage = tmpNPCs.begin()->damage;
+                            stamina -= enemyDamage;
                             addNotification(tmpNPCs.begin()->description + " te ha herido!!");
                             if (stamina <= 0) {
                                 turn = 0;
@@ -4777,9 +4817,14 @@ void game::eventsFight()
                         addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
 
                         int good = dice(10, 1) + skill;
+                        if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
+                        if (alternate != "") { good += getItem(alternate).bonus; }
+
                         int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                         if (bad > good) {
-                            stamina -= damage;
+                            int enemyDamage = tmpNPCs.begin()->damage;
+                            stamina -= enemyDamage;
                             addNotification(tmpNPCs.begin()->description + " te ha herido!!");
                             if (stamina <= 0) {
                                 turn = 0;

@@ -36,6 +36,12 @@ public:
     void SetSurface();
     void put_pixel32(SDL_Surface* surface, int x, int y, Uint32 pixel);
     void generateTiles();
+
+
+    int dice(int maxValue, int minValue);
+    void building(SDL_Rect square, int wallTile, int floorTile);
+    void road(SDL_Rect square, int floorTile1, int floorTile2);
+
     
     /*void init_image(SDL_Renderer* renderer2, int startx2, int starty2, const char* file2);
     void init(SDL_Renderer* renderer2, int startx2, int starty2);

@@ -132,6 +132,59 @@ void classMap::generateTiles()
     map_cells[81][73] = 37;
 
 
+    road({1,74,200,1}, 90, 96);
+    //road({ 101,71,100,1 }, 90, 96);
+    building({66,68,10,5},9,104);
+
+    building({ 66,76,10,5 }, 9, 247);
+
+
+}
+
+int classMap::dice(int maxValue, int minValue)
+{
+    return rand() % maxValue + minValue;
+}
+
+void classMap::road(SDL_Rect square, int floorTile1, int floorTile2) {
+    for (int x = square.x; x <= (square.x + square.w); x++)
+    {
+        for (int y = square.y; y <= (square.y + square.h); y++)
+        {
+            if (dice(4, 1) < 4) {
+                map_cells[x][y] = floorTile1;
+            }
+            else {
+                map_cells[x][y] = floorTile2;
+            }
+
+        }
+    }
+}
+
+void classMap::building(SDL_Rect square, int wallTile, int floorTile)
+{
+    for (int x = square.x; x <= (square.x+square.w); x++)
+    {
+        for (int y = square.y; y <= (square.y + square.h); y++)
+        {
+            map_cells[x][y] = floorTile;
+            
+        }
+    }
+
+    for (int x = square.x; x <= (square.x + square.w); x++)
+    {
+        map_cells[x][square.y] = 9;
+        map_cells[x][(square.y + square.h)] = 9;
+    }
+
+    for (int y = square.y; y <= (square.y + square.h); y++)
+    {
+        map_cells[square.x][y] = 9;
+        map_cells[(square.x + square.w)][y] = 9;
+    }
+
 }
 
 

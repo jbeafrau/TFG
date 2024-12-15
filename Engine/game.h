@@ -344,6 +344,8 @@ protected:
     std::string itemRing = "";
     std::string alternate = "";
 
+    std::string alternate2 = "";
+
     // movement attributes
     bool left = false;
     bool right = false;

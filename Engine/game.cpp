@@ -711,7 +711,7 @@ void game::loadPlayerDefault()
 
 
     itemWeapon = "";
-     itemArmor = "";
+     alternate2 = "";
     itemHelmet = "";
     shield = "";
     itemRing = "";
@@ -3319,7 +3319,8 @@ void game::screenInventory()
        if (itemWeapon !="")drawTextResize(itemWeapon, tmpRect);
 
         tmpRect.y += 50;
-        if (itemArmor != "") drawTextResize(itemArmor, tmpRect);
+        //if (alternate2 != "") drawTextResize(alternate2, tmpRect);
+        if (alternate2 != "") drawTextResize(alternate2, tmpRect);
 
         tmpRect.y += 50;
         if (itemHelmet != "")drawTextResize(itemHelmet, tmpRect);
@@ -4448,7 +4449,7 @@ void game::eventsInventory()
 
                     case my_enums::_ARMOR_:
                     {
-                        itemArmor = it->name;
+                        alternate2 = it->name;
                         break;
                     }
 
@@ -4661,8 +4662,52 @@ void game::eventsHero()
             if (continueButton.clicked(mousex, mousey)) {
                 //Reset everything except achievements
                 notifications.clear();
+                skills.clear();
+
+                NPCs.clear(); //All NPCs
+                tmpNPCs.clear(); //NPCs found in our location
+
+                SHOPs.clear(); // All Shops
+                tmpSHOPs.clear(); // Shops Found in our location
+
+                CHATs.clear(); // All chat options
+                tmpCHATs.clear(); // chat options Found in our location
+
+                EVENTs.clear(); // All Shops
+                tmpEVENTs.clear(); // Shops Found in our location
+
+                items.clear();
+
+                coins = 50; //Player currency
+                food = 10; //Player food rations 
+                potions_health = 1;
+                potions_power = 1;
+                powerRegeneration = 0;
+
+                //Player attributes
+                skill = 1; //Combat Skill
+                stamina = 1; //Player hitpoins and posion defense
+                power = 1; //magic points and magic regeneration rate
+                luck = 1; //skill improves buy and sell values and posibility to discover how difficult are enemies
+                max_skill = 1;
+                max_stamina = 1;
+                max_power = 1;
+                max_luck = 1;
+
+                string itemWeapon = "";
+                string  itemArmor = "";
+                string itemHelmet = "";
+                string shield = "";
+                string itemRing = "";
+                string alternate = "";
+                string alternate2 = "";
+
                 loadPlayerDefault();
                 loadNPCs();
+                loadShops();
+                loadChats();
+
+
                 Mix_PlayMusic(musicINTRO, -1);
                 addAchievement("Heroe Inmortal", my_enums::_HIDDEN_);
                 setState(my_enums::_MAINMENU_);
@@ -4761,7 +4806,7 @@ void game::eventsFight()
                     addAnimation( 1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
                     int good = dice(10, 1) + skill ;
                     if (hasSkill("MELEE")) { good++; }
-                    if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                    if (alternate2 != "") { good += getItem(alternate2).bonus; }
                     if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
                     if (alternate != "") { good += getItem(alternate).bonus; }
                    
@@ -4838,7 +4883,7 @@ void game::eventsFight()
                     addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
                     int good = dice(10, 1) + skill;
                     if (hasSkill("MELEE")) { good++; }
-                    if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                    if (alternate2 != "") { good += getItem(alternate2).bonus; }
                     if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
                     if (alternate != "") { good += getItem(alternate).bonus; }
 
@@ -4930,7 +4975,7 @@ void game::eventsFight()
                         addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
 
                         int good = dice(10, 1) + skill;
-                        if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                        if (alternate2 != "") { good += getItem(alternate2).bonus; }
                         if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
                         if (alternate != "") { good += getItem(alternate).bonus; }
 
@@ -4975,7 +5020,7 @@ void game::eventsFight()
                         addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
 
                         int good = dice(10, 1) + skill;
-                        if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                        if (alternate2 != "") { good += getItem(alternate2).bonus; }
                         if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
                         if (alternate != "") { good += getItem(alternate).bonus; }
 
@@ -5043,7 +5088,7 @@ void game::eventsFight()
                         addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
 
                         int good = dice(10, 1) + skill;
-                        if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                        if (alternate2 != "") { good += getItem(alternate2).bonus; }
                         if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
                         if (alternate != "") { good += getItem(alternate).bonus; }
 
@@ -5119,7 +5164,7 @@ void game::eventsFight()
                         addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
 
                         int good = dice(10, 1) + skill;
-                        if (itemArmor != "") { good += getItem(itemArmor).bonus; }
+                        if (alternate2 != "") { good += getItem(alternate2).bonus; }
                         if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
                         if (alternate != "") { good += getItem(alternate).bonus; }
 

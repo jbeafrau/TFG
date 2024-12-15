@@ -16,6 +16,8 @@ namespace my_enums
         _ACHIEVEMENTS_ = 9,
         _PLAYER_ = 10,
         _SHOP_ = 11,
+        _CHAT_ = 12,
+
         _HOMETOWN_ = 15,
         _TOWN_SHOP_ = 20,
         _TOWN_ELDER_ = 25,

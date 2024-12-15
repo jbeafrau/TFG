@@ -162,7 +162,13 @@ void game::phaseNPCs()
          //addNotification("There are NPCS here...");
          //currentMusic = 5;
         
-         if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_SHOP_) {
+         if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_CHAT_) {
+             tmpCHATs = getChat(tmpx, tmpy);
+             previousScreen = my_enums::_HOMETOWN_;
+             setState(my_enums::_CHAT_);
+
+         }
+         else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_SHOP_) {
              tmpSHOPs = getShops(tmpx, tmpy);
              previousScreen = my_enums::_HOMETOWN_;
              setState(my_enums::_SHOP_);
@@ -236,6 +242,20 @@ void game::addShop(int id, int x, int y, int option, std::string description, in
 }
 
 
+void game::addChat( int x, int y, int option, std::string question, std::string  answer)
+{
+    CHAT achat;
+    achat.x = x;
+    achat.y = y;
+    achat.option = option;
+    achat.question = question;
+    achat.answer = answer;
+    
+    CHATs.push_back(achat);
+
+}
+
+
 list<SHOP> game::getShops(int x, int y)
 {
     list<SHOP> tmp;
@@ -256,6 +276,28 @@ list<SHOP> game::getShops(int x, int y)
             aShop.bonus = it->bonus;
 
             tmp.push_back(aShop);
+        }
+    }
+    return tmp;
+}
+
+
+list<CHAT> game::getChat(int x, int y)
+{
+    list<CHAT> tmp;
+    for (list<CHAT>::iterator it = CHATs.begin(); it != CHATs.end(); it++)
+    {
+        if ((x == it->x) && (y == it->y)) {
+            CHAT aCHAT;
+            //aShop.id = it->id;
+            aCHAT.x = it->x;
+            aCHAT.y = it->y;
+            aCHAT.option = it->option;
+            aCHAT.question = it->question;
+            aCHAT.answer = it->answer;
+          
+
+            tmp.push_back(aCHAT);
         }
     }
     return tmp;
@@ -489,6 +531,133 @@ void game::eventsShops()
 
 }//events shops
 
+
+
+void game::eventsChat()
+{
+    //Event handler
+    SDL_Event e;
+
+    //Info to cleanup shop options
+    //int shop_x = 0;
+    //int shop_y = 0;
+    //int shop_option = 0;
+
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            setState(my_enums::_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            //******
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+                setState(my_enums::_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+                //addNotification("Saliendo del juego");
+                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+            }
+
+            if (continueButton.clicked(mousex, mousey)) {
+                setState(previousScreen);
+                tmpx = px;
+                tmpy = py;
+                left = false;
+                right = false;
+                up = false;
+                down = false;
+
+            }
+
+            string tmpStr = "";
+            int itC = -1;
+            int tmpChat = -1;
+            int option = -1;
+
+
+            for (list<CHAT>::iterator it = tmpCHATs.begin(); it != tmpCHATs.end(); it++) {
+                itC++;
+                switch (itC) {
+                case 0:
+                    if (chat0.clicked(mousex, mousey)) {
+                        tmpChat = itC;
+                        Mix_PlayChannel(-1, audioButton, 0);
+
+                    }
+                    break;
+                case 1:
+                    if (chat1.clicked(mousex, mousey)) {
+                        Mix_PlayChannel(-1, audioButton, 0);
+                        tmpChat = itC;
+                    }
+                    break;
+                case 2:
+                    if (chat2.clicked(mousex, mousey)) {
+                        Mix_PlayChannel(-1, audioButton, 0);
+                        tmpChat = itC;
+                    }
+                    break;
+                case 3:
+                    if (chat3.clicked(mousex, mousey)) {
+                        Mix_PlayChannel(-1, audioButton, 0);
+                        tmpChat = itC;
+                    }
+                    break;
+                case 4:
+                    if (chat4.clicked(mousex, mousey)) {
+
+                        Mix_PlayChannel(-1, audioButton, 0);
+                        tmpChat = itC;
+                    }
+                    break;
+                case 5:
+                    if (chat5.clicked(mousex, mousey)) {
+
+                        Mix_PlayChannel(-1, audioButton, 0);
+                        tmpChat = itC;
+                    }
+                    break;
+                }
+
+            }//for tmpshops
+
+            if (tmpChat > -1) {
+                for (list<CHAT>::iterator it = tmpCHATs.begin(); it != tmpCHATs.end(); it++) {
+                    option++;
+                    if (option == tmpChat) {//clicked this item...
+                        addNotification(it->answer);
+                        
+                      
+                    }  //found option
+                }//for shops
+
+               // if (shop_x != 0) {
+               //     cleanShop(shop_x, shop_y, shop_option);
+                //}
+
+            }//which button?
+
+
+
+        }//mouse events
+
+        //******************
+    }//SDL events
+
+}//events chat
+
+
 void game::cleanShop(int x, int y, int option)
 {
     bool empty = false;
@@ -563,16 +732,35 @@ void game::loadNPCs()
     NPCs.clear();
 
 
-    addNPC(1, 78, 75, my_enums::_HOMETOWN_, "NPC UNO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), {1,1,255,255});
-    addNPC(2, 80, 75, my_enums::_HOMETOWN_, "NPC DOS", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
-    addNPC(3, 82, 75, my_enums::_HOMETOWN_, "NPC TRES", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), dice(3, 2), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
-    addNPC(4, 78, 75, my_enums::_HOMETOWN_, "NPC CUATRO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
+    addNPC(1, 110, 170, my_enums::_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), {1,1,255,255});
+    addNPC(2, 111, 170, my_enums::_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
+    addNPC(3, 112, 170, my_enums::_HOMETOWN_, "Monstruo poderoso", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), dice(3, 2), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
+    addNPC(4, 113, 170, my_enums::_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
    
     addNPC(5, 106, 155, my_enums::_HOMETOWN_, "Tienda de comida", 1, 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(6, 112, 155, my_enums::_HOMETOWN_, "Tienda de armas", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(7, 106, 161, my_enums::_HOMETOWN_, "Tienda de armaduras", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
-    addNPC(8, 112, 161, my_enums::_HOMETOWN_, "Tienda de pociones", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(8, 112, 161, my_enums::_HOMETOWN_, "Tienda de pociones", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 79, { 1,1,255,255 });
+
+
+    addNPC(9, 109, 142, my_enums::_HOMETOWN_, "Sabio del pueblo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(9, 119, 142, my_enums::_HOMETOWN_, "Mago del templo elemental", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 83, { 1,1,255,255 });
+
     //addNPC(8, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+
+}
+
+
+void game::loadChats()
+{
+    CHATs.clear();
+    addChat(109,142, 1, "¿Que está pasando en el pueblo?", "Un mal ha venido de otro plano y esta generando caos en el pueblo");
+    addChat(109, 142, 2, "¿Que puedo hacer?", "Equipate y preparate para luchar contra el mal");
+    addChat(109, 142, 3, "Cuentame algo del pueblo", "Al sur encontraras varias tiendas, al este la costa y siguiendo el camino del nordeste, el bosque oscuro");
+    addChat(109, 142, 4, "¿Por donde comienzo?", "Al sur y al este del pueblo hay enemigos que no permiten salir a los ciudadanos ");
+
+    addChat(119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
+
 
 }
 
@@ -774,6 +962,12 @@ void game::setButtonDefaults()
     shop4.setButton(50, gScreenSurface->h / 2 + 200, gScreenSurface->w - 100, 50, "4");
     shop5.setButton(50, gScreenSurface->h / 2 + 250, gScreenSurface->w - 100, 50, "5");
 
+    chat0.setButton(50, gScreenSurface->h / 2, gScreenSurface->w - 100, 50, "0");
+    chat1.setButton(50, gScreenSurface->h / 2 + 50, gScreenSurface->w - 100, 50, "1");
+    chat2.setButton(50, gScreenSurface->h / 2 + 100, gScreenSurface->w - 100, 50, "2");
+    chat3.setButton(50, gScreenSurface->h / 2 + 150, gScreenSurface->w - 100, 50, "3");
+    chat4.setButton(50, gScreenSurface->h / 2 + 200, gScreenSurface->w - 100, 50, "4");
+    chat5.setButton(50, gScreenSurface->h / 2 + 250, gScreenSurface->w - 100, 50, "5");
 
 }
 
@@ -798,6 +992,8 @@ void game::start()
     loadNPCs();
 
     loadShops();
+
+    loadChats();
 
    
 
@@ -1014,6 +1210,12 @@ void game::events()
         break;
     }
 
+    case my_enums::_CHAT_:
+    {
+        eventsChat();
+        break;
+    }
+
     case my_enums::_NAME_:
     {
         eventsPlayerName();
@@ -1120,6 +1322,12 @@ void game::drawScreens()
     case my_enums::_SHOP_:
     {
         screenShops();
+        break;
+    }
+
+    case my_enums::_CHAT_:
+    {
+        screenChat();
         break;
     }
 
@@ -2248,6 +2456,89 @@ void game::screenShops()
 
 }
 
+void game::screenChat()
+{
+
+    drawButtonSrc(exitButton, buttonCloseTexture);
+    drawButtonSrc(continueButton, buttonAcceptTexture);
+
+    //drawButtonSrc(exitButton, closeTexture);
+    //drawButtonSrc(continueButton, buttonTexture);
+
+    //drawButtonSrc(inventoryButton, buttonTexture);
+
+
+
+    std::string tmpStr;
+
+    SDL_Rect target;
+    tmpRect.x = gScreenSurface->w / 2 - 200;
+    tmpRect.y = 50;
+    tmpRect.w = 400;
+    tmpRect.h = 50;
+    drawTextResize(tmpNPCs.begin()->description, tmpRect);
+
+
+    target.x = tmpRect.x - 50;
+    target.y = tmpRect.y - 25;
+    target.w = tmpRect.w + 40;
+    target.h = tmpRect.h + 25;
+    // SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
+    // drawText(aLoc.name + "(" + to_string(aLoc.id) + ")", tmpRect);
+    tmpRect.y = 100;
+    //tmpRect.w = gScreenRect.w - 100;
+    target.x = tmpRect.x - 25;
+    target.y = tmpRect.y - 25;
+    target.w = tmpRect.w + 100;
+    target.h = tmpRect.h + 50;
+    //drawTextBlockBG(aLoc.description, tmpRect);
+
+    int itC = 0;
+    for (list<CHAT>::iterator it = tmpCHATs.begin(); it != tmpCHATs.end(); it++) {
+
+        tmpStr = it->question;
+
+        switch (itC) {
+        case 0:
+            chat0.setCaption(tmpStr);
+            drawButtonSrc(chat0, buttonAcceptTexture);
+         
+            break;
+        case 1:
+            chat1.setCaption(tmpStr);
+            drawButtonSrc(chat1, buttonAcceptTexture);
+         
+            break;
+        case 2:
+            chat2.setCaption(tmpStr);
+            drawButtonSrc(chat2, buttonAcceptTexture);
+         
+            break;
+        case 3:
+            chat3.setCaption(tmpStr);
+            drawButtonSrc(chat3, buttonAcceptTexture);
+         
+            break;
+        case 4:
+            chat4.setCaption(tmpStr);
+            drawButtonSrc(chat4, buttonAcceptTexture);
+         
+            break;
+        case 5:
+            chat5.setCaption(tmpStr);
+            drawButtonSrc(chat5, buttonAcceptTexture);
+         
+            break;
+        }
+        itC++;
+        // cout <<  "-> " << it->description << "(" << it->targetId << ")" << endl;
+    }
+
+
+
+}
+
+
 
 
 void game::screenClear()
@@ -2711,7 +3002,7 @@ void game::screenHomeTown()
 
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(configButton, buttonConfigTexture);
-    drawButtonSrc(newMapButton, buttonMapTexture);
+    if(debugMode)drawButtonSrc(newMapButton, buttonMapTexture);
     drawButtonSrc(mapButton, buttonMapTexture);
     drawButtonSrc(inventoryButton, buttonBackpackTexture);
 

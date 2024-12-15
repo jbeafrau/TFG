@@ -74,6 +74,15 @@ struct SHOP { // shop definition
     int bonus;
 };
 
+struct CHAT {
+    int x;
+    int y;
+    int option;
+    std::string question;
+    std::string  answer;
+
+};
+
 struct animation {
     int startx;
     int starty;
@@ -114,6 +123,7 @@ public:
     bool loadMedia(string base);
     void loadNPCs();
     void loadShops();
+    void loadChats();
 
     void monsterGenerator();
     void loadPlayerDefault();
@@ -199,6 +209,8 @@ public:
     void screenInventory();
     void screenAchievements();
 
+    void screenChat();
+
     //void screenGeneratePlayer();
     void screenConfigMenu();
     void screenHomeTown();
@@ -232,6 +244,8 @@ public:
 
     void eventsShops();
 
+    void eventsChat();
+
     void checkBoundaries();
 
     int dice(int maxValue, int minValue);
@@ -247,6 +261,11 @@ public:
     void cleanShop(int x, int y, int option);
     void addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile, my_enums::itemTypes type, int bonus);
 
+    list<CHAT> getChat(int x, int y);
+    //void cleanShop(int x, int y, int option);
+    void addChat(int x, int y, int option, std::string question, std::string  answer);
+
+    
 
     void processAI();
 
@@ -290,6 +309,9 @@ protected:
 
     std::list<SHOP> SHOPs; // All Shops
     std::list<SHOP> tmpSHOPs; // Shops Found in our location
+
+    std::list<CHAT> CHATs; // All chat options
+    std::list<CHAT> tmpCHATs; // chat options Found in our location
 
     std::list<EVENT> EVENTs; // All Shops
     std::list<EVENT> tmpEVENTs; // Shops Found in our location
@@ -557,6 +579,12 @@ protected:
     classButton shop4;
     classButton shop5;
 
+    classButton chat0;
+    classButton chat1;
+    classButton chat2;
+    classButton chat3;
+    classButton chat4;
+    classButton chat5;
 
     classButton newMapButton;
     classButton mapButton;

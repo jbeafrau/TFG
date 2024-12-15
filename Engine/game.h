@@ -152,6 +152,8 @@ public:
     void addItem(string name, string description, int count, int value, int tile, my_enums::itemTypes type, int bonus);
     void updateItem(string name, int value);
     bool findItem(string name);
+    item getItem(string name);
+
 
     void drawSquare(SDL_Rect rect, SDL_Color color);
     void drawTransparentSquare(SDL_Rect rect, SDL_Color color);
@@ -306,6 +308,15 @@ protected:
     int max_stamina = 1;
     int max_power=1;
     int max_luck = 1;
+
+    //default equipo
+
+    std::string itemWeapon = "";
+    std::string  itemArmor = "";
+    std::string itemHelmet = "";
+    std::string shield = "";
+    std::string itemRing = "";
+    std::string alternate = "";
 
     // movement attributes
     bool left = false;
@@ -555,6 +566,8 @@ protected:
     classButton achievementGroup2Button;
     classButton achievementGroup3Button;
     classButton achievementGroup4Button;
+
+    classButton itemSelectedButton;
 
     SDL_Rect tmpRect;
 

@@ -534,6 +534,15 @@ void game::loadPlayerDefault()
 
     randomAttributes();
 
+
+    itemWeapon = "";
+     itemArmor = "";
+    itemHelmet = "";
+    shield = "";
+    itemRing = "";
+
+    alternate = "";
+
 }
 
 
@@ -577,11 +586,12 @@ void game::loadShops()
     addShop(2, 112, 155, 5, "BALLESTA", 1, "GOLD", 25, 60, my_enums::_WEAPON_RANGED_, 2);
 
     addShop(3, 106, 161, 1, "ARMADURA CUERO", 1, "GOLD", 10, 114, my_enums::_ARMOR_, 1);
-    addShop(3, 106, 161, 2, "CASCO CUERO", 1, "GOLD", 5, 80, my_enums::_ARMOR_, 1);
-    addShop(3, 106, 161, 3, "ESCUDO CUERO", 1, "GOLD", 5, 91, my_enums::_ARMOR_, 1);
+    addShop(3, 106, 161, 2, "CASCO CUERO", 1, "GOLD", 5, 160, my_enums::_HELMET_, 1);
+    addShop(3, 106, 161, 3, "ESCUDO CUERO", 1, "GOLD", 5, 151, my_enums::_SHIELD_, 1);
 
     addShop(4, 112, 161, 1, "POCION VITALIDAD", 1, "GOLD", 25, 276, my_enums::_OTHER_, 0);
     addShop(4, 112, 161, 2, "POCION PODER", 1, "GOLD", 25, 273, my_enums::_OTHER_, 0);
+    addShop(4, 112, 161, 3, "ANILLO HABILIDAD", 1, "GOLD", 50, 220, my_enums::_RING_, 0);
 
     /*
         addShop(36, 79, 71, 1 , "**ANILLO DE INVISIBILIDAD" , 1 , "GOLD", 10,229);
@@ -604,6 +614,8 @@ void game::setButtonDefaults()
 {
     //Set button´s size, position and caption
     titleButton.setButton(gScreenSurface->w / 2 - 450, gScreenSurface->h / 4, 900, 100, "");
+
+    itemSelectedButton.setButton(gScreenSurface->w / 2 - 200, 350, 400, gScreenSurface->h - 350, " ");
 
     achievementGroup0Button.setButton(gScreenSurface->w / 2 - 250, 200, 100, 50, "");
     achievementGroup1Button.setButton(gScreenSurface->w / 2 - 250, 250, 100, 50, "");
@@ -2972,6 +2984,48 @@ void game::screenInventory()
             drawText(tmpString, tmpRect);
 
         }
+
+        tmpy = 300;
+        tmpRect.x = gScreenSurface->w / 4 * 3-100;
+        tmpRect.y = tmpy;
+        drawTextResize("ITEMS EQUIPADOS", tmpRect);
+
+        tmpRect.x = gScreenSurface->w / 4 * 3 -150;
+        tmpRect.w = 150;
+        tmpRect.y += 50;
+        drawTextResize("ARMA:", tmpRect);
+        tmpRect.y += 50;
+        drawTextResize("ARMADURA:", tmpRect);
+        tmpRect.y += 50;
+        drawTextResize("CASCO:", tmpRect);
+        tmpRect.y += 50;
+        drawTextResize("ESCUDO:", tmpRect);
+        tmpRect.y += 50;
+        drawTextResize("ANILLO:", tmpRect);
+
+        //itemShield = "";
+        
+        tmpy = 300;
+        tmpRect.x = gScreenSurface->w / 4 * 3;
+        tmpRect.y = tmpy;
+        tmpRect.w = 200;
+        tmpRect.y += 50;
+       if (itemWeapon !="")drawTextResize(itemWeapon, tmpRect);
+
+        tmpRect.y += 50;
+        if (itemArmor != "") drawTextResize(itemArmor, tmpRect);
+
+        tmpRect.y += 50;
+        if (itemHelmet != "")drawTextResize(itemHelmet, tmpRect);
+
+        tmpRect.y += 50;
+        //if (shield != "")drawTextResize(shield, tmpRect);
+        if (alternate != "")drawTextResize(alternate, tmpRect);
+
+        tmpRect.y += 50;
+        if (itemRing != "")drawTextResize(itemRing, tmpRect);
+        
+
 }
 
 
@@ -4048,6 +4102,78 @@ void game::eventsInventory()
                 setState(previousScreen);
 
             }
+
+            
+            if (itemSelectedButton.clicked(mousex, mousey)) {
+                int y = mousey - 350;
+                int itemSelected = (y / 50) + 1;
+                if (items.size() >= itemSelected) {
+                    //todo
+
+                    //item aItem = getItem(items[itemSelected]);
+
+                    std::list<item>::iterator it = items.begin();
+                    if (itemSelected > 1) {
+                        std::advance(it, itemSelected-1);
+                    }
+                    switch (it->type) {
+                    
+                    case my_enums::_WEAPON_1H_:
+                    {
+                        itemWeapon = it->name;
+                        break;
+                    }
+
+                    case my_enums::_WEAPON_2H_:
+                    {
+                        itemWeapon = it->name;
+                      //  itemEscudo = "";
+                        alternate = "";
+                        break;
+                    }
+
+                    case my_enums::_WEAPON_RANGED_:
+                    {
+                        itemWeapon = it->name;
+                     //   itemEscudo = "";
+                        alternate = "";
+                        break;
+                    }
+
+                    case my_enums::_ARMOR_:
+                    {
+                        itemArmor = it->name;
+                        break;
+                    }
+
+                    case my_enums::_SHIELD_:
+                    {
+                        //itemEscudo = it->name;
+                        if ((itemWeapon =="") ||(getItem(itemWeapon).type == my_enums::_WEAPON_1H_)){
+                        alternate = it->name;
+                        }
+                        break;
+                    }
+
+                    case my_enums::_HELMET_:
+                    {
+                        itemHelmet = it->name;
+                        break;
+                    }
+
+                    case my_enums::_RING_:
+                    {
+                        itemRing = it->name;
+                        break;
+                    }
+
+
+                    }//switch
+
+                }//items size
+
+            }//itemselected button
+            
 
         }
 
@@ -5185,4 +5311,28 @@ bool game::findItem(string name)
         }
     }
     return found;
+}
+
+
+item game::getItem(string name)
+{
+
+    bool found = false;
+    item aItem;
+    for (list<item>::iterator it = items.begin(); it != items.end(); it++)
+    {
+        if (it->name == name)
+        {
+            found = true;
+            aItem.name = it->name;
+            aItem.bonus = it->bonus;
+            aItem.count = it->count;
+            aItem.type = it->type;
+            aItem.tile = it->tile;
+            aItem.value = it->value;
+            break;
+        }
+    }
+    return aItem;
+
 }

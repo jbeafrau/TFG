@@ -91,5 +91,19 @@ namespace my_enums
         _HIDDEN_ = 50
     };
 
+    enum itemTypes
+    {
+        _WEAPON_1H_ = 1,
+        _WEAPON_2H_ = 2,
+        _WEAPON_RANGED_ = 3,
+        _ARMOR_ = 4,
+        _SHIELD_ = 5,
+        _HELMET_ =6,
+        _RING_ = 7,
+        _OTHER_ = 10
+
+
+    };
+
 }
 #endif

@@ -213,7 +213,7 @@ void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string de
 
 }
 
-void game::addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile)
+void game::addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile, my_enums::itemTypes type, int bonus)
 {
     SHOP aShop;
     aShop.id = id;
@@ -225,6 +225,8 @@ void game::addShop(int id, int x, int y, int option, std::string description, in
     aShop.description2 = description2;
     aShop.value2 = value2;
     aShop.tile = tile;
+    aShop.type = type;
+    aShop.bonus = bonus;
     SHOPs.push_back(aShop);
 
 }
@@ -246,6 +248,8 @@ list<SHOP> game::getShops(int x, int y)
             aShop.description2 = it->description2;
             aShop.value2 = it->value2;
             aShop.tile = it->tile;
+            aShop.type = it->type;
+            aShop.bonus = it->bonus;
 
             tmp.push_back(aShop);
         }
@@ -412,7 +416,7 @@ void game::eventsShops()
                                         addNotification(tmpStr);
 
 
-                                        addItem(it->description, it->description, it->value, it->value2, it->tile);
+                                        addItem(it->description, it->description, it->value, it->value2, it->tile, it->type, it->bonus);
 
                                         //addItem(it->description, it->value);
                                        // myBook.cleanShop(currentlocation, it->option);
@@ -441,7 +445,7 @@ void game::eventsShops()
                                     }
                                     else {
                                         // addItem(it->description, it->value);
-                                        addItem(it->description, it->description, it->value, it->value2, it->tile);
+                                        addItem(it->description, it->description, it->value, it->value2, it->tile, it->type, it->bonus);
                                         tmpStr = tmpStr + it->description;
                                     }
                                     //popup(tmpStr);
@@ -564,14 +568,20 @@ void game::loadShops()
 
     SHOPs.clear();
 
-    addShop(1, 106, 155, 1, "FOOD", 1, "GOLD", 4, 207);
+    addShop(1, 106, 155, 1, "FOOD", 1, "GOLD", 4, 207,my_enums::_OTHER_,0);
 
-    addShop(2, 112, 155, 1, "ESPADA", 1, "GOLD", 10, 40);
+    addShop(2, 112, 155, 1, "ESPADA", 1, "GOLD", 10, 44, my_enums::_WEAPON_1H_, 1);
+    addShop(2, 112, 155, 2, "ESPADA 2M", 1, "GOLD", 25, 40, my_enums::_WEAPON_2H_, 2);
+    addShop(2, 112, 155, 3, "DAGA", 1, "GOLD", 5, 30, my_enums::_WEAPON_1H_, 0);
+    addShop(2, 112, 155, 4, "ARCO", 1, "GOLD", 10, 59, my_enums::_WEAPON_RANGED_, 1);
+    addShop(2, 112, 155, 5, "BALLESTA", 1, "GOLD", 25, 60, my_enums::_WEAPON_RANGED_, 2);
 
-    addShop(3, 106, 161, 1, "ARMADURA CUERO", 1, "GOLD", 10, 114);
+    addShop(3, 106, 161, 1, "ARMADURA CUERO", 1, "GOLD", 10, 114, my_enums::_ARMOR_, 1);
+    addShop(3, 106, 161, 2, "CASCO CUERO", 1, "GOLD", 5, 80, my_enums::_ARMOR_, 1);
+    addShop(3, 106, 161, 3, "ESCUDO CUERO", 1, "GOLD", 5, 91, my_enums::_ARMOR_, 1);
 
-    addShop(4, 112, 161, 1, "POCION VITALIDAD", 1, "GOLD", 25, 276);
-    addShop(4, 112, 161, 2, "POCION PODER", 1, "GOLD", 25, 273);
+    addShop(4, 112, 161, 1, "POCION VITALIDAD", 1, "GOLD", 25, 276, my_enums::_OTHER_, 0);
+    addShop(4, 112, 161, 2, "POCION PODER", 1, "GOLD", 25, 273, my_enums::_OTHER_, 0);
 
     /*
         addShop(36, 79, 71, 1 , "**ANILLO DE INVISIBILIDAD" , 1 , "GOLD", 10,229);
@@ -5132,7 +5142,7 @@ void game::checkBoundaries()
 }
 
 
-void game::addItem(string name, string description, int count, int value, int tile)
+void game::addItem(string name, string description, int count, int value, int tile, my_enums::itemTypes type, int bonus)
 {
     item aItem;
     aItem.name = name;
@@ -5140,6 +5150,9 @@ void game::addItem(string name, string description, int count, int value, int ti
     aItem.count = count;
     aItem.value = value;
     aItem.tile = tile;
+    aItem.type = type;
+    aItem.bonus = bonus;
+
     items.push_back(aItem);
     addNotification("Has conseguido:" + name);
 }

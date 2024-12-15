@@ -49,6 +49,8 @@ struct item { //item definition
     int count;
     int value;
     int tile;
+    my_enums::itemTypes type;
+    int bonus;
 };
 
 struct achievement { //Achievement definition
@@ -66,6 +68,8 @@ struct SHOP { // shop definition
     string description2;
     int value2; 
     int tile;
+    my_enums::itemTypes type;
+    int bonus;
 };
 
 struct animation {
@@ -145,7 +149,7 @@ public:
     void addAchievement(std::string achievementName, my_enums::Achievements achievementType);
     bool existAchievement(std::string achievementName, my_enums::Achievements achievementType);
 
-    void addItem(string name, string description, int count, int value, int tile);
+    void addItem(string name, string description, int count, int value, int tile, my_enums::itemTypes type, int bonus);
     void updateItem(string name, int value);
     bool findItem(string name);
 
@@ -237,7 +241,7 @@ public:
 
     list<SHOP> getShops(int x, int y);
     void cleanShop(int x, int y, int option);
-    void addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile);
+    void addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile, my_enums::itemTypes type, int bonus);
 
 
     void processAI();

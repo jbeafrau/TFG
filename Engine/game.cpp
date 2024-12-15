@@ -4098,19 +4098,24 @@ void game::processAI()
 
 void game::timeEvents()
 {
-
-    if (getState() != my_enums::_FIGHT_) {
+    
+    if ((getState() != my_enums::_FIGHT_) || (getState() != my_enums::_SHOP_)){
         if ((SDL_GetTicks() - ticksAI) > 1000) {
             ticksAI = SDL_GetTicks();
             processAI();
-            tmpNPCs = getNPCs(px, py);
-            if (tmpNPCs.size() > 0) {
 
+            /*
+            tmpNPCs = getNPCs(px, py);
+           // if ((tmp.size() > 0)&&((tmp.begin()->NPCAI == my_enums::_ENEMY_RANDOM_)|| (tmp.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_))) {
+            if ((tmpNPCs.size() > 0) && ((tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_) || (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_))) {
+                
                     Mix_PlayMusic(musicBATTLE, -1);
                     previousScreen = my_enums::_HOMETOWN_;
+                   // tmpNPCs = getNPCs(px, py);
                     setState(my_enums::_FIGHT_);
                 
             }
+            */
         }
     }
 myTime = (int)(timer.getTicks() / 1000);
@@ -4644,7 +4649,6 @@ void game::eventsFight()
 
 }
 
-
 void game::eventsAchievements()
 {
     //Event handler
@@ -4709,8 +4713,6 @@ void game::eventsAchievements()
     //myTime = (int)(timer.getTicks() / 1000);
 
 }
-
-
 
 void game::eventsHomeTown()
 {
@@ -4902,7 +4904,8 @@ void game::eventsHomeTown()
                   break;
             }
         }//event management
-
+        
+         /*
         tmpx = px;
         tmpy = py;
         if (right)tmpx++;
@@ -4910,10 +4913,18 @@ void game::eventsHomeTown()
         if (up)tmpy--;
         if (down)tmpy++;
         phaseNPCs();
-
+        */
 
 
     }
+
+    tmpx = px;
+    tmpy = py;
+    if (right)tmpx++;
+    if (left)tmpx--;
+    if (up)tmpy--;
+    if (down)tmpy++;
+    phaseNPCs();
    // myTime = (int)(timer.getTicks() / 1000);
 }
 

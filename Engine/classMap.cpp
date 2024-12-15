@@ -21,6 +21,7 @@ void classMap::generateTiles()
     int width = mymap.heightMap.GetWidth();
     int height = mymap.heightMap.GetHeight();
 
+    /*
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++)
@@ -104,19 +105,19 @@ void classMap::generateTiles()
                 }
             }
 
-            /*renderer.AddGradientPoint (-1.0000, utils::Color (  0,   0, 128, 255)); // deeps
-              renderer.AddGradientPoint (-0.2500, utils::Color (  0,   0, 255, 255)); // shallow
-              renderer.AddGradientPoint ( 0.0000, utils::Color (  0, 128, 255, 255)); // shore
-              renderer.AddGradientPoint ( 0.0625, utils::Color (240, 240,  64, 255)); // sand
-              renderer.AddGradientPoint ( 0.1250, utils::Color ( 32, 160,   0, 255)); // grass
-              renderer.AddGradientPoint ( 0.3750, utils::Color (224, 224,   0, 255)); // dirt
-              renderer.AddGradientPoint ( 0.5750, utils::Color (152, 118,   84, 255)); // brown
-              renderer.AddGradientPoint ( 0.7500, utils::Color (128, 128, 128, 255)); // rock
-              renderer.AddGradientPoint ( 1.0000, utils::Color (255, 255, 255, 255)); // snow 9*/
+            //renderer.AddGradientPoint (-1.0000, utils::Color (  0,   0, 128, 255)); // deeps
+            //  renderer.AddGradientPoint (-0.2500, utils::Color (  0,   0, 255, 255)); // shallow
+            //  renderer.AddGradientPoint ( 0.0000, utils::Color (  0, 128, 255, 255)); // shore
+            //  renderer.AddGradientPoint ( 0.0625, utils::Color (240, 240,  64, 255)); // sand
+            //  renderer.AddGradientPoint ( 0.1250, utils::Color ( 32, 160,   0, 255)); // grass
+            //  renderer.AddGradientPoint ( 0.3750, utils::Color (224, 224,   0, 255)); // dirt
+            //  renderer.AddGradientPoint ( 0.5750, utils::Color (152, 118,   84, 255)); // brown
+            //  renderer.AddGradientPoint ( 0.7500, utils::Color (128, 128, 128, 255)); // rock
+            //  renderer.AddGradientPoint ( 1.0000, utils::Color (255, 255, 255, 255)); // snow 9
         }//for
     }//for
 
-
+    
     for (int x = 78; x <= 84; x++)
     {
         map_cells[x][70] = 9;
@@ -130,14 +131,51 @@ void classMap::generateTiles()
     }
 
     map_cells[81][73] = 37;
+    */
+
+//    road({1,74,200,1}, 90, 96);
+ //   building({66,68,10,5},9,104, 68,73,37);
+ //   building({ 66,76,10,5 }, 9, 247, 68, 76, 37);
+
+    //Draw town roads
+    road({ 1,50,100,2 }, 90, 96);
+    road({ 101,50,2,100 }, 90, 96);
+    road({ 101,150,155,2 }, 90, 96);
+    road({ 109,153,0,10 }, 90, 96);
+
+    //Draw major building
+    building({ 105,140,8,9 }, 9, 104, 109, 149, 38);
+
+    //Draw elements building
+    building({ 115,140,8,9 }, 9, 104, 119, 149, 54);
+
+    //Draw portals
+    map_cells[1][143] = 56;
+    map_cells[256][147] = 56;
+
+    //Draw portals to elemental worlds
+    map_cells[117][142] = 47;
+    map_cells[121][142] = 48;
+    map_cells[117][144] = 49;
+    map_cells[121][144] = 50;
 
 
-    road({1,74,200,1}, 90, 96);
-    //road({ 101,71,100,1 }, 90, 96);
-    building({66,68,10,5},9,104);
+    //Draw fire pits
+    map_cells[107][142] = 66;
+    map_cells[111][142] = 66;
+    map_cells[107][144] = 66;
+    map_cells[111][144] = 66;
+    map_cells[107][146] = 66;
+    map_cells[111][146] = 66;
 
-    building({ 66,76,10,5 }, 9, 247);
+    //Draw fountain
+    map_cells[109][151] = 579;
 
+    //Draw town shops
+    building({ 104,153,4,4 }, 9, 247, 108, 155, 37);
+    building({ 104,159,4,4 }, 9, 247, 108, 162, 37);
+    building({ 110,153,4,4 }, 9, 247, 110, 155, 37);
+    building({ 110,159,4,4 }, 9, 247, 110, 162, 37);
 
 }
 
@@ -162,7 +200,7 @@ void classMap::road(SDL_Rect square, int floorTile1, int floorTile2) {
     }
 }
 
-void classMap::building(SDL_Rect square, int wallTile, int floorTile)
+void classMap::building(SDL_Rect square, int wallTile, int floorTile, int x, int y, int doorTile)
 {
     for (int x = square.x; x <= (square.x+square.w); x++)
     {
@@ -184,6 +222,8 @@ void classMap::building(SDL_Rect square, int wallTile, int floorTile)
         map_cells[square.x][y] = 9;
         map_cells[(square.x + square.w)][y] = 9;
     }
+
+    map_cells[x][y] = doorTile;
 
 }
 

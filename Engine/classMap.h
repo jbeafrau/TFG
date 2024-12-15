@@ -39,7 +39,7 @@ public:
 
 
     int dice(int maxValue, int minValue);
-    void building(SDL_Rect square, int wallTile, int floorTile);
+    void building(SDL_Rect square, int wallTile, int floorTile,int x, int y, int doorTile);
     void road(SDL_Rect square, int floorTile1, int floorTile2);
 
     

@@ -508,10 +508,10 @@ void game::monsterGenerator()
 
 void game::loadPlayerDefault()
 {
-    px = 75;
-    py = 75;
-    cam_x = 70;
-    cam_y = 70;
+    px = 109;
+    py = 146;
+    cam_x = 100;
+    cam_y = 140;
 
     randomAttributes();
 

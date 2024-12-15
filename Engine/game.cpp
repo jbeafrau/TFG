@@ -394,7 +394,19 @@ void game::eventsShops()
                                         food += it->value;
                                         // break;
                                     }
-                                    else {
+                                    else  if (it->description == "POCION VITALIDAD") {
+                                        tmpStr = tmpStr + it->description;
+                                        //popup(tmpStr);
+                                        addNotification(tmpStr);
+                                        potions_health += it->value;
+                                        // break;
+                                    }else  if (it->description == "POCION PODER") {
+                                        tmpStr = tmpStr + it->description;
+                                        //popup(tmpStr);
+                                        potions_power += it->value;
+                                        // break;
+                                    }else                               
+                                    {
                                         tmpStr = tmpStr + it->description;
                                         //popup(tmpStr);
                                         addNotification(tmpStr);
@@ -415,6 +427,9 @@ void game::eventsShops()
 
                                     }
 
+                                }
+                                else {
+                                    addNotification("No tienes dinero suficiente");
                                 }//gold
                                 if (it->description2 == "FOOD" and food >= it->value2) {
                                     tmpStr = "Compras ";
@@ -522,6 +537,7 @@ bool game::collide(int x, int y)
 {
     bool tmp = false;
     if (baseMap.get_cell(x,y) == 9) tmp = true;
+    if (baseMap.get_cell(x, y) == 579) tmp = true;
     return tmp;
 }
 
@@ -534,11 +550,12 @@ void game::loadNPCs()
     addNPC(2, 80, 75, my_enums::_HOMETOWN_, "NPC DOS", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_FOLLOW_, dice(300, 2));
     addNPC(3, 82, 75, my_enums::_HOMETOWN_, "NPC TRES", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
     addNPC(4, 78, 75, my_enums::_HOMETOWN_, "NPC CUATRO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), my_enums::_ENEMY_STATIC_, dice(300, 2));
-    addNPC(5, 79, 71, my_enums::_HOMETOWN_, "Tienda del pueblo1", 1, 1, 1,1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(5, 80, 71, my_enums::_HOMETOWN_, "Tienda del pueblo2", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(5, 81, 71, my_enums::_HOMETOWN_, "Tienda del pueblo3", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(5, 82, 71, my_enums::_HOMETOWN_, "Tienda del pueblo4", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
-    addNPC(5, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+   
+    addNPC(5, 106, 155, my_enums::_HOMETOWN_, "Tienda de comida", 1, 1, 1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(6, 112, 155, my_enums::_HOMETOWN_, "Tienda de armas", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(7, 106, 161, my_enums::_HOMETOWN_, "Tienda de armaduras", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    addNPC(8, 112, 161, my_enums::_HOMETOWN_, "Tienda de pociones", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    //addNPC(8, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
 
 }
 
@@ -547,6 +564,16 @@ void game::loadShops()
 
     SHOPs.clear();
 
+    addShop(1, 106, 155, 1, "FOOD", 1, "GOLD", 4, 207);
+
+    addShop(2, 112, 155, 1, "ESPADA", 1, "GOLD", 10, 40);
+
+    addShop(3, 106, 161, 1, "ARMADURA CUERO", 1, "GOLD", 10, 114);
+
+    addShop(4, 112, 161, 1, "POCION VITALIDAD", 1, "GOLD", 25, 276);
+    addShop(4, 112, 161, 2, "POCION PODER", 1, "GOLD", 25, 273);
+
+    /*
         addShop(36, 79, 71, 1 , "**ANILLO DE INVISIBILIDAD" , 1 , "GOLD", 10,229);
         addShop(36, 79, 71, 2 , "**ANILLO DE FUEGO" , 1 , "GOLD", 8,238);
         addShop(36, 79, 71, 3 , "**ANILLO DE HIELO" , 1 , "GOLD", 7,231);
@@ -559,9 +586,170 @@ void game::loadShops()
         addShop(293, 82, 71, 1 , "**PETALOS MAGICOS" , 10 , "FOOD", 2,1);
         addShop(293, 82, 71, 2 , "**PETALOS MAGICOS" , 10 , "GOLD", 2,1);
         addShop(302, 83, 71, 1 , "**GEMA" , -2 , "GOLD", 9,338);
-                                                                   
+            */
+
 }
 
+void game::setButtonDefaults()
+{
+    //Set button´s size, position and caption
+    titleButton.setButton(gScreenSurface->w / 2 - 450, gScreenSurface->h / 4, 900, 100, "");
+
+    achievementGroup0Button.setButton(gScreenSurface->w / 2 - 250, 200, 100, 50, "");
+    achievementGroup1Button.setButton(gScreenSurface->w / 2 - 250, 250, 100, 50, "");
+    achievementGroup2Button.setButton(gScreenSurface->w / 2 - 250, 300, 100, 50, "");
+    achievementGroup3Button.setButton(gScreenSurface->w / 2 - 250, 350, 100, 50, "");
+    achievementGroup4Button.setButton(gScreenSurface->w / 2 - 250, 400, 100, 50, "");
+
+    /*
+    moveLeftButton.setButton(0, gScreenSurface->h / 2, 128, 128, "A");
+    moveLeftButton.setColor(0, 0, 200);
+    moveRightButton.setButton(276 , gScreenSurface->h / 2, 128, 128, "D");
+    moveRightButton.setColor(0, 0, 200);
+    moveUpButton.setButton(138, gScreenSurface->h / 2 -138, 128, 128, "W");
+    moveUpButton.setColor(0, 0, 200);
+    moveDownButton.setButton(138, gScreenSurface->h / 2, 128, 128, "S");
+    moveDownButton.setColor(0, 0, 200);
+    */
+
+    moveLeftButton.setButton(gScreenSurface->w - btnx * 3, gScreenSurface->h / 4 * 3, btnx, btny, "A");
+    moveLeftButton.setColor(0, 0, 200);
+    moveDownButton.setButton(gScreenSurface->w - btnx * 2, gScreenSurface->h / 4 * 3, btnx, btny, "S");
+    moveDownButton.setColor(0, 0, 200);
+    moveRightButton.setButton(gScreenSurface->w - btnx, gScreenSurface->h / 4 * 3, btnx, btny, "D");
+    moveRightButton.setColor(0, 0, 200);
+    moveUpButton.setButton(gScreenSurface->w - btnx * 2, gScreenSurface->h / 4 * 3 - btny, btnx, btny, "W");
+    moveUpButton.setColor(0, 0, 200);
+
+    /*
+    nextButton.setButton(gScreenSurface->w / 2 +128, gScreenSurface->h /2, 128, 128, "Siguiente");
+    nextButton.setColor(128, 128, 128);
+    prevButton.setButton(gScreenSurface->w / 2 - 256, gScreenSurface->h /2, 128, 128, "Anterior");
+    prevButton.setColor(128, 128, 128);
+    */
+    nextButton.setButton(gScreenSurface->w / 2 + 128, gScreenSurface->h / 2, btnx * 2, btny * 2, "Siguiente");
+    nextButton.setColor(128, 128, 128);
+    prevButton.setButton(gScreenSurface->w / 2 - 256, gScreenSurface->h / 2, btnx * 2, btny * 2, "Anterior");
+    prevButton.setColor(128, 128, 128);
+
+    //exitButton.setButton(gScreenSurface->w - 128, 0, 128, 128, "Salir");
+    exitButton.setButton(gScreenSurface->w - btnx, 0, btnx, btny, " ");
+    exitButton.setColor(200, 0, 0);
+
+    //  continueButton.setButton(gScreenSurface->w / 2 +32 , gScreenSurface->h - 128, 128, 128, "Continuar");
+    continueButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 4 * 3, btnx * 2, btny * 2, "Continuar");
+    continueButton.setColor(0, 0, 200);
+
+    // backButton.setButton(gScreenSurface->w / 2 - 160 , gScreenSurface->h - 128, 128, 128, "Volver");
+    backButton.setButton(gScreenSurface->w / 2 - btnx * 3, gScreenSurface->h / 4 * 3, btnx * 2, btny * 2, "Volver");
+    backButton.setColor(0, 0, 200);
+
+    // rollButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h /2, 128, 128, "Volver a tirar");
+    rollButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2, btnx * 2, btny * 2, "Volver a tirar");
+    rollButton.setColor(0, 0, 200);
+
+    //startButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h / 2 -64, 128, 128, "Jugar");
+    //startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2 - 64, btnx*2, btny*2, "Jugar");
+    startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 4 * 3, btnx * 2, btny * 2, "Jugar");
+
+    startButton.setColor(100, 100, 100);
+
+    player1Button.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 100, 200, 50, "Nombre Jugador");
+    player1Button.setColor(100, 100, 100);
+
+    /*
+    configButton.setButton(1, gScreenSurface->h -128, 128, 128, "Configuración");
+    configButton.setColor(100, 100, 100);
+    inventoryButton.setButton(129, gScreenSurface->h - 128, 128, 128, "Inventario");
+    inventoryButton.setColor(0, 0, 200);
+    playerButton.setButton(257, gScreenSurface->h - 128, 128, 128, "Personaje");
+    playerButton.setColor(0, 0, 200);
+    mapButton.setButton(385, gScreenSurface->h - 128, 128, 128, "View map");
+    mapButton.setColor(200, 200, 200);*/
+    //foodButton.setButton(gScreenSurface->w - 128, gScreenSurface->h - 128, 128, 128, "Comer");
+
+     //  achievementsButton.setButton(513, gScreenSurface->h - 128, 128, 128, "0 %");
+    //achievementsButton.setButton(gScreenSurface->w / 2 - btnx, 1, btnx * 2, btny * 2, "0 %");
+    achievementsButton.setButton(1, 1, btnx, btny, "0 %");
+    achievementsButton.setColor(0, 0, 200);
+
+    configButton.setButton(1 + btnx, 1, btnx, btny, " ");
+    configButton.setColor(100, 100, 100);
+    inventoryButton.setButton(1 + btnx * 2, 1, btnx, btny, " ");
+    inventoryButton.setColor(0, 0, 200);
+    playerButton.setButton(1 + btnx * 3, 1, btnx, btny, " ");
+    playerButton.setColor(0, 0, 200);
+    mapButton.setButton(1 + btnx * 4, 1, btnx, btny, " ");
+    mapButton.setColor(200, 200, 200);
+    foodButton.setButton(1 + btnx * 5, 1, btnx, btny, " ");
+
+
+
+
+    newMapButton.setButton(gScreenSurface->w - 128, gScreenSurface->h / 2, 128, 128, "New map");
+    newMapButton.setColor(200, 200, 200);
+
+    musicButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 100, 200, 50, "Cambia canción");
+    musicButton.setColor(100, 100, 100);
+    muteButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 150, 200, 50, "MUSIC ON");
+    muteButton.setColor(100, 100, 100);
+    volumeSoundDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 200, 50, 50, "+");
+    volumeSoundDownButton.setColor(100, 100, 100);
+    volumeSoundButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 3 + 200, 100, 50, "SOUND 100%");
+    volumeSoundButton.setColor(200, 200, 200);
+    volumeSoundUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 3 + 200, 50, 50, "-");
+    volumeSoundUpButton.setColor(100, 100, 100);
+    volumeMusicDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 250, 50, 50, "+");
+    volumeMusicDownButton.setColor(100, 100, 100);
+    volumeMusicButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 3 + 250, 100, 50, "MUSIC 100%");
+    volumeMusicButton.setColor(200, 200, 200);
+    volumeMusicUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 3 + 250, 50, 50, "-");
+    volumeMusicUpButton.setColor(100, 100, 100);
+    blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 300, 200, 50, "BLUR ON");
+    blurButton.setColor(100, 100, 100);
+
+    playerUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
+    playerUpButton.setColor(100, 100, 100);
+    playerDownButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
+    playerDownButton.setColor(100, 100, 100);
+
+
+
+    mouseButton.setButton(gScreenSurface->w / 2 - 100, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
+    mouseButton.setColor(100, 100, 100);
+
+    /*
+    fightButton.setButton(1,   gScreenSurface->h -128, 128, 128, "Atacar");
+    bowButton.setButton(128, gScreenSurface->h - 128, 128, 128, "Arco");
+    spellButton.setButton(256, gScreenSurface->h -128, 128, 128, "Magia");
+    drainButton.setButton(384, gScreenSurface->h - 128, 128, 128, "Drenar");
+    hideButton.setButton(512, gScreenSurface->h - 128, 128, 128, "Subterfugio");
+    summonButton.setButton(640, gScreenSurface->h - 128, 128, 128, "Invocar");
+    */
+    fightButton.setButton(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 50, 128, 128, "Atacar");
+    bowButton.setButton(gScreenSurface->w / 2 - 200 + 128, gScreenSurface->h / 2 - 50, 128, 128, "Arco");
+    spellButton.setButton(gScreenSurface->w / 2 - 200 + 128 * 2, gScreenSurface->h / 2 - 50, 128, 128, "Magia");
+    drainButton.setButton(gScreenSurface->w / 2 - 200 + 128 * 3, gScreenSurface->h / 2 - 50, 128, 128, "Drenar");
+    hideButton.setButton(gScreenSurface->w / 2 - 200 + 128 * 4, gScreenSurface->h / 2 - 50, 128, 128, "Subterfugio");
+    summonButton.setButton(gScreenSurface->w / 2 - 200 + 128 * 5, gScreenSurface->h / 2 - 50, 128, 128, "Invocar");
+
+    potionHealthButton.setButton(gScreenSurface->w - 256, gScreenSurface->h - 128, 128, 128, "+Salud");
+    potionHealthButton.setColor(100, 100, 100);
+    potionMagicButton.setButton(gScreenSurface->w - 128, gScreenSurface->h - 128, 128, 128, "+Magia");
+    potionMagicButton.setColor(100, 100, 100);
+
+
+
+
+    shop0.setButton(50, gScreenSurface->h / 2, gScreenSurface->w - 100, 50, "0");
+    shop1.setButton(50, gScreenSurface->h / 2 + 50, gScreenSurface->w - 100, 50, "1");
+    shop2.setButton(50, gScreenSurface->h / 2 + 100, gScreenSurface->w - 100, 50, "2");
+    shop3.setButton(50, gScreenSurface->h / 2 + 150, gScreenSurface->w - 100, 50, "3");
+    shop4.setButton(50, gScreenSurface->h / 2 + 200, gScreenSurface->w - 100, 50, "4");
+    shop5.setButton(50, gScreenSurface->h / 2 + 250, gScreenSurface->w - 100, 50, "5");
+
+
+}
 
 void game::start()
 {
@@ -620,164 +808,9 @@ void game::start()
     //Hide Window´s cursor
     SDL_ShowCursor(SDL_DISABLE);
 
-
-    //Set button´s size, position and caption
-    titleButton.setButton(gScreenSurface->w / 2 - 450, gScreenSurface->h / 4, 900, 100, "");
-
-    achievementGroup0Button.setButton(gScreenSurface->w / 2 - 250, 200, 100, 50, "");
-    achievementGroup1Button.setButton(gScreenSurface->w / 2 - 250, 250, 100, 50, "");
-    achievementGroup2Button.setButton(gScreenSurface->w / 2 - 250, 300, 100, 50, "");
-    achievementGroup3Button.setButton(gScreenSurface->w / 2 - 250, 350, 100, 50, "");
-    achievementGroup4Button.setButton(gScreenSurface->w / 2 - 250, 400, 100, 50, "");
-
-    /*
-    moveLeftButton.setButton(0, gScreenSurface->h / 2, 128, 128, "A");
-    moveLeftButton.setColor(0, 0, 200);
-    moveRightButton.setButton(276 , gScreenSurface->h / 2, 128, 128, "D");
-    moveRightButton.setColor(0, 0, 200);
-    moveUpButton.setButton(138, gScreenSurface->h / 2 -138, 128, 128, "W");
-    moveUpButton.setColor(0, 0, 200);
-    moveDownButton.setButton(138, gScreenSurface->h / 2, 128, 128, "S");
-    moveDownButton.setColor(0, 0, 200);
-    */
-
-    moveLeftButton.setButton(gScreenSurface->w- btnx*3, gScreenSurface->h / 4*3, btnx,btny, "A");
-    moveLeftButton.setColor(0, 0, 200);
-    moveDownButton.setButton(gScreenSurface->w - btnx * 2, gScreenSurface->h / 4 * 3, btnx, btny, "S");
-    moveDownButton.setColor(0, 0, 200);
-    moveRightButton.setButton(gScreenSurface->w - btnx , gScreenSurface->h / 4 * 3, btnx, btny, "D");
-    moveRightButton.setColor(0, 0, 200);
-    moveUpButton.setButton(gScreenSurface->w - btnx * 2, gScreenSurface->h / 4 * 3 - btny, btnx, btny, "W");
-    moveUpButton.setColor(0, 0, 200);
-    
-    /*
-    nextButton.setButton(gScreenSurface->w / 2 +128, gScreenSurface->h /2, 128, 128, "Siguiente");
-    nextButton.setColor(128, 128, 128);
-    prevButton.setButton(gScreenSurface->w / 2 - 256, gScreenSurface->h /2, 128, 128, "Anterior");
-    prevButton.setColor(128, 128, 128);
-    */
-    nextButton.setButton(gScreenSurface->w / 2 + 128, gScreenSurface->h / 2, btnx*2,btny*2, "Siguiente");
-    nextButton.setColor(128, 128, 128);
-    prevButton.setButton(gScreenSurface->w / 2 - 256, gScreenSurface->h / 2, btnx*2, btny*2, "Anterior");
-    prevButton.setColor(128, 128, 128);
-
-    //exitButton.setButton(gScreenSurface->w - 128, 0, 128, 128, "Salir");
-    exitButton.setButton(gScreenSurface->w - btnx, 0, btnx, btny, " ");
-    exitButton.setColor(200, 0, 0);
-
-  //  continueButton.setButton(gScreenSurface->w / 2 +32 , gScreenSurface->h - 128, 128, 128, "Continuar");
-    continueButton.setButton(gScreenSurface->w / 2 -btnx, gScreenSurface->h/4*3, btnx*2, btny*2, "Continuar");
-    continueButton.setColor(0, 0, 200);
-
-   // backButton.setButton(gScreenSurface->w / 2 - 160 , gScreenSurface->h - 128, 128, 128, "Volver");
-    backButton.setButton(gScreenSurface->w / 2 - btnx*3, gScreenSurface->h / 4 * 3, btnx * 2, btny * 2, "Volver");
-    backButton.setColor(0, 0, 200);
-
-   // rollButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h /2, 128, 128, "Volver a tirar");
-    rollButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2, btnx*2, btny*2, "Volver a tirar");
-    rollButton.setColor(0, 0, 200);
-
-    //startButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h / 2 -64, 128, 128, "Jugar");
-    //startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2 - 64, btnx*2, btny*2, "Jugar");
-    startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 4 * 3 , btnx * 2, btny * 2, "Jugar");
-
-    startButton.setColor(100, 100, 100);
-
-    player1Button.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 100, 200, 50, "Nombre Jugador");
-    player1Button.setColor(100, 100, 100);
-
-    /*
-    configButton.setButton(1, gScreenSurface->h -128, 128, 128, "Configuración");
-    configButton.setColor(100, 100, 100);
-    inventoryButton.setButton(129, gScreenSurface->h - 128, 128, 128, "Inventario");
-    inventoryButton.setColor(0, 0, 200);
-    playerButton.setButton(257, gScreenSurface->h - 128, 128, 128, "Personaje");
-    playerButton.setColor(0, 0, 200);
-    mapButton.setButton(385, gScreenSurface->h - 128, 128, 128, "View map");
-    mapButton.setColor(200, 200, 200);*/
-    //foodButton.setButton(gScreenSurface->w - 128, gScreenSurface->h - 128, 128, 128, "Comer");
-
-     //  achievementsButton.setButton(513, gScreenSurface->h - 128, 128, 128, "0 %");
-    //achievementsButton.setButton(gScreenSurface->w / 2 - btnx, 1, btnx * 2, btny * 2, "0 %");
-    achievementsButton.setButton(1, 1, btnx, btny, "0 %");
-    achievementsButton.setColor(0, 0, 200);
-
-    configButton.setButton(1 + btnx, 1, btnx, btny, " ");
-    configButton.setColor(100, 100, 100);
-    inventoryButton.setButton(1+btnx*2, 1, btnx, btny, " ");
-    inventoryButton.setColor(0, 0, 200);
-    playerButton.setButton(1+btnx*3, 1, btnx, btny, " ");
-    playerButton.setColor(0, 0, 200);
-    mapButton.setButton(1+btnx*4, 1, btnx, btny, " ");
-    mapButton.setColor(200, 200, 200);
-    foodButton.setButton(1 + btnx * 5, 1, btnx, btny, " ");
-
- 
+    setButtonDefaults();
 
     
-    newMapButton.setButton(gScreenSurface->w -128, gScreenSurface->h /2, 128, 128, "New map");
-    newMapButton.setColor(200, 200, 200);
-    
-    musicButton.setButton(gScreenSurface->w / 2-100, gScreenSurface->h / 3 + 100, 200, 50, "Cambia canción");
-    musicButton.setColor(100, 100, 100);
-    muteButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 3 + 150, 200, 50, "MUSIC ON");
-    muteButton.setColor(100, 100, 100);
-    volumeSoundDownButton.setButton(gScreenSurface->w / 2 -100, gScreenSurface->h / 3 + 200, 50, 50, "+");
-    volumeSoundDownButton.setColor(100, 100, 100);
-    volumeSoundButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 3 + 200, 100, 50, "SOUND 100%");
-    volumeSoundButton.setColor(200, 200, 200);
-    volumeSoundUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 3 + 200, 50, 50, "-");
-    volumeSoundUpButton.setColor(100, 100, 100);
-    volumeMusicDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 250, 50, 50, "+");
-    volumeMusicDownButton.setColor(100, 100, 100);
-    volumeMusicButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 3 + 250, 100, 50, "MUSIC 100%");
-    volumeMusicButton.setColor(200, 200, 200);
-    volumeMusicUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 3 + 250, 50, 50, "-");
-    volumeMusicUpButton.setColor(100, 100, 100);
-    blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 300, 200, 50, "BLUR ON");
-    blurButton.setColor(100, 100, 100);
-
-    playerUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
-    playerUpButton.setColor(100, 100, 100);
-    playerDownButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 2 + 250, 50, 50, "-");
-    playerDownButton.setColor(100, 100, 100);
-
-  
-
-    mouseButton.setButton(gScreenSurface->w / 2 - 100, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
-    mouseButton.setColor(100, 100, 100);
-
-    /*
-    fightButton.setButton(1,   gScreenSurface->h -128, 128, 128, "Atacar");
-    bowButton.setButton(128, gScreenSurface->h - 128, 128, 128, "Arco");
-    spellButton.setButton(256, gScreenSurface->h -128, 128, 128, "Magia");
-    drainButton.setButton(384, gScreenSurface->h - 128, 128, 128, "Drenar");
-    hideButton.setButton(512, gScreenSurface->h - 128, 128, 128, "Subterfugio");
-    summonButton.setButton(640, gScreenSurface->h - 128, 128, 128, "Invocar");
-    */
-    fightButton.setButton(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 50, 128, 128, "Atacar");
-    bowButton.setButton(gScreenSurface->w / 2 - 200 +128, gScreenSurface->h / 2 - 50, 128, 128, "Arco");
-    spellButton.setButton(gScreenSurface->w / 2 - 200 +128*2, gScreenSurface->h / 2 - 50, 128, 128, "Magia");
-    drainButton.setButton(gScreenSurface->w / 2 - 200 + 128 *3, gScreenSurface->h / 2 - 50, 128, 128, "Drenar");
-    hideButton.setButton(gScreenSurface->w / 2 - 200 + 128 *4, gScreenSurface->h / 2 - 50, 128, 128, "Subterfugio");
-    summonButton.setButton(gScreenSurface->w / 2 - 200 + 128 *5, gScreenSurface->h / 2 - 50, 128, 128, "Invocar");
-
-    potionHealthButton.setButton(gScreenSurface->w-256, gScreenSurface->h - 128, 128, 128, "+Salud");
-    potionHealthButton.setColor(100, 100, 100);
-    potionMagicButton.setButton(gScreenSurface->w-128, gScreenSurface->h - 128, 128, 128, "+Magia");
-    potionMagicButton.setColor(100, 100, 100);
-
-    
-    
-
-    shop0.setButton(50, gScreenSurface->h / 2, gScreenSurface->w - 100, 50, "0");
-    shop1.setButton(50, gScreenSurface->h / 2 + 50, gScreenSurface->w - 100, 50, "1");
-    shop2.setButton(50, gScreenSurface->h / 2 + 100, gScreenSurface->w - 100, 50, "2");
-    shop3.setButton(50, gScreenSurface->h / 2 + 150, gScreenSurface->w - 100, 50, "3");
-    shop4.setButton(50, gScreenSurface->h / 2 + 200, gScreenSurface->w - 100, 50, "4");
-    shop5.setButton(50, gScreenSurface->h / 2 + 250, gScreenSurface->w - 100, 50, "5");
-
-
     //Play Intro music
     Mix_PlayMusic(musicINTRO, -1);
 }
@@ -2153,26 +2186,32 @@ void game::screenShops()
         case 0:
             shop0.setCaption(tmpStr);
             drawButtonSrc(shop0, buttonAcceptTexture);
+            drawTileset({ 0, gScreenSurface->h / 2,50,50 }, itemsTexture, it->tile, 20);
             break;
         case 1:
             shop1.setCaption(tmpStr);
             drawButtonSrc(shop1, buttonAcceptTexture);
+            drawTileset({ 0, gScreenSurface->h / 2 +50 ,50,50 }, itemsTexture, it->tile, 20);
             break;
         case 2:
             shop2.setCaption(tmpStr);
             drawButtonSrc(shop2, buttonAcceptTexture);
+            drawTileset({ 0, gScreenSurface->h / 2 + 100 ,50,50 }, itemsTexture, it->tile, 20);
             break;
         case 3:
             shop3.setCaption(tmpStr);
             drawButtonSrc(shop3, buttonAcceptTexture);
+            drawTileset({ 0, gScreenSurface->h / 2 + 150 ,50,50 }, itemsTexture, it->tile, 20);
             break;
         case 4:
             shop4.setCaption(tmpStr);
             drawButtonSrc(shop4, buttonAcceptTexture);
+            drawTileset({ 0, gScreenSurface->h / 2 + 200 ,50,50 }, itemsTexture, it->tile, 20);
             break;
         case 5:
             shop5.setCaption(tmpStr);
             drawButtonSrc(shop5, buttonAcceptTexture);
+            drawTileset({ 0, gScreenSurface->h / 2 + 250 ,50,50 }, itemsTexture, it->tile, 20);
             break;
         }
         itC++;
@@ -2248,7 +2287,7 @@ void game::screenNotifications()
     if (notifications.size() > 0) {
 
         int base_y = gScreenSurface->h - (notifications.size() * 30 + 30);
-        if (base_y < gScreenSurface->h * 3 / 4) { base_y = gScreenSurface->h * 3 / 4; }
+        if (base_y < gScreenSurface->h /2) { base_y = gScreenSurface->h  /2; }
         for (std::string notification : notifications) {
 
             //tmpRect.y = ((gScreenSurface->h / 4) * 3) + (tmpY * 30);
@@ -2879,6 +2918,7 @@ void game::screenInventory()
         //target.y = tmpRect.y - 25;
         //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
+        drawTileset({ gScreenSurface->w / 2 - 250,tmpy,50,50 }, itemsTexture, 207, 20);
 
         tmpString = "Pociones de vitalidad: " + to_string(potions_health);
         tmpy += 50;
@@ -2886,6 +2926,7 @@ void game::screenInventory()
        // target.y = tmpRect.y - 25;
         //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
+        drawTileset({ gScreenSurface->w / 2 - 250,tmpy,50,50 }, itemsTexture, 276, 20);
 
         tmpString = "Pociones de poder: " + to_string(potions_power);
         tmpy += 50;
@@ -2893,7 +2934,8 @@ void game::screenInventory()
        // target.y = tmpRect.y - 25;
         //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
-
+        drawTileset({ gScreenSurface->w / 2 - 250,tmpy,50,50 }, itemsTexture, 273, 20);  
+        
 
         for (list<item>::iterator it = items.begin(); it != items.end(); it++)
         {
@@ -3432,9 +3474,9 @@ void game::eventsPlayerArchetypes()
                 Mix_PlayMusic(musicTOWN, -1);
                 setState(my_enums::_HOMETOWN_);
 
-                addItem("ESPADA", "Una espada mellada", 1, 1, 40);
-                addItem("ARMADURA CUERO", "Armadura ligera de cuero", 1, 1, 114);
-
+                //addItem("ESPADA", "Una espada mellada", 1, 1, 40);
+                //addItem("ARMADURA CUERO", "Armadura ligera de cuero", 1, 1, 114);
+               // addShop()
                 //Add skill depending on archetype
                 switch (currentArchetype)
                 {

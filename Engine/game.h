@@ -111,6 +111,7 @@ public:
 
     void monsterGenerator();
     void loadPlayerDefault();
+    void setButtonDefaults();
 
     void closeSDL();
     SDL_Surface* loadSurface(std::string path);

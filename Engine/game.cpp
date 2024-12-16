@@ -103,6 +103,24 @@ void game::eventsNotifications()
     }
 }
 
+void game::cleanEvents(int x, int y)
+{
+    bool empty = false;
+    while (empty != true)
+    {
+        empty = true;
+        for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
+        {
+            if ((it->x == x) && (y == it->y)) {
+                empty = false;
+                EVENTs.erase(it);
+                break;
+
+            }
+        }
+    }
+}
+
 void game::deleteNPCs(int x, int y)
 {
 
@@ -239,6 +257,57 @@ void game::addShop(int id, int x, int y, int option, std::string description, in
     aShop.bonus = bonus;
     SHOPs.push_back(aShop);
 
+}
+
+
+void game::loadEvents()
+{
+    addEvent(139, 163, my_enums::_HOMETOWN_, "TELEPORT", 0, 0, 139, 166, my_enums::_HOMETOWN_, 0);
+    addEvent(139, 165, my_enums::_HOMETOWN_, "TELEPORT", 0, 0, 139, 162, my_enums::_HOMETOWN_, 0);
+
+    addEvent(139, 167, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 0);
+    addEvent(139, 168, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 0);
+
+}
+
+list<EVENT> game::getEvents(int x, int y)
+{
+    list<EVENT> tmp;
+    for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
+    {
+        if ((x == it->x) && (y == it->y)) {
+
+            EVENT aEVENT;
+            aEVENT.x = it->x;
+            aEVENT.y = it->y;
+            aEVENT.map = it->map;
+            aEVENT.description = it->description;
+            aEVENT.value = it->value;
+            aEVENT.value2 = it->value2;
+            aEVENT.newx = it->newx;
+            aEVENT.newy = it->newy;
+            aEVENT.newMap = it->newMap;
+            aEVENT.tile = it->tile;
+            tmp.push_back(aEVENT);
+        }
+    }
+    return tmp;
+}
+
+void game::addEvent(int x, int y, my_enums::gameState map, std::string description, int value, int value2, int newx, int newy, my_enums::gameState newMap, int tile)
+{
+    EVENT aEVENT;
+    aEVENT.x = x;
+    aEVENT.y = y;
+    aEVENT.map = map;
+    aEVENT.description = description;
+    aEVENT.value = value;
+    aEVENT.value2 = value2;
+    aEVENT.newx = newx;
+    aEVENT.newy = newy;
+    aEVENT.newMap = newMap;
+    aEVENT.tile = tile;
+    EVENTs.push_back(aEVENT);
 }
 
 
@@ -1028,6 +1097,8 @@ void game::start()
     loadShops();
 
     loadChats();
+
+    loadEvents();
 
    
 
@@ -4738,7 +4809,7 @@ void game::eventsHero()
                 loadNPCs();
                 loadShops();
                 loadChats();
-
+                loadEvents();
 
                 Mix_PlayMusic(musicINTRO, -1);
                 addAchievement("Heroe Inmortal", my_enums::_HIDDEN_);
@@ -4760,6 +4831,44 @@ void game::eventsHero()
 
    // myTime = (int)(timer.getTicks() / 1000);
 
+}
+
+void game::locationEvents()
+{
+    if (currentState == my_enums::_HOMETOWN_) {
+        tmpEVENTs = getEvents(px,py);
+        //cout << "Eventos cargados" << tmpEvents.size() << endl;
+        bool erase = false;
+        std::string tmpStr;
+        for (list<EVENT>::iterator it = tmpEVENTs.begin(); it != tmpEVENTs.end(); it++)
+        {
+            if (it->description == "TELEPORT") {
+                px = it->newx;
+                py = it->newy;
+                currentState = it->newMap;
+
+            }
+
+            if (it->description == "GOLD") {
+                
+                if (it->value > 0) {
+                    tmpStr = "Ganas ";
+                }
+                else {
+                    tmpStr = "Pierdes ";
+                }
+                tmpStr = tmpStr + to_string(it->value);
+                tmpStr = tmpStr + " monedas";
+                addNotification(tmpStr);
+                coins += it->value;
+                if (coins < 0) { coins = 0; }
+                erase = true;
+
+            }
+        }
+        if (erase)cleanEvents(px, py);
+
+    }
 }
 
 void game::eventsFight()

@@ -48,6 +48,8 @@ while (Game.getState() != my_enums::_GAMECLOSE_){
 
     Game.adjustFPS();
 
+    Game.locationEvents();
+
     Game.timeEvents();
 }
 

@@ -124,10 +124,13 @@ public:
     void loadNPCs();
     void loadShops();
     void loadChats();
+    void loadEvents();
 
     void monsterGenerator();
     void loadPlayerDefault();
     void setButtonDefaults();
+
+    void locationEvents();
 
     void closeSDL();
     SDL_Surface* loadSurface(std::string path);
@@ -253,7 +256,6 @@ public:
     
     void phaseNPCs();
     void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, int power, int luck, int damage, my_enums::AItypes NPCAI, int tile, SDL_Rect boundaries);
-
     list<NPC> getNPCs(int x, int y);
     void deleteNPCs(int x, int y);
 
@@ -265,7 +267,11 @@ public:
     //void cleanShop(int x, int y, int option);
     void addChat(int x, int y, int option, std::string question, std::string  answer);
 
+    list<EVENT> getEvents(int x, int y);
+    void addEvent(int x, int y, my_enums::gameState map, std::string description, int value, int value2, int newx, int newy, my_enums::gameState newMap, int tile);
+    void cleanEvents(int x, int y);
     
+
 
     void processAI();
 

@@ -143,6 +143,8 @@ void classMap::generateTiles()
     road({ 101,150,155,2 }, 90, 96);
     road({ 109,153,0,10 }, 90, 96);
 
+    
+
     //Draw major building
     building({ 105,140,8,9 }, 9, 104, 109, 149, 38);
 
@@ -176,6 +178,43 @@ void classMap::generateTiles()
     building({ 104,159,4,4 }, 9, 247, 108, 161, 37);
     building({ 110,153,4,4 }, 9, 247, 110, 155, 37);
     building({ 110,159,4,4 }, 9, 247, 110, 161, 37);
+
+    //draw road to cemetary
+    road({ 139,153,0,10 }, 90, 96);
+
+    //Draw cemetary
+    building({ 134,153,4,4 }, 9, 247, 138, 155, 51);
+    building({ 134,159,4,4 }, 9, 247, 138, 161, 51);
+    building({ 140,153,4,4 }, 9, 247, 140, 155, 51);
+    building({ 140,159,4,4 }, 9, 247, 140, 161, 51);
+
+    //crypt
+    building({ 137,164,4,7 }, 9, 247, 139, 165, 44);
+    //stairs down
+    map_cells[139][163] = 40;
+
+    //tomstones
+    map_cells[138][165] = 540;
+    map_cells[140][165] = 540;
+    map_cells[138][167] = 540;
+    map_cells[140][167] = 540;
+    map_cells[138][169] = 540;
+    map_cells[140][169] = 540;
+
+    //map_cells[136][172] = 540;
+
+    //altar
+    map_cells[139][170] = 68;
+
+
+
+    //Draw bones
+    map_cells[135][155] = 61;
+    map_cells[135][161] = 61;
+
+    map_cells[143][155] = 61;
+    map_cells[143][161] = 61;
+
 
 }
 

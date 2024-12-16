@@ -739,14 +739,25 @@ void game::loadNPCs()
     addNPC(3, 112, 170, my_enums::_HOMETOWN_, "Monstruo poderoso", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), dice(3, 2), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
     addNPC(4, 113, 170, my_enums::_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
    
+    addNPC(10, 136,155, my_enums::_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
+    addNPC(10, 136,161, my_enums::_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
+    addNPC(10, 142,155, my_enums::_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
+    addNPC(10, 142,161, my_enums::_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
+    addNPC(11, 139, 167, my_enums::_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 160, { 130,150,150,170 });
+
     addNPC(5, 106, 155, my_enums::_HOMETOWN_, "Tienda de comida", 1, 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(6, 112, 155, my_enums::_HOMETOWN_, "Tienda de armas", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(7, 106, 161, my_enums::_HOMETOWN_, "Tienda de armaduras", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(8, 112, 161, my_enums::_HOMETOWN_, "Tienda de pociones", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 79, { 1,1,255,255 });
 
 
-    addNPC(9, 109, 142, my_enums::_HOMETOWN_, "Sabio del pueblo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-    addNPC(9, 119, 142, my_enums::_HOMETOWN_, "Mago del templo elemental", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 83, { 1,1,255,255 });
+    addNPC(19, 109, 142, my_enums::_HOMETOWN_, "Sabio del pueblo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(20, 119, 142, my_enums::_HOMETOWN_, "Mago del templo elemental", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 83, { 1,1,255,255 });
+    addNPC(21, 107, 143, my_enums::_HOMETOWN_, "Tutorial equipo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(21, 111, 143, my_enums::_HOMETOWN_, "Tutorial magia", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(22, 107, 145, my_enums::_HOMETOWN_, "Tutorial combate", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(23, 111, 145, my_enums::_HOMETOWN_, "Tutorial tiendas", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+
 
     //addNPC(8, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
 
@@ -762,6 +773,27 @@ void game::loadChats()
     addChat(109, 142, 4, "¿Por donde comienzo?", "Al sur y al este del pueblo hay enemigos que no permiten salir a los ciudadanos ");
 
     addChat(119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
+
+
+    addChat(107, 143, 1, "¿Como accedo a mi equipo?", "Pulsa el icono de la mochila en la pantalla de juego, está en la parte de arriba de la pantalla");
+    addChat(107, 143, 2, "¿Que quiere decir EQUIPADO?", "Hay piezas de equipo que puedes usar para mejorar tus habilidades como armas, armaduras u anillos mágicos, para equiparla, tan solo tienes que pinchar sobre el equipo, no puedes usar escudos cuando usas armas de dos manos o de ataques a distancia");
+    addChat(107, 143, 3, "¿Como puedo obtener equipo?", "De tres maneras diferentes: comprandolo en las tiendas, derrotando enemigos y a veces también lo encontrarás en el mapa");
+    
+    addChat(111, 143, 1, "¿Como se gasta la magia?", "La magia engloba varias habilidades que suponen ventajas en el combate, tanto los magos, necromantes e invocadores pueen gastar esas habilidades");
+    addChat(111, 143, 2, "¿Como saber lo poderoso que soy?", "La magia depende de un atributo: Poder, cuanto más tengas más fuerte seran tus ataques mágicos y más ataques podras realizar antes de agotar tu reserva");
+    addChat(111, 143, 3, "¿Tiene límite la magia?", "Lamentablemente la magia consume tu poder a grán velocidad y cuando se agota, no podrás usarla");
+    addChat(111, 143, 4, "¿Se puede recuperar el poder?", "Cuando no estás en combate la mágia se regenera a un ritmo de un punto cada 30 segundos (- el poder máximo), durante el combate si usas una poción de poder recuperas instantáneamente 10 puntos");
+
+    addChat(107, 145, 1, "¿Como funciona el combate?", "En el mapa verás enemigos, si intentas entrar en su ubicación u ellos te alcanzan entrarás en combate, una vez entres en combate en la parte izquierda veras los enemigos con sus habilidades, el combate es por turnos y solo termina cuando terminas con tus enemigos u ellos contigo");
+    addChat(107, 145, 2, "¿Como ataco?", "Todos los arquetipos pueden realizar ataques de melee, para hacerlo tan solo hay que pulsar el boton de la espada, además otros personajes tienen otro tipos de ataques, como los ataques a distancia, con subterfugio o magia ");
+    addChat(107, 145, 3, "¿Cuando derroto a los enemigos?", "Cuando la barra roja de los enemigos se consume los derrotas, lo mismo sirve para tu personaje");
+    addChat(107, 145, 4, "¡Ayuda!, ¡Me han herido!", "Hay dos maneras de recuperar vitalidad, fuera de combate consumiendo raciones de comida (el icono del pán que recupera 4 puntos de vida por ración) y dentro del combate las pociones de vitalidad que recuperan 10 puntos de vida");
+
+    addChat(111, 145, 1, "¿Como funcionan las tiendas?", "En el mapa verás personajes amigos, si intentas desplazarte en su dirección la pantalla de la tienda se abre");
+    addChat(111, 145, 1, "¿Como compro el quipo?", "Es tan sencillo como pulsar sobre el objeto deseado, si tienes suficiente dinero perderas dicho dinero pero se añade a tu equipo el objeto");
+    addChat(111, 145, 1, "¿Solo se puede pagar con dinero?", "A veces podrás cambiar un objeto por otro");
+    addChat(111, 145, 1, "¿Se puede vender equipo?", "A veces los comerciantes te compraran equipo especial, como pueden ser gemas");
+
 
 
 }

@@ -431,39 +431,39 @@ void game::eventsShops()
                     case 0:
                         if (shop0.clicked(mousex, mousey)) {
                             tmpShop = itC;
-                            Mix_PlayChannel(-1, audioButton, 0);
+                            Mix_PlayChannel(-1, buysell, 0);
 
                         }
                         break;
                     case 1:
                         if (shop1.clicked(mousex, mousey)) {
-                            Mix_PlayChannel(-1, audioButton, 0);
+                            Mix_PlayChannel(-1, buysell, 0);
                             tmpShop = itC;
                         }
                         break;
                     case 2:
                         if (shop2.clicked(mousex, mousey)) {
-                            Mix_PlayChannel(-1, audioButton, 0);
+                            Mix_PlayChannel(-1, buysell, 0);
                             tmpShop = itC;
                         }
                         break;
                     case 3:
                         if (shop3.clicked(mousex, mousey)) {
-                            Mix_PlayChannel(-1, audioButton, 0);
+                            Mix_PlayChannel(-1, buysell, 0);
                             tmpShop = itC;
                         }
                         break;
                     case 4:
                         if (shop4.clicked(mousex, mousey)) {
 
-                            Mix_PlayChannel(-1, audioButton, 0);
+                            Mix_PlayChannel(-1, buysell, 0);
                             tmpShop = itC;
                         }
                         break;
                     case 5:
                         if (shop5.clicked(mousex, mousey)) {
 
-                            Mix_PlayChannel(-1, audioButton, 0);
+                            Mix_PlayChannel(-1, buysell, 0);
                             tmpShop = itC;
                         }
                         break;
@@ -1771,6 +1771,42 @@ buttonFoodTexture = loadTexture(images + "bread.png");
     string Audio6 = sounds + "click.wav";
     audioButton = Mix_LoadWAV(Audio6.c_str());
 
+
+
+    
+    Audio6 = sounds + "swish_2.wav";
+    sword  = Mix_LoadWAV(Audio6.c_str());
+
+    Audio6 = sounds + "bow.wav";
+    bow    = Mix_LoadWAV(Audio6.c_str());
+
+    Audio6 = sounds + "swish_2.wav";
+    dagger = Mix_LoadWAV(Audio6.c_str());
+
+    Audio6 = sounds + "explode.ogg";
+    magic  = Mix_LoadWAV(Audio6.c_str());
+
+    Audio6 = sounds + "click.wav";
+    drain  = Mix_LoadWAV(Audio6.c_str());
+
+    Audio6 = sounds + "click.wav";
+    invoke = Mix_LoadWAV(Audio6.c_str());
+
+    Audio6 = sounds + "sell_buy_item.wav";
+    buysell = Mix_LoadWAV(Audio6.c_str());
+
+    Audio6 = sounds + "heal.ogg";
+    heal    = Mix_LoadWAV(Audio6.c_str());
+
+    Audio6 = sounds + "ring_inventory.wav";
+    ring    = Mix_LoadWAV(Audio6.c_str());
+
+    Audio6 = sounds + "click.wav";
+    clothes = Mix_LoadWAV(Audio6.c_str());
+
+    Audio6 = sounds + "metal-clash.wav";
+    weapon  = Mix_LoadWAV(Audio6.c_str());
+    
 
     /* Audio6 = sounds + "line.wav";
     line = Mix_LoadWAV( Audio6.c_str());
@@ -4530,12 +4566,14 @@ void game::eventsInventory()
                     
                     case my_enums::_WEAPON_1H_:
                     {
+                        Mix_PlayChannel(-1, weapon, 0);
                         itemWeapon = it->name;
                         break;
                     }
 
                     case my_enums::_WEAPON_2H_:
                     {
+                        Mix_PlayChannel(-1, weapon, 0);
                         itemWeapon = it->name;
                       //  itemEscudo = "";
                         alternate = "";
@@ -4544,6 +4582,7 @@ void game::eventsInventory()
 
                     case my_enums::_WEAPON_RANGED_:
                     {
+                        Mix_PlayChannel(-1, weapon, 0);
                         itemWeapon = it->name;
                      //   itemEscudo = "";
                         alternate = "";
@@ -4552,12 +4591,14 @@ void game::eventsInventory()
 
                     case my_enums::_ARMOR_:
                     {
+                        Mix_PlayChannel(-1, clothes, 0);
                         alternate2 = it->name;
                         break;
                     }
 
                     case my_enums::_SHIELD_:
                     {
+                        Mix_PlayChannel(-1, clothes, 0);
                         //itemEscudo = it->name;
                         if ((itemWeapon =="") ||(getItem(itemWeapon).type == my_enums::_WEAPON_1H_)){
                         alternate = it->name;
@@ -4567,12 +4608,14 @@ void game::eventsInventory()
 
                     case my_enums::_HELMET_:
                     {
+                        Mix_PlayChannel(-1, clothes, 0);
                         itemHelmet = it->name;
                         break;
                     }
 
                     case my_enums::_RING_:
                     {
+                        Mix_PlayChannel(-1, ring, 0);
                         itemRing = it->name;
                         break;
                     }
@@ -4907,6 +4950,7 @@ void game::eventsFight()
 
             if (fightButton.clicked(mousex, mousey)) {
                 addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1,buttonSwordTexture);
+                Mix_PlayChannel(-1,sword, 1);
                 turn++;
                 int good = dice(10, 1) + skill;
                 int bad = dice(10, 1) + tmpNPCs.begin()->skill;
@@ -4980,6 +5024,7 @@ void game::eventsFight()
             //ranged attack
             if (bowButton.clicked(mousex, mousey)) {
                 addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1, buttonBowTexture);
+                Mix_PlayChannel(-1, bow, 1);
                 turn++;
                 int good = dice(10, 1) + skill;
                 int bad = dice(10, 1) + tmpNPCs.begin()->skill;
@@ -5058,6 +5103,7 @@ void game::eventsFight()
             //subterfuge attack
             if (hideButton.clicked(mousex, mousey)) {
                 addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1, buttonHideTexture);
+                Mix_PlayChannel(-1, sword, 1);
                 turn++;
 
                 NPC tmpNPC = tmpNPCs.front();
@@ -5103,7 +5149,7 @@ void game::eventsFight()
             //Health potion
             if (potions_health > 0) {
                 if (potionHealthButton.clicked(mousex, mousey)) {
-
+                    Mix_PlayChannel(-1, heal, 1);
                     addAnimation(potionHealthButton.getRect().x, potionHealthButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100,1, buttonPotionHealthTexture);
                     potions_health--;
                     stamina += 10;
@@ -5149,6 +5195,7 @@ void game::eventsFight()
             if (potions_power > 0) {
                 
                 if (potionMagicButton.clicked(mousex, mousey)) {
+                    Mix_PlayChannel(-1, heal, 1);
                     addAnimation(potionMagicButton.getRect().x, potionMagicButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1,buttonPotionMagicTexture);
                     potions_power--;
                     power += 10;
@@ -5193,6 +5240,7 @@ void game::eventsFight()
             //magic attack
             if (spellButton.clicked(mousex, mousey)){
                 if (power > 0) {
+                    Mix_PlayChannel(-1, magic, 1);
                     addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100,1, buttonSpellTexture);
                     turn++;
                     int damage = 1;
@@ -5264,6 +5312,7 @@ void game::eventsFight()
             //drain attack
             if (drainButton.clicked(mousex, mousey)) {
                 if (power > 0) {
+                    Mix_PlayChannel(-1, magic, 1);
                     addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1, buttonDrainTexture);
                     turn++;
                     int damage = 1;

@@ -524,6 +524,19 @@ protected:
     Mix_Chunk* loose = NULL;
     Mix_Chunk* win = NULL;
 
+    Mix_Chunk* sword = NULL;
+    Mix_Chunk* bow = NULL;
+    Mix_Chunk* dagger = NULL;
+    Mix_Chunk* magic = NULL;
+    Mix_Chunk* drain = NULL;
+    Mix_Chunk* invoke = NULL;
+
+    Mix_Chunk* buysell = NULL;
+    Mix_Chunk* heal = NULL;
+    Mix_Chunk* ring = NULL;
+    Mix_Chunk* clothes = NULL;
+    Mix_Chunk* weapon = NULL;
+
 
     classButton nextButton;
     classButton prevButton;

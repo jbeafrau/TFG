@@ -121,6 +121,40 @@ void game::cleanEvents(int x, int y)
     }
 }
 
+void game::addGlobalEvent(int id, my_enums::gameState map, SDL_Rect location, SDL_Rect newLocation, int distance, int NPCID, std::string description)
+{
+
+    GLOBAL_EVENT aEVENT;
+    aEVENT.id = id;
+    aEVENT.map = map;
+    aEVENT.location = location;
+    aEVENT.newLocation = newLocation;
+    aEVENT.description = description;
+    aEVENT.NPCID = NPCID;
+    aEVENT.distance = distance;
+    GLOBAL_EVENTs.push_back(aEVENT);
+
+}
+
+void game::cleanGlobalEvent(int id)
+{
+    bool empty = false;
+    while (empty != true)
+    {
+        empty = true;
+        for (list<GLOBAL_EVENT>::iterator it = GLOBAL_EVENTs.begin(); it != GLOBAL_EVENTs.end(); it++)
+        {
+            if (it->id == id){
+                empty = false;
+                GLOBAL_EVENTs.erase(it);
+                break;
+
+            }
+        }
+    }
+}
+
+
 void game::deleteNPCs(int x, int y)
 {
 
@@ -298,6 +332,10 @@ void game::loadEvents()
     addEvent(139, 167, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 0);
     addEvent(139, 168, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 0);
 
+
+    addGlobalEvent(1, my_enums::_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
+    addGlobalEvent(2, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_STATIC");
+    
 }
 
 list<EVENT> game::getEvents(int x, int y)
@@ -851,10 +889,10 @@ void game::loadNPCs()
 
 
     //Add a dog
-    addNPC(1, 109, 136, my_enums::_HOMETOWN_, "Tor el perro", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_FOLLOW_, 269, { 1,1,255,255 });
+    addNPC(10001, 118, 122, my_enums::_HOMETOWN_, "Tor el perro", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_STATIC_, 269, { 1,1,255,255 });
 
-    //Add some peasants in the town
 
+    //Add 30 peasants in the town
     for (int x = 0; x < 30;x++)addNPC(1, dice(30, 90), dice(50, 120), my_enums::_HOMETOWN_, "Campesino", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_RANDOM_, 74, { 90,130,120,170 });
     
 
@@ -881,6 +919,7 @@ void game::loadChats()
     addChat(109, 142, 4, "¿Por donde comienzo?", "Al sur y al este del pueblo hay enemigos que no permiten salir a los ciudadanos ");
 
     addChat(119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
+    addChat(119, 142, 2, "¿Puedo ayudar?", "Tor, mi perro esta en una choza al norte, con tantos monstruos no me atrevo a ir a por el, ¿Podrias traermelo por favor??");
 
 
     addChat(107, 143, 1, "¿Como accedo a mi equipo?", "Pulsa el icono de la mochila en la pantalla de juego, está en la parte de arriba de la pantalla");
@@ -4678,6 +4717,7 @@ void game::eventsInventory()
 
 void game::processAI()
 {
+    //Process NPC AIs
     for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
     {
         //only update NPCs in current map
@@ -4810,6 +4850,73 @@ void game::processAI()
         }
 
     }
+
+    //Process global events
+    for (list<GLOBAL_EVENT>::iterator it = GLOBAL_EVENTs.begin(); it != GLOBAL_EVENTs.end(); it++)
+    {
+        if (it->map == currentState) {//only process events in current map
+            if (it->description == "CHANGE_AI_FRIENDLY_FOLLOW") {
+
+                for (list<NPC>::iterator itNPC = NPCs.begin(); itNPC != NPCs.end(); itNPC++)
+                {
+                    if (itNPC->map == currentState) {//on the current map
+                        if (itNPC->id == it->NPCID) { //id match
+                            if (insideBoundaries(itNPC->x, itNPC->y, it->location)) { //inside event boundaries
+                                itNPC->NPCAI = my_enums::_FRIENDLY_FOLLOW_;
+                                addNotification(itNPC->description + " comienza a seguirte");
+                            }
+                        }
+
+                    }
+                }//
+
+            }
+        }
+
+        if (it->map == currentState) {//only process events in current map
+            if (it->description == "CHANGE_AI_FRIENDLY_STATIC") {
+
+                for (list<NPC>::iterator itNPC = NPCs.begin(); itNPC != NPCs.end(); itNPC++)
+                {
+                    if (itNPC->map == currentState) {//on the current map
+                        if (itNPC->id == it->NPCID) { //id match
+                            if (insideBoundaries(itNPC->x, itNPC->y, it->location)) { //inside event boundaries
+                                itNPC->NPCAI = my_enums::_FRIENDLY_STATIC_;
+                                addNotification(itNPC->description + " deja de seguirte");
+
+                                if (itNPC->id == 10001)addAchievement("¡¡Rescataste a TOR!!", my_enums::_NPCS_);
+                            }
+                        }
+
+                    }
+                }//
+
+            }
+        }
+
+
+
+            //addGlobalEvent(1, my_enums::_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
+            //addGlobalEvent(2, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_STATIC");
+
+                /*
+            EVENT aEVENT;
+            aEVENT.x = it->x;
+            aEVENT.y = it->y;
+            aEVENT.map = it->map;
+            aEVENT.description = it->description;
+            aEVENT.value = it->value;
+            aEVENT.value2 = it->value2;
+            aEVENT.newx = it->newx;
+            aEVENT.newy = it->newy;
+            aEVENT.newMap = it->newMap;
+            aEVENT.tile = it->tile;
+            tmp.push_back(aEVENT);
+            */
+
+    }//Process global events
+
+
 }
 
 void game::timeEvents()

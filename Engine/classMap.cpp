@@ -151,6 +151,11 @@ void classMap::generateTiles()
     //Draw elements building
     building({ 115,140,8,9 }, 9, 104, 119, 149, 54);
 
+
+    //Draw pet´s hut
+    building({ 116,120,6,7 }, 9, 104, 118, 120, 38);
+
+
     //Draw portals
     map_cells[1][143] = 56;
     map_cells[256][147] = 56;

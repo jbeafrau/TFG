@@ -111,6 +111,17 @@ struct EVENT {
     int tile;
 };
 
+struct GLOBAL_EVENT {
+    int id;
+    my_enums::gameState map;
+    SDL_Rect location;
+    SDL_Rect newLocation;
+    int distance;
+    int NPCID;
+    string description;
+    //CHANGEAI/ADDMONSTER
+};
+
 
 class game
 {
@@ -275,6 +286,11 @@ public:
     list<EVENT> getEvents(int x, int y);
     void addEvent(int x, int y, my_enums::gameState map, std::string description, int value, int value2, int newx, int newy, my_enums::gameState newMap, int tile);
     void cleanEvents(int x, int y);
+
+    
+    
+    void addGlobalEvent(int id, my_enums::gameState map, SDL_Rect location, SDL_Rect newLocation, int distance, int NPCID, std::string description);
+    void cleanGlobalEvent(int id);
     
 
 
@@ -326,8 +342,10 @@ protected:
     std::list<CHAT> CHATs; // All chat options
     std::list<CHAT> tmpCHATs; // chat options Found in our location
 
-    std::list<EVENT> EVENTs; // All Shops
-    std::list<EVENT> tmpEVENTs; // Shops Found in our location
+    std::list<EVENT> EVENTs; // All local events
+    std::list<EVENT> tmpEVENTs; // Events Found in our location
+
+    std::list<GLOBAL_EVENT> GLOBAL_EVENTs; // Global Events
 
     std::list<item> items; //Player inventory
     int coins = 50; //Player currency

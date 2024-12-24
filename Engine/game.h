@@ -190,6 +190,11 @@ public:
     bool collide(int x, int y);
 
     void drawBackground();
+
+    bool isAround(int x, int y);
+    bool insideBoundaries(int x, int y, SDL_Rect boundaries);
+    int getDistance(int x1, int y1, int x2, int y2);
+
     
 
     void drawIMG(SDL_Surface* surface, int x, int y, int value);

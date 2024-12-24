@@ -259,6 +259,36 @@ void game::addShop(int id, int x, int y, int option, std::string description, in
 
 }
 
+bool game::insideBoundaries(int x, int y, SDL_Rect boundaries)
+{
+    bool value = false;
+    if ((x >= boundaries.x) && (x <= boundaries.w) && (y >= boundaries.y) && (y <= boundaries.h)) {
+        value = true;
+    }
+    return value;
+
+}
+
+bool game::isAround(int x, int y)
+{
+    bool value = false;
+    int tmpx = px - x;
+    int tmpy = py - y;
+    if ((tmpx >= -1) && (tmpx <= 1) && (tmpy >= -1) && (tmpy <= 1)) {
+        value = true;
+    }
+    return value;
+}
+
+int game::getDistance(int x1, int y1, int x2, int y2)
+{
+    int value = 0;
+    int tmpx = abs(x1 - x2);
+    int tmpy = abs(y1 - y2);
+    int value = sqrt(tmpx * tmpx + tmpy * tmpy);
+    return value;
+}
+
 
 void game::loadEvents()
 {
@@ -4684,15 +4714,18 @@ void game::processAI()
 
             }
 
-            if (it->NPCAI == my_enums::_ENEMY_FOLLOW_ ) {
+            if (it->NPCAI == my_enums::_ENEMY_FOLLOW_) {
+
+                if(getDistance(px,py, it->x, it->y) <= 15){// only follow if distance is less or equal than 15
                 int tmpx = it->x;
                 int tmpy = it->y;
 
 
-                if (((px < it->x) || (px > it->x))&&(py == it->y)) {
+                if (((px < it->x) || (px > it->x)) && (py == it->y)) {
                     if (px < it->x) { tmpx--; }
                     if (px > it->x) { tmpx++; }
-                }else if (((py < it->y) || (py > it->y)) && (px == it->x)) {
+                }
+                else if (((py < it->y) || (py > it->y)) && (px == it->x)) {
                     if (py < it->y) { tmpy--; }
                     if (py > it->y) { tmpy++; }
                 }
@@ -4713,13 +4746,52 @@ void game::processAI()
                 if (px > it->x) { tmpx++; }
                 if (py > it->y) { tmpy++; }
                 */
-              
+
                 if (!collide(tmpx, tmpy)) {
                     it->x = tmpx;
                     it->y = tmpy;
                 }
+            }//distance less than 15
+            }//process basic follow AI
 
-            }
+
+
+            if (it->NPCAI == my_enums::_FRIENDLY_FOLLOW_) {
+
+                if (getDistance(px, py, it->x, it->y) <= 15) {// only follow if distance is less or equal than 15
+                    if(!isAround(it->x, it->y)){
+                    int tmpx = it->x;
+                    int tmpy = it->y;
+
+
+                    if (((px < it->x) || (px > it->x)) && (py == it->y)) {
+                        if (px < it->x) { tmpx--; }
+                        if (px > it->x) { tmpx++; }
+                    }
+                    else if (((py < it->y) || (py > it->y)) && (px == it->x)) {
+                        if (py < it->y) { tmpy--; }
+                        if (py > it->y) { tmpy++; }
+                    }
+                    else if ((px != it->x) && (py != it->y)) {
+                        int d = dice(2, 1);
+                        if (d == 1) {
+                            if (px < it->x) { tmpx--; }
+                            if (px > it->x) { tmpx++; }
+                        }
+                        else {
+                            if (py < it->y) { tmpy--; }
+                            if (py > it->y) { tmpy++; }
+                        }
+                    }
+
+
+                    if (!collide(tmpx, tmpy)) {
+                        it->x = tmpx;
+                        it->y = tmpy;
+                    }
+                }//we are not too close
+                }//distance less than 15
+            }//process basic follow AI
 
 
         }

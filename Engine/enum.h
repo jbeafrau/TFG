@@ -76,6 +76,7 @@ namespace my_enums
         _FRIENDLY_STATIC_ = 1,
         _FRIENDLY_RANDOM_ = 2,
         _FRIENDLY_FOLLOW_ = 3,
+        _FRIENDLY_PET_ = 4,
         _FRIENDLY_SHOP_ = 8,
         _FRIENDLY_CHAT_ = 9,
         _FRIENDLY_SKILL_ = 10,

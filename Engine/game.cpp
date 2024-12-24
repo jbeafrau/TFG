@@ -285,7 +285,7 @@ int game::getDistance(int x1, int y1, int x2, int y2)
     int value = 0;
     int tmpx = abs(x1 - x2);
     int tmpy = abs(y1 - y2);
-    int value = sqrt(tmpx * tmpx + tmpy * tmpy);
+    value = sqrt(tmpx * tmpx + tmpy * tmpy);
     return value;
 }
 
@@ -848,6 +848,15 @@ void game::loadNPCs()
     addNPC(6, 112, 155, my_enums::_HOMETOWN_, "Tienda de armas", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(7, 106, 161, my_enums::_HOMETOWN_, "Tienda de armaduras", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(8, 112, 161, my_enums::_HOMETOWN_, "Tienda de pociones", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 79, { 1,1,255,255 });
+
+
+    //Add a dog
+    addNPC(1, 109, 136, my_enums::_HOMETOWN_, "Tor el perro", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_FOLLOW_, 269, { 1,1,255,255 });
+
+    //Add some peasants in the town
+
+    for (int x = 0; x < 30;x++)addNPC(1, dice(30, 90), dice(50, 120), my_enums::_HOMETOWN_, "Campesino", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_RANDOM_, 74, { 90,130,120,170 });
+    
 
 
     addNPC(19, 109, 142, my_enums::_HOMETOWN_, "Sabio del pueblo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
@@ -4748,8 +4757,10 @@ void game::processAI()
                 */
 
                 if (!collide(tmpx, tmpy)) {
-                    it->x = tmpx;
-                    it->y = tmpy;
+                    if (insideBoundaries(tmpx, tmpy, it->boundaries)) {
+                        it->x = tmpx;
+                        it->y = tmpy;
+                    }
                 }
             }//distance less than 15
             }//process basic follow AI
@@ -4786,8 +4797,10 @@ void game::processAI()
 
 
                     if (!collide(tmpx, tmpy)) {
-                        it->x = tmpx;
-                        it->y = tmpy;
+                        if (insideBoundaries(tmpx, tmpy, it->boundaries)) {
+                            it->x = tmpx;
+                            it->y = tmpy;
+                        }
                     }
                 }//we are not too close
                 }//distance less than 15

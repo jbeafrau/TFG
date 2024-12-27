@@ -901,8 +901,8 @@ void game::loadEvents()
     addEvent(139, 163, my_enums::_HOMETOWN_, "TELEPORT", 0, 0, 139, 166, my_enums::_HOMETOWN_, 0);
     addEvent(139, 165, my_enums::_HOMETOWN_, "TELEPORT", 0, 0, 139, 162, my_enums::_HOMETOWN_, 0);
 
-    addEvent(139, 167, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 0);
-    addEvent(139, 168, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 0);
+    addEvent(139, 167, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 344);
+    addEvent(139, 168, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 344);
 
 
     addGlobalEvent(1, my_enums::_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
@@ -1944,6 +1944,52 @@ void game::drawButton(classButton btn)
 
 }
 
+int game::getEventTile(int x, int y)
+{
+    int tile = 0;
+
+    for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
+    {
+        if ((x == it->x) && (y == it->y) && (it->map == currentState)) {
+
+            tile = it->tile;
+        }
+    }
+
+
+    return tile;
+
+}
+
+//Draw events which have a tile associated
+void game::drawEvents()
+{
+    SDL_Rect srcrect;
+
+    //draw second layer tiles
+    int size_x = gScreenSurface->w / cam_size_x;
+    int size_y = gScreenSurface->h / cam_size_y;
+
+    for (int x = cam_x; x < cam_x + cam_size_x; x++) {
+        for (int y = cam_y; y < cam_y + cam_size_y; y++) {
+            int ax = (x - cam_x) * size_x;
+            int ay = (y - cam_y) * size_y;
+            srcrect.x = ax;
+            srcrect.y = ay;
+            srcrect.w = size_x;
+            srcrect.h = size_y;
+
+            int tile = getEventTile(x, y);
+            if (tile > 0) {
+                drawTileset(srcrect, itemsTexture, tile, 20);
+            }
+
+        }
+
+    }
+
+}
+
 //Draw game map
 void game::drawMap()
 {
@@ -1953,11 +1999,7 @@ void game::drawMap()
 
     //draw tiles
     SDL_Rect srcrect;
-   // srcrect.x = cam_x;
-   // srcrect.y = cam_y;
 
-   // srcrect.w = cam_size_x;
-    //srcrect.h = cam_size_y;
 
     //draw second layer tiles
     int size_x = gScreenSurface->w / cam_size_x;
@@ -1983,27 +2025,11 @@ void game::drawMap()
 
 
     SDL_Rect destRect;
-   /* destRect.x = 1;
-    destRect.y = 1;
-    destRect.w = 256;
-    destRect.h = 256;
-
-    SDL_Texture* miniMapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
-    SDL_RenderCopy(gRenderer, miniMapTexture, NULL, &destRect);
-
-    SDL_DestroyTexture(miniMapTexture);
-    miniMapTexture = NULL;*/
     
     SDL_DestroyTexture(txtTexture);
     txtTexture = NULL;
 
-  /*  SDL_SetRenderDrawColor(gRenderer, 200, 0, 0, 0);
-    destRect.x = px;
-    destRect.y = py;
-    destRect.w = cam_size_x;
-    destRect.h = cam_size_y;
-    SDL_RenderDrawRect(gRenderer, &destRect);
-    */
+
 }
 
 void game::drawMiniMap()
@@ -3148,6 +3174,8 @@ void game::screenHomeTown()
 
     drawMap();
 
+    drawEvents();
+
     drawPlayer();
 
     drawNPCs();
@@ -3207,16 +3235,6 @@ void game::screenHomeTown()
 
     drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
 
-   // drawButton(exitButton);
-   // drawButton(achievementsButton);
-   // drawButton(configButton);
-    //drawButton(inventoryButton);
-
-  /*  drawButton(moveLeftButton);
-    drawButton(moveRightButton);
-    drawButton(moveUpButton);
-    drawButton(moveDownButton);
-    */
 
     drawButtonSrc(moveLeftButton, buttonLeftTexture);
     drawButtonSrc(moveRightButton, buttonRightTexture);

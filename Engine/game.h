@@ -192,6 +192,7 @@ public:
   //  void paintFruit(int x, int y, Uint8 fruit);
     void drawMap();
     void drawMiniMap();
+    void drawEvents();
     void updateMap();
     void drawPlayer();
     void drawNPCs();
@@ -206,6 +207,7 @@ public:
     bool insideBoundaries(int x, int y, SDL_Rect boundaries);
     int getDistance(int x1, int y1, int x2, int y2);
 
+    int getEventTile(int x, int y);
     
 
     void drawIMG(SDL_Surface* surface, int x, int y, int value);

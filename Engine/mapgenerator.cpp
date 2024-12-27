@@ -164,6 +164,7 @@ utils::RendererImage renderer;
 
   case my_enums::_HOMETOWN_:
   {
+	  /*
 	  module::RidgedMulti mountainTerrain;
 	  module::Billow baseFlatTerrain;
 	  baseFlatTerrain.SetFrequency(2.0);
@@ -184,8 +185,6 @@ utils::RendererImage renderer;
 	  finalTerrain.SetBounds(0.0, 1000.0);
 	  finalTerrain.SetEdgeFalloff(0.125);
 
-	  //heightMapBuilder.SetSourceModule(baseFlatTerrain);
-	 // heightMapBuilder.SetSourceModule(flatTerrain);
 	  heightMapBuilder.SetSourceModule(finalTerrain);
 
 	  heightMapBuilder.SetDestNoiseMap(heightMap);
@@ -201,17 +200,30 @@ utils::RendererImage renderer;
 	  renderer.AddGradientPoint(-0.25, utils::Color(224, 224, 0, 255)); // dirt
 	  renderer.AddGradientPoint(0.25, utils::Color(128, 128, 128, 255)); // rock
 	  renderer.AddGradientPoint(1.00, utils::Color(255, 255, 255, 255)); // snow
+	  */
+
+	  module::RidgedMulti mountainTerrain;
+	  module::Billow baseFlatTerrain;
+	  baseFlatTerrain.SetFrequency(2.0);
+
+	  module::ScaleBias flatTerrain;
+	  flatTerrain.SetSourceModule(0, baseFlatTerrain);
+	  flatTerrain.SetScale(0.125);
+	  flatTerrain.SetBias(-0.75);
+
+	  heightMapBuilder.SetSourceModule(flatTerrain);
+
+	  heightMapBuilder.SetDestNoiseMap(heightMap);
+	  heightMapBuilder.SetDestSize(256, 256);
+	  heightMapBuilder.SetBounds(6.0, 10.0, 1.0, 5.0);
+	  heightMapBuilder.Build();
+
+	  renderer.AddGradientPoint(-1.00, utils::Color(32, 160, 0, 255)); // grass
+	  renderer.AddGradientPoint(-0.25, utils::Color(224, 224, 0, 255)); // dirt
+	  renderer.AddGradientPoint(0.25, utils::Color(128, 128, 128, 255)); // rock
+	  renderer.AddGradientPoint(1.00, utils::Color(255, 255, 255, 255)); // snow
 
 
-
-
-
-
-	  
-	  //int width, height;
-	  //width = 256;
-	 // height = 256;
-	 //  generate(rand() % 6 + 1, rand() % 6 + 1, 0.5f, 1, 1, width, height);
 	  break;
   }
 

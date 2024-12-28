@@ -284,6 +284,7 @@ public:
     list<CHAT> getChat(int x, int y);
     //void cleanShop(int x, int y, int option);
     void addChat(int x, int y, int option, std::string question, std::string  answer);
+    void removeChat(int x, int y, int option);
 
     list<EVENT> getEvents(int x, int y);
     void addEvent(int x, int y, my_enums::gameState map, std::string description, int value, int value2, int newx, int newy, my_enums::gameState newMap, int tile);

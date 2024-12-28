@@ -784,6 +784,24 @@ void game::eventsChat()
 
 }//events chat
 
+void game::removeChat(int x, int y, int option)
+{
+    bool empty = false;
+    while (empty != true)
+    {
+        empty = true;
+        for (list<CHAT>::iterator it = CHATs.begin(); it != CHATs.end(); it++)
+        {
+            if (it->x == x && it->y == y && it->option == option) {
+                empty = false;
+                CHATs.erase(it);
+                break;
+
+            }
+        }
+    }
+}
+
 
 void game::cleanShop(int x, int y, int option)
 {
@@ -907,7 +925,11 @@ void game::loadEvents()
 
     addGlobalEvent(1, my_enums::_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
     addGlobalEvent(2, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_STATIC");
+    addGlobalEvent(3, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "REMOVE_CHAT");
+    addGlobalEvent(4, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "ADD_CHAT");
+    addGlobalEvent(5, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "ADD_ITEM");
 
+    
 }
 
 
@@ -920,7 +942,7 @@ void game::loadChats()
     addChat(109, 142, 4, "¿Por donde comienzo?", "Al sur y al este del pueblo hay enemigos que no permiten salir a los ciudadanos ");
 
     addChat(119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
-    addChat(119, 142, 2, "¿Puedo ayudar?", "Tor, mi perro esta en una choza al norte, con tantos monstruos no me atrevo a ir a por el, ¿Podrias traermelo por favor??");
+    addChat(119, 142, 2, "¿Puedo ayudar?", "Tor, mi perro esta en una choza al norte, con tantos monstruos no me atrevo a ir a por el, ¿Podrias traermelo por favor??, si lo haces te daré la llave que abre la puerta del este");
 
 
     addChat(107, 143, 1, "¿Como accedo a mi equipo?", "Pulsa el icono de la mochila en la pantalla de juego, está en la parte de arriba de la pantalla");
@@ -4918,7 +4940,62 @@ void game::processAI()
                     }
                 }//
 
-            }
+            }//
+            else if (it->description == "REMOVE_CHAT") {
+
+                for (list<NPC>::iterator itNPC = NPCs.begin(); itNPC != NPCs.end() && erased == false; itNPC++)
+                {
+                    if (itNPC->map == currentState) {//on the current map
+                        if (itNPC->id == it->NPCID) { //id match
+                            if (insideBoundaries(itNPC->x, itNPC->y, it->location)) { //inside event boundaries                               
+                                if (itNPC->id == 10001)removeChat(119, 142, 2);
+                                it = GLOBAL_EVENTs.erase(it);
+                                erased = true;
+                            }
+                        }
+
+                    }
+                }//
+
+            }//removechat
+            else if (it->description == "ADD_CHAT") {
+
+                for (list<NPC>::iterator itNPC = NPCs.begin(); itNPC != NPCs.end() && erased == false; itNPC++)
+                {
+                    if (itNPC->map == currentState) {//on the current map
+                        if (itNPC->id == it->NPCID) { //id match
+                            if (insideBoundaries(itNPC->x, itNPC->y, it->location)) { //inside event boundaries                               
+                                if (itNPC->id == 10001)addChat(119, 142, 2, "Sobre Tor", "¡Muchas gracias!, con la llave que te he dado puedes abrir el camino que lleva a la playa");
+                                it = GLOBAL_EVENTs.erase(it);
+                                erased = true;
+                            }
+                        }
+
+                    }
+                }//
+
+            }//removechat
+            else if (it->description == "ADD_ITEM") {
+
+                for (list<NPC>::iterator itNPC = NPCs.begin(); itNPC != NPCs.end() && erased == false; itNPC++)
+                {
+                    if (itNPC->map == currentState) {//on the current map
+                        if (itNPC->id == it->NPCID) { //id match
+                            if (insideBoundaries(itNPC->x, itNPC->y, it->location)) { //inside event boundaries                               
+                                if (itNPC->id == 10001)addItem("LLAVE PUERTA ESTE", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);
+                                it = GLOBAL_EVENTs.erase(it);
+                                erased = true;
+                            }
+                        }
+
+                    }
+                }//
+
+            }//add item
+            
+        
+
+
         }//on the same map
 
 

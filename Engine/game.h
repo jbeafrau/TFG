@@ -161,6 +161,7 @@ public:
 
     void addAnimation(int startx, int starty, int endx, int endy, int w, int h, int s,SDL_Texture* texture);
     void playAnimations();
+    void clearAnimations();
 
     std::string getRaceName(my_enums::playerRaces race);
     std::string getArchetypeName(my_enums::playerArchetype archetype);
@@ -171,6 +172,7 @@ public:
 
     void addNotification(std::string notification);
     void eventsNotifications();
+    
 
     void addAchievement(std::string achievementName, my_enums::Achievements achievementType);
     bool existAchievement(std::string achievementName, my_enums::Achievements achievementType);

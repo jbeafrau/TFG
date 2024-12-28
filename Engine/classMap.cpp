@@ -85,7 +85,8 @@ void classMap::generateTiles(int currentState)
 
         //Draw portals
         map_cells[1][143] = 56;
-        map_cells[256][147] = 56;
+        map_cells[253][151] = 56;
+        
 
         //Draw portals to elemental worlds
         map_cells[117][142] = 47;

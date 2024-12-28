@@ -58,6 +58,11 @@ void game::addNotification(std::string notification)
     notifications.push_back(notification);
 }
 
+void game::clearAnimations()
+{
+    animations.clear();
+}
+
 
 void game::addAchievement(std::string achievementName, my_enums::Achievements achievementType)
 {
@@ -5737,7 +5742,7 @@ void game::eventsFight()
                 Mix_PlayMusic(musicTOWN, -1);
                 deleteNPCs(px, py);
                 setState(previousScreen);
-
+                clearAnimations();
             }
 
 

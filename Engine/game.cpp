@@ -835,7 +835,7 @@ void game::loadPlayerDefault()
     randomAttributes();
 
 
-    itemWeapon = "";
+    alternate3 = "";
      alternate2 = "";
     itemHelmet = "";
     shield = "";
@@ -3552,7 +3552,7 @@ void game::screenInventory()
         tmpRect.y = tmpy;
         tmpRect.w = 200;
         tmpRect.y += 50;
-       if (itemWeapon !="")drawTextResize(itemWeapon, tmpRect);
+       if (alternate3 !="")drawTextResize(alternate3, tmpRect);
 
         tmpRect.y += 50;
         //if (alternate2 != "") drawTextResize(alternate2, tmpRect);
@@ -4664,14 +4664,14 @@ void game::eventsInventory()
                     case my_enums::_WEAPON_1H_:
                     {
                         Mix_PlayChannel(-1, weapon, 0);
-                        itemWeapon = it->name;
+                        alternate3 = it->name;
                         break;
                     }
 
                     case my_enums::_WEAPON_2H_:
                     {
                         Mix_PlayChannel(-1, weapon, 0);
-                        itemWeapon = it->name;
+                        alternate3 = it->name;
                       //  itemEscudo = "";
                         alternate = "";
                         break;
@@ -4680,7 +4680,7 @@ void game::eventsInventory()
                     case my_enums::_WEAPON_RANGED_:
                     {
                         Mix_PlayChannel(-1, weapon, 0);
-                        itemWeapon = it->name;
+                        alternate3 = it->name;
                      //   itemEscudo = "";
                         alternate = "";
                         break;
@@ -4697,7 +4697,7 @@ void game::eventsInventory()
                     {
                         Mix_PlayChannel(-1, clothes, 0);
                         //itemEscudo = it->name;
-                        if ((itemWeapon =="") ||(getItem(itemWeapon).type == my_enums::_WEAPON_1H_)){
+                        if ((alternate3 =="") ||(getItem(alternate3).type == my_enums::_WEAPON_1H_)){
                         alternate = it->name;
                         }
                         break;
@@ -5043,7 +5043,7 @@ void game::eventsHero()
                 max_power = 1;
                 max_luck = 1;
 
-                string itemWeapon = "";
+                string alternate3 = "";
                 string  itemArmor = "";
                 string itemHelmet = "";
                 string shield = "";
@@ -5163,7 +5163,7 @@ void game::eventsFight()
                 int enemyDamage = 1;
 
                 if (hasSkill("MELEE")) { good++; }
-                if (itemWeapon != "") { damage += getItem(itemWeapon).bonus; }
+                if (alternate3 != "") { damage += getItem(alternate3).bonus; }
 
                 //Process player attack
                 if (good > bad) {
@@ -5236,7 +5236,7 @@ void game::eventsFight()
                 int damage = 1;
 
                 
-                if (itemWeapon != "") { damage += getItem(itemWeapon).bonus; }
+                if (alternate3 != "") { damage += getItem(alternate3).bonus; }
 
                 //Process player attack
                 if (good > bad) {
@@ -5311,7 +5311,7 @@ void game::eventsFight()
 
                 NPC tmpNPC = tmpNPCs.front();
                 int damage = 2;
-                if (itemWeapon != "") { damage += getItem(itemWeapon).bonus; }
+                if (alternate3 != "") { damage += getItem(alternate3).bonus; }
                     
 
                 int goodLuck = dice(10, 1) + luck;

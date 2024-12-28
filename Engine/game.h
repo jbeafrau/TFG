@@ -368,7 +368,7 @@ protected:
 
     //default equipo
 
-    std::string itemWeapon = "";
+   // std::string alternate3 = "";
     std::string  itemArmor = "";
     std::string itemHelmet = "";
     std::string shield = "";
@@ -376,6 +376,7 @@ protected:
     std::string alternate = "";
 
     std::string alternate2 = "";
+    std::string alternate3 = "";
 
     // movement attributes
     bool left = false;

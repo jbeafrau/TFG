@@ -485,6 +485,7 @@ protected:
     SDL_Surface* bg2Surface = NULL;
     SDL_Texture* bg2Texture = NULL;
 
+    SDL_Texture* talkTexture = NULL;
 
     //SDL_Texture* foodTexture = NULL;
     //SDL_Texture* buttonTexture = NULL;

@@ -80,7 +80,7 @@ void classMap::generateTiles(int currentState)
 
 
         //Draw pet´s hut
-        building({ 116,120,6,5 }, 9, 104, 118, 120, 38);
+        building({ 116,120,4,5 }, 9, 104, 118, 120, 38);
 
 
         //Draw portals
@@ -95,12 +95,12 @@ void classMap::generateTiles(int currentState)
 
 
         //Draw fire pits
-        map_cells[107][142] = 66;
-        map_cells[111][142] = 66;
-        map_cells[107][144] = 66;
-        map_cells[111][144] = 66;
-        map_cells[107][146] = 66;
-        map_cells[111][146] = 66;
+        map_cells[106][142] = 66;
+        map_cells[112][142] = 66;
+        map_cells[106][144] = 66;
+        map_cells[112][144] = 66;
+        map_cells[106][146] = 66;
+        map_cells[112][146] = 66;
 
         //Draw fountain
         map_cells[109][151] = 579;

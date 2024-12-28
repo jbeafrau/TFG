@@ -1812,6 +1812,8 @@ bg2Surface = loadSurface(aFile);
 bg2Texture = SDL_CreateTextureFromSurface(gRenderer, bg2Surface);
 
 
+talkTexture = loadTexture(images + "talk.png");
+
 buttonCloseTexture    = loadTexture(images + "exit-door.png");
 //buttonNextTexture     = loadTexture(images + "clockwise-rotation.png");
 //buttonPrevTexture     = loadTexture(images + "anticlockwise-rotation.png");
@@ -6144,6 +6146,12 @@ void game::drawNPCs()
 
            // drawSquare(target, NPCColor);
             drawTileset(target, playersTexture, it->tile,20);
+
+            if ((it->NPCAI == my_enums::_FRIENDLY_CHAT_)|| (it->NPCAI == my_enums::_FRIENDLY_SHOP_)) {
+                ty--;
+                target.y = (gScreenSurface->h / cam_size_y) * ty;
+                SDL_RenderCopy(gRenderer, talkTexture, NULL, &target);
+                }
            // tmp.push_back(aFoe);
         }
     }

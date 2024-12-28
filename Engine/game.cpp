@@ -868,6 +868,38 @@ bool game::collide(int x, int y)
     bool tmp = false;
     if (baseMap.get_cell(x,y) == 9) tmp = true;
     if (baseMap.get_cell(x, y) == 579) tmp = true;
+
+
+    std::list<EVENT>::iterator it = EVENTs.begin();
+    while (it != EVENTs.end())
+    {
+        bool erased = false;
+        if (it->map == currentState) {//only process events in current map
+            if ((it->description.substr(0, 4) == "IF**") && (it->x == x) && (it->y == y)) {
+
+
+                if (it->map == currentState) {//on the current map
+                    if (findItem(it->description.substr(4, it->description.length() - 4))) {
+                        addNotification("Se abre el camino");
+                        //GLOBAL_EVENTs.erase(it);
+                        it = EVENTs.erase(it);
+                        erased = true;
+                        tmp = false;
+                    }
+                    else {
+                        tmp = true;
+
+                        addNotification("No puedes pasar");
+                    }
+                }
+
+
+            }
+        }
+        if ((it != EVENTs.end()) && (erased == false))it++;
+    }
+
+
     return tmp;
 }
 
@@ -922,6 +954,9 @@ void game::loadEvents()
     addEvent(139, 167, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 344);
     addEvent(139, 168, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 344);
 
+    addEvent(251, 151, my_enums::_HOMETOWN_, "IF**LLAVE PUERTA ESTE", 50, 0, 0, 0, my_enums::_HOMETOWN_, 0);
+
+    addEvent(253, 151, my_enums::_HOMETOWN_, "TELEPORT", 0, 0, 10, 10, my_enums::_COAST_WORLD_, 0);
 
     addGlobalEvent(1, my_enums::_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
     addGlobalEvent(2, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_STATIC");
@@ -938,7 +973,7 @@ void game::loadChats()
     CHATs.clear();
     addChat(109,142, 1, "¿Que está pasando en el pueblo?", "Un mal ha venido de otro plano y esta generando caos en el pueblo");
     addChat(109, 142, 2, "¿Que puedo hacer?", "Equipate y preparate para luchar contra el mal");
-    addChat(109, 142, 3, "Cuentame algo del pueblo", "Al sur encontraras varias tiendas, al este la costa y siguiendo el camino del nordeste, el bosque oscuro");
+    addChat(109, 142, 3, "Cuentame algo del pueblo", "Al sur encontraras varias tiendas, al este la costa y siguiendo el camino del noroeste, el bosque oscuro");
     addChat(109, 142, 4, "¿Por donde comienzo?", "Al sur y al este del pueblo hay enemigos que no permiten salir a los ciudadanos ");
 
     addChat(119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
@@ -5168,8 +5203,13 @@ void game::locationEvents()
             if (it->description == "TELEPORT") {
                 px = it->newx;
                 py = it->newy;
-                currentState = it->newMap;
-
+                
+                if (it->map != it->newMap) {
+                    currentState = it->newMap;
+                    changeMap();
+               }
+                   
+                   
             }
 
             if (it->description == "GOLD") {
@@ -5968,6 +6008,20 @@ void game::eventsHomeTown()
    // myTime = (int)(timer.getTicks() / 1000);
 }
 
+void game::changeMap()
+{
+    int width, height;
+    width = 256;
+    height = 256;
+    // baseMap.mymap.init();
+    baseMap.mymap.generate(rand() % 6 + 1, rand() % 6 + 1, 0.5f, 1, 1, width, height);
+
+    baseMap.mymap.to_surface(baseMap.imageSurface, getState());
+    baseMap.generateTiles();
+
+    updateMap();
+    baseMap.blur();
+}
 
 void game::addAnimation(int startx, int starty, int endx, int endy, int w, int h, int s, SDL_Texture* texture)
 {

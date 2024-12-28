@@ -147,7 +147,7 @@ public:
     SDL_Surface* loadSurface(std::string path);
     SDL_Texture* loadTexture(std::string path);
 
-
+    void changeMap();
 
 
     void start();

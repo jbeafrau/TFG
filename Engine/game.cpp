@@ -1239,26 +1239,30 @@ void game::start()
    
 
 //Base map creation
-    baseMap.createSurface();
+   // baseMap.createSurface();
     int width, height;
     width = 256;
     height = 256;
     baseMap.mymap.init();
+    baseMap.createSurface();
 
-    int octave = rand() % 4 + 3;
-    float frequency = rand() % 8 + 1;
+   // int octave = rand() % 4 + 3;
+   // float frequency = rand() % 8 + 1;
+    int octave = rand() % 3 + 4;
+    float frequency = rand() % 3 + 1;
     //float frequency = 1.0f;
     float persistance = 0.5f;
 
+    /*
     baseMap.mymap.generate(octave, frequency, persistance, 1, 1, width, height);
-    baseMap.mymap.to_surface(baseMap.imageSurface, my_enums::_HOMETOWN_);
-    baseMap.generateTiles();
-
+    baseMap.mymap.to_surface(baseMap.imageSurface, currentState);
+    baseMap.generateTiles(currentState);
     baseMap.imageSurface = SDL_ConvertSurface(baseMap.imageSurface, gScreenSurface->format, 0);
+    */
 
     //baseMap.SetSurface();
 
-    updateMap();
+    //updateMap();
 
  
     // baseMap.targetSurface = SDL_ConvertSurface(baseMap.targetSurface, gScreenSurface->format, 0);
@@ -4252,6 +4256,8 @@ void game::eventsPlayerArchetypes()
                     //****
                 }
 
+                changeMap();
+
             }//continue
 
             if (backButton.clicked(mousex, mousey)) {
@@ -5941,7 +5947,7 @@ void game::eventsHomeTown()
 
 
                 baseMap.mymap.to_surface(baseMap.imageSurface,getState());
-                baseMap.generateTiles();
+                baseMap.generateTiles(currentState);
                
                 updateMap();
                 baseMap.blur();
@@ -6017,7 +6023,7 @@ void game::changeMap()
     baseMap.mymap.generate(rand() % 3 + 4, rand() % 3 + 1, 0.5f, 1, 1, width, height);
 
     baseMap.mymap.to_surface(baseMap.imageSurface, getState());
-    baseMap.generateTiles();
+    baseMap.generateTiles(getState());
 
     updateMap();
     baseMap.blur();

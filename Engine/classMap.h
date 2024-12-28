@@ -35,33 +35,14 @@ public:
     void createSurface();
     void SetSurface();
     void put_pixel32(SDL_Surface* surface, int x, int y, Uint32 pixel);
-    void generateTiles();
+    void generateTiles(int currentState);
 
 
     int dice(int maxValue, int minValue);
     void building(SDL_Rect square, int wallTile, int floorTile,int x, int y, int doorTile);
     void road(SDL_Rect square, int floorTile1, int floorTile2);
 
-    
-    /*void init_image(SDL_Renderer* renderer2, int startx2, int starty2, const char* file2);
-    void init(SDL_Renderer* renderer2, int startx2, int starty2);
-   
-    void draw(SDL_Renderer* renderer2);
-    void draw2(SDL_Renderer* renderer2);
-    void miniset(int x, int y, int w, int h);
-    void set(int x, int y, int w, int h);
-    void minidraw(SDL_Renderer* renderer2);
 
-    void draw_tiles(SDL_Renderer* renderer2, int tilesize);
-
-    void update(int x, int y);
-    void setscale(int w, int h, int tilesize);
-
-    void load_tileset(SDL_Renderer* renderer2, const char* file);
-
-    ctileset mytileset;
-
-    ;*/
     SDL_Surface* imageSurface = NULL;
     SDL_Surface* targetSurface = NULL;
 

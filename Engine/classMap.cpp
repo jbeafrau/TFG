@@ -16,214 +16,153 @@ int classMap::get_cell(int x, int y)
     return map_cells[x][y];
 }
 
-void classMap::generateTiles()
+void classMap::generateTiles(int currentState)
 {
     int width = mymap.heightMap.GetWidth();
     int height = mymap.heightMap.GetHeight();
 
-    /*
-    for (int y = 0; y < height; y++)
+    switch (currentState)
     {
-        for (int x = 0; x < width; x++)
+
+    case my_enums::_FOREST_WORLD_: 
+    {
+        //eventsHomeTown();
+        break;
+    }
+    
+    case my_enums::_COAST_WORLD_:
+    {
+            break;
+    }
+
+    case my_enums::_ELEMENTAL_FIRE_WORLD_: 
         {
-            const float* cell = mymap.heightMap.GetConstSlabPtr(x, y);
-            map_cells[x][y] = 0;
-            if (*cell >= -1.0000)  map_cells[x][y] = 201;
-            if (*cell >= -0.2500)  map_cells[x][y] = 201;
-            if (*cell >= 0.0000)  map_cells[x][y] = 0;
-
-
-            //if ((*cell >= -0.2500 ) and ((x -y*2)% 5 == 0))
-
-
-            //if ((*cell >=  0.0000 ) and ((x -y*2)% 5 == 0))map_cells[x][y] = 3;
-
-            if (*cell >= 0.0625) {
-                if ((x - y * 2) % 5 == 0)
-                {
-                    //map_cells[x][y] = 4;
-                    map_cells[x][y] = 341;
-                }
-                else {
-                    map_cells[x][y] = 0;
-                }
-            }
-
-            if (*cell >= 0.1250) {
-                if ((x - y * 2) % 5 == 0)
-                {
-                    //map_cells[x][y] = 5;
-                    map_cells[x][y] = 342;
-                }
-                else {
-                    map_cells[x][y] = 0;
-                }
-            }
-
-            if (*cell >= 0.3750) {
-                if ((x - y * 2) % 5 == 0)
-                {
-                    //map_cells[x][y] = 6;
-                    map_cells[x][y] = 343;
-                }
-                else {
-                    map_cells[x][y] = 0;
-                }
-            }
-
-            if (*cell >= 0.5750) {
-                if ((x - y * 2) % 5 == 0)
-                {
-                    //map_cells[x][y] = 7;
-                    map_cells[x][y] = 344;
-                }
-                else {
-                    map_cells[x][y] = 0;
-                }
-            }
-
-            if (*cell >= 0.7500) {
-                if ((x - y * 2) % 5 == 0)
-                {
-                    //map_cells[x][y] = 8;
-                    map_cells[x][y] = 345;
-                }
-                else {
-                    map_cells[x][y] = 0;
-                }
-            }
-
-            if (*cell >= 1.0000) {
-                if ((x - y * 2) % 5 == 0)
-                {
-                    //map_cells[x][y] = 9;
-                    map_cells[x][y] = 346;
-
-                }
-                else {
-                    map_cells[x][y] = 0;
-                }
-            }
-
-            //renderer.AddGradientPoint (-1.0000, utils::Color (  0,   0, 128, 255)); // deeps
-            //  renderer.AddGradientPoint (-0.2500, utils::Color (  0,   0, 255, 255)); // shallow
-            //  renderer.AddGradientPoint ( 0.0000, utils::Color (  0, 128, 255, 255)); // shore
-            //  renderer.AddGradientPoint ( 0.0625, utils::Color (240, 240,  64, 255)); // sand
-            //  renderer.AddGradientPoint ( 0.1250, utils::Color ( 32, 160,   0, 255)); // grass
-            //  renderer.AddGradientPoint ( 0.3750, utils::Color (224, 224,   0, 255)); // dirt
-            //  renderer.AddGradientPoint ( 0.5750, utils::Color (152, 118,   84, 255)); // brown
-            //  renderer.AddGradientPoint ( 0.7500, utils::Color (128, 128, 128, 255)); // rock
-            //  renderer.AddGradientPoint ( 1.0000, utils::Color (255, 255, 255, 255)); // snow 9
-        }//for
-    }//for
-
-    
-    for (int x = 78; x <= 84; x++)
+            //eventsHomeTown();
+            break;
+        }
+    case my_enums::_ELEMENTAL_WATER_WORLD_: 
+        {
+        //eventsHomeTown();
+        break;
+    }
+    case my_enums::_ELEMENTAL_EARTH_WORLD_: 
+        {
+        //eventsHomeTown();
+        break;
+    }
+    case my_enums::_ELEMENTAL_WIND_WORLD_: 
+        {
+        //eventsHomeTown();
+        break;
+    }
+    case my_enums::_NECRO_WORLD_: 
+        {
+        //eventsHomeTown();
+        break;
+    }
+    case my_enums::_HOMETOWN_:
     {
-        map_cells[x][70] = 9;
-        map_cells[x][73] = 9;
+        //Draw town roads
+        road({ 1,50,100,2 }, 90, 96);
+        road({ 101,50,2,100 }, 90, 96);
+        road({ 101,150,155,2 }, 90, 96);
+        road({ 109,153,0,10 }, 90, 96);
+
+
+        //Draw door to the Eastern coast
+        building({ 251,149,4,4 }, 9, 104, 251, 151, 38);
+
+        //Draw major building
+        building({ 105,140,8,9 }, 9, 104, 109, 149, 38);
+
+        //Draw elements building
+        building({ 115,140,8,9 }, 9, 104, 119, 149, 54);
+
+
+        //Draw pet´s hut
+        building({ 116,120,6,5 }, 9, 104, 118, 120, 38);
+
+
+        //Draw portals
+        map_cells[1][143] = 56;
+        map_cells[256][147] = 56;
+
+        //Draw portals to elemental worlds
+        map_cells[117][142] = 47;
+        map_cells[121][142] = 48;
+        map_cells[117][144] = 49;
+        map_cells[121][144] = 50;
+
+
+        //Draw fire pits
+        map_cells[107][142] = 66;
+        map_cells[111][142] = 66;
+        map_cells[107][144] = 66;
+        map_cells[111][144] = 66;
+        map_cells[107][146] = 66;
+        map_cells[111][146] = 66;
+
+        //Draw fountain
+        map_cells[109][151] = 579;
+
+        //Draw town shops
+        building({ 104,153,4,4 }, 9, 247, 108, 155, 37);
+        building({ 104,159,4,4 }, 9, 247, 108, 161, 37);
+        building({ 110,153,4,4 }, 9, 247, 110, 155, 37);
+        building({ 110,159,4,4 }, 9, 247, 110, 161, 37);
+
+        //draw road to cemetary
+        road({ 139,153,0,10 }, 90, 96);
+
+        //Draw cemetary
+        building({ 134,153,4,4 }, 9, 247, 138, 155, 51);
+        building({ 134,159,4,4 }, 9, 247, 138, 161, 51);
+        building({ 140,153,4,4 }, 9, 247, 140, 155, 51);
+        building({ 140,159,4,4 }, 9, 247, 140, 161, 51);
+
+        //crypt
+        building({ 137,164,4,7 }, 9, 247, 139, 165, 44);
+        //stairs down
+        map_cells[139][163] = 40;
+
+        //tomstones
+        map_cells[138][165] = 540;
+        map_cells[140][165] = 540;
+        map_cells[138][167] = 540;
+        map_cells[140][167] = 540;
+        map_cells[138][169] = 540;
+        map_cells[140][169] = 540;
+
+        //map_cells[136][172] = 540;
+
+        //altar
+        map_cells[139][170] = 68;
+
+
+
+        //Draw bones
+        map_cells[135][155] = 61;
+        map_cells[135][161] = 61;
+
+        map_cells[143][155] = 61;
+        map_cells[143][161] = 61;
+
+        break;
     }
 
-    for (int y = 70; y <= 73; y++)
+    default:
     {
-        map_cells[78][y] = 9;
-        map_cells[84][y] = 9;
+        // is likely to be an error
+        break;
     }
+    };
 
-    map_cells[81][73] = 37;
-    */
 
-//    road({1,74,200,1}, 90, 96);
- //   building({66,68,10,5},9,104, 68,73,37);
- //   building({ 66,76,10,5 }, 9, 247, 68, 76, 37);
 
-    //Draw town roads
-    road({ 1,50,100,2 }, 90, 96);
-    road({ 101,50,2,100 }, 90, 96);
-    road({ 101,150,155,2 }, 90, 96);
-    road({ 109,153,0,10 }, 90, 96);
 
     
-    //Draw door to the Eastern coast
-    building({ 251,149,4,4 }, 9, 104, 251, 151, 38);
 
-    //Draw major building
-    building({ 105,140,8,9 }, 9, 104, 109, 149, 38);
-
-    //Draw elements building
-    building({ 115,140,8,9 }, 9, 104, 119, 149, 54);
-
-
-    //Draw pet´s hut
-    building({ 116,120,6,5 }, 9, 104, 118, 120, 38);
-
-
-    //Draw portals
-    map_cells[1][143] = 56;
-    map_cells[256][147] = 56;
-
-    //Draw portals to elemental worlds
-    map_cells[117][142] = 47;
-    map_cells[121][142] = 48;
-    map_cells[117][144] = 49;
-    map_cells[121][144] = 50;
-
-
-    //Draw fire pits
-    map_cells[107][142] = 66;
-    map_cells[111][142] = 66;
-    map_cells[107][144] = 66;
-    map_cells[111][144] = 66;
-    map_cells[107][146] = 66;
-    map_cells[111][146] = 66;
-
-    //Draw fountain
-    map_cells[109][151] = 579;
-
-    //Draw town shops
-    building({ 104,153,4,4 }, 9, 247, 108, 155, 37);
-    building({ 104,159,4,4 }, 9, 247, 108, 161, 37);
-    building({ 110,153,4,4 }, 9, 247, 110, 155, 37);
-    building({ 110,159,4,4 }, 9, 247, 110, 161, 37);
-
-    //draw road to cemetary
-    road({ 139,153,0,10 }, 90, 96);
-
-    //Draw cemetary
-    building({ 134,153,4,4 }, 9, 247, 138, 155, 51);
-    building({ 134,159,4,4 }, 9, 247, 138, 161, 51);
-    building({ 140,153,4,4 }, 9, 247, 140, 155, 51);
-    building({ 140,159,4,4 }, 9, 247, 140, 161, 51);
-
-    //crypt
-    building({ 137,164,4,7 }, 9, 247, 139, 165, 44);
-    //stairs down
-    map_cells[139][163] = 40;
-
-    //tomstones
-    map_cells[138][165] = 540;
-    map_cells[140][165] = 540;
-    map_cells[138][167] = 540;
-    map_cells[140][167] = 540;
-    map_cells[138][169] = 540;
-    map_cells[140][169] = 540;
-
-    //map_cells[136][172] = 540;
-
-    //altar
-    map_cells[139][170] = 68;
-
-
-
-    //Draw bones
-    map_cells[135][155] = 61;
-    map_cells[135][161] = 61;
-
-    map_cells[143][155] = 61;
-    map_cells[143][161] = 61;
-
-
-}
+}//generate tiles
 
 int classMap::dice(int maxValue, int minValue)
 {

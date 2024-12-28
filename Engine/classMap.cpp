@@ -144,6 +144,8 @@ void classMap::generateTiles()
     road({ 109,153,0,10 }, 90, 96);
 
     
+    //Draw door to the Eastern coast
+    building({ 251,149,4,4 }, 9, 104, 251, 151, 38);
 
     //Draw major building
     building({ 105,140,8,9 }, 9, 104, 109, 149, 38);
@@ -153,7 +155,7 @@ void classMap::generateTiles()
 
 
     //Draw pet´s hut
-    building({ 116,120,6,7 }, 9, 104, 118, 120, 38);
+    building({ 116,120,6,5 }, 9, 104, 118, 120, 38);
 
 
     //Draw portals

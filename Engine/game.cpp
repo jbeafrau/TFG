@@ -1860,10 +1860,28 @@ buttonPotionMagicTexture = loadTexture(images + "potion-magic.png");
 buttonFoodTexture = loadTexture(images + "bread.png");
 
 
-    string TTFFile = fonts + "712_serif.ttf";
+    //string TTFFile = fonts + "712_serif.ttf";
+string TTFFile = fonts + "PressStart2P.ttf";
+    
     //Open the font
     gFont = TTF_OpenFont(TTFFile.c_str(), 28);
     if (gFont == NULL)
+    {
+        printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
+        success = false;
+    }
+    else
+    {
+        //Render text
+        SDL_Color textColor = { 0, 0, 0 };
+
+    }
+
+
+
+    //Open small font
+    smallFont = TTF_OpenFont(TTFFile.c_str(), 6);
+    if (smallFont == NULL)
     {
         printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
         success = false;
@@ -6149,8 +6167,17 @@ void game::drawNPCs()
 
             if ((it->NPCAI == my_enums::_FRIENDLY_CHAT_)|| (it->NPCAI == my_enums::_FRIENDLY_SHOP_)) {
                 ty--;
-                target.y = (gScreenSurface->h / cam_size_y) * ty;
+                target.y = (gScreenSurface->h / cam_size_y) * ty;                
                 SDL_RenderCopy(gRenderer, talkTexture, NULL, &target);
+                target.y += (gScreenSurface->h / cam_size_y) / 4;
+                target.h = target.h / 2;
+
+                SDL_Color fg = { 0,0,0,0 };
+                SDL_Color bg = { 150,150,150,0 };
+                SDL_Surface* text = TTF_RenderUTF8_Solid(smallFont, it->description.c_str(), fg);
+                SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, text);
+                SDL_RenderCopy(gRenderer, txtTexture, NULL, &target);
+
                 }
            // tmp.push_back(aFoe);
         }

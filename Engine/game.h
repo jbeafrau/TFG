@@ -528,6 +528,7 @@ protected:
 
     //Globally used font
     TTF_Font* gFont = NULL;
+    TTF_Font* smallFont = NULL;
 
     //drawing collor
     SDL_Color fg = { 0,0,0,0 };

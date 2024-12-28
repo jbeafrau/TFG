@@ -1885,7 +1885,7 @@ string TTFFile = fonts + "PressStart2P.ttf";
 
 
     //Open small font
-    smallFont = TTF_OpenFont(TTFFile.c_str(), 6);
+    smallFont = TTF_OpenFont(TTFFile.c_str(), 14);
     if (smallFont == NULL)
     {
         printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
@@ -5827,6 +5827,7 @@ void game::eventsAchievements()
 
 void game::eventsHomeTown()
 {
+    bool foundNPC = false;
     left = false;
     right = false;
     up = false;
@@ -5851,6 +5852,8 @@ void game::eventsHomeTown()
         }
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
+            foundNPC = checkNPC(mousex,mousey);
+
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
                 setState(my_enums::_GAMEOVER_);
@@ -6035,8 +6038,36 @@ void game::eventsHomeTown()
     if (left)tmpx--;
     if (up)tmpy--;
     if (down)tmpy++;
-    phaseNPCs();
+    if (!foundNPC)phaseNPCs();
    // myTime = (int)(timer.getTicks() / 1000);
+}
+
+bool game::checkNPC(int x, int y)
+{
+    bool foundNPC = false;
+    int tmpx = cam_x + (x / (gScreenSurface->w / cam_size_x));
+    int tmpy = cam_y + (y / (gScreenSurface->h / cam_size_y));
+     
+     //std::list<NPC> tmpNPCs2 = getNPCs(tmpx, tmpy);
+    tmpNPCs = getNPCs(tmpx, tmpy);
+    if (tmpNPCs.size() > 0) {
+   
+        if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_CHAT_) {
+            tmpCHATs = getChat(tmpx, tmpy);
+            previousScreen = my_enums::_HOMETOWN_;
+            setState(my_enums::_CHAT_);
+            foundNPC = true;
+
+        }
+        else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_SHOP_) {
+            tmpSHOPs = getShops(tmpx, tmpy);
+            previousScreen = my_enums::_HOMETOWN_;
+            setState(my_enums::_SHOP_);
+            foundNPC = true;
+        }
+    }
+    return foundNPC;
+
 }
 
 void game::changeMap()
@@ -6174,12 +6205,13 @@ void game::drawNPCs()
                 ty--;
                 target.y = (gScreenSurface->h / cam_size_y) * ty;                
                 SDL_RenderCopy(gRenderer, talkTexture, NULL, &target);
-                target.y += (gScreenSurface->h / cam_size_y) / 4;
-                target.h = target.h / 2;
+                //target.y += (gScreenSurface->h / cam_size_y) / 4;
+                //target.h = target.h / 2;
 
                 SDL_Color fg = { 0,0,0,0 };
                 SDL_Color bg = { 150,150,150,0 };
-                SDL_Surface* text = TTF_RenderUTF8_Solid(smallFont, it->description.c_str(), fg);
+                //SDL_Surface* text = TTF_RenderUTF8_Solid(smallFont, it->description.c_str(), fg);
+                SDL_Surface* text = TTF_RenderUTF8_Blended_Wrapped(smallFont, it->description.c_str(), fg, target.w);
                 SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, text);
                 SDL_RenderCopy(gRenderer, txtTexture, NULL, &target);
 

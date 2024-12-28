@@ -163,6 +163,8 @@ public:
     void playAnimations();
     void clearAnimations();
 
+    bool checkNPC(int x, int y);
+
     std::string getRaceName(my_enums::playerRaces race);
     std::string getArchetypeName(my_enums::playerArchetype archetype);
       

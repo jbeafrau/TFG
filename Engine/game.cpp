@@ -1021,6 +1021,7 @@ void game::loadChats()
     addChat(109, 142, 2, "¿Que puedo hacer?", "Equipate y preparate para luchar contra el mal, compra equipo en las tiendas y pregunta en el pueblo primero");
     addChat(109, 142, 3, "Cuentame algo del pueblo", "Al sur encontraras varias tiendas, al este la costa y siguiendo el camino del noroeste, el bosque oscuro");
     addChat(109, 142, 4, "¿Por donde comienzo?", "Al sur y al este del pueblo hay enemigos que no permiten salir a los ciudadanos, el mago del templo elemental al este necesita ayuda con su mascota ");
+    addChat(109, 142, 5, "¿Quien es el maestro?", "Al este del pueblo esta el maestro, cuando mejores de nivel puedes mejorar tus atributos allí");
 
     addChat(119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
     addChat(119, 142, 2, "¿Puedo ayudar?", "Tor, mi perro esta en una choza al norte, con tantos monstruos no me atrevo a ir a por el, ¿Podrias traermelo por favor??, si lo haces te daré la llave que abre la puerta del este");
@@ -3425,6 +3426,29 @@ void game::screenPlayerRaces()
     tmpRect.x = gScreenSurface->w / 2 -100;
     drawText(getRaceName(currentRace), tmpRect);
 
+    tmpRect.x = gScreenSurface->w - 600;
+    tmpRect.y = 150;
+    tmpRect.h = 700;
+    tmpRect.w = 600;
+    drawSquare(tmpRect, { 200,200,200 });
+
+    tmpRect.h = 50;
+
+    tmpRect.y = 150;
+    drawTextBlock("HUMANO: +1 a Combate", tmpRect);
+    tmpRect.y = 250;
+    drawTextBlock("ELFO: +1 a Poder", tmpRect);
+    tmpRect.y = 350;
+    drawTextBlock("ENANO: +2 a Vitalidad", tmpRect);
+    tmpRect.y = 450;
+    drawTextBlock("MEDIANO: +2 a suerte ", tmpRect);
+    tmpRect.y = 550;
+    drawTextBlock("MEDIO ORCO: +2 a Combate, -1 a Poder ", tmpRect);
+    tmpRect.y = 650;
+    drawTextBlock("CONTEMPLADOR: +2 a poder , -1 a combate", tmpRect);
+
+ 
+
 
 }
 
@@ -3453,6 +3477,27 @@ void game::screenPlayerArchetypes()
     tmpRect.y = gScreenSurface->h / 2 + 64;
     tmpRect.x = gScreenSurface->w / 2 - 100;
     drawText(getArchetypeName(currentArchetype), tmpRect);
+
+    tmpRect.x = gScreenSurface->w - 600;
+    tmpRect.y = 150;
+    tmpRect.h = 850;
+    tmpRect.w = 600;
+    drawSquare(tmpRect, { 200,200,200 });
+
+    tmpRect.h = 50;
+
+    tmpRect.y = 150;
+    drawTextBlock("GUERRERO: Comienzas con la habilidad de MELE (+1 a Combate)", tmpRect);
+    tmpRect.y = 300;
+    drawTextBlock("ARQUERO:  Comienzas con la habilidad de ARQUERO (Ataques a distancia)", tmpRect);
+    tmpRect.y = 450;
+    drawTextBlock("LADRON:  Comienzas con la habilidad de MAGIA (Ataques con magia)", tmpRect);
+    tmpRect.y = 600;
+    drawTextBlock("MAGO:  Comienzas con la habilidad de SUBTERFUGIO (Ataques con subterfugio)", tmpRect);
+    tmpRect.y = 750;
+    drawTextBlock("NECROMANTE:  Comienzas con la habilidad de DRENAR  (Ataques con magia que drenan vida)", tmpRect);
+    tmpRect.y = 900;
+    drawTextBlock("INVOCADOR:  Comienzas con la habilidad de INVOCAR", tmpRect);
 }
 
 

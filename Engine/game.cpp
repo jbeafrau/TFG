@@ -2319,6 +2319,12 @@ void game::drawButtonSrc(classButton btn, SDL_Texture* texture)
     target.h = text->h;
     SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, text);
     SDL_RenderCopy(gRenderer, txtTexture, NULL, &target);
+
+
+    SDL_FreeSurface(text);
+    SDL_DestroyTexture(txtTexture);
+    text = NULL;
+    txtTexture = NULL;
 }
 
 void game::drawIMGBox(int x, int y, int value, int max, SDL_Color color)
@@ -2636,17 +2642,6 @@ void game::screenPlayerAttributes()
     tmpRect.y = 350;
     drawTextL("Suerte", tmpRect);
 
-   // drawIMG(shieldTexture, 100, 200, skill, 18);
-  //  drawIMG(heartTexture, 100, 250, stamina, 30);
-  //  drawIMG(starTexture, 100, 300, power, 18);
-  //  drawIMG(starTexture, 100, 300, luck, 18);
-    //, SDL_Color color
-/*
-drawIMGBox(100, 200, skill, max_skill, { 0,0,200,0 });
-  drawIMGBox(100, 250, stamina, max_stamina, { 200,0,0,0 });
-  drawIMGBox(100, 300, power, max_power, { 128,0,128,0 });
-  drawIMGBox(100, 350, luck, max_luck, { 0,200,200,0 });
-*/
   drawIMGBox(gScreenSurface->w / 2 - 200, 200, skill, max_skill, { 0,0,200,0 });
   drawIMGBox(gScreenSurface->w / 2 - 200, 250, stamina, max_stamina, { 200,0,0,0 });
   drawIMGBox(gScreenSurface->w / 2 - 200, 300, power, max_power, { 128,0,128,0 });
@@ -2733,13 +2728,6 @@ void game::screenShops()
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
 
-    //drawButtonSrc(exitButton, closeTexture);
-    //drawButtonSrc(continueButton, buttonTexture);
-   
-    //drawButtonSrc(inventoryButton, buttonTexture);
-
-    
-
     std::string tmpStr;
 
     SDL_Rect target;
@@ -2754,15 +2742,11 @@ void game::screenShops()
     target.y = tmpRect.y - 25;
     target.w = tmpRect.w + 40;
     target.h = tmpRect.h + 25;
-   // SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
-   // drawText(aLoc.name + "(" + to_string(aLoc.id) + ")", tmpRect);
     tmpRect.y = 100;
-    //tmpRect.w = gScreenRect.w - 100;
     target.x = tmpRect.x - 25;
     target.y = tmpRect.y - 25;
     target.w = tmpRect.w + 100;
     target.h = tmpRect.h + 50;
-    //drawTextBlockBG(aLoc.description, tmpRect);
 
     int itC = 0;
     for (list<SHOP>::iterator it = tmpSHOPs.begin() ; it != tmpSHOPs.end(); it++) {
@@ -2779,14 +2763,11 @@ void game::screenShops()
 
             if (it->description.substr(0, 2) == "**") {
                 tmpStr = tmpStr + it->description.substr(2, it->description.length() - 2);
-                // cout << it->name.substr(2,it->name.length() -2) << " (" << it->count << ")" << endl;
             }
             else {
                 tmpStr = tmpStr + it->description;
-                // cout << it->name << " (" << it->count << ")" << endl;
             }
 
-            // tmpStr = tmpStr + it->description;
         }
         tmpStr = tmpStr + " por " + to_string(it->value2);
         if (it->description2 == "GOLD") { tmpStr = tmpStr + " monedas de oro"; }
@@ -2839,13 +2820,6 @@ void game::screenChat()
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
 
-    //drawButtonSrc(exitButton, closeTexture);
-    //drawButtonSrc(continueButton, buttonTexture);
-
-    //drawButtonSrc(inventoryButton, buttonTexture);
-
-
-
     std::string tmpStr;
 
     SDL_Rect target;
@@ -2860,15 +2834,11 @@ void game::screenChat()
     target.y = tmpRect.y - 25;
     target.w = tmpRect.w + 40;
     target.h = tmpRect.h + 25;
-    // SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
-    // drawText(aLoc.name + "(" + to_string(aLoc.id) + ")", tmpRect);
     tmpRect.y = 100;
-    //tmpRect.w = gScreenRect.w - 100;
     target.x = tmpRect.x - 25;
     target.y = tmpRect.y - 25;
     target.w = tmpRect.w + 100;
     target.h = tmpRect.h + 50;
-    //drawTextBlockBG(aLoc.description, tmpRect);
 
     int itC = 0;
     for (list<CHAT>::iterator it = tmpCHATs.begin(); it != tmpCHATs.end(); it++) {
@@ -2911,17 +2881,12 @@ void game::screenChat()
         // cout <<  "-> " << it->description << "(" << it->targetId << ")" << endl;
     }
 
-
-
-
     target.x = 50;
     target.y = gScreenSurface->h / 4;
     target.w = gScreenSurface->w - 100;
     target.h = 200;
     drawSquare(target, { 200,200,200 });
     drawTextBlock(currentChat, target);
-
-
 }
 
 
@@ -2981,8 +2946,6 @@ void game::screenIntro()
 void game::screenNotifications()
 {
     tmpRect.h = 30;
-    //tmpRect.x = 0;
-    //tmpRect.x = gScreenSurface->w / 2 - 250;
     tmpRect.x = 1;
 
     tmpRect.w = 500;
@@ -2992,8 +2955,6 @@ void game::screenNotifications()
         int base_y = gScreenSurface->h - (notifications.size() * 30 + 30);
         if (base_y < gScreenSurface->h /2) { base_y = gScreenSurface->h  /2; }
         for (std::string notification : notifications) {
-
-            //tmpRect.y = ((gScreenSurface->h / 4) * 3) + (tmpY * 30);
             tmpRect.y = base_y + (tmpY * 30);
             drawTextResize(notification, tmpRect);
             tmpY++;
@@ -3089,8 +3050,6 @@ void game::eventsMain()
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
-                //addNotification("Saliendo del juego");
-                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (configButton.clicked(mousex, mousey)) {
@@ -3107,7 +3066,6 @@ void game::eventsMain()
 
 
             if (startButton.clicked(mousex, mousey)) {
-                //addNotification("Comenzando el juego");
                 addAchievement("Comenzando el juego", my_enums::_HIDDEN_);
                 SDL_StartTextInput();
                 setState(my_enums::S_NAME_);
@@ -3121,7 +3079,6 @@ void game::eventsMain()
         //******************
     }
 
-   // myTime = (int)(timer.getTicks() / 1000);
 }
 
 void game::eventsGameOver()
@@ -3194,28 +3151,21 @@ void game::eventsPlayerName()
                 timerGameOver.reset();
             }
             if (continueButton.clicked(mousex, mousey)) {
-                // quit =true;
                 Mix_PlayChannel(-1, audioButton, 0);
                 SDL_StopTextInput();
-                //setState(_MAINMENU_);
-                //setState(my_enums::_RACES_);
+
                 setState(my_enums::S_ATTRIBUTES_);
-                //Mix_PlayMusic(musicGameOver, -1);
-                //timerGameOver.start();
-                //timerGameOver.reset();
 
             }
 
 
             if (nextButton.clicked(mousex, mousey)) {
                 playerTile++;
-               // if (((playerTile +1) % 32) > 20) { playerTile += 12; }
                 if (playerTile > 96) { playerTile = 96; }
             }
 
             if (prevButton.clicked(mousex, mousey)) {
                 playerTile--;
-              //  if (((playerTile+1) % 32) > 20) { playerTile -= 12; }
                 if (playerTile < 63) { playerTile = 63; }
 
             }
@@ -3228,39 +3178,13 @@ void game::eventsPlayerName()
 
 void game::screenConfigMenu()
 {
-   // SDL_Rect dstrect;
-    /*tmpRect.x = gScreenSurface->w / 8 - 1;
-    tmpRect.y = 299;
-    tmpRect.w = 322;
-    tmpRect.h = 482;
-    //SDL_Color square={0,0,255,0}; blue
-    SDL_Color square = { 0,0,0,0 };
 
-    tmpRect.w = 32;
-    tmpRect.h = 32;
-    tmpRect.x = gScreenSurface->w / 8;
-    tmpRect.y = gScreenSurface->h / 8 - 50;
-    tmpRect.w = 256;
-    tmpRect.h = 50;
-    tmpRect.x = gScreenSurface->w / 8;
-    tmpRect.y = gScreenSurface->h / 8;
-    */
     tmpRect.x = gScreenSurface->w / 2 - 250;
     tmpRect.y = gScreenSurface->h / 8 - 50;
     tmpRect.w = 500;
     tmpRect.h = 100;
     drawTextResize("Menu Configuración", tmpRect);
-    /*
-    tmpRect.x = gScreenSurface->w - 500;
-    tmpRect.y = gScreenSurface->h - 50;
-    tmpRect.w = 500;
-    tmpRect.h = 50;
-    */
-    //drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
-
-
-    drawButtonSrc(exitButton, buttonCloseTexture);
-    
+    drawButtonSrc(exitButton, buttonCloseTexture);   
 
     drawButtonSrc(volumeSoundUpButton, buttonNextTexture);
     drawButtonSrc(volumeSoundDownButton, buttonPrevTexture);
@@ -3281,15 +3205,8 @@ void game::screenConfigMenu()
     else {
         drawButtonSrc(muteButton, buttonSoundOnTexture);
     }
-    
-
-    
-  
-  
-   
 
     drawButton(blurButton);
-
     drawButtonSrc(startButton, buttonAcceptTexture);
 }
 
@@ -3304,15 +3221,9 @@ void game::screenHomeTown()
     target.h = gScreenSurface->h;
 
     drawMap();
-
     drawEvents();
-
     drawPlayer();
-
     drawNPCs();
-
-
-
 
 
     tmpRect.x = gScreenSurface->w / 2 - 400;
@@ -3324,8 +3235,6 @@ void game::screenHomeTown()
     string townName = "";
     switch (getState())
     {
-
-
     case my_enums::S_ELEMENTAL_WATER_WORLD_:
     {
         townName = "MUNDO ELEMENTAL DE AGUA";
@@ -3372,8 +3281,6 @@ void game::screenHomeTown()
     drawButtonSrc(moveUpButton, buttonUpTexture);
     drawButtonSrc(moveDownButton, buttonDownTexture);
     
-    //drawButton(newMapButton);
-
     drawButtonSrc(achievementsButton, buttonStarsTexture);
 
     drawButtonSrc(playerButton, buttonPlayerTexture);
@@ -3388,7 +3295,6 @@ void game::screenHomeTown()
     if (food > 0) {
         drawButtonSrc(foodButton, buttonFoodTexture);
     }
-    //drawButtonSrc(prevButton, buttonPrevTexture);
 
 }
 
@@ -3498,16 +3404,8 @@ std::string game::getArchetypeName(my_enums::playerArchetype archetype)
 void game::screenPlayerRaces()
 {
 
-   // SDL_Rect dstrect;
-
-    //drawButton(exitButton);
-    //drawButton(continueButton);
-    //drawButton(nextButton);
-    //drawButton(prevButton);
-
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
-   // drawButtonSrc(backButton, buttonCancelTexture);
     drawButtonSrc(backButton, buttonBackTexture);
     drawButtonSrc(nextButton, buttonNextTexture);
     drawButtonSrc(prevButton, buttonPrevTexture);
@@ -3522,13 +3420,9 @@ void game::screenPlayerRaces()
     tmpRect.y = 200;
     drawText("Selecciona la raza del personaje", tmpRect);
 
-    //tmpRect.y = 250;
-    //drawText(playerName, tmpRect);
-   // tmpRect.y = 300;
     tmpRect.y = gScreenSurface->h / 4 * 3 - 50;
     drawText("Luego pulsa continuar...", tmpRect);
 
-    //tmpRect.y = 400;
     tmpRect.y = gScreenSurface->h / 2 +64;
     tmpRect.x = gScreenSurface->w / 2 -100;
     drawText(getRaceName(currentRace), tmpRect);
@@ -3538,14 +3432,9 @@ void game::screenPlayerRaces()
 
 void game::screenPlayerArchetypes()
 {
-    //drawButton(exitButton);
-    //drawButton(continueButton);
-    //drawButton(nextButton);
-    //drawButton(prevButton);
 
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonPlayTexture);
-   // drawButtonSrc(backButton, buttonCancelTexture);
     drawButtonSrc(backButton, buttonBackTexture);
     drawButtonSrc(nextButton, buttonNextTexture);
     drawButtonSrc(prevButton, buttonPrevTexture);
@@ -3560,11 +3449,9 @@ void game::screenPlayerArchetypes()
     tmpRect.y = 200;
     drawText("Selecciona el arquetipo del personaje", tmpRect);
 
-   // tmpRect.y = 300;
     tmpRect.y = gScreenSurface->h / 4 * 3 - 50;
     drawText("Luego pulsa continuar...", tmpRect);
 
-   // tmpRect.y = 400;
     tmpRect.y = gScreenSurface->h / 2 + 64;
     tmpRect.x = gScreenSurface->w / 2 - 100;
     drawText(getArchetypeName(currentArchetype), tmpRect);
@@ -3573,14 +3460,6 @@ void game::screenPlayerArchetypes()
 
 void game::screenInventory()
 {
-    //quit = false;
-    //while (!quit) {
-        //screenClear();
-       // drawButtonSrc(continueButton, buttonTexture);
-        //drawButton(continueButton);
-        //drawButton(exitButton);
-
-
         drawButtonSrc(exitButton, buttonCloseTexture);
         drawButtonSrc(continueButton, buttonAcceptTexture);
 
@@ -3589,45 +3468,31 @@ void game::screenInventory()
         tmpRect.y = 0;
         tmpRect.w = 400;
         tmpRect.h = 50;
-        //SDL_Rect target;
-        //target.x = tmpRect.x - 50;
-        //target.w = tmpRect.w + 40;
-        //target.h = tmpRect.h + 25;
-
 
         drawTextResize("Inventario", tmpRect);
-
 
         string tmpString = "";
         tmpString = "Monedas de oro: " + to_string(coins);
         tmpy += 50;
         tmpRect.y = tmpy;
-        //target.y = tmpRect.y - 25;
-        //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
 
 
         tmpString = "Raciones de comida: " + to_string(food);
         tmpy += 50;
         tmpRect.y = tmpy;
-        //target.y = tmpRect.y - 25;
-        //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
         drawTileset({ gScreenSurface->w / 2 - 250,tmpy,50,50 }, itemsTexture, 207, 20);
 
         tmpString = "Pociones de vitalidad: " + to_string(potions_health);
         tmpy += 50;
         tmpRect.y = tmpy;
-       // target.y = tmpRect.y - 25;
-        //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
         drawTileset({ gScreenSurface->w / 2 - 250,tmpy,50,50 }, itemsTexture, 276, 20);
 
         tmpString = "Pociones de poder: " + to_string(potions_power);
         tmpy += 50;
         tmpRect.y = tmpy;
-       // target.y = tmpRect.y - 25;
-        //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
         drawText(tmpString, tmpRect);
         drawTileset({ gScreenSurface->w / 2 - 250,tmpy,50,50 }, itemsTexture, 273, 20);  
         
@@ -3636,26 +3501,19 @@ void game::screenInventory()
         {
             tmpy += 50;
             tmpRect.y = tmpy;
-            //target.y = tmpRect.y - 25;
-            //target.x = tmpRect.x - 50;
 
             tmpRect.x = gScreenSurface->w / 2 - 250;
-           // tmpRect.x = 1;
             tmpRect.w = 50;
             drawTileset(tmpRect, itemsTexture, it->tile,20);
 
             if (it->name.substr(0, 2) == "**") {
                 tmpString = it->name.substr(2, it->name.length() - 2) + " (" + to_string(it->count) + ") valor:" + to_string(it->value);
-                // cout << it->name.substr(2,it->name.length() -2) << " (" << it->count << ")" << endl;
             }
             else {
                 tmpString = it->name + " (" + to_string(it->count) + ") valor:" + to_string(it->value);
-                // cout << it->name << " (" << it->count << ")" << endl;
             }
-            //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
             tmpRect.w = 400;
             tmpRect.x = gScreenSurface->w / 2 - 200;
-            //tmpRect.x = 51;
             drawText(tmpString, tmpRect);
 
         }
@@ -3668,12 +3526,10 @@ void game::screenInventory()
         drawSquare(target, { 200,200,200 });
 
         tmpy = 300;
-        //tmpRect.x = gScreenSurface->w / 4 * 3-100;
         tmpRect.x = 51;
         tmpRect.y = tmpy;
         drawTextResize("ITEMS EQUIPADOS", tmpRect);
 
-        //tmpRect.x = gScreenSurface->w / 4 * 3 -150;
         tmpRect.x = 1;
         tmpRect.w = 150;
         tmpRect.y += 50;
@@ -3686,26 +3542,21 @@ void game::screenInventory()
         drawTextResize("ESCUDO:", tmpRect);
         tmpRect.y += 50;
         drawTextResize("ANILLO:", tmpRect);
-
-        //itemShield = "";
         
         tmpy = 300;
         tmpRect.x = 151;
-        //tmpRect.x = gScreenSurface->w / 4 * 3;
         tmpRect.y = tmpy;
         tmpRect.w = 200;
         tmpRect.y += 50;
        if (alternate3 !="")drawTextResize(alternate3, tmpRect);
 
         tmpRect.y += 50;
-        //if (alternate2 != "") drawTextResize(alternate2, tmpRect);
         if (alternate2 != "") drawTextResize(alternate2, tmpRect);
 
         tmpRect.y += 50;
         if (itemHelmet != "")drawTextResize(itemHelmet, tmpRect);
 
         tmpRect.y += 50;
-        //if (shield != "")drawTextResize(shield, tmpRect);
         if (alternate != "")drawTextResize(alternate, tmpRect);
 
         tmpRect.y += 50;
@@ -3729,7 +3580,6 @@ void game::screenHero()
     drawTextResize("Heroe inmortal", tmpRect);
 
     tmpRect.y = gScreenSurface->h / 2;
-    //drawTextResize("¿Te rindes o vas a seguir luchando?", tmpRect);
     drawTextBlock("Has sido derrotado, pero cuando piensas que ya todo está perdido una voz en tu interior te llama y sientes que nuevas energías recorren tu cuerpo,  ¿Te rindes o vas a seguir luchando?", tmpRect);
  
 }
@@ -3761,9 +3611,6 @@ bool game::hasSkill(std::string skill)
 void game::screenAchievements()
 {
     
-    //drawButton(continueButton);
-    //drawButton(exitButton);
-
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
     int combat = 0, missions = 0, npcs = 0, options = 0, hidden = 0;
@@ -3862,21 +3709,12 @@ void game::screenAchievements()
     tmpRect.y = 400;
     drawTextL("Ocultos", tmpRect);
 
-    //combat = 0, missions = 0, npcs = 0, options = 0, hidden = 0;
-
     drawIMGBox(gScreenSurface->w / 2 - 250, 200, combat, 10, { 200,0,0,0 });
     drawIMGBox(gScreenSurface->w / 2 - 250, 250, missions, 10, { 200,0,0,0 });
     drawIMGBox(gScreenSurface->w / 2 - 250, 300, npcs, 10, { 200,0,0,0 });
     drawIMGBox(gScreenSurface->w / 2 - 250, 350, options, 10, { 200,0,0,0 });
     drawIMGBox(gScreenSurface->w / 2 - 250, 400, hidden, 10, { 200,0,0,0 });
 
-    /*drawIMGBox(100, 200, combat, 10, {200,0,0,0});
-    drawIMGBox(100, 250, missions, 10, { 200,0,0,0 });
-    drawIMGBox(100, 300, npcs, 10, { 200,0,0,0 });
-    drawIMGBox(100, 350, options, 10, { 200,0,0,0 });
-    drawIMGBox(100, 400, hidden, 10, { 200,0,0,0 });
-    */
-    //SDL_Rect square;
 
     square.x = gScreenSurface->w / 2;
     square.y =  200;
@@ -3982,23 +3820,18 @@ void game::screenFight()
     tmpRect.w = 100;
     tmpRect.h = 50;
     tmpRect.x = 100;
-    //tmpRect.x = 100;
     tmpRect.x = gScreenSurface->w / 2;
     
     tmpRect.y = gScreenSurface->h / 2 - 250;
     drawTextL(playerName, tmpRect);
     tmpRect.y = gScreenSurface->h/2 - 225;
-  //  drawTextL("Tu ataque", tmpRect);
     drawTextL("Vitalidad:", tmpRect);
-    //drawIMGBox(100, gScreenSurface->h/2 - 250, stamina, max_stamina, { 200,0,0,0 });
     drawIMGBox(gScreenSurface->w / 2, gScreenSurface->h / 2 - 225, stamina, max_stamina, { 200,0,0,0 });
     
 
     tmpRect.y = gScreenSurface->h/2 - 200;
     drawTextL("Poder:", tmpRect);
-    //drawIMGBox(100, gScreenSurface->h/2 - 200, power, max_power, { 128,0,128,0 });
     drawIMGBox(gScreenSurface->w / 2, gScreenSurface->h / 2 - 200, power, max_power, { 128,0,128,0 });
- //   drawTextL("Ataque enemigo", tmpRect);
 
 
     tmpRect.y = gScreenSurface->h / 2 - 250; 
@@ -4015,20 +3848,10 @@ void game::screenFight()
     tmpRect.y = gScreenSurface->h / 2 - 50;
     //melee
 
-//    drawIMGBox(100, gScreenSurface->h - 250, playerDice, 18, { 0,0,200,0 });
- //   drawIMGBox(100, gScreenSurface->h - 200, foeDice, 18, { 200,0,0,0 });
     tmpRect.x = gScreenSurface->w / 2;
     tmpRect.y = gScreenSurface->h - 150;
     drawTextL("Turno:", tmpRect);
     drawText(to_string(turn), tmpRect);
-    //tmpRect.y = gScreenSurface->h - 100;
-    
-   // drawIMG(redSurface, 100, gScreenSurface->h - 100, Stamina.getCurrent());
-
-   
-
-   // drawButton(buttonAttack);
-
 
 }
 
@@ -4071,8 +3894,6 @@ void game::eventsPlayerRaces()
 
             if (backButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                //SDL_StartTextInput();
-                // setState(my_enums::_NAME_);
                 setState(my_enums::S_ATTRIBUTES_);
 
             }//back
@@ -4202,11 +4023,7 @@ void game::eventsPlayerArchetypes()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-               
-
-
                 Mix_PlayChannel(-1, audioButton, 0);
-                //closeSDL();
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
@@ -4218,9 +4035,6 @@ void game::eventsPlayerArchetypes()
                 Mix_PlayMusic(musicTOWN, -1);
                 setState(my_enums::S_HOMETOWN_);
 
-                //addItem("ESPADA", "Una espada mellada", 1, 1, 40);
-                //addItem("ARMADURA CUERO", "Armadura ligera de cuero", 1, 1, 114);
-               // addShop()
                 //Add skill depending on archetype
                 switch (currentArchetype)
                 {
@@ -4488,7 +4302,6 @@ void game::eventsPlayerAttributes()
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
                 SDL_StartTextInput();
-                //setState(my_enums::_RACES_);
                 setState(my_enums::S_NAME_);
 
 
@@ -4496,9 +4309,7 @@ void game::eventsPlayerAttributes()
 
             if (rollButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                //Mix_PlayMusic(musicTOWN, -1);
                 randomAttributes();
-
 
             }//continue
            
@@ -6219,25 +6030,16 @@ void game::playAnimations() {
         if (it->starty > it->endy)it->starty-= it->incy;
         if (it->starty < it->endy)it->starty+= it->incy;
 
-        //if (currentState == it->map) {
-        //    // s_Foe aFoe;
-        //    tx = it->x - cam_x;
-        //        }
-
     }
 
     std::list<animation>::iterator i = animations.begin();
     while (i != animations.end())
     {
-        //int difx = abs((i)->startx - (i)->endx);
-        //int dify = abs((i)->starty - (i)->endy);
-      //  bool animationEnd = (difx < 10)&& (dify < 10);
 
         bool animationEnd = (SDL_GetTicks() - (i)->ticks) > ((i)->seconds * 1000);
-        //int s,
         if (animationEnd)
         {
-            animations.erase(i++);  // alternatively, i = items.erase(i);
+            animations.erase(i++);  
         }
         else
         {
@@ -6268,10 +6070,6 @@ void game::drawPlayer()
     target.w = gScreenSurface->w / cam_size_x;
     target.h = gScreenSurface->h / cam_size_y;
 
-    
-
-    //drawSquare(target,player);
-    //drawPlayerTileset(target, playerTile);
     drawTileset(target, playersTexture, playerTile,20);
     
     drawIMGBoxSmall(target.x, target.y - 40, gScreenSurface->w / cam_size_x , 20 , stamina, max_stamina, { 200,0,0,0 });
@@ -6286,9 +6084,7 @@ void game::drawNPCs()
     SDL_Color NPCColor = { 200,0,0,0 };
     int tx, ty;
     SDL_Rect target;
-//    NPC aNPC;
 
-    //list<s_Foe> tmp;
     for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
     {
         if (currentState == it->map) {
@@ -6303,23 +6099,24 @@ void game::drawNPCs()
             target.h = gScreenSurface->h / cam_size_y;
 
 
-
-           // drawSquare(target, NPCColor);
             drawTileset(target, playersTexture, it->tile,20);
 
             if ((it->NPCAI == my_enums::_FRIENDLY_CHAT_)|| (it->NPCAI == my_enums::_FRIENDLY_SHOP_) || (it->NPCAI == my_enums::_FRIENDLY_MASTER_)) {
                 ty--;
                 target.y = (gScreenSurface->h / cam_size_y) * ty;                
                 SDL_RenderCopy(gRenderer, talkTexture, NULL, &target);
-                //target.y += (gScreenSurface->h / cam_size_y) / 4;
-                //target.h = target.h / 2;
+
 
                 SDL_Color fg = { 0,0,0,0 };
                 SDL_Color bg = { 150,150,150,0 };
-                //SDL_Surface* text = TTF_RenderUTF8_Solid(smallFont, it->description.c_str(), fg);
                 SDL_Surface* text = TTF_RenderUTF8_Blended_Wrapped(smallFont, it->description.c_str(), fg, target.w);
                 SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, text);
                 SDL_RenderCopy(gRenderer, txtTexture, NULL, &target);
+
+                SDL_FreeSurface(text);
+                SDL_DestroyTexture(txtTexture);
+                text = NULL;
+                txtTexture = NULL;
 
                 }
            // tmp.push_back(aFoe);
@@ -6342,13 +6139,8 @@ void game::drawTileset(SDL_Rect target,SDL_Texture *texture, int player, int col
         playerSrc.y = sy * 32 + 1;
         playerSrc.w = 32;
         playerSrc.h = 32;
-       // SDL_RenderCopy(gRenderer, playersTexture, &playerSrc, &target);
         SDL_RenderCopy(gRenderer,texture, &playerSrc, &target);
 
-        //drawIMGBox(100, 250, stamina, max_stamina, { 200,0,0,0 });
-        //drawIMGBox(100, 300, power, max_power, { 128,0,128,0 });
-
-       
 
     }
 }//End 

@@ -465,14 +465,6 @@ protected:
 
     SDL_Surface* buttonSurface = NULL;
 
-   /* SDL_Surface* buttonCloseSurface = NULL;
-    SDL_Surface* buttonMusicSurface = NULL;
-    SDL_Surface* buttonSocialSurface = NULL;
-    SDL_Surface* buttonPauseSurface = NULL;
-    SDL_Surface* buttonPlaySurface = NULL;
-    SDL_Surface* buttonDangerSurface = NULL;
-    */
-
     SDL_Surface* mouseSurface = NULL;
 
     SDL_Surface* playersSurface = NULL;
@@ -493,9 +485,6 @@ protected:
     SDL_Texture* bg2Texture = NULL;
 
     SDL_Texture* talkTexture = NULL;
-
-    //SDL_Texture* foodTexture = NULL;
-    //SDL_Texture* buttonTexture = NULL;
 
     SDL_Texture* buttonCloseTexture = NULL;
     SDL_Texture* buttonNextTexture = NULL;
@@ -527,9 +516,6 @@ protected:
     SDL_Texture* buttonPotionHealthTexture = NULL;
     SDL_Texture* buttonPotionMagicTexture = NULL;
     SDL_Texture* buttonFoodTexture = NULL;
-
-    //SDL_Texture* buttonSoundOnTexture = NULL;
-   // SDL_Texture* buttonSoundOffTexture = NULL;
 
     SDL_Texture* buttonBackTexture = NULL;
 
@@ -599,8 +585,12 @@ protected:
     classButton volumeSoundButton;
     classButton volumeMusicButton;
 
-  //  classButton blurDownButton;
-   // classButton blurUpButton;
+    classButton skillButton;
+    classButton staminaButton;
+    classButton powerButton;
+    classButton luckButton;
+
+  
     classButton blurButton;
 
     classButton inventoryButton;

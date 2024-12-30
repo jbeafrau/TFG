@@ -230,7 +230,14 @@ void game::phaseNPCs()
              previousScreen = my_enums::S_HOMETOWN_;
              setState(my_enums::S_SHOP_);
 
-         }else if (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_) {
+         }
+         else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_MASTER_) {
+             //tmpSHOPs = getShops(tmpx, tmpy);
+             previousScreen = my_enums::S_HOMETOWN_;
+             setState(my_enums::S_MASTER_);
+
+         }         
+         else if (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_) {
              if (getState() != my_enums::S_FIGHT_) {
                  px = tmpx;
                  py = tmpy;
@@ -1093,17 +1100,6 @@ void game::setButtonDefaults()
     achievementGroup3Button.setButton(gScreenSurface->w / 2 - 250, 350, 100, 50, "");
     achievementGroup4Button.setButton(gScreenSurface->w / 2 - 250, 400, 100, 50, "");
 
-    /*
-    moveLeftButton.setButton(0, gScreenSurface->h / 2, 128, 128, "A");
-    moveLeftButton.setColor(0, 0, 200);
-    moveRightButton.setButton(276 , gScreenSurface->h / 2, 128, 128, "D");
-    moveRightButton.setColor(0, 0, 200);
-    moveUpButton.setButton(138, gScreenSurface->h / 2 -138, 128, 128, "W");
-    moveUpButton.setColor(0, 0, 200);
-    moveDownButton.setButton(138, gScreenSurface->h / 2, 128, 128, "S");
-    moveDownButton.setColor(0, 0, 200);
-    */
-
     moveLeftButton.setButton(gScreenSurface->w - btnx * 3, gScreenSurface->h / 4 * 3, btnx, btny, "A");
     moveLeftButton.setColor(0, 0, 200);
     moveDownButton.setButton(gScreenSurface->w - btnx * 2, gScreenSurface->h / 4 * 3, btnx, btny, "S");
@@ -1113,55 +1109,30 @@ void game::setButtonDefaults()
     moveUpButton.setButton(gScreenSurface->w - btnx * 2, gScreenSurface->h / 4 * 3 - btny, btnx, btny, "W");
     moveUpButton.setColor(0, 0, 200);
 
-    /*
-    nextButton.setButton(gScreenSurface->w / 2 +128, gScreenSurface->h /2, 128, 128, "Siguiente");
-    nextButton.setColor(128, 128, 128);
-    prevButton.setButton(gScreenSurface->w / 2 - 256, gScreenSurface->h /2, 128, 128, "Anterior");
-    prevButton.setColor(128, 128, 128);
-    */
-    nextButton.setButton(gScreenSurface->w / 2 + 128, gScreenSurface->h / 2, btnx * 2, btny * 2, "Siguiente");
+     nextButton.setButton(gScreenSurface->w / 2 + 128, gScreenSurface->h / 2, btnx * 2, btny * 2, "Siguiente");
     nextButton.setColor(128, 128, 128);
     prevButton.setButton(gScreenSurface->w / 2 - 256, gScreenSurface->h / 2, btnx * 2, btny * 2, "Anterior");
     prevButton.setColor(128, 128, 128);
 
-    //exitButton.setButton(gScreenSurface->w - 128, 0, 128, 128, "Salir");
-    exitButton.setButton(gScreenSurface->w - btnx, 0, btnx, btny, " ");
+     exitButton.setButton(gScreenSurface->w - btnx, 0, btnx, btny, " ");
     exitButton.setColor(200, 0, 0);
 
-    //  continueButton.setButton(gScreenSurface->w / 2 +32 , gScreenSurface->h - 128, 128, 128, "Continuar");
     continueButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 4 * 3, btnx * 2, btny * 2, "Continuar");
     continueButton.setColor(0, 0, 200);
 
-    // backButton.setButton(gScreenSurface->w / 2 - 160 , gScreenSurface->h - 128, 128, 128, "Volver");
-    backButton.setButton(gScreenSurface->w / 2 - btnx * 3, gScreenSurface->h / 4 * 3, btnx * 2, btny * 2, "Volver");
+     backButton.setButton(gScreenSurface->w / 2 - btnx * 3, gScreenSurface->h / 4 * 3, btnx * 2, btny * 2, "Volver");
     backButton.setColor(0, 0, 200);
 
-    // rollButton.setButton(gScreenSurface->w / 2 - 64, gScreenSurface->h /2, 128, 128, "Volver a tirar");
-    rollButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2, btnx * 2, btny * 2, "Volver a tirar");
+     rollButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2, btnx * 2, btny * 2, "Volver a tirar");
     rollButton.setColor(0, 0, 200);
 
-    //startButton.setButton(gScreenSurface->w / 2 -64, gScreenSurface->h / 2 -64, 128, 128, "Jugar");
-    //startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 2 - 64, btnx*2, btny*2, "Jugar");
-    startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 4 * 3, btnx * 2, btny * 2, "Jugar");
+     startButton.setButton(gScreenSurface->w / 2 - btnx, gScreenSurface->h / 4 * 3, btnx * 2, btny * 2, "Jugar");
 
     startButton.setColor(100, 100, 100);
 
     player1Button.setButton(gScreenSurface->w / 2, gScreenSurface->h / 2 + 100, 200, 50, "Nombre Jugador");
     player1Button.setColor(100, 100, 100);
 
-    /*
-    configButton.setButton(1, gScreenSurface->h -128, 128, 128, "Configuración");
-    configButton.setColor(100, 100, 100);
-    inventoryButton.setButton(129, gScreenSurface->h - 128, 128, 128, "Inventario");
-    inventoryButton.setColor(0, 0, 200);
-    playerButton.setButton(257, gScreenSurface->h - 128, 128, 128, "Personaje");
-    playerButton.setColor(0, 0, 200);
-    mapButton.setButton(385, gScreenSurface->h - 128, 128, 128, "View map");
-    mapButton.setColor(200, 200, 200);*/
-    //foodButton.setButton(gScreenSurface->w - 128, gScreenSurface->h - 128, 128, 128, "Comer");
-
-     //  achievementsButton.setButton(513, gScreenSurface->h - 128, 128, 128, "0 %");
-    //achievementsButton.setButton(gScreenSurface->w / 2 - btnx, 1, btnx * 2, btny * 2, "0 %");
     achievementsButton.setButton(1, 1, btnx, btny, "0 %");
     achievementsButton.setColor(0, 0, 200);
 
@@ -1175,8 +1146,15 @@ void game::setButtonDefaults()
     mapButton.setColor(200, 200, 200);
     foodButton.setButton(1 + btnx * 5, 1, btnx, btny, " ");
 
+    skillButton.setButton(gScreenSurface->w / 2 - 250 - 100, 200, 50, 50, "+");
+    staminaButton.setButton(gScreenSurface->w / 2 - 250 - 100, 250, 50, 50, "+");
+    powerButton.setButton(gScreenSurface->w / 2 - 250 - 100, 300, 50, 50, "+");
+    luckButton.setButton(gScreenSurface->w / 2 - 250 - 100, 350, 50, 50, "+");
 
-
+      skillButton.setColor(200, 200, 200);
+    staminaButton.setColor(200, 200, 200);
+      powerButton.setColor(200, 200, 200);
+       luckButton.setColor(200, 200, 200);
 
     newMapButton.setButton(gScreenSurface->w - 128, gScreenSurface->h / 2, 128, 128, "New map");
     newMapButton.setColor(200, 200, 200);
@@ -1185,17 +1163,17 @@ void game::setButtonDefaults()
     musicButton.setColor(100, 100, 100);
     muteButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 150, 200, 50, "MUSIC ON");
     muteButton.setColor(100, 100, 100);
-    volumeSoundDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 200, 50, 50, "+");
+    volumeSoundDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 200, 50, 50, "-");
     volumeSoundDownButton.setColor(100, 100, 100);
     volumeSoundButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 3 + 200, 100, 50, "SOUND 100%");
     volumeSoundButton.setColor(200, 200, 200);
-    volumeSoundUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 3 + 200, 50, 50, "-");
+    volumeSoundUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 3 + 200, 50, 50, "+");
     volumeSoundUpButton.setColor(100, 100, 100);
-    volumeMusicDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 250, 50, 50, "+");
+    volumeMusicDownButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 250, 50, 50, "-");
     volumeMusicDownButton.setColor(100, 100, 100);
     volumeMusicButton.setButton(gScreenSurface->w / 2 + 50 - 100, gScreenSurface->h / 3 + 250, 100, 50, "MUSIC 100%");
     volumeMusicButton.setColor(200, 200, 200);
-    volumeMusicUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 3 + 250, 50, 50, "-");
+    volumeMusicUpButton.setButton(gScreenSurface->w / 2 + 150 - 100, gScreenSurface->h / 3 + 250, 50, 50, "+");
     volumeMusicUpButton.setColor(100, 100, 100);
     blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 300, 200, 50, "BLUR ON");
     blurButton.setColor(100, 100, 100);
@@ -1210,14 +1188,6 @@ void game::setButtonDefaults()
     mouseButton.setButton(gScreenSurface->w / 2 - 100, 0, 200, 50, "X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
     mouseButton.setColor(100, 100, 100);
 
-    /*
-    fightButton.setButton(1,   gScreenSurface->h -128, 128, 128, "Atacar");
-    bowButton.setButton(128, gScreenSurface->h - 128, 128, 128, "Arco");
-    spellButton.setButton(256, gScreenSurface->h -128, 128, 128, "Magia");
-    drainButton.setButton(384, gScreenSurface->h - 128, 128, 128, "Drenar");
-    hideButton.setButton(512, gScreenSurface->h - 128, 128, 128, "Subterfugio");
-    summonButton.setButton(640, gScreenSurface->h - 128, 128, 128, "Invocar");
-    */
     fightButton.setButton(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 50, 128, 128, "Atacar");
     bowButton.setButton(gScreenSurface->w / 2 - 200 + 128, gScreenSurface->h / 2 - 50, 128, 128, "Arco");
     spellButton.setButton(gScreenSurface->w / 2 - 200 + 128 * 2, gScreenSurface->h / 2 - 50, 128, 128, "Magia");
@@ -1229,9 +1199,6 @@ void game::setButtonDefaults()
     potionHealthButton.setColor(100, 100, 100);
     potionMagicButton.setButton(gScreenSurface->w - 128, gScreenSurface->h - 128, 128, 128, "+Magia");
     potionMagicButton.setColor(100, 100, 100);
-
-
-
 
     shop0.setButton(50, gScreenSurface->h / 2, gScreenSurface->w - 100, 50, "0");
     shop1.setButton(50, gScreenSurface->h / 2 + 50, gScreenSurface->w - 100, 50, "1");
@@ -1285,26 +1252,10 @@ void game::start()
     baseMap.mymap.init();
     baseMap.createSurface();
 
-   // int octave = rand() % 4 + 3;
-   // float frequency = rand() % 8 + 1;
+
     int octave = rand() % 3 + 4;
     float frequency = rand() % 3 + 1;
-    //float frequency = 1.0f;
     float persistance = 0.5f;
-
-    /*
-    baseMap.mymap.generate(octave, frequency, persistance, 1, 1, width, height);
-    baseMap.mymap.to_surface(baseMap.imageSurface, currentState);
-    baseMap.generateTiles(currentState);
-    baseMap.imageSurface = SDL_ConvertSurface(baseMap.imageSurface, gScreenSurface->format, 0);
-    */
-
-    //baseMap.SetSurface();
-
-    //updateMap();
-
- 
-    // baseMap.targetSurface = SDL_ConvertSurface(baseMap.targetSurface, gScreenSurface->format, 0);
 
     baseMap.blur();
 
@@ -1707,6 +1658,39 @@ void game::drawScreens()
 void game::screenMaster() {
     screenPlayer();
 
+
+    
+
+    tmpRect.x = 1;
+    tmpRect.y = 1;
+    tmpRect.w = 500;
+    tmpRect.h = 100;
+    drawSquare(tmpRect, { 200,200,200 });
+    drawTextResize("MASTER", tmpRect);
+
+    tmpRect.x = gScreenSurface->w -600;
+    tmpRect.h = gScreenSurface->h;
+    tmpRect.w = 600;
+    drawSquare(tmpRect, { 200,200,200 });
+    
+    tmpRect.h = 50;
+    drawTextBlock("Hola, "+ playerName + " cada vez que subas de nivel consigues punetos de habilidad y yo puedo mejorar tus habilidades gastando esos puntos, a continuación te explico cada atributo", tmpRect);
+
+    tmpRect.y = 300;
+    drawTextBlock("COMBATE: Habilidad para luchar y defenderte, mejoras un punto por punto de habilidad", tmpRect);
+    tmpRect.y = 500;
+    drawTextBlock("VITALIDAD: Puntos de vidad, mejoras dos punto por punto de habilidad", tmpRect);
+    tmpRect.y = 700;
+    drawTextBlock("PODER: Habilidad que te permite usar la magia , mejoras un punto por punto de habilidad", tmpRect);
+    tmpRect.y = 900;
+    drawTextBlock("SUERTE: Habilidad que te permite tener hacer ataques furtivos y posibilidad de esquivar ataques usando armas a distancia, mejoras un punto por punto de habilidad", tmpRect);
+
+    if (skillPoints > 0) {
+        drawButton(skillButton);
+        drawButton(staminaButton);
+        drawButton(powerButton);
+        drawButton(luckButton);
+    }
 }
 
 //Flip backscreen buffer to monitor
@@ -2059,11 +2043,20 @@ void game::drawTransparentSquare(SDL_Rect rect, SDL_Color color)
 //Draw a button
 void game::drawButton(classButton btn)
 {
+    SDL_Rect target = btn.getRect();
     drawSquare(btn.getRect(), btn.getColor());
+    SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
+    SDL_RenderDrawLine(gRenderer, target.x, target.y, target.x + target.w, target.y);
+    SDL_RenderDrawLine(gRenderer, target.x, target.y, target.x, target.y + target.h);
+    SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+    SDL_RenderDrawLine(gRenderer, target.x, target.y + target.h, target.x + target.w, target.y + target.h);
+    SDL_RenderDrawLine(gRenderer, target.x + target.w, target.y, target.x + target.w, target.y + target.h);
+
+
     SDL_Color fg = { 0,0,0,0 };
     SDL_Surface* text = TTF_RenderUTF8_Solid(gFont, btn.getCaption().c_str(), fg);
 
-    SDL_Rect target = btn.getRect();
+    //SDL_Rect target = btn.getRect();
     if (text->w <= target.w) {
         target.x = target.x + target.w / 2 - text->w / 2;
         target.w = text->w;
@@ -4143,6 +4136,8 @@ void game::eventsPlayerArchetypes()
                     addSkill("DRENAR");
                 
                     addSkill("INVOCAR");
+
+                    skillPoints = 10;
                     //****
                 }
 
@@ -4360,7 +4355,37 @@ void game::eventsMaster()
 
             }//continue
 
+            if (skillButton.clicked(mousex, mousey)) {
+                if (skillPoints > 0) {
+                    skillPoints--;
+                    skill += 1;
+                    max_skill = skill;
+               }
+            }
 
+            if (powerButton.clicked(mousex, mousey)) {
+                if (skillPoints > 0) {
+                    skillPoints--;
+                    power += 1;
+                    max_power = power;
+                }
+            }
+
+            if (staminaButton.clicked(mousex, mousey)) {
+                if (skillPoints > 0) {
+                    skillPoints--;
+                    stamina += 2;
+                    max_stamina = stamina;
+                }
+            }
+
+            if (luckButton.clicked(mousex, mousey)) {
+                if (skillPoints > 0) {
+                    skillPoints--;
+                    luck += 1;
+                    max_luck = luck;
+                }
+            }
 
         }
 
@@ -5931,17 +5956,6 @@ void game::eventsHomeTown()
             }
         }//event management
         
-         /*
-        tmpx = px;
-        tmpy = py;
-        if (right)tmpx++;
-        if (left)tmpx--;
-        if (up)tmpy--;
-        if (down)tmpy++;
-        phaseNPCs();
-        */
-
-
     }
 
     tmpx = px;

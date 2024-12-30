@@ -30,43 +30,43 @@ void classMap::generateTiles(int currentState)
     switch (currentState)
     {
 
-    case my_enums::_FOREST_WORLD_: 
+    case my_enums::S_FOREST_WORLD_: 
     {
         //eventsHomeTown();
         break;
     }
     
-    case my_enums::_COAST_WORLD_:
+    case my_enums::S_COAST_WORLD_:
     {
             break;
     }
 
-    case my_enums::_ELEMENTAL_FIRE_WORLD_: 
+    case my_enums::S_ELEMENTAL_FIRE_WORLD_: 
         {
             //eventsHomeTown();
             break;
         }
-    case my_enums::_ELEMENTAL_WATER_WORLD_: 
+    case my_enums::S_ELEMENTAL_WATER_WORLD_: 
         {
         //eventsHomeTown();
         break;
     }
-    case my_enums::_ELEMENTAL_EARTH_WORLD_: 
+    case my_enums::S_ELEMENTAL_EARTH_WORLD_: 
         {
         //eventsHomeTown();
         break;
     }
-    case my_enums::_ELEMENTAL_WIND_WORLD_: 
+    case my_enums::S_ELEMENTAL_WIND_WORLD_: 
         {
         //eventsHomeTown();
         break;
     }
-    case my_enums::_NECRO_WORLD_: 
+    case my_enums::S_NECRO_WORLD_: 
         {
         //eventsHomeTown();
         break;
     }
-    case my_enums::_HOMETOWN_:
+    case my_enums::S_HOMETOWN_:
     {
         //Draw town roads
         road({ 1,50,100,2 }, 90, 96);
@@ -84,9 +84,11 @@ void classMap::generateTiles(int currentState)
         //Draw elements building
         building({ 115,140,8,9 }, 9, 104, 119, 149, 54);
 
-
-        //Draw pet´s hut
+         //Draw pet´s hut
         building({ 116,120,4,5 }, 9, 104, 118, 120, 38);
+
+        //Draw master´s building
+        building({ 116,153,4,4 }, 9, 104, 118, 153, 38);
 
 
         //Draw portals

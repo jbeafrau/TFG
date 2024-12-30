@@ -221,24 +221,24 @@ void game::phaseNPCs()
         
          if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_CHAT_) {
              tmpCHATs = getChat(tmpx, tmpy);
-             previousScreen = my_enums::_HOMETOWN_;
-             setState(my_enums::_CHAT_);
+             previousScreen = my_enums::S_HOMETOWN_;
+             setState(my_enums::S_CHAT_);
 
          }
          else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_SHOP_) {
              tmpSHOPs = getShops(tmpx, tmpy);
-             previousScreen = my_enums::_HOMETOWN_;
-             setState(my_enums::_SHOP_);
+             previousScreen = my_enums::S_HOMETOWN_;
+             setState(my_enums::S_SHOP_);
 
          }else if (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_) {
-             if (getState() != my_enums::_FIGHT_) {
+             if (getState() != my_enums::S_FIGHT_) {
                  px = tmpx;
                  py = tmpy;
                  checkBoundaries();
                  updateMap();
                  Mix_PlayMusic(musicBATTLE, -1);
-                 previousScreen = my_enums::_HOMETOWN_;
-                 setState(my_enums::_FIGHT_);
+                 previousScreen = my_enums::S_HOMETOWN_;
+                 setState(my_enums::S_FIGHT_);
              }
          }
         
@@ -449,7 +449,7 @@ void game::eventsShops()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -461,7 +461,7 @@ void game::eventsShops()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -679,7 +679,7 @@ void game::eventsChat()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -691,7 +691,7 @@ void game::eventsChat()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -946,61 +946,62 @@ void game::loadNPCs()
     NPCs.clear();
 
 
-    addNPC(1, 110, 170, my_enums::_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), {1,1,255,255});
-    addNPC(2, 111, 170, my_enums::_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
-    addNPC(3, 112, 170, my_enums::_HOMETOWN_, "Monstruo poderoso", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), dice(3, 2), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
-    addNPC(4, 113, 170, my_enums::_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
+    addNPC(1, 110, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), {1,1,255,255});
+    addNPC(2, 111, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
+    addNPC(3, 112, 170, my_enums::S_HOMETOWN_, "Monstruo poderoso", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), dice(3, 2), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
+    addNPC(4, 113, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
    
-    addNPC(10, 136,155, my_enums::_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
-    addNPC(10, 136,161, my_enums::_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
-    addNPC(10, 142,155, my_enums::_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
-    addNPC(10, 142,161, my_enums::_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
-    addNPC(11, 139, 167, my_enums::_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 160, { 130,150,150,170 });
+    addNPC(10, 136,155, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
+    addNPC(10, 136,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
+    addNPC(10, 142,155, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
+    addNPC(10, 142,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
+    addNPC(11, 139, 167, my_enums::S_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 160, { 130,150,150,170 });
 
-    addNPC(5, 106, 155, my_enums::_HOMETOWN_, "Tienda de comida", 1, 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
-    addNPC(6, 112, 155, my_enums::_HOMETOWN_, "Tienda de armas", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
-    addNPC(7, 106, 161, my_enums::_HOMETOWN_, "Tienda de armaduras", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
-    addNPC(8, 112, 161, my_enums::_HOMETOWN_, "Tienda de pociones", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 79, { 1,1,255,255 });
+    addNPC(5, 106, 155, my_enums::S_HOMETOWN_, "Tienda de comida", 1, 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(6, 112, 155, my_enums::S_HOMETOWN_, "Tienda de armas", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(7, 106, 161, my_enums::S_HOMETOWN_, "Tienda de armaduras", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(8, 112, 161, my_enums::S_HOMETOWN_, "Tienda de pociones", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 79, { 1,1,255,255 });
 
 
     //Add a dog
-    addNPC(10001, 118, 122, my_enums::_HOMETOWN_, "Tor el perro", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_STATIC_, 269, { 1,1,255,255 });
+    addNPC(10001, 118, 122, my_enums::S_HOMETOWN_, "Tor el perro", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_STATIC_, 269, { 1,1,255,255 });
 
 
     //Add 30 peasants in the town
-    for (int x = 0; x < 30;x++)addNPC(1, dice(30, 90), dice(50, 120), my_enums::_HOMETOWN_, "Campesino", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_RANDOM_, 74, { 90,130,120,170 });
+    for (int x = 0; x < 30;x++)addNPC(30+x, dice(30, 90), dice(50, 120), my_enums::S_HOMETOWN_, "Campesino", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_RANDOM_, 74, { 90,130,120,170 });
     
 
 
-    addNPC(19, 109, 142, my_enums::_HOMETOWN_, "Sabio del pueblo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-    addNPC(20, 119, 142, my_enums::_HOMETOWN_, "Mago del templo elemental", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 83, { 1,1,255,255 });
-    addNPC(21, 107, 143, my_enums::_HOMETOWN_, "Tutorial equipo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-    addNPC(21, 111, 143, my_enums::_HOMETOWN_, "Tutorial magia", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-    addNPC(22, 107, 145, my_enums::_HOMETOWN_, "Tutorial combate", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-    addNPC(23, 111, 145, my_enums::_HOMETOWN_, "Tutorial tiendas", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(19, 109, 142, my_enums::S_HOMETOWN_, "Sabio del pueblo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(20, 119, 142, my_enums::S_HOMETOWN_, "Mago del templo elemental", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 83, { 1,1,255,255 });
+    addNPC(21, 107, 143, my_enums::S_HOMETOWN_, "Tutorial equipo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(21, 111, 143, my_enums::S_HOMETOWN_, "Tutorial magia", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(22, 107, 145, my_enums::S_HOMETOWN_, "Tutorial combate", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(23, 111, 145, my_enums::S_HOMETOWN_, "Tutorial tiendas", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
 
+    addNPC(24, 118, 155, my_enums::S_HOMETOWN_, "Maestro", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_MASTER_, 77, { 1,1,255,255 });
 
-    //addNPC(8, 83, 71, my_enums::_HOMETOWN_, "Tienda del pueblo5", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    //addNPC(8, 83, 71, my_enums::S_HOMETOWN_, "Tienda del pueblo5", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
 
 }
 
 void game::loadEvents()
 {
-    addEvent(139, 163, my_enums::_HOMETOWN_, "TELEPORT", 0, 0, 139, 166, my_enums::_HOMETOWN_, 0);
-    addEvent(139, 165, my_enums::_HOMETOWN_, "TELEPORT", 0, 0, 139, 162, my_enums::_HOMETOWN_, 0);
+    addEvent(139, 163, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 139, 166, my_enums::S_HOMETOWN_, 0);
+    addEvent(139, 165, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 139, 162, my_enums::S_HOMETOWN_, 0);
 
-    addEvent(139, 167, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 344);
-    addEvent(139, 168, my_enums::_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::_HOMETOWN_, 344);
+    addEvent(139, 167, my_enums::S_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
+    addEvent(139, 168, my_enums::S_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
 
-    addEvent(251, 151, my_enums::_HOMETOWN_, "IF**LLAVE PUERTA ESTE", 50, 0, 0, 0, my_enums::_HOMETOWN_, 0);
+    addEvent(251, 151, my_enums::S_HOMETOWN_, "IF**LLAVE PUERTA ESTE", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
 
-    addEvent(253, 151, my_enums::_HOMETOWN_, "TELEPORT", 0, 0, 10, 10, my_enums::_COAST_WORLD_, 0);
+    addEvent(253, 151, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 10, 10, my_enums::S_COAST_WORLD_, 0);
 
-    addGlobalEvent(1, my_enums::_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
-    addGlobalEvent(2, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_STATIC");
-    addGlobalEvent(3, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "REMOVE_CHAT");
-    addGlobalEvent(4, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "ADD_CHAT");
-    addGlobalEvent(5, my_enums::_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "ADD_ITEM");
+    addGlobalEvent(1, my_enums::S_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
+    addGlobalEvent(2, my_enums::S_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_STATIC");
+    addGlobalEvent(3, my_enums::S_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "REMOVE_CHAT");
+    addGlobalEvent(4, my_enums::S_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "ADD_CHAT");
+    addGlobalEvent(5, my_enums::S_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "ADD_ITEM");
 
     
 }
@@ -1470,103 +1471,104 @@ void game::events()
 {
     switch (getState())
     {
-    case my_enums::_INTRO_:
+    case my_enums::S_INTRO_:
     {
         eventsIntro();
         break;
     }
-    case my_enums::_MAINMENU_:
+    case my_enums::S_MAINMENU_:
     {
         eventsMain();
         break;
     }
 
-    case my_enums::_HERO_:
+    case my_enums::S_HERO_:
     {
         eventsHero();
         break;
     }
 
-    case my_enums::_SHOP_:
+    case my_enums::S_SHOP_:
     {
         eventsShops();
         break;
     }
 
-    case my_enums::_CHAT_:
+    case my_enums::S_CHAT_:
     {
         eventsChat();
         break;
     }
 
-    case my_enums::_NAME_:
+    case my_enums::S_NAME_:
     {
         eventsPlayerName();
         break;
     }
 
-    case my_enums::_ATTRIBUTES_:
+    case my_enums::S_ATTRIBUTES_:
     {
         eventsPlayerAttributes();
         break;
     }
 
-    case my_enums::_PLAYER_:
+    case my_enums::S_PLAYER_:
     {
         eventsPlayer();
         break;
     }
 
-    case my_enums::_RACES_:
+    case my_enums::S_RACES_:
     {
         eventsPlayerRaces();
         break;
     }
 
-    case my_enums::_ARCHETYPES_:
+    case my_enums::S_ARCHETYPES_:
     {
         eventsPlayerArchetypes();
         break;
     }
 
-    case my_enums::_INVENTORY_:
+    case my_enums::S_INVENTORY_:
     {
         eventsInventory();
         break;
     }
 
-    case my_enums::_ACHIEVEMENTS_:
+    case my_enums::S_ACHIEVEMENTS_:
     {
         eventsAchievements();
         break;
     }
 
-    case my_enums::_FIGHT_:
+    case my_enums::S_FIGHT_:
     {
         eventsFight();
         break;
     }
 
-    case my_enums::_GAMEOVER_:
+    case my_enums::S_GAMEOVER_:
     {
         eventsGameOver();
         break;
     }
-   /* case _GENERATEPLAYER_:
+
+    case my_enums::S_MASTER_:
     {
-        eventsGeneratePlayer();
+        eventsMaster();
         break;
     }
-    */
+   
 
-    case my_enums::_CONFIGMENU_:
+    case my_enums::S_CONFIGMENU_:
     {
         eventsConfigMenu();
         break;
     }
 
-    case my_enums::_FOREST_WORLD_: case my_enums::_COAST_WORLD_: case my_enums::_ELEMENTAL_FIRE_WORLD_: case my_enums::_ELEMENTAL_WATER_WORLD_: case my_enums::_ELEMENTAL_EARTH_WORLD_: case my_enums::_ELEMENTAL_WIND_WORLD_: case my_enums::_NECRO_WORLD_:
-    case my_enums::_HOMETOWN_:
+    case my_enums::S_FOREST_WORLD_: case my_enums::S_COAST_WORLD_: case my_enums::S_ELEMENTAL_FIRE_WORLD_: case my_enums::S_ELEMENTAL_WATER_WORLD_: case my_enums::S_ELEMENTAL_EARTH_WORLD_: case my_enums::S_ELEMENTAL_WIND_WORLD_: case my_enums::S_NECRO_WORLD_:
+    case my_enums::S_HOMETOWN_:
 
     {
         eventsHomeTown();
@@ -1585,98 +1587,109 @@ void game::drawScreens()
 {
     switch (getState())
     {
-    case my_enums::_INTRO_:
+    case my_enums::S_INTRO_:
     {
         screenIntro();
         break;
     }
-    case my_enums::_MAINMENU_:
+    case my_enums::S_MAINMENU_:
     {
         screenMain();
         break;
     }
 
-    case my_enums::_HERO_:
+    case my_enums::S_HERO_:
     {
         screenHero();
         break;
     }
 
-    case my_enums::_SHOP_:
+    case my_enums::S_SHOP_:
     {
         screenShops();
         break;
     }
 
-    case my_enums::_CHAT_:
+    case my_enums::S_CHAT_:
     {
         screenChat();
         break;
     }
 
-    case my_enums::_NAME_:
+    case my_enums::S_MASTER_:
+    {
+        screenMaster();
+        break;
+    }
+
+    case my_enums::S_NAME_:
     {
         screenPlayerName();
         break;
     }
 
-    case my_enums::_ATTRIBUTES_:
+    case my_enums::S_ATTRIBUTES_:
     {
         screenPlayerAttributes();
         break;
     }
 
-    case my_enums::_PLAYER_:
+    case my_enums::S_PLAYER_:
     {
         screenPlayer();
         break;
     }
 
-    case my_enums::_GAMEOVER_:
+    case my_enums::S_GAMEOVER_:
     {
         screenGameOver();
         break;
     }
 
-    case my_enums::_RACES_:
+    case my_enums::S_RACES_:
     {
         screenPlayerRaces();
         break;
     }
 
-    case my_enums::_ARCHETYPES_:
+    case my_enums::S_ARCHETYPES_:
     {
         screenPlayerArchetypes();
         break;
     }
 
-    case my_enums::_INVENTORY_:
+    case my_enums::S_INVENTORY_:
     {
         screenInventory();
         break;
     }
 
-    case my_enums::_ACHIEVEMENTS_:
+    case my_enums::S_ACHIEVEMENTS_:
     {
         screenAchievements();
         break;
     }
 
-    case my_enums::_FIGHT_:
+    case my_enums::S_FIGHT_:
     {
         screenFight();
         break;
     }
 
  
-    case my_enums::_CONFIGMENU_:
+    case my_enums::S_CONFIGMENU_:
     {
         screenConfigMenu();
         break;
     }
 
-    case my_enums::_FOREST_WORLD_: case my_enums::_COAST_WORLD_: case my_enums::_ELEMENTAL_FIRE_WORLD_: case my_enums::_ELEMENTAL_WATER_WORLD_: case my_enums::_ELEMENTAL_EARTH_WORLD_: case my_enums::_ELEMENTAL_WIND_WORLD_: case my_enums::_NECRO_WORLD_:
-    case my_enums::_HOMETOWN_:
+  
+
+
+    
+
+    case my_enums::S_FOREST_WORLD_: case my_enums::S_COAST_WORLD_: case my_enums::S_ELEMENTAL_FIRE_WORLD_: case my_enums::S_ELEMENTAL_WATER_WORLD_: case my_enums::S_ELEMENTAL_EARTH_WORLD_: case my_enums::S_ELEMENTAL_WIND_WORLD_: case my_enums::S_NECRO_WORLD_:
+    case my_enums::S_HOMETOWN_:
     {
         screenHomeTown();
         break;
@@ -1688,6 +1701,11 @@ void game::drawScreens()
     }
     };
 
+
+}
+
+void game::screenMaster() {
+    screenPlayer();
 
 }
 
@@ -2202,7 +2220,7 @@ void game::drawMiniMap()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -2260,7 +2278,7 @@ void game::drawBackground()
      //   SDL_Color fg = { 0,0,0,0 };
 
        // drawSquare(tmpRect, fg);
-        if (getState() == my_enums::_INTRO_) {
+        if (getState() == my_enums::S_INTRO_) {
         SDL_RenderCopy(gRenderer, bg1Texture, NULL, NULL);
         }
         else {
@@ -3006,7 +3024,7 @@ void game::eventsIntro()
         {
             Mix_PlayChannel(-1, audioButton, 0);
             // closeSDL();
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.reset();
             timerGameOver.start();
@@ -3019,13 +3037,13 @@ void game::eventsIntro()
         {
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timer.start();
                 timer.reset();
             }
             if (continueButton.clicked(mousex, mousey)) {
-                setState(my_enums::_MAINMENU_);
+                setState(my_enums::S_MAINMENU_);
                 //quit =true;
                 Mix_PlayChannel(-1, audioButton, 0);
                 //Mix_PlayMusic(music8bit, -1);
@@ -3055,7 +3073,7 @@ void game::eventsMain()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -3067,7 +3085,7 @@ void game::eventsMain()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -3076,14 +3094,14 @@ void game::eventsMain()
             }
 
             if (configButton.clicked(mousex, mousey)) {
-                setState(my_enums::_CONFIGMENU_);
-                previousScreen = my_enums::_MAINMENU_;
+                setState(my_enums::S_CONFIGMENU_);
+                previousScreen = my_enums::S_MAINMENU_;
 
             }
 
             if (achievementsButton.clicked(mousex, mousey)) {
-                setState(my_enums::_ACHIEVEMENTS_);
-                previousScreen = my_enums::_MAINMENU_;
+                setState(my_enums::S_ACHIEVEMENTS_);
+                previousScreen = my_enums::S_MAINMENU_;
 
             }
 
@@ -3092,7 +3110,7 @@ void game::eventsMain()
                 //addNotification("Comenzando el juego");
                 addAchievement("Comenzando el juego", my_enums::_HIDDEN_);
                 SDL_StartTextInput();
-                setState(my_enums::_NAME_);
+                setState(my_enums::S_NAME_);
             }
 
 
@@ -3109,7 +3127,7 @@ void game::eventsMain()
 void game::eventsGameOver()
 {
     if (timerGameOver.getTicks() > 3000) {
-        setState(my_enums::_GAMECLOSE_);
+        setState(my_enums::S_GAMECLOSE_);
     }
 
     //Event handler
@@ -3143,7 +3161,7 @@ void game::eventsPlayerName()
             Mix_PlayChannel(-1, audioButton, 0);
             //closeSDL();
             SDL_StopTextInput();
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -3170,7 +3188,7 @@ void game::eventsPlayerName()
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
                 SDL_StopTextInput();
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -3181,7 +3199,7 @@ void game::eventsPlayerName()
                 SDL_StopTextInput();
                 //setState(_MAINMENU_);
                 //setState(my_enums::_RACES_);
-                setState(my_enums::_ATTRIBUTES_);
+                setState(my_enums::S_ATTRIBUTES_);
                 //Mix_PlayMusic(musicGameOver, -1);
                 //timerGameOver.start();
                 //timerGameOver.reset();
@@ -3308,26 +3326,26 @@ void game::screenHomeTown()
     {
 
 
-    case my_enums::_ELEMENTAL_WATER_WORLD_:
+    case my_enums::S_ELEMENTAL_WATER_WORLD_:
     {
         townName = "MUNDO ELEMENTAL DE AGUA";
         break;
     }
 
-    case my_enums::_ELEMENTAL_FIRE_WORLD_:
+    case my_enums::S_ELEMENTAL_FIRE_WORLD_:
     {
         townName = "MUNDO ELEMENTAL DE FUEGO";
         break;
     }
 
 
-    case my_enums::_COAST_WORLD_:
+    case my_enums::S_COAST_WORLD_:
     {
         townName = "ISLAS";
         break;
     }
 
-    case my_enums::_HOMETOWN_:
+    case my_enums::S_HOMETOWN_:
     {
         townName = "POBLADO INICIAL";
         break;
@@ -4025,7 +4043,7 @@ void game::eventsPlayerRaces()
         if (e.type == SDL_QUIT)
         {
             Mix_PlayChannel(-1, audioButton, 0);
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -4039,7 +4057,7 @@ void game::eventsPlayerRaces()
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -4047,7 +4065,7 @@ void game::eventsPlayerRaces()
             }
             if (continueButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                setState(my_enums::_ARCHETYPES_);
+                setState(my_enums::S_ARCHETYPES_);
 
             }
 
@@ -4055,7 +4073,7 @@ void game::eventsPlayerRaces()
                 Mix_PlayChannel(-1, audioButton, 0);
                 //SDL_StartTextInput();
                 // setState(my_enums::_NAME_);
-                setState(my_enums::_ATTRIBUTES_);
+                setState(my_enums::S_ATTRIBUTES_);
 
             }//back
 
@@ -4172,7 +4190,7 @@ void game::eventsPlayerArchetypes()
         if (e.type == SDL_QUIT)
         {
             Mix_PlayChannel(-1, audioButton, 0);
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -4189,7 +4207,7 @@ void game::eventsPlayerArchetypes()
 
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -4198,7 +4216,7 @@ void game::eventsPlayerArchetypes()
             if (continueButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
                 Mix_PlayMusic(musicTOWN, -1);
-                setState(my_enums::_HOMETOWN_);
+                setState(my_enums::S_HOMETOWN_);
 
                 //addItem("ESPADA", "Una espada mellada", 1, 1, 40);
                 //addItem("ARMADURA CUERO", "Armadura ligera de cuero", 1, 1, 114);
@@ -4322,7 +4340,7 @@ void game::eventsPlayerArchetypes()
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
                 SDL_StartTextInput();
-                setState(my_enums::_RACES_);
+                setState(my_enums::S_RACES_);
 
             }//back
 
@@ -4436,7 +4454,7 @@ void game::eventsPlayerAttributes()
         if (e.type == SDL_QUIT)
         {
             Mix_PlayChannel(-1, audioButton, 0);
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -4452,7 +4470,7 @@ void game::eventsPlayerAttributes()
 
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -4461,7 +4479,7 @@ void game::eventsPlayerAttributes()
             if (continueButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
                 //Mix_PlayMusic(musicTOWN, -1);
-                setState(my_enums::_RACES_);
+                setState(my_enums::S_RACES_);
 
              
             }//continue
@@ -4471,7 +4489,7 @@ void game::eventsPlayerAttributes()
                 //closeSDL();
                 SDL_StartTextInput();
                 //setState(my_enums::_RACES_);
-                setState(my_enums::_NAME_);
+                setState(my_enums::S_NAME_);
 
 
             }//back
@@ -4492,7 +4510,8 @@ void game::eventsPlayerAttributes()
 }
 
 
-void game::eventsPlayer()
+
+void game::eventsMaster()
 {
     SDL_Event e;
     //Handle events on queue
@@ -4502,7 +4521,7 @@ void game::eventsPlayer()
         if (e.type == SDL_QUIT)
         {
             Mix_PlayChannel(-1, audioButton, 0);
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -4518,7 +4537,55 @@ void game::eventsPlayer()
 
                 Mix_PlayChannel(-1, audioButton, 0);
                 //closeSDL();
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+
+            }
+            if (continueButton.clicked(mousex, mousey)) {
+                setState(previousScreen);
+
+
+            }//continue
+
+
+
+        }
+
+    }
+}
+
+
+
+
+void game::eventsPlayer()
+{
+    SDL_Event e;
+    //Handle events on queue
+    while (SDL_PollEvent(&e) != 0)
+    {
+        //User requests quit
+        if (e.type == SDL_QUIT)
+        {
+            Mix_PlayChannel(-1, audioButton, 0);
+            setState(my_enums::S_GAMEOVER_);
+            Mix_PlayMusic(musicGameOver, -1);
+            timerGameOver.start();
+            timerGameOver.reset();
+        }
+        else if (e.type == SDL_MOUSEMOTION)
+        {
+            SDL_GetMouseState(&mousex, &mousey);
+        }
+        else if (e.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if (exitButton.clicked(mousex, mousey)) {
+
+
+                Mix_PlayChannel(-1, audioButton, 0);
+                //closeSDL();
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -4563,7 +4630,7 @@ void game::eventsConfigMenu()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -4575,7 +4642,7 @@ void game::eventsConfigMenu()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -4742,7 +4809,7 @@ void game::eventsInventory()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -4754,7 +4821,7 @@ void game::eventsInventory()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -5109,36 +5176,24 @@ void game::processAI()
 void game::timeEvents()
 {
     
-    if ((getState() != my_enums::_FIGHT_) || (getState() != my_enums::_SHOP_)){
+    if ((getState() != my_enums::S_FIGHT_) || (getState() != my_enums::S_SHOP_) || (getState() != my_enums::S_CHAT_) || (getState() != my_enums::S_MASTER_)){
         if ((SDL_GetTicks() - ticksAI) > 1000) {
             ticksAI = SDL_GetTicks();
             processAI();
 
-            /*
-            tmpNPCs = getNPCs(px, py);
-           // if ((tmp.size() > 0)&&((tmp.begin()->NPCAI == my_enums::_ENEMY_RANDOM_)|| (tmp.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_))) {
-            if ((tmpNPCs.size() > 0) && ((tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_) || (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_))) {
-                
-                    Mix_PlayMusic(musicBATTLE, -1);
-                    previousScreen = my_enums::_HOMETOWN_;
-                   // tmpNPCs = getNPCs(px, py);
-                    setState(my_enums::_FIGHT_);
-                
-            }
-            */
         }
     }
 myTime = (int)(timer.getTicks() / 1000);
 
 //Power recharges with time...
-if (getState() != my_enums::_FIGHT_)//You dont recharge magic while fighting
+if (getState() != my_enums::S_FIGHT_)//You dont recharge magic while fighting
 {
     if (myTime != prevTime) {
         prevTime = myTime;
 
         if (debugMode) {
             if (NPCs.size()<20){
-            addNPC(1, dice(10, 80), dice(10, 80), my_enums::_HOMETOWN_, "MALO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, dice(300, 2), { 1,1,255,255 });
+            addNPC(1, dice(10, 80), dice(10, 80), my_enums::S_HOMETOWN_, "MALO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, dice(300, 2), { 1,1,255,255 });
         }
         }
 
@@ -5164,7 +5219,7 @@ void game::eventsHero()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -5176,7 +5231,7 @@ void game::eventsHero()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -5235,14 +5290,14 @@ void game::eventsHero()
 
                 Mix_PlayMusic(musicINTRO, -1);
                 addAchievement("Heroe Inmortal", my_enums::_HIDDEN_);
-                setState(my_enums::_MAINMENU_);
+                setState(my_enums::S_MAINMENU_);
                 
 
             }
 
             if (achievementsButton.clicked(mousex, mousey)) {
-                setState(my_enums::_ACHIEVEMENTS_);
-                previousScreen = my_enums::_HERO_;
+                setState(my_enums::S_ACHIEVEMENTS_);
+                previousScreen = my_enums::S_HERO_;
 
             }
 
@@ -5257,7 +5312,7 @@ void game::eventsHero()
 
 void game::locationEvents()
 {
-    if (currentState == my_enums::_HOMETOWN_) {
+    if (currentState == my_enums::S_HOMETOWN_) {
         tmpEVENTs = getEvents(px,py);
         //cout << "Eventos cargados" << tmpEvents.size() << endl;
         bool erase = false;
@@ -5309,7 +5364,7 @@ void game::eventsFight()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -5321,7 +5376,7 @@ void game::eventsFight()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -5386,7 +5441,7 @@ void game::eventsFight()
                         addNotification(tmpNPCs.begin()->description + " te ha herido!!");
                         if (stamina <= 0) {
                             addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
-                            setState(my_enums::_HERO_);
+                            setState(my_enums::S_HERO_);
                             deleteNPCs(px, py);
                             //Mix_PlayMusic(musicGameOver, -1);
                             addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
@@ -5464,7 +5519,7 @@ void game::eventsFight()
                         addNotification(tmpNPCs.begin()->description + " te ha herido!!");
                         if (stamina <= 0) {
                             addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
-                            setState(my_enums::_HERO_);
+                            setState(my_enums::S_HERO_);
                             deleteNPCs(px, py);
                             //Mix_PlayMusic(musicGameOver, -1);
                             addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
@@ -5558,7 +5613,7 @@ void game::eventsFight()
                             if (stamina <= 0) {
                                 turn = 0;
                                 addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
-                                setState(my_enums::_HERO_);
+                                setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
@@ -5604,7 +5659,7 @@ void game::eventsFight()
                             if (stamina <= 0) {
                                 turn = 0;
                                 addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
-                                setState(my_enums::_HERO_);
+                                setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
@@ -5673,7 +5728,7 @@ void game::eventsFight()
                             if (stamina <= 0) {
                                 turn = 0;
                                 addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
-                                setState(my_enums::_HERO_);
+                                setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 Mix_PlayMusic(musicHERO, -1);
@@ -5750,7 +5805,7 @@ void game::eventsFight()
                             if (stamina <= 0) {
                                 turn = 0;
                                 addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
-                                setState(my_enums::_HERO_);
+                                setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 Mix_PlayMusic(musicHERO, -1);
@@ -5817,7 +5872,7 @@ void game::eventsAchievements()
         //User requests quit
         if (e.type == SDL_QUIT)
         {
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -5829,7 +5884,7 @@ void game::eventsAchievements()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -5887,7 +5942,7 @@ void game::eventsHomeTown()
         if (e.type == SDL_QUIT)
         {
             Mix_PlayChannel(-1, audioButton, 0);
-            setState(my_enums::_GAMEOVER_);
+            setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
             timerGameOver.start();
             timerGameOver.reset();
@@ -5902,7 +5957,7 @@ void game::eventsHomeTown()
 
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                setState(my_enums::_GAMEOVER_);
+                setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -5911,24 +5966,24 @@ void game::eventsHomeTown()
             
 
             if (configButton.clicked(mousex, mousey)) {
-                setState(my_enums::_CONFIGMENU_);
-                previousScreen = my_enums::_HOMETOWN_;
+                setState(my_enums::S_CONFIGMENU_);
+                previousScreen = my_enums::S_HOMETOWN_;
             }//config button
 
             if (achievementsButton.clicked(mousex, mousey)) {
-                setState(my_enums::_ACHIEVEMENTS_);
-                previousScreen = my_enums::_HOMETOWN_;
+                setState(my_enums::S_ACHIEVEMENTS_);
+                previousScreen = my_enums::S_HOMETOWN_;
 
             }
 
             if (inventoryButton.clicked(mousex, mousey)) {
-                setState(my_enums::_INVENTORY_);
-                previousScreen = my_enums::_HOMETOWN_;
+                setState(my_enums::S_INVENTORY_);
+                previousScreen = my_enums::S_HOMETOWN_;
             }//inventory button
 
             if (playerButton.clicked(mousex, mousey)) {
-                setState(my_enums::_PLAYER_);
-                previousScreen = my_enums::_HOMETOWN_;
+                setState(my_enums::S_PLAYER_);
+                previousScreen = my_enums::S_HOMETOWN_;
             }//inventory button
 
             if(food>0){
@@ -5990,26 +6045,26 @@ void game::eventsHomeTown()
                 switch (getState())
                 {
                 
-                case my_enums::_ELEMENTAL_WATER_WORLD_:
+                case my_enums::S_ELEMENTAL_WATER_WORLD_:
                 {
-                    currentState = my_enums::_HOMETOWN_;
+                    currentState = my_enums::S_HOMETOWN_;
                     break;
                 }
 
-                case my_enums::_ELEMENTAL_FIRE_WORLD_:
+                case my_enums::S_ELEMENTAL_FIRE_WORLD_:
                 {
-                    currentState = my_enums::_ELEMENTAL_WATER_WORLD_;
+                    currentState = my_enums::S_ELEMENTAL_WATER_WORLD_;
                     break;
                 }
 
-                case my_enums::_COAST_WORLD_:
+                case my_enums::S_COAST_WORLD_:
                 {
-                    currentState = my_enums::_ELEMENTAL_FIRE_WORLD_;
+                    currentState = my_enums::S_ELEMENTAL_FIRE_WORLD_;
                     break;
                 }
-                case my_enums::_HOMETOWN_:
+                case my_enums::S_HOMETOWN_:
                 {
-                    currentState = my_enums::_COAST_WORLD_;
+                    currentState = my_enums::S_COAST_WORLD_;
                     break;
                 }
 
@@ -6097,18 +6152,23 @@ bool game::checkNPC(int x, int y)
      //std::list<NPC> tmpNPCs2 = getNPCs(tmpx, tmpy);
     tmpNPCs = getNPCs(tmpx, tmpy);
     if (tmpNPCs.size() > 0) {
-   
+        INT Xx = 1;
         if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_CHAT_) {
             tmpCHATs = getChat(tmpx, tmpy);
-            previousScreen = my_enums::_HOMETOWN_;
-            setState(my_enums::_CHAT_);
+            previousScreen =   my_enums::S_HOMETOWN_;
+            setState(my_enums::S_CHAT_);
             foundNPC = true;
 
         }
         else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_SHOP_) {
             tmpSHOPs = getShops(tmpx, tmpy);
-            previousScreen = my_enums::_HOMETOWN_;
-            setState(my_enums::_SHOP_);
+            previousScreen = my_enums::S_HOMETOWN_;
+            setState(my_enums::S_SHOP_);
+            foundNPC = true;
+        }else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_MASTER_) {
+            //tmpSHOPs = getShops(tmpx, tmpy);
+            previousScreen = my_enums::S_HOMETOWN_;
+            setState(my_enums::S_MASTER_);
             foundNPC = true;
         }
     }
@@ -6247,7 +6307,7 @@ void game::drawNPCs()
            // drawSquare(target, NPCColor);
             drawTileset(target, playersTexture, it->tile,20);
 
-            if ((it->NPCAI == my_enums::_FRIENDLY_CHAT_)|| (it->NPCAI == my_enums::_FRIENDLY_SHOP_)) {
+            if ((it->NPCAI == my_enums::_FRIENDLY_CHAT_)|| (it->NPCAI == my_enums::_FRIENDLY_SHOP_) || (it->NPCAI == my_enums::_FRIENDLY_MASTER_)) {
                 ty--;
                 target.y = (gScreenSurface->h / cam_size_y) * ty;                
                 SDL_RenderCopy(gRenderer, talkTexture, NULL, &target);

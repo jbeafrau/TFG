@@ -21,14 +21,14 @@ game Game;
 //Game.debugMode = true;
 
 if (Game.initSDL() == false) {
-    Game.setState(my_enums::_GAMEOVER_);
+    Game.setState(my_enums::S_GAMEOVER_);
 }
 
 Game.loadMedia(Game.getBasePath());
 
 Game.start();
 
-while (Game.getState() != my_enums::_GAMECLOSE_){
+while (Game.getState() != my_enums::S_GAMECLOSE_){
     
     Game.events();
 

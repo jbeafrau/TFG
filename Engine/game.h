@@ -242,6 +242,7 @@ public:
     void screenPlayer();
     void screenHero();
     void screenShops();
+    void screenMaster();
 
     void screenFlip();
 
@@ -269,6 +270,8 @@ public:
     void eventsShops();
 
     void eventsChat();
+
+    void eventsMaster();
 
     void checkBoundaries();
 
@@ -310,7 +313,7 @@ public:
 protected:
     int width = 600;
     int height = 700;
-    int currentState = my_enums::_INTRO_;
+    int currentState = my_enums::S_INTRO_;
 
     int desiredFPS = 60;
 
@@ -436,7 +439,7 @@ protected:
     int volumeSound = 128;
     int volumeMusic = 128;
 
-    my_enums::gameState previousScreen = my_enums::_NULL_;
+    my_enums::gameState previousScreen = my_enums::S_NULL_;
 
 
     // bool fight = false;

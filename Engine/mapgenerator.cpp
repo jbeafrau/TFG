@@ -74,7 +74,7 @@ utils::RendererImage renderer;
   {
 
 
-  case my_enums::_ELEMENTAL_WATER_WORLD_:
+  case my_enums::S_ELEMENTAL_WATER_WORLD_:
   {
 
 	  renderer.AddGradientPoint(-1.0000, utils::Color(0, 0, 0, 255)); // deeps
@@ -83,7 +83,7 @@ utils::RendererImage renderer;
 	  break;
   }
 
-  case my_enums::_ELEMENTAL_FIRE_WORLD_:
+  case my_enums::S_ELEMENTAL_FIRE_WORLD_:
   {
 
 	  renderer.AddGradientPoint(-1.0000, utils::Color(0, 0, 0, 255)); // deeps
@@ -93,7 +93,7 @@ utils::RendererImage renderer;
   }
 
 
-  case my_enums::_COAST_WORLD_:
+  case my_enums::S_COAST_WORLD_:
   {
 
 	  renderer.AddGradientPoint(-1.0000, utils::Color(0, 0, 128, 255)); // deeps
@@ -108,7 +108,7 @@ utils::RendererImage renderer;
 	  break;
   }
 
-  case my_enums::_HOMETOWN_:
+  case my_enums::S_HOMETOWN_:
   {
 	  /*
 	  module::RidgedMulti mountainTerrain;

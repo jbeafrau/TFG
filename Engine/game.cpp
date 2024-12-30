@@ -1005,10 +1005,10 @@ void game::loadEvents()
     addEvent(253, 151, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 10, 10, my_enums::S_COAST_WORLD_, 0);
 
     addGlobalEvent(1, my_enums::S_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
-    addGlobalEvent(2, my_enums::S_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_STATIC");
-    addGlobalEvent(3, my_enums::S_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "REMOVE_CHAT");
-    addGlobalEvent(4, my_enums::S_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "ADD_CHAT");
-    addGlobalEvent(5, my_enums::S_HOMETOWN_, { 118,141,120,143 }, { 0,0,0,0 }, 0, 10001, "ADD_ITEM");
+    addGlobalEvent(2, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_STATIC");
+    addGlobalEvent(3, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "REMOVE_CHAT");
+    addGlobalEvent(4, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "ADD_CHAT");
+    addGlobalEvent(5, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "ADD_ITEM");
 
     
 }

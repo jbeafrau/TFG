@@ -272,7 +272,7 @@ void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string de
     aNPC.power = power;
     aNPC.luck = luck;
     aNPC.damage = damage;
-    aNPC.exp = ((aNPC.skill + aNPC.stamina) / 10) + 1;
+    aNPC.exp = (((aNPC.skill + aNPC.power + aNPC.luck + aNPC.stamina) / 10) + 1)*5;
     aNPC.NPCAI = NPCAI;
     aNPC.tile = tile;
     aNPC.boundaries = boundaries;
@@ -864,6 +864,39 @@ void game::loadPlayerDefault()
     shield = "";
     itemRing = "";
     alternate = "";
+
+    coins = 50; //Player currency
+    food = 10; //Player food rations 
+    potions_health = 1;
+    potions_power = 1;
+    powerRegeneration = 0;
+
+
+    int playerDice = 0;
+    int foeDice = 0;
+    int turn = 0;
+
+    int ticksAI = 0;
+
+    int currentMusic = 1;
+    bool musicON = true;
+
+
+   playerName = "Jugador"; //Player´s name
+   currentRace = my_enums::_HUMAN_; //Player´s race
+   currentArchetype = my_enums::_FIGHTER_; //Player´s archetype
+  
+    tmpx = 1;
+    tmpy = 1;
+
+    playerTile = 63; //Starting tile for player
+    exp = 0; //current experience
+    level = 1; // current player level
+    skillPoints = 0; //Skill points won after leveling up
+
+    //Number of tiles drawn on screen
+    cam_size_x = 16;
+   cam_size_y = 8;
 
 }
 
@@ -2611,38 +2644,22 @@ void game::screenPlayer()
 
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
-   // drawButtonSrc(backButton, buttonCancelTexture);
-
-   // drawButtonSrc(rollButton, buttonRollDiceTexture);
 
     int tmpy = 100;
     tmpRect.x = gScreenSurface->w / 2 - 200;
     tmpRect.y = 0;
     tmpRect.w = 400;
     tmpRect.h = 50;
-    //SDL_Rect target;
-    //target.x = tmpRect.x - 50;
-    //target.w = tmpRect.w + 40;
-    //target.h = tmpRect.h + 25;
-
+  
 
     drawTextResize("Ficha del personaje: " +playerName, tmpRect);
 
-
-    //tmpRect.x = 100;
     tmpRect.x = gScreenSurface->w/2 - 200;
     tmpRect.y = 100;
     tmpRect.w = 400;
     tmpRect.h = 50;
     drawTextResize(getRaceName(currentRace) + " / "+ getArchetypeName(currentArchetype), tmpRect);
-  //  drawTextResize("Raza: " + getRaceName(currentRace), tmpRect);
-
-   // tmpRect.y = 150;
-    //drawTextResize("Arquetipo: " + getArchetypeName(currentArchetype), tmpRect);
-
-    //tmpRect.y = 150;
-    //drawText("Volver a tirar para nueva tirada o continuar", tmpRect);
-
+ 
     tmpRect.w = 100;
     tmpRect.y = 200;
     drawTextL("Combate", tmpRect);
@@ -2665,10 +2682,12 @@ void game::screenPlayer()
     tmpRect.y = 550;
     tmpRect.w = 200;
     drawText("Experiencia:" + to_string(exp) + "/" + to_string((level*level)*100), tmpRect);
-
+    tmpRect.y = 600;
+    drawText("Puntos de habilidad: " + to_string(skillPoints) , tmpRect);
 
     tmpRect.y = 200;
-    tmpRect.x = gScreenSurface->w / 2 + 200;
+    //tmpRect.x = gScreenSurface->w / 2 + 200;
+    tmpRect.x = 1;
     drawTextResize("HABILIDADES: ", tmpRect);
     tmpy = 200;
     for (std::string skill : skills)
@@ -3595,6 +3614,7 @@ void game::screenInventory()
             //target.x = tmpRect.x - 50;
 
             tmpRect.x = gScreenSurface->w / 2 - 250;
+           // tmpRect.x = 1;
             tmpRect.w = 50;
             drawTileset(tmpRect, itemsTexture, it->tile,20);
 
@@ -3609,16 +3629,19 @@ void game::screenInventory()
             //SDL_RenderCopy(gRenderer, streetTexture, NULL, &target);
             tmpRect.w = 400;
             tmpRect.x = gScreenSurface->w / 2 - 200;
+            //tmpRect.x = 51;
             drawText(tmpString, tmpRect);
 
         }
 
         tmpy = 300;
-        tmpRect.x = gScreenSurface->w / 4 * 3-100;
+        //tmpRect.x = gScreenSurface->w / 4 * 3-100;
+        tmpRect.x = 51;
         tmpRect.y = tmpy;
         drawTextResize("ITEMS EQUIPADOS", tmpRect);
 
-        tmpRect.x = gScreenSurface->w / 4 * 3 -150;
+        //tmpRect.x = gScreenSurface->w / 4 * 3 -150;
+        tmpRect.x = 1;
         tmpRect.w = 150;
         tmpRect.y += 50;
         drawTextResize("ARMA:", tmpRect);
@@ -3634,7 +3657,8 @@ void game::screenInventory()
         //itemShield = "";
         
         tmpy = 300;
-        tmpRect.x = gScreenSurface->w / 4 * 3;
+        tmpRect.x = 151;
+        //tmpRect.x = gScreenSurface->w / 4 * 3;
         tmpRect.y = tmpy;
         tmpRect.w = 200;
         tmpRect.y += 50;
@@ -3664,12 +3688,6 @@ void game::screenHero()
     drawButtonSrc(continueButton, buttonAcceptTexture);
     drawButtonSrc(achievementsButton, buttonStarsTexture);
 
-  /*  tmpRect.x = gScreenSurface->w / 2 - 200;
-    tmpRect.y = 0;
-    tmpRect.w = 400;
-    tmpRect.h = 50;
-    drawText("Heroe inmortal", tmpRect);
-*/
     tmpRect.y = gScreenSurface->h / 4;
     tmpRect.h = 100;
 
@@ -5322,7 +5340,7 @@ void game::eventsFight()
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
                          addNotification("Has derrotado a "+ tmpNPC.description +"!!");
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
-                         exp += tmpNPC.exp;
+                         addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
 
 
@@ -5395,7 +5413,7 @@ void game::eventsFight()
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
                         addNotification("Has derrotado a " + tmpNPC.description + "!!");
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
-                        exp += tmpNPC.exp;
+                        addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
 
 
@@ -5471,7 +5489,7 @@ void game::eventsFight()
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
                         addNotification("Has derrotado a " + tmpNPC.description + "!!");
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
-                        exp += tmpNPC.exp;
+                        addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
 
                         magicKill++;
@@ -5608,7 +5626,7 @@ void game::eventsFight()
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
                         addNotification("Has derrotado a " + tmpNPC.description + "!!");
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
-                        exp += tmpNPC.exp;
+                        addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
 
                         magicKill++;
@@ -5685,7 +5703,7 @@ void game::eventsFight()
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
                         addNotification("Has derrotado a " + tmpNPC.description + "!!");
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
-                        exp += tmpNPC.exp;
+                        addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
 
                         magicKill++;
@@ -5758,6 +5776,19 @@ void game::eventsFight()
 
     
 
+}
+
+void game::addExp(int xp)
+{
+    exp += xp;
+    //increase level;
+    if (exp >= ((level * level) * 100)) {
+        skillPoints++;
+        exp -= ((level * level) * 100);
+        level++;
+        addNotification("Subes al nivel:" + to_string(level));
+
+    }
 }
 
 void game::eventsAchievements()

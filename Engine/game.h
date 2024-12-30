@@ -193,7 +193,7 @@ public:
     void drawTextL(string text, SDL_Rect rect);
     void drawTextBlock(string text, SDL_Rect rect);
     void drawTextResize(string text, SDL_Rect rect);
-  //  void paintFruit(int x, int y, Uint8 fruit);
+ 
     void drawMap();
     void drawMiniMap();
     void drawEvents();
@@ -224,7 +224,7 @@ public:
     void screenIntro();
     void screenNotifications();
     void screenMain();
-   // void screenName();
+  
     void screenGameOver();
     void screenPlayerName();
     void screenPlayerAttributes();
@@ -236,7 +236,6 @@ public:
 
     void screenChat();
 
-    //void screenGeneratePlayer();
     void screenConfigMenu();
     void screenHomeTown();
     void screenFight();
@@ -252,7 +251,7 @@ public:
     void eventsGameOver();
     void eventsPlayerName();
     void eventsPlayerAttributes();
-    //void eventsGeneratePlayer();
+   
     void eventsConfigMenu();
     void eventsHomeTown();
 
@@ -299,7 +298,7 @@ public:
     void addGlobalEvent(int id, my_enums::gameState map, SDL_Rect location, SDL_Rect newLocation, int distance, int NPCID, std::string description);
     void cleanGlobalEvent(int id);
     
-
+    void addExp(int xp);
 
     void processAI();
 
@@ -371,7 +370,7 @@ protected:
     int max_power=1;
     int max_luck = 1;
 
-    //default equipo
+    //default inventory
 
    // std::string alternate3 = "";
     std::string  itemArmor = "";
@@ -411,6 +410,7 @@ protected:
     int playerTile = 63; //Starting tile for player
     int exp = 0; //current experience
     int level = 1; // current player level
+    int skillPoints = 0; //Skill points won after leveling up
 
     int cam_x = 1, cam_y = 1;//camera starting vertex (top-left)
 

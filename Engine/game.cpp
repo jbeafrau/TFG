@@ -2685,6 +2685,14 @@ void game::screenPlayer()
     tmpRect.y = 600;
     drawText("Puntos de habilidad: " + to_string(skillPoints) , tmpRect);
 
+
+    SDL_Rect target;
+    target.x = 1;
+    target.y = 200;
+    target.w = 500;
+    target.h = 300;
+    drawSquare(target, { 200,200,200 });
+
     tmpRect.y = 200;
     //tmpRect.x = gScreenSurface->w / 2 + 200;
     tmpRect.x = 1;
@@ -3633,6 +3641,13 @@ void game::screenInventory()
             drawText(tmpString, tmpRect);
 
         }
+
+        SDL_Rect target;
+        target.x = 1;
+        target.y = 300;
+        target.w = 500;
+        target.h = 300;
+        drawSquare(target, { 200,200,200 });
 
         tmpy = 300;
         //tmpRect.x = gScreenSurface->w / 4 * 3-100;

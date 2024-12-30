@@ -2506,28 +2506,25 @@ void game::drawTextResize(string text, SDL_Rect rect)
 
 void game::screenMain()
 {
-  /*  SDL_Rect dstrect;
-    tmpRect.x = gScreenSurface->w / 8 - 1;
-    tmpRect.y = 299;
-    tmpRect.w = 322;
-    tmpRect.h = 482;*/
-    //SDL_Color square={0,0,255,0}; blue
+
     SDL_Color square = { 0,0,0,0 };
 
-   /* tmpRect.w = 32;
-    tmpRect.h = 32;
-    tmpRect.x = gScreenSurface->w / 8;
-    tmpRect.y = gScreenSurface->h / 8 - 50;
-    tmpRect.w = 256;
-    tmpRect.h = 50;
-    tmpRect.x = gScreenSurface->w / 8;
-    tmpRect.y = gScreenSurface->h / 8;
-    */
+
     tmpRect.x = gScreenSurface->w / 2 - 250;
     tmpRect.y = gScreenSurface->h / 4;
     tmpRect.w = 500;
     tmpRect.h = 100;
     drawTextResize("Menu Principal", tmpRect);
+
+
+    //tmpRect.x = 1;
+    tmpRect.x = gScreenSurface->w / 2 - 350;
+    tmpRect.y = gScreenSurface->h / 4 + 100;
+    tmpRect.w = 700;
+    tmpRect.h = 200;
+    drawSquare(tmpRect, { 200,200,200 });
+    drawTextBlock("¡Derrota enemigos, consigue tesoros, mejora tu personaje, cumple misiones, logros y gana el juego!", tmpRect);
+
 
     tmpRect.x = gScreenSurface->w - 500;
     tmpRect.y = gScreenSurface->h - 50;
@@ -2536,18 +2533,12 @@ void game::screenMain()
 
     drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
 
-    //drawButton(exitButton);
-    //drawButton(startButton);
-    //drawButton(configButton);
-    //drawButton(achievementsButton);
-
     drawButtonSrc(achievementsButton, buttonStarsTexture);
 
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(startButton, buttonPlayTexture);
 
     drawButtonSrc(configButton, buttonConfigTexture);
-    //drawButtonSrc(startButton, buttonAcceptTexture);
 }
 
 
@@ -2603,12 +2594,6 @@ void game::screenPlayerName()
 void game::screenPlayerAttributes()
 {
 
-
-
-   // drawButton(exitButton);
-   // drawButton(continueButton);
-   // drawButton(rollButton);
-
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
     drawButtonSrc(backButton, buttonBackTexture);
@@ -2639,6 +2624,26 @@ void game::screenPlayerAttributes()
   drawIMGBox(gScreenSurface->w / 2 - 200, 250, stamina, max_stamina, { 200,0,0,0 });
   drawIMGBox(gScreenSurface->w / 2 - 200, 300, power, max_power, { 128,0,128,0 });
   drawIMGBox(gScreenSurface->w / 2 - 200, 350, luck, max_luck, { 0,200,200,0 });
+
+
+ 
+  tmpRect.x = gScreenSurface->w - 600;
+  tmpRect.y = 150;
+  tmpRect.h = 700;
+  tmpRect.w = 600;
+  drawSquare(tmpRect, { 200,200,200 });
+
+  tmpRect.h = 50;
+  
+  tmpRect.y = 150;
+  drawTextBlock("COMBATE: Habilidad para luchar y defenderte", tmpRect);
+  tmpRect.y = 300;
+  drawTextBlock("VITALIDAD: Puntos de vidad", tmpRect);
+  tmpRect.y = 450;
+  drawTextBlock("PODER: Habilidad que te permite usar la magia", tmpRect);
+  tmpRect.y = 600;
+  drawTextBlock("SUERTE: Habilidad que te permite tener hacer ataques furtivos y posibilidad de esquivar ataques usando armas a distancia", tmpRect);
+
 
   
 }

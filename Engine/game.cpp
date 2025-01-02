@@ -952,43 +952,43 @@ void game::loadNPCs()
 {
     NPCs.clear();
 
+    //Add some monster on initial map
 
+    //south
     addNPC(1, 110, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), {1,1,255,255});
     addNPC(2, 111, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
     addNPC(3, 112, 170, my_enums::S_HOMETOWN_, "Monstruo poderoso", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), dice(3, 2), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
     addNPC(4, 113, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
    
+    //east
     addNPC(10, 136,155, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 136,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 142,155, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 142,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(11, 139, 167, my_enums::S_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 160, { 130,150,150,170 });
 
-    addNPC(5, 106, 155, my_enums::S_HOMETOWN_, "Tienda de comida", 1, 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
-    addNPC(6, 112, 155, my_enums::S_HOMETOWN_, "Tienda de armas", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
-    addNPC(7, 106, 161, my_enums::S_HOMETOWN_, "Tienda de armaduras", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
-    addNPC(8, 112, 161, my_enums::S_HOMETOWN_, "Tienda de pociones", 1, 1,1,1,1, my_enums::_FRIENDLY_SHOP_, 79, { 1,1,255,255 });
-
-
     //Add a dog
     addNPC(10001, 118, 122, my_enums::S_HOMETOWN_, "Tor el perro", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_STATIC_, 269, { 1,1,255,255 });
-
 
     //Add 30 peasants in the town
     for (int x = 0; x < 30;x++)addNPC(30+x, dice(30, 90), dice(50, 120), my_enums::S_HOMETOWN_, "Campesino", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_RANDOM_, 74, { 90,130,120,170 });
     
 
-
+    //Add main friendly NPCs shops
     addNPC(19, 109, 142, my_enums::S_HOMETOWN_, "Sabio del pueblo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
     addNPC(20, 119, 142, my_enums::S_HOMETOWN_, "Mago del templo elemental", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 83, { 1,1,255,255 });
     addNPC(21, 107, 143, my_enums::S_HOMETOWN_, "Tutorial equipo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
     addNPC(21, 111, 143, my_enums::S_HOMETOWN_, "Tutorial magia", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
     addNPC(22, 107, 145, my_enums::S_HOMETOWN_, "Tutorial combate", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
     addNPC(23, 111, 145, my_enums::S_HOMETOWN_, "Tutorial tiendas", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-
     addNPC(24, 118, 155, my_enums::S_HOMETOWN_, "Maestro", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_MASTER_, 77, { 1,1,255,255 });
 
-    //addNPC(8, 83, 71, my_enums::S_HOMETOWN_, "Tienda del pueblo5", 1, 1,1,1, my_enums::_FRIENDLY_SHOP_, 74);
+    //Add main friendly shops
+    addNPC(5, 106, 155, my_enums::S_HOMETOWN_, "Tienda de comida", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(6, 112, 155, my_enums::S_HOMETOWN_, "Tienda de armas", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(7, 106, 161, my_enums::S_HOMETOWN_, "Tienda de armaduras", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(8, 112, 161, my_enums::S_HOMETOWN_, "Tienda de pociones", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 79, { 1,1,255,255 });
+
 
 }
 

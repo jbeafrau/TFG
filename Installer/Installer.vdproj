@@ -2192,7 +2192,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Achievement Master"
         "ProductCode" = "8:{70023B68-5449-4459-B73D-8ACE47CD6A7B}"
-        "PackageCode" = "8:{48CCD5E3-FB8B-4466-80BD-8B66FF4FC957}"
+        "PackageCode" = "8:{7FA058EE-D01D-4638-A464-0789D0412F05}"
         "UpgradeCode" = "8:{12415DF3-14EE-4CC9-889C-25A4EF44BB26}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

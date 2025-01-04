@@ -77,7 +77,7 @@ void game::addAchievement(std::string achievementName, my_enums::Achievements ac
 
         int achievementCounter = achievements.size();
       //  achievementsButton.setCaption("ACH " + std::to_string(achievementCounter) + " / " + std::to_string(achievementCounter * 100 / maxAchievements) + "%");
-         achievementsButton.setCaption(std::to_string(achievementCounter*2) +" %");
+         achievementsButton.setCaption(std::to_string(static_cast<int>(round(achievementCounter*2.5))) +" %");
         //"Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60)
     }
 }
@@ -3656,7 +3656,7 @@ void game::screenAchievements()
     
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
-    int combat = 0, missions = 0, npcs = 0, options = 0, hidden = 0;
+    int combat = 0, missions = 0, options = 0, hidden = 0;
     int aCounter = 0;
     SDL_Rect square;
 
@@ -3690,21 +3690,11 @@ void game::screenAchievements()
             break;
         }
 
-        case my_enums::_NPCS_:
-        {
-            npcs++;
-            if (achievementGroup == 2) {
-                square.y = 450 + aCounter * 50;
-                drawText(currentAchievement.name, square);
-                aCounter++;
-            }
-            break;
-        }
 
         case my_enums::_OPTIONS_:
         {
             options++;
-            if (achievementGroup == 3) {
+            if (achievementGroup == 2) {
                 square.y = 450 + aCounter * 50;
                 drawText(currentAchievement.name, square);
                 aCounter++;
@@ -3715,7 +3705,7 @@ void game::screenAchievements()
         case my_enums::_HIDDEN_:
         {
             hidden++;
-            if (achievementGroup == 4) {
+            if (achievementGroup == 3) {
                 square.y = 450 + aCounter * 50;
                 drawText(currentAchievement.name, square);
                 aCounter++;
@@ -3746,17 +3736,15 @@ void game::screenAchievements()
     tmpRect.y = 250;
     drawTextL("Missiones", tmpRect);
     tmpRect.y = 300;
-    drawTextL("NPCs", tmpRect);
-    tmpRect.y = 350;
     drawTextL("Opciones", tmpRect);
-    tmpRect.y = 400;
+    tmpRect.y = 350;
     drawTextL("Ocultos", tmpRect);
 
     drawIMGBox(gScreenSurface->w / 2 - 250, 200, combat, 10, { 200,0,0,0 });
     drawIMGBox(gScreenSurface->w / 2 - 250, 250, missions, 10, { 200,0,0,0 });
-    drawIMGBox(gScreenSurface->w / 2 - 250, 300, npcs, 10, { 200,0,0,0 });
-    drawIMGBox(gScreenSurface->w / 2 - 250, 350, options, 10, { 200,0,0,0 });
-    drawIMGBox(gScreenSurface->w / 2 - 250, 400, hidden, 10, { 200,0,0,0 });
+    //drawIMGBox(gScreenSurface->w / 2 - 250, 300, npcs, 10, { 200,0,0,0 });
+    drawIMGBox(gScreenSurface->w / 2 - 250, 300, options, 10, { 200,0,0,0 });
+    drawIMGBox(gScreenSurface->w / 2 - 250, 350, hidden, 10, { 200,0,0,0 });
 
 
     square.x = gScreenSurface->w / 2;
@@ -4982,7 +4970,7 @@ void game::processAI()
                                 itNPC->NPCAI = my_enums::_FRIENDLY_STATIC_;
                                 addNotification(itNPC->description + " deja de seguirte");
 
-                                if (itNPC->id == 10001)addAchievement("¡¡Rescataste a TOR!!", my_enums::_NPCS_);
+                                if (itNPC->id == 10001)addAchievement("¡¡Rescataste a TOR!!", my_enums::_MISSIONS_);
                                 //GLOBAL_EVENTs.erase(it);
                                 it = GLOBAL_EVENTs.erase(it);
                                 erased = true;
@@ -5799,9 +5787,9 @@ void game::eventsAchievements()
                 achievementGroup = 3;
             }
 
-            if (achievementGroup4Button.clicked(mousex, mousey)) {
-                achievementGroup = 4;
-            }
+           // if (achievementGroup4Button.clicked(mousex, mousey)) {
+                //achievementGroup = 4;
+            //}
 
         }
 

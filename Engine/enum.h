@@ -88,9 +88,8 @@ namespace my_enums
     {
         _COMBAT_ = 10,
         _MISSIONS_ = 20,
-        _NPCS_ = 30,
-        _OPTIONS_ = 40,
-        _HIDDEN_ = 50
+        _OPTIONS_ = 30,
+        _HIDDEN_ = 40
     };
 
     enum itemTypes

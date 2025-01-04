@@ -6,8 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{7C26D43D-97FF-4B20-B699-45F2FA5CD51D}"
-	ProjectSection(SolutionItems) = preProject
-	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Installer", "Installer\Installer.vdproj", "{F2BBF294-84CA-42C4-A99F-349BF1A614CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +25,10 @@ Global
 		{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}.Release|x64.Build.0 = Release|x64
 		{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}.Release|x86.ActiveCfg = Release|Win32
 		{6D769BFA-7244-4E00-83EB-3CBE1E7D7AF5}.Release|x86.Build.0 = Release|Win32
+		{F2BBF294-84CA-42C4-A99F-349BF1A614CF}.Debug|x64.ActiveCfg = Debug
+		{F2BBF294-84CA-42C4-A99F-349BF1A614CF}.Debug|x86.ActiveCfg = Debug
+		{F2BBF294-84CA-42C4-A99F-349BF1A614CF}.Release|x64.ActiveCfg = Release
+		{F2BBF294-84CA-42C4-A99F-349BF1A614CF}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

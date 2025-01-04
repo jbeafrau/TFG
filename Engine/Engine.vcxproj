@@ -105,6 +105,18 @@
     <IncludePath>..\VCLIB\noise;$(IncludePath)</IncludePath>
     <LibraryPath>..\VCLIB\noise;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+   <IncludePath>..\VCLIB\SDL2-2.30.7\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\VCLIB\SDL2-2.30.7\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\VCLIB\SDL2_image-2.8.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\VCLIB\SDL2_image-2.8.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\VCLIB\SDL2_mixer-2.8.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\VCLIB\SDL2_mixer-2.8.0\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\VCLIB\SDL2_ttf-2.22.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\VCLIB\SDL2_ttf-2.22.0\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\VCLIB\noise;$(IncludePath)</IncludePath>
+    <LibraryPath>..\VCLIB\noise;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -160,6 +172,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;libnoise.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

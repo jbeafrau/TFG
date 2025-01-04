@@ -49,7 +49,7 @@ int game::dice(int maxValue, int minValue)
 }
 
 
-void game::addNotification(std::string notification)
+void game::addNotification(std::string notification, SDL_Color color)
 {
     if (notifications.size() == 0) {
         popupTime = timer.getTicks();
@@ -72,7 +72,7 @@ void game::addAchievement(std::string achievementName, my_enums::Achievements ac
         newAchievement.type = achievementType;
 
         achievements.push_back(newAchievement);
-        addNotification(achievementName);
+        addNotification(achievementName, {200,0,200});
         Mix_PlayChannel(-1, win, 0);
 
         int achievementCounter = achievements.size();
@@ -557,13 +557,13 @@ void game::eventsShops()
                                         tmpStr = tmpStr + it->description;
                                     }
                                     //popup(tmpStr);
-                                    addNotification(tmpStr);
+                                    addNotification(tmpStr, { 0,0,0 });
                                     //break;
                                 }
                                 else {
                                     tmpStr = "No tienes eso..";
                                     //popup(tmpStr);
-                                    addNotification(tmpStr);
+                                    addNotification(tmpStr, { 0,0,0 });
                                     //break;
                                 }//fin venta
                             }
@@ -577,14 +577,14 @@ void game::eventsShops()
                                     if (it->description == "FOOD") {
                                         tmpStr = tmpStr + " raciones de comida";
                                         //popup(tmpStr);
-                                        addNotification(tmpStr);
+                                        addNotification(tmpStr, { 0,0,0 });
                                         food += it->value;
                                         // break;
                                     }
                                     else  if (it->description == "POCION VITALIDAD") {
                                         tmpStr = tmpStr + it->description;
                                         //popup(tmpStr);
-                                        addNotification(tmpStr);
+                                        addNotification(tmpStr, { 0,0,0 });
                                         potions_health += it->value;
                                         // break;
                                     }else  if (it->description == "POCION PODER") {
@@ -596,7 +596,7 @@ void game::eventsShops()
                                     {
                                         tmpStr = tmpStr + it->description;
                                         //popup(tmpStr);
-                                        addNotification(tmpStr);
+                                        addNotification(tmpStr, { 0,0,0 });
 
 
                                         addItem(it->description, it->description, it->value, it->value2, it->tile, it->type, it->bonus);
@@ -616,14 +616,14 @@ void game::eventsShops()
 
                                 }
                                 else {
-                                    addNotification("No tienes dinero suficiente");
+                                    addNotification("No tienes dinero suficiente", { 0,0,0 });
                                 }//gold
                                 if (it->description2 == "FOOD" and food >= it->value2) {
                                     tmpStr = "Compras ";
                                     if (it->description == "FOOD") {
                                         tmpStr = tmpStr + " raciones de comida";
                                         //popup(tmpStr);
-                                        addNotification(tmpStr);
+                                        addNotification(tmpStr, { 0,0,0 });
                                         food += it->value;
                                     }
                                     else {
@@ -632,7 +632,7 @@ void game::eventsShops()
                                         tmpStr = tmpStr + it->description;
                                     }
                                     //popup(tmpStr);
-                                    addNotification(tmpStr);
+                                    addNotification(tmpStr, { 0,0,0 });
                                     food -= it->value2;
                                     shop_x = tmpx;
                                     shop_y = tmpy;
@@ -925,7 +925,7 @@ bool game::collide(int x, int y)
 
                 if (it->map == currentState) {//on the current map
                     if (findItem(it->description.substr(4, it->description.length() - 4))) {
-                        addNotification("Se abre el camino");
+                        addNotification("Se abre el camino", { 0,0,0 });
                         //GLOBAL_EVENTs.erase(it);
                         it = EVENTs.erase(it);
                         erased = true;
@@ -934,7 +934,7 @@ bool game::collide(int x, int y)
                     else {
                         tmp = true;
 
-                        addNotification("No puedes pasar");
+                        addNotification("No puedes pasar", { 0,0,0 });
                     }
                 }
 
@@ -3632,7 +3632,7 @@ void game::addSkill(std::string skill)
 {
     if(!hasSkill(skill)){
     skills.push_back(skill);
-    addNotification("Has aprendido la habilidad: "+skill);
+    addNotification("Has aprendido la habilidad: "+skill, { 0,0,0 });
     }
 }
 
@@ -4951,7 +4951,7 @@ void game::processAI()
                             if (itNPC->map == currentState) {//on the current map
                                 if (itNPC->id == it->NPCID) { //id match
                                    itNPC->NPCAI = my_enums::_FRIENDLY_FOLLOW_;
-                                     addNotification(itNPC->description + " comienza a seguirte");
+                                     addNotification(itNPC->description + " comienza a seguirte", { 0,0,0 });
                                      //GLOBAL_EVENTs.erase(it);
                                      it = GLOBAL_EVENTs.erase(it);
                                      erased = true;
@@ -4968,7 +4968,7 @@ void game::processAI()
                         if (itNPC->id == it->NPCID) { //id match
                             if (insideBoundaries(itNPC->x, itNPC->y, it->location)) { //inside event boundaries
                                 itNPC->NPCAI = my_enums::_FRIENDLY_STATIC_;
-                                addNotification(itNPC->description + " deja de seguirte");
+                                addNotification(itNPC->description + " deja de seguirte", { 0,0,0 });
 
                                 if (itNPC->id == 10001)addAchievement("¡¡Rescataste a TOR!!", my_enums::_MISSIONS_);
                                 //GLOBAL_EVENTs.erase(it);
@@ -5215,7 +5215,7 @@ void game::locationEvents()
                 }
                 tmpStr = tmpStr + to_string(it->value);
                 tmpStr = tmpStr + " monedas";
-                addNotification(tmpStr);
+                addNotification(tmpStr, { 0,0,0 });
                 coins += it->value;
                 if (coins < 0) { coins = 0; }
                 erase = true;
@@ -5278,11 +5278,11 @@ void game::eventsFight()
                 //Process player attack
                 if (good > bad) {
                     NPC tmpNPC = tmpNPCs.front();
-                    addNotification("Has herido a "+ tmpNPC.description +"!!");
+                    addNotification("Has herido a "+ tmpNPC.description +"!!", { 0,0,0 });
                     tmpNPC.stamina -= damage;
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                         addNotification("Has derrotado a "+ tmpNPC.description +"!!");
+                         addNotification("Has derrotado a "+ tmpNPC.description +"!!", { 0,0,0 });
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                          addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -5312,9 +5312,9 @@ void game::eventsFight()
                     if (bad > good) {
                         enemyDamage = tmpNPCs.begin()->damage;
                         stamina -= enemyDamage;
-                        addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                        addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
                         if (stamina <= 0) {
-                            addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                            addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                             setState(my_enums::S_HERO_);
                             deleteNPCs(px, py);
                             //Mix_PlayMusic(musicGameOver, -1);
@@ -5351,11 +5351,11 @@ void game::eventsFight()
                 //Process player attack
                 if (good > bad) {
                     NPC tmpNPC = tmpNPCs.front();
-                    addNotification("Has herido a " + tmpNPC.description + "!!");
+                    addNotification("Has herido a " + tmpNPC.description + "!!", { 0,0,0 });
                     tmpNPC.stamina -= damage;
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        addNotification("Has derrotado a " + tmpNPC.description + "!!");
+                        addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -5377,7 +5377,7 @@ void game::eventsFight()
                     int goodLuck = dice(10, 1) + luck;
                     int badLuck = dice(10, 1) + tmpNPCs.begin()->luck;
                     if (goodLuck > badLuck) {
-                        addNotification("Evitas el ataque");
+                        addNotification("Evitas el ataque", { 0,0,0 });
                     }else{
                     addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
                     int good = dice(10, 1) + skill;
@@ -5390,9 +5390,9 @@ void game::eventsFight()
                     if (bad > good) {
                         int enemyDamage = tmpNPCs.begin()->damage;
                         stamina -= enemyDamage;
-                        addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                        addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
                         if (stamina <= 0) {
-                            addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                            addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                             setState(my_enums::S_HERO_);
                             deleteNPCs(px, py);
                             //Mix_PlayMusic(musicGameOver, -1);
@@ -5427,11 +5427,11 @@ void game::eventsFight()
                 int goodLuck = dice(10, 1) + luck;
                 int badLuck = dice(10, 1) + tmpNPCs.begin()->luck;
                 if (goodLuck > badLuck) {
-                    addNotification("Ataque por sorpresa");
+                    addNotification("Ataque por sorpresa", { 0,0,0 });
                     tmpNPC.stamina -= (damage +1);
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        addNotification("Has derrotado a " + tmpNPC.description + "!!");
+                        addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -5449,7 +5449,7 @@ void game::eventsFight()
                     }
                 }
                 else {
-                    addNotification("Te han descubierto ");
+                    addNotification("Te han descubierto ", { 0,0,0 });
                     int enemyDamage = tmpNPCs.begin()->damage;
                     stamina -= enemyDamage;
                 }
@@ -5483,10 +5483,10 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                            addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                            addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
                             if (stamina <= 0) {
                                 turn = 0;
-                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
@@ -5529,10 +5529,10 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                            addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                            addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
                             if (stamina <= 0) {
                                 turn = 0;
-                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
@@ -5563,12 +5563,12 @@ void game::eventsFight()
                     if (attackPower > tmpNPC.stamina)attackPower = tmpNPC.stamina;
 
 
-                    addNotification("Has herido a " + tmpNPC.description + "!!");
+                    addNotification("Has herido a " + tmpNPC.description + "!!", { 0,0,0 });
                     tmpNPC.stamina -= attackPower;
                     power -= attackPower;
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        addNotification("Has derrotado a " + tmpNPC.description + "!!");
+                        addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -5598,10 +5598,10 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                            addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                            addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
                             if (stamina <= 0) {
                                 turn = 0;
-                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
@@ -5635,7 +5635,7 @@ void game::eventsFight()
                     if (attackPower > tmpNPC.stamina)attackPower = tmpNPC.stamina;
 
 
-                    addNotification("Has herido a " + tmpNPC.description + "!!");
+                    addNotification("Has herido a " + tmpNPC.description + "!!", { 0,0,0 });
                     attackPower = attackPower / 2;
                     if (attackPower < 1)attackPower = 1;
                     tmpNPC.stamina -= attackPower;
@@ -5645,7 +5645,7 @@ void game::eventsFight()
                     power -= attackPower;
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        addNotification("Has derrotado a " + tmpNPC.description + "!!");
+                        addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -5675,10 +5675,10 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                            addNotification(tmpNPCs.begin()->description + " te ha herido!!");
+                            addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
                             if (stamina <= 0) {
                                 turn = 0;
-                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!");
+                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
@@ -5730,7 +5730,7 @@ void game::addExp(int xp)
         skillPoints++;
         exp -= ((level * level) * 100);
         level++;
-        addNotification("Subes al nivel:" + to_string(level));
+        addNotification("Subes al nivel:" + to_string(level), { 0,0,0 });
 
     }
 }
@@ -6224,7 +6224,7 @@ void game::addItem(string name, string description, int count, int value, int ti
     aItem.bonus = bonus;
 
     items.push_back(aItem);
-    addNotification("Has conseguido:" + name);
+    addNotification("Has conseguido:" + name, { 0,0,0 });
 }
 
 

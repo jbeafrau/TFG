@@ -172,7 +172,9 @@ public:
     void addSkill(std::string skill);
     bool hasSkill(std::string skill);
 
-    void addNotification(std::string notification);
+    //void addNotification(std::string notification);
+    void addNotification(std::string notification, SDL_Color color);
+
     void eventsNotifications();
     
 

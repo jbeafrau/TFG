@@ -1210,13 +1210,13 @@ void game::setButtonDefaults()
     shop4.setButton(50, gScreenSurface->h / 2 + 200, gScreenSurface->w - 100, 50, "4");
     shop5.setButton(50, gScreenSurface->h / 2 + 250, gScreenSurface->w - 100, 50, "5");
 
-    chat0.setButton(50, gScreenSurface->h / 2, gScreenSurface->w - 100, 50, "0");
-    chat1.setButton(50, gScreenSurface->h / 2 + 50, gScreenSurface->w - 100, 50, "1");
-    chat2.setButton(50, gScreenSurface->h / 2 + 100, gScreenSurface->w - 100, 50, "2");
-    chat3.setButton(50, gScreenSurface->h / 2 + 150, gScreenSurface->w - 100, 50, "3");
-    chat4.setButton(50, gScreenSurface->h / 2 + 200, gScreenSurface->w - 100, 50, "4");
-    chat5.setButton(50, gScreenSurface->h / 2 + 250, gScreenSurface->w - 100, 50, "5");
-
+    chat0.setButton(50, gScreenSurface->h / 2-100,  gScreenSurface->w - 100, 50, "0");
+    chat1.setButton(50, gScreenSurface->h / 2 -100 + 50, gScreenSurface->w - 100, 50, "1");
+    chat2.setButton(50, gScreenSurface->h / 2 -100 + 100, gScreenSurface->w - 100, 50, "2");
+    chat3.setButton(50, gScreenSurface->h / 2 -100 + 150, gScreenSurface->w - 100, 50, "3");
+    chat4.setButton(50, gScreenSurface->h / 2 -100 + 200, gScreenSurface->w - 100, 50, "4");
+    chat5.setButton(50, gScreenSurface->h / 2 -100 + 250, gScreenSurface->w - 100, 50, "5");
+                                              
 }
 
 void game::start()
@@ -2883,7 +2883,7 @@ void game::screenChat()
     }
 
     target.x = 50;
-    target.y = gScreenSurface->h / 4;
+    target.y = gScreenSurface->h / 8;
     target.w = gScreenSurface->w - 100;
     target.h = 200;
     drawSquare(target, { 200,200,200 });
@@ -4440,6 +4440,7 @@ void game::eventsMaster()
                     skillPoints--;
                     power += 1;
                     max_power = power;
+
                 }
             }
 
@@ -4448,6 +4449,7 @@ void game::eventsMaster()
                     skillPoints--;
                     stamina += 2;
                     max_stamina = stamina;
+
                 }
             }
 
@@ -5535,6 +5537,8 @@ void game::eventsFight()
                     if (stamina > max_stamina)stamina = max_stamina;
                     turn++;
 
+                    addAchievement("Poción de vida", my_enums::_OPTIONS_);
+
                     int damage = 1;
                     //Process enemy attack
                     if (tmpNPCs.size() > 0) {
@@ -5580,6 +5584,10 @@ void game::eventsFight()
                     power += 10;
                     if (power > max_power)power = max_power;
                     turn++;
+                    addAchievement("Poción de mágia", my_enums::_OPTIONS_);
+
+
+                    
 
                     int damage = 1;
                     //Process enemy attack
@@ -5932,6 +5940,7 @@ void game::eventsHomeTown()
                 int ty = py - cam_y;
 
                 addAnimation(foodButton.getRect().x, foodButton.getRect().y, (gScreenSurface->w / cam_size_x) * tx, (gScreenSurface->h / cam_size_y) * ty, gScreenSurface->w / cam_size_x, gScreenSurface->h / cam_size_y, 1, buttonFoodTexture);
+                addAchievement("Estomago lleno", my_enums::_OPTIONS_);
 
                 food--;
                 stamina += 4;

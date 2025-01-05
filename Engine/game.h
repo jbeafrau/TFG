@@ -188,6 +188,8 @@ public:
     bool findItem(string name);
     item getItem(string name);
 
+    bool findNPC(int id);
+
 
     void drawSquare(SDL_Rect rect, SDL_Color color);
     void drawTransparentSquare(SDL_Rect rect, SDL_Color color);

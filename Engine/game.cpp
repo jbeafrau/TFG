@@ -966,7 +966,7 @@ void game::loadNPCs()
     addNPC(10, 136,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 142,155, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 142,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
-    addNPC(11, 139, 167, my_enums::S_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 160, { 130,150,150,170 });
+    addNPC(10002, 139, 167, my_enums::S_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 160, { 130,150,150,170 });
 
     //Add a dog
     addNPC(10001, 118, 122, my_enums::S_HOMETOWN_, "Tor el perro", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_STATIC_, 269, { 1,1,255,255 });
@@ -1011,7 +1011,7 @@ void game::loadEvents()
     addGlobalEvent(4, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "ADD_CHAT");
     addGlobalEvent(5, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "ADD_ITEM");
 
-    
+    addGlobalEvent(6, my_enums::S_HOMETOWN_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 10002, "NPC_DEFEATED");
 }
 
 
@@ -1021,8 +1021,9 @@ void game::loadChats()
     addChat(109,142, 1, "¿Que está pasando en el pueblo?", "Un mal ha venido de otro plano y esta generando caos en el pueblo, no sabemos quien exactamente ha sido, pero los muertos se levantan, necesitas abrir los portales a los otros planos para poder descubrir donde se esconde el mal...");
     addChat(109, 142, 2, "¿Que puedo hacer?", "Equipate y preparate para luchar contra el mal, compra equipo en las tiendas y pregunta en el pueblo primero");
     addChat(109, 142, 3, "Cuentame algo del pueblo", "Al sur encontraras varias tiendas, al este la costa y siguiendo el camino del noroeste, el bosque oscuro");
-    addChat(109, 142, 4, "¿Por donde comienzo?", "Al sur y al este del pueblo hay enemigos que no permiten salir a los ciudadanos, el mago del templo elemental al este necesita ayuda con su mascota ");
-    addChat(109, 142, 5, "¿Quien es el maestro?", "Al este del pueblo esta el maestro, cuando mejores de nivel puedes mejorar tus atributos allí");
+    addChat(109, 142, 4, "¿Por donde comienzo?", "En el cementerio del pueblo hay enemigos que no permiten salir a los ciudadanos...");
+    addChat(109, 142, 5, "¿Puedo ayudar a alguien mas?", "El mago del templo elemental al este necesita ayuda con su mascota ");
+    addChat(109, 142, 6, "¿Quien es el maestro?", "Al este del pueblo esta el maestro, cuando mejores de nivel puedes mejorar tus atributos allí");
 
     addChat(119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
     addChat(119, 142, 2, "¿Puedo ayudar?", "Tor, mi perro esta en una choza al norte, con tantos monstruos no me atrevo a ir a por el, ¿Podrias traermelo por favor??, si lo haces te daré la llave que abre la puerta del este");
@@ -5038,7 +5039,13 @@ void game::processAI()
                     if (itNPC->map == currentState) {//on the current map
                         if (itNPC->id == it->NPCID) { //id match
                             if (insideBoundaries(itNPC->x, itNPC->y, it->location)) { //inside event boundaries                               
-                                if (itNPC->id == 10001)addChat(119, 142, 2, "Sobre Tor", "¡Muchas gracias!, con la llave que te he dado puedes abrir el camino que lleva a la playa");
+                                if (itNPC->id == 10001) {
+                                    addChat(119, 142, 2, "Sobre Tor", "¡Muchas gracias!, con la llave que te he dado puedes abrir el camino que lleva a la playa");
+                                    removeChat(109, 142, 5);
+                                    addChat(109, 142, 5, "Sobre el mago del templo elemental", "El mago del templo elemental esta muy agradecido, sigue así y se abriran más puertas");
+                                }
+                                    
+                                    
                                 it = GLOBAL_EVENTs.erase(it);
                                 erased = true;
                             }
@@ -5065,6 +5072,21 @@ void game::processAI()
                 }//
 
             }//add item
+            else if (it->description == "NPC_DEFEATED") {
+                if (!findNPC(it->NPCID)) {
+                    if (it->NPCID = 10002) {
+                        addAchievement("Derrotaste al necromante", my_enums::_HIDDEN_);
+                        removeChat(109, 142, 4);
+                        addChat(109, 142, 4, "Sobre el necromante...", "En el cementerio del pueblo hay enemigos que no permiten salir a los ciudadanos, el mago del templo elemental al este necesita ayuda con su mascota ");
+
+                        
+                    }
+                    it = GLOBAL_EVENTs.erase(it);
+                    erased = true;
+
+                }
+
+            }//npc defeated
             
         
 
@@ -5078,6 +5100,16 @@ void game::processAI()
     }//Process global events
 
 
+}
+
+bool game::findNPC(int id)
+{
+    bool found = false;
+    for (list<NPC>::iterator itNPC = NPCs.begin(); itNPC != NPCs.end(); itNPC++)
+    {
+        if (itNPC->id == id)found = true;
+    }
+    return found;
 }
 
 void game::timeEvents()
@@ -5231,6 +5263,7 @@ void game::locationEvents()
                 py = it->newy;
                 
                 if (it->map != it->newMap) {
+                    addAchievement("Cambiador de planos", my_enums::_HIDDEN_);
                     currentState = it->newMap;
                     changeMap();
                }

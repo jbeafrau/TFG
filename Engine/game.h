@@ -341,6 +341,8 @@ protected:
 
     std::string currentChat = "";
 
+    std::string fightPlayer="";
+    std::string fightFoe="";
 
     std::list<achievement> achievements; //Player´s achievements 
     std::list<std::string> skills; //Player´s skills

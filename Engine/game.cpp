@@ -3827,6 +3827,20 @@ void game::screenFight()
         drawButtonSrc(potionMagicButton, buttonPotionMagicTexture);
     }
 
+    tmpRect.x = gScreenSurface->w / 2 +100;
+    tmpRect.y = gScreenSurface->h / 2 +100;
+    tmpRect.w = gScreenSurface->w/2 -100;
+    tmpRect.h = 200;
+    drawSquare(tmpRect, { 200,200,200 });
+    drawTextBlock(fightPlayer, tmpRect);
+
+    tmpRect.x = 1;
+    tmpRect.y = gScreenSurface->h / 2 +100;
+    tmpRect.w = gScreenSurface->w / 2 -100;
+    tmpRect.h = 200;
+    drawSquare(tmpRect, { 200,200,200 });
+    drawTextBlock(fightFoe, tmpRect);
+
     tmpRect.x = gScreenSurface->w / 2 - 200;
     tmpRect.y = 0;
     tmpRect.w = 400;
@@ -5346,11 +5360,13 @@ void game::eventsFight()
                 //Process player attack
                 if (good > bad) {
                     NPC tmpNPC = tmpNPCs.front();
-                    addNotification("Has herido a "+ tmpNPC.description +"!!", { 0,0,0 });
+                    //addNotification("Has herido a "+ tmpNPC.description +"!!", { 0,0,0 });
+                    fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(damage) + " puntos de vida";
                     tmpNPC.stamina -= damage;
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                         addNotification("Has derrotado a "+ tmpNPC.description +"!!", { 0,0,0 });
+                         //addNotification("Has derrotado a "+ tmpNPC.description +"!!", { 0,0,0 });
+                        fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                          addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -5366,6 +5382,9 @@ void game::eventsFight()
                         tmpNPCs.push_front(tmpNPC);
                     }
                 }
+                else {
+                    fightPlayer = "Has fallado";
+                }
 
                 //Process enemy attack
                 if (tmpNPCs.size() > 0){
@@ -5380,9 +5399,11 @@ void game::eventsFight()
                     if (bad > good) {
                         enemyDamage = tmpNPCs.begin()->damage;
                         stamina -= enemyDamage;
-                        addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                        //addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                        fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                         if (stamina <= 0) {
-                            addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+                            fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
+                            //addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                             setState(my_enums::S_HERO_);
                             deleteNPCs(px, py);
                             //Mix_PlayMusic(musicGameOver, -1);
@@ -5394,6 +5415,9 @@ void game::eventsFight()
                             //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                         }
 
+                    }
+                    else {
+                        fightFoe = tmpNPCs.begin()->description + " ha fallado ";
                     }
 
                 }

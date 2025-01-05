@@ -5980,6 +5980,7 @@ void game::eventsHomeTown()
 
             if (mapButton.clicked(mousex, mousey)) {
                 drawMiniMap();
+                addAchievement("Topógrafo", my_enums::_OPTIONS_);
             }//map button
 
 

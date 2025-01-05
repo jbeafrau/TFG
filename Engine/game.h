@@ -58,6 +58,7 @@ struct item { //item definition
 struct achievement { //Achievement definition
     string name;
     my_enums::Achievements type;
+    int achieved;
 };
 
 struct SHOP { // shop definition
@@ -180,6 +181,7 @@ public:
 
     void addAchievement(std::string achievementName, my_enums::Achievements achievementType);
     bool existAchievement(std::string achievementName, my_enums::Achievements achievementType);
+    void drawAchievements();
 
     void addItem(string name, string description, int count, int value, int tile, my_enums::itemTypes type, int bonus);
     void updateItem(string name, int value);

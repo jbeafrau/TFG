@@ -70,9 +70,10 @@ void game::addAchievement(std::string achievementName, my_enums::Achievements ac
         achievement newAchievement;
         newAchievement.name = achievementName;
         newAchievement.type = achievementType;
+        newAchievement.achieved = SDL_GetTicks();
 
         achievements.push_back(newAchievement);
-        addNotification(achievementName, {200,0,200});
+       // addNotification(achievementName, {200,0,200});
         Mix_PlayChannel(-1, win, 0);
 
         int achievementCounter = achievements.size();
@@ -2941,6 +2942,38 @@ void game::screenIntro()
     }
 }
 
+
+void game::drawAchievements()
+{
+    int currentTime = SDL_GetTicks();
+    int aTime = 0;
+    
+
+    if (achievements.size() > 0) {
+
+        for (list<achievement>::iterator it = achievements.begin(); it != achievements.end(); it++)
+        {
+            aTime = (currentTime - it->achieved);
+            if(it->type == my_enums::_COMBAT_)fg = { 200,0,0 };
+            if (it->type == my_enums::_HIDDEN_)fg = { 200,0,200 };
+            if (it->type == my_enums::_MISSIONS_)fg = { 0,200,0 };
+            if (it->type == my_enums::_OPTIONS_)fg = { 0,0,200 };
+
+
+            if (aTime < 5000) {
+                tmpRect.x = gScreenSurface->w/2 -250  - aTime / 20;
+               // tmpRect.y = gScreenSurface->h/2 -50 - aTime / 50;
+                tmpRect.y = gScreenSurface->h  - 100 - aTime / 12;
+                tmpRect.w = 500 + aTime/10;
+                tmpRect.h = 100 + aTime/25;
+
+
+                drawTextResize(it->name, tmpRect);
+            }
+        }
+    }
+    fg = { 0,0,0 };
+}
 
 void game::screenNotifications()
 {

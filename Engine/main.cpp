@@ -44,6 +44,8 @@ while (Game.getState() != my_enums::S_GAMECLOSE_){
 
     Game.screenNotifications();
 
+    Game.drawAchievements();
+
     Game.screenFlip();
 
     Game.adjustFPS();

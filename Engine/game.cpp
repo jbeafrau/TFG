@@ -3811,16 +3811,18 @@ void game::screenAchievements()
 
 void game::screenFight()
 {
-    
+
     drawButtonSrc(exitButton, buttonCloseTexture);
-    
+
+
+    if ((SDL_GetTicks() - lastTurn) > 1000) {
     //All players can use normal attacks
     drawButtonSrc(fightButton, buttonSwordTexture);
-    
-    if(hasSkill("ARQUERO"))drawButtonSrc(bowButton, buttonBowTexture);
+
+    if (hasSkill("ARQUERO"))drawButtonSrc(bowButton, buttonBowTexture);
     if (hasSkill("SUBTERFUGIO"))drawButtonSrc(hideButton, buttonHideTexture);
-    
-    if (power>0) {
+
+    if (power > 0) {
         if (hasSkill("MAGIA"))drawButtonSrc(spellButton, buttonSpellTexture);
         if (hasSkill("DRENAR"))drawButtonSrc(drainButton, buttonDrainTexture);
         if (hasSkill("INVOCAR"))drawButtonSrc(summonButton, buttonSummonTexture);
@@ -3832,6 +3834,13 @@ void game::screenFight()
 
     if (potions_power > 0) {
         drawButtonSrc(potionMagicButton, buttonPotionMagicTexture);
+    }
+
+}
+
+    if ((SDL_GetTicks() - lastTurn) > 1000) {
+        fightPlayer = "Preparado...";
+        fightFoe = "";
     }
 
     SDL_Rect target;
@@ -5349,16 +5358,17 @@ void game::eventsFight()
                 //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
-   
-
+            if ((SDL_GetTicks() - lastTurn) > 1000) {
+            //melee atack
             if (fightButton.clicked(mousex, mousey)) {
-                addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1,buttonSwordTexture);
-                Mix_PlayChannel(-1,sword, 1);
+                addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1, buttonSwordTexture);
+                Mix_PlayChannel(-1, sword, 1);
                 turn++;
+                lastTurn = SDL_GetTicks();
                 int good = dice(10, 1) + skill;
                 int bad = dice(10, 1) + tmpNPCs.begin()->skill;
-               // playerDice = good;
-              //  foeDice = bad;
+                // playerDice = good;
+               //  foeDice = bad;
                 int damage = 1;
                 int enemyDamage = 1;
 
@@ -5376,13 +5386,13 @@ void game::eventsFight()
                          //addNotification("Has derrotado a "+ tmpNPC.description +"!!", { 0,0,0 });
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
-                         addExp(tmpNPC.exp);
+                        addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
 
 
                         killCount++;
                         addAchievement("Primera victoria", my_enums::_COMBAT_);
-                        if(killCount == 10)addAchievement("Le estas pillando el punto", my_enums::_COMBAT_);
+                        if (killCount == 10)addAchievement("Le estas pillando el punto", my_enums::_COMBAT_);
                         if (killCount == 100)addAchievement("Massacre", my_enums::_COMBAT_);
                     }
                     else {
@@ -5395,14 +5405,14 @@ void game::eventsFight()
                 }
 
                 //Process enemy attack
-                if (tmpNPCs.size() > 0){
-                    addAnimation( 1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
-                    int good = dice(10, 1) + skill ;
+                if (tmpNPCs.size() > 0) {
+                    addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
+                    int good = dice(10, 1) + skill;
                     if (hasSkill("MELEE")) { good++; }
                     if (alternate2 != "") { good += getItem(alternate2).bonus; }
                     if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
                     if (alternate != "") { good += getItem(alternate).bonus; }
-                   
+
                     int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                     if (bad > good) {
                         enemyDamage = tmpNPCs.begin()->damage;
@@ -5429,23 +5439,23 @@ void game::eventsFight()
                     }
 
                 }
-               
-              
-            }//fightbutton click
 
+
+            }//fightbutton click
 
             //ranged attack
             if (bowButton.clicked(mousex, mousey)) {
                 addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1, buttonBowTexture);
                 Mix_PlayChannel(-1, bow, 1);
                 turn++;
+                lastTurn = SDL_GetTicks();
                 int good = dice(10, 1) + skill;
                 int bad = dice(10, 1) + tmpNPCs.begin()->skill;
                 // playerDice = good;
                //  foeDice = bad;
                 int damage = 1;
 
-                
+
                 if (alternate3 != "") { damage += getItem(alternate3).bonus; }
 
                 //Process player attack
@@ -5478,57 +5488,57 @@ void game::eventsFight()
                     int badLuck = dice(10, 1) + tmpNPCs.begin()->luck;
                     if (goodLuck > badLuck) {
                         addNotification("Evitas el ataque", { 0,0,0 });
-                    }else{
-                    addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
-                    int good = dice(10, 1) + skill;
-                    if (hasSkill("MELEE")) { good++; }
-                    if (alternate2 != "") { good += getItem(alternate2).bonus; }
-                    if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
-                    if (alternate != "") { good += getItem(alternate).bonus; }
-
-                    int bad = dice(10, 1) + tmpNPCs.begin()->skill;
-                    if (bad > good) {
-                        int enemyDamage = tmpNPCs.begin()->damage;
-                        stamina -= enemyDamage;
-                        addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
-                        if (stamina <= 0) {
-                            addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
-                            setState(my_enums::S_HERO_);
-                            deleteNPCs(px, py);
-                            //Mix_PlayMusic(musicGameOver, -1);
-                            addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                            Mix_PlayMusic(musicHERO, -1);
-                            timerGameOver.start();
-                            timerGameOver.reset();
-                            //addNotification("Saliendo del juego");
-                            //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
-                        }
-
                     }
-                }//Luck
+                    else {
+                        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
+                        int good = dice(10, 1) + skill;
+                        if (hasSkill("MELEE")) { good++; }
+                        if (alternate2 != "") { good += getItem(alternate2).bonus; }
+                        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
+                        if (alternate != "") { good += getItem(alternate).bonus; }
+
+                        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
+                        if (bad > good) {
+                            int enemyDamage = tmpNPCs.begin()->damage;
+                            stamina -= enemyDamage;
+                            addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                            if (stamina <= 0) {
+                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+                                setState(my_enums::S_HERO_);
+                                deleteNPCs(px, py);
+                                //Mix_PlayMusic(musicGameOver, -1);
+                                addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
+                                Mix_PlayMusic(musicHERO, -1);
+                                timerGameOver.start();
+                                timerGameOver.reset();
+                                //addNotification("Saliendo del juego");
+                                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                            }
+
+                        }
+                    }//Luck
 
                 }
 
 
             }//bow button click
 
-
             //subterfuge attack
             if (hideButton.clicked(mousex, mousey)) {
                 addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1, buttonHideTexture);
                 Mix_PlayChannel(-1, sword, 1);
                 turn++;
-
+                lastTurn = SDL_GetTicks();
                 NPC tmpNPC = tmpNPCs.front();
                 int damage = 2;
                 if (alternate3 != "") { damage += getItem(alternate3).bonus; }
-                    
+
 
                 int goodLuck = dice(10, 1) + luck;
                 int badLuck = dice(10, 1) + tmpNPCs.begin()->luck;
                 if (goodLuck > badLuck) {
                     addNotification("Ataque por sorpresa", { 0,0,0 });
-                    tmpNPC.stamina -= (damage +1);
+                    tmpNPC.stamina -= (damage + 1);
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
                         addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
@@ -5558,17 +5568,16 @@ void game::eventsFight()
 
             }//stealth button click
 
-
             //Health potion
             if (potions_health > 0) {
                 if (potionHealthButton.clicked(mousex, mousey)) {
                     Mix_PlayChannel(-1, heal, 1);
-                    addAnimation(potionHealthButton.getRect().x, potionHealthButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100,1, buttonPotionHealthTexture);
+                    addAnimation(potionHealthButton.getRect().x, potionHealthButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonPotionHealthTexture);
                     potions_health--;
                     stamina += 10;
                     if (stamina > max_stamina)stamina = max_stamina;
                     turn++;
-
+                    lastTurn = SDL_GetTicks();
                     addAchievement("Poción de vida", my_enums::_OPTIONS_);
 
                     int damage = 1;
@@ -5608,18 +5617,19 @@ void game::eventsFight()
 
             //Power potion
             if (potions_power > 0) {
-                
+
                 if (potionMagicButton.clicked(mousex, mousey)) {
                     Mix_PlayChannel(-1, heal, 1);
-                    addAnimation(potionMagicButton.getRect().x, potionMagicButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1,buttonPotionMagicTexture);
+                    addAnimation(potionMagicButton.getRect().x, potionMagicButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonPotionMagicTexture);
                     potions_power--;
                     power += 10;
                     if (power > max_power)power = max_power;
                     turn++;
+                    lastTurn = SDL_GetTicks();
                     addAchievement("Poción de mágia", my_enums::_OPTIONS_);
 
 
-                    
+
 
                     int damage = 1;
                     //Process enemy attack
@@ -5657,14 +5667,15 @@ void game::eventsFight()
             }
 
             //magic attack
-            if (spellButton.clicked(mousex, mousey)){
+            if (spellButton.clicked(mousex, mousey)) {
                 if (power > 0) {
                     Mix_PlayChannel(-1, magic, 1);
-                    addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100,1, buttonSpellTexture);
+                    addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1, buttonSpellTexture);
                     turn++;
+                    lastTurn = SDL_GetTicks();
                     int damage = 1;
                     int attackPower = dice(power, 1);
-                    
+
                     NPC tmpNPC = tmpNPCs.front();
                     if (attackPower > tmpNPC.stamina)attackPower = tmpNPC.stamina;
 
@@ -5727,13 +5738,13 @@ void game::eventsFight()
                 }//player has power
             }//magic attack
 
-
             //drain attack
             if (drainButton.clicked(mousex, mousey)) {
                 if (power > 0) {
                     Mix_PlayChannel(-1, magic, 1);
                     addAnimation(gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 1, 100, 100, 100, 1, buttonDrainTexture);
                     turn++;
+                    lastTurn = SDL_GetTicks();
                     int damage = 1;
                     int attackPower = dice(power, 1);
 
@@ -5804,6 +5815,7 @@ void game::eventsFight()
                 }//player has power
             }//drain attack
 
+        }
 
             if (tmpNPCs.size() == 0) {
                 turn = 0;

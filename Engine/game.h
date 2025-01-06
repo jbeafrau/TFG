@@ -343,6 +343,7 @@ protected:
 
     std::string fightPlayer="";
     std::string fightFoe="";
+    int lastTurn = 0;
 
     std::list<achievement> achievements; //Player´s achievements 
     std::list<std::string> skills; //Player´s skills

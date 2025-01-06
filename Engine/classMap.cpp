@@ -71,7 +71,7 @@ void classMap::generateTiles(int currentState)
         //draw some random features
         for (int x = 1; x < 299; x++) {
             for (int y = 1; y < 299; y++) {
-                int rFeature = dice(20, 1);
+                int rFeature = dice(40, 1);
                 if(rFeature == 1 )map_cells[x][y] = 341;
                 if (rFeature == 2)map_cells[x][y] = 342;
                 if (rFeature == 3)map_cells[x][y] = 343;

@@ -21,8 +21,8 @@ void classMap::generateTiles(int currentState)
     int width = mymap.heightMap.GetWidth();
     int height = mymap.heightMap.GetHeight();
 
-    for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
+    for (int x = 1; x < 299; x++) {
+        for (int y = 1; y < 299; y++) {
             map_cells[x][y] = 0;
         }
     }

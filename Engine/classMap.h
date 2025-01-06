@@ -67,7 +67,7 @@ private:
 
     Uint32 rmask, gmask, bmask, amask;
     int width, height;
-    int map_cells[256][256];
+    int map_cells[300][300];
 
    // mapgenerator mymap;
 

@@ -4446,16 +4446,16 @@ void game::eventsMaster()
             if (skillButton.clicked(mousex, mousey)) {
                 if (skillPoints > 0) {
                     skillPoints--;
-                    skill += 1;
-                    max_skill = skill;
+                    max_skill += 1;
+                    skill = max_skill;
                }
             }
 
             if (powerButton.clicked(mousex, mousey)) {
                 if (skillPoints > 0) {
                     skillPoints--;
-                    power += 1;
-                    max_power = power;
+                    max_power += 1;
+                    power = max_power;
 
                 }
             }
@@ -4463,8 +4463,8 @@ void game::eventsMaster()
             if (staminaButton.clicked(mousex, mousey)) {
                 if (skillPoints > 0) {
                     skillPoints--;
-                    stamina += 2;
-                    max_stamina = stamina;
+                    max_stamina += 2;
+                    stamina = max_stamina;
 
                 }
             }
@@ -4472,8 +4472,8 @@ void game::eventsMaster()
             if (luckButton.clicked(mousex, mousey)) {
                 if (skillPoints > 0) {
                     skillPoints--;
-                    luck += 1;
-                    max_luck = luck;
+                    max_luck += 1;
+                    luck = max_luck;
                 }
             }
 
@@ -5095,7 +5095,7 @@ void game::processAI()
                     if (it->NPCID = 10002) {
                         addAchievement("Derrotaste al necromante", my_enums::_HIDDEN_);
                         removeChat(109, 142, 4);
-                        addChat(109, 142, 4, "Sobre el necromante...", "En el cementerio del pueblo hay enemigos que no permiten salir a los ciudadanos, el mago del templo elemental al este necesita ayuda con su mascota ");
+                        addChat(109, 142, 4, "Sobre el necromante...", "Gracias por derrotar al nigromante, ahora el pueblo vuelve a ser un sitio seguro");
 
                         
                     }

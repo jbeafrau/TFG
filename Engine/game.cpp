@@ -4686,8 +4686,8 @@ void game::eventsConfigMenu()
                 if (volumeSound > 128) { volumeSound = 128; }
                 Mix_Volume(-1, volumeSound);
                 Mix_VolumeMusic(volumeMusic);
-
                 volumeSoundButton.setCaption("SOUND " + std::to_string(volumeSound * 100 / 128) + "%");
+                addAchievement("Más ruido", my_enums::_OPTIONS_);
             }
 
             if (volumeSoundDownButton.clicked(mousex, mousey)) {
@@ -4696,6 +4696,7 @@ void game::eventsConfigMenu()
                 Mix_Volume(-1, volumeSound);
                 Mix_VolumeMusic(volumeMusic);
                 volumeSoundButton.setCaption("SOUND " + std::to_string(volumeSound * 100 / 128) + "%");
+                addAchievement("Menos ruido", my_enums::_OPTIONS_);                   
             }
 
             if (volumeMusicUpButton.clicked(mousex, mousey)) {
@@ -4704,6 +4705,7 @@ void game::eventsConfigMenu()
                 Mix_Volume(-1, volumeSound);
                 Mix_VolumeMusic(volumeMusic);
                 volumeMusicButton.setCaption("MUSIC " + std::to_string(volumeMusic * 100 / 128) + "%");
+                addAchievement("Más música", my_enums::_OPTIONS_);
             }
 
             if (volumeMusicDownButton.clicked(mousex, mousey)) {
@@ -4712,6 +4714,7 @@ void game::eventsConfigMenu()
                 Mix_Volume(-1, volumeSound);
                 Mix_VolumeMusic(volumeMusic);
                 volumeMusicButton.setCaption("MUSIC " + std::to_string(volumeMusic * 100 / 128) + "%");
+                addAchievement("Menos música", my_enums::_OPTIONS_);
             }
 
             if (blurButton.clicked(mousex, mousey)) {

@@ -240,6 +240,8 @@ void game::phaseNPCs()
          }         
          else if (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_) {
              if (getState() != my_enums::S_FIGHT_) {
+                 fightPlayer = "";
+                 fightFoe = "";
                  px = tmpx;
                  py = tmpy;
                  checkBoundaries();
@@ -2948,7 +2950,7 @@ void game::drawAchievements()
 {
     int currentTime = SDL_GetTicks();
     int aTime = 0;
-    
+    SDL_Rect target;
 
     if (achievements.size() > 0) {
 
@@ -2962,14 +2964,13 @@ void game::drawAchievements()
 
 
             if (aTime < 5000) {
-                tmpRect.x = gScreenSurface->w/2 -250  - aTime / 20;
-               // tmpRect.y = gScreenSurface->h/2 -50 - aTime / 50;
-                tmpRect.y = gScreenSurface->h  - 100 - aTime / 12;
-                tmpRect.w = 500 + aTime/10;
-                tmpRect.h = 100 + aTime/25;
+                target.x = gScreenSurface->w/2 -250  - aTime / 20;
+                target.y = gScreenSurface->h  - 100 - aTime / 12;
+                target.w = 500 + aTime/10;
+                target.h = 100 + aTime/25;
 
 
-                drawTextResize(it->name, tmpRect);
+                drawTextResize(it->name, target);
             }
         }
     }
@@ -3827,26 +3828,27 @@ void game::screenFight()
         drawButtonSrc(potionMagicButton, buttonPotionMagicTexture);
     }
 
-    tmpRect.x = gScreenSurface->w / 2 +100;
-    tmpRect.y = gScreenSurface->h / 2 +100;
-    tmpRect.w = gScreenSurface->w/2 -100;
-    tmpRect.h = 200;
-    drawSquare(tmpRect, { 200,200,200 });
-    drawTextBlock(fightPlayer, tmpRect);
+    SDL_Rect target;
+    target.x = gScreenSurface->w / 2 +100;
+    target.y = gScreenSurface->h / 2 +100;
+    target.w = gScreenSurface->w/2 -100;
+    target.h = 200;
+    drawSquare(target, { 200,200,200 });
+    drawTextBlock(fightPlayer, target);
 
-    tmpRect.x = 1;
-    tmpRect.y = gScreenSurface->h / 2 +100;
-    tmpRect.w = gScreenSurface->w / 2 -100;
-    tmpRect.h = 200;
-    drawSquare(tmpRect, { 200,200,200 });
-    drawTextBlock(fightFoe, tmpRect);
+    target.x = 1;
+    target.y = gScreenSurface->h / 2 +100;
+    target.w = gScreenSurface->w / 2 -100;
+    target.h = 200;
+    drawSquare(target, { 200,200,200 });
+    drawTextBlock(fightFoe, target);
 
-    tmpRect.x = gScreenSurface->w / 2 - 200;
-    tmpRect.y = 0;
-    tmpRect.w = 400;
-    tmpRect.h = 50;
+    target.x = gScreenSurface->w / 2 - 200;
+    target.y = 0;
+    target.w = 400;
+    target.h = 50;
    
-    drawTextResize("¡¡COMBATE!!", tmpRect);
+    drawTextResize("¡¡COMBATE!!", target);
 
 
     int tmp = 0;

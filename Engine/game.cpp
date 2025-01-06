@@ -5111,7 +5111,7 @@ void game::processAI()
             else if (it->description == "NPC_DEFEATED") {
                 if (!findNPC(it->NPCID)) {
                     if (it->NPCID = 10002) {
-                        addAchievement("Derrotaste al necromante", my_enums::_HIDDEN_);
+                        addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
                         removeChat(109, 142, 4);
                         addChat(109, 142, 4, "Sobre el necromante...", "Gracias por derrotar al nigromante, ahora el pueblo vuelve a ser un sitio seguro");
 
@@ -5552,11 +5552,13 @@ void game::eventsFight()
                 int goodLuck = dice(10, 1) + luck;
                 int badLuck = dice(10, 1) + tmpNPCs.begin()->luck;
                 if (goodLuck > badLuck) {
-                    addNotification("Ataque por sorpresa", { 0,0,0 });
+                   // addNotification("Ataque por sorpresa", { 0,0,0 });
+                    fightPlayer = "Ataque por sorpresa a " + tmpNPC.description + " por " + to_string(damage+1) + " puntos de vida";
                     tmpNPC.stamina -= (damage + 1);
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
+                        //addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
+                        fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -5574,9 +5576,23 @@ void game::eventsFight()
                     }
                 }
                 else {
-                    addNotification("Te han descubierto ", { 0,0,0 });
+                    //addNotification("Te han descubierto ", { 0,0,0 });
+                    
                     int enemyDamage = tmpNPCs.begin()->damage;
                     stamina -= enemyDamage;
+                    fightFoe = tmpNPCs.begin()->description + "Te han descubierto y te dañan por " + to_string(enemyDamage) + " puntos de vida";
+                    if (stamina <= 0) {
+                        fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
+                        setState(my_enums::S_HERO_);
+                        deleteNPCs(px, py);
+                        //Mix_PlayMusic(musicGameOver, -1);
+                        addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
+                        Mix_PlayMusic(musicHERO, -1);
+                        timerGameOver.start();
+                        timerGameOver.reset();
+                        //addNotification("Saliendo del juego");
+                        //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                    }
                 }
 
 
@@ -5590,6 +5606,7 @@ void game::eventsFight()
                     addAnimation(potionHealthButton.getRect().x, potionHealthButton.getRect().y, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonPotionHealthTexture);
                     potions_health--;
                     stamina += 10;
+                    fightPlayer = "Te curas por 10 puntos de vida";
                     if (stamina > max_stamina)stamina = max_stamina;
                     turn++;
                     lastTurn = SDL_GetTicks();
@@ -5609,10 +5626,13 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                            addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                          //  addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+//                            if (stamina <= 0) {
+                            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                             if (stamina <= 0) {
+                                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 turn = 0;
-                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+  //                              addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
@@ -5624,6 +5644,9 @@ void game::eventsFight()
                                 //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
 
+                        }
+                        else {
+                            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
                         }
 
                     }//enemy attack
@@ -5640,6 +5663,7 @@ void game::eventsFight()
                     power += 10;
                     if (power > max_power)power = max_power;
                     turn++;
+                    fightPlayer = "Recuperas 10 puntos de magia";
                     lastTurn = SDL_GetTicks();
                     addAchievement("Poción de mágia", my_enums::_OPTIONS_);
 
@@ -5660,10 +5684,14 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                            addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                            //addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                            //if (stamina <= 0) {
+
+                            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                             if (stamina <= 0) {
+                                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 turn = 0;
-                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+                               // addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
@@ -5675,6 +5703,9 @@ void game::eventsFight()
                                 //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
 
+                        }
+                        else {
+                            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
                         }
 
                     }//enemy attack
@@ -5695,12 +5726,14 @@ void game::eventsFight()
                     if (attackPower > tmpNPC.stamina)attackPower = tmpNPC.stamina;
 
 
-                    addNotification("Has herido a " + tmpNPC.description + "!!", { 0,0,0 });
+                   // addNotification("Has herido a " + tmpNPC.description + "!!", { 0,0,0 });
+                    fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(damage) + " puntos de vida";
                     tmpNPC.stamina -= attackPower;
                     power -= attackPower;
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
+                        //addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
+                        fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -5730,10 +5763,13 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                            addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                            //addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                           // if (stamina <= 0) {
+                            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                             if (stamina <= 0) {
+                                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 turn = 0;
-                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+                              //  addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
@@ -5744,6 +5780,9 @@ void game::eventsFight()
                                 //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
 
+                        }
+                        else {
+                            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
                         }
 
                     }
@@ -5767,7 +5806,8 @@ void game::eventsFight()
                     if (attackPower > tmpNPC.stamina)attackPower = tmpNPC.stamina;
 
 
-                    addNotification("Has herido a " + tmpNPC.description + "!!", { 0,0,0 });
+                    //addNotification("Has herido a " + tmpNPC.description + "!!", { 0,0,0 });
+                    fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(damage) + " puntos de vida";
                     attackPower = attackPower / 2;
                     if (attackPower < 1)attackPower = 1;
                     tmpNPC.stamina -= attackPower;
@@ -5777,7 +5817,8 @@ void game::eventsFight()
                     power -= attackPower;
                     if (tmpNPC.stamina <= 0) {
                         //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
+                        //addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
+                        fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -5807,10 +5848,13 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                            addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                           // addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                          //  if (stamina <= 0) {
+                            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                             if (stamina <= 0) {
+                                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 turn = 0;
-                                addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+                              //  addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
@@ -5821,6 +5865,9 @@ void game::eventsFight()
                                 //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
 
+                        }
+                        else {
+                            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
                         }
 
                     }

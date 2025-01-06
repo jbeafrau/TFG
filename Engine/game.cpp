@@ -917,6 +917,11 @@ bool game::collide(int x, int y)
     if (baseMap.get_cell(x,y) == 9) tmp = true;
     if (baseMap.get_cell(x, y) == 579) tmp = true;
 
+    if (baseMap.get_cell(x, y) == 341) tmp = true;
+    if (baseMap.get_cell(x, y) == 342) tmp = true;
+    if (baseMap.get_cell(x, y) == 343) tmp = true;
+    if (baseMap.get_cell(x, y) == 344) tmp = true;
+
 
     std::list<EVENT>::iterator it = EVENTs.begin();
     while (it != EVENTs.end())
@@ -1842,7 +1847,8 @@ bool game::loadMedia(string base)
     locationsSurface = loadSurface(aFile);
     SDL_SetColorKey(locationsSurface, SDL_TRUE, // enable color key (transparency)
         //SDL_MapRGB(playersSurface->format, 0xFF, 0, 0xFF)); // This is the color that should be taken as being the 'transparent' part of the image
-        SDL_MapRGB(locationsSurface->format, 255, 0, 255)); // This is the color that should be taken as being the 'transparent' part of the image
+       // SDL_MapRGB(locationsSurface->format, 255, 0, 255)); // This is the color that should be taken as being the 'transparent' part of the image
+        SDL_MapRGB(locationsSurface->format, 71, 108, 108)); // This is the color that should be taken as being the 'transparent' part of the image
 
     locationsTexture = SDL_CreateTextureFromSurface(gRenderer, locationsSurface);
    

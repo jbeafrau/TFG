@@ -68,6 +68,17 @@ void classMap::generateTiles(int currentState)
     }
     case my_enums::S_HOMETOWN_:
     {
+        //draw some random features
+        for (int x = 1; x < 299; x++) {
+            for (int y = 1; y < 299; y++) {
+                int rFeature = dice(20, 1);
+                if(rFeature == 1 )map_cells[x][y] = 341;
+                if (rFeature == 2)map_cells[x][y] = 342;
+                if (rFeature == 3)map_cells[x][y] = 343;
+                if (rFeature == 4)map_cells[x][y] = 344;
+            }
+        }
+
         //Draw town roads
         road({ 1,50,100,2 }, 90, 96);
         road({ 101,50,2,100 }, 90, 96);

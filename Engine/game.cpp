@@ -6011,18 +6011,22 @@ void game::eventsAchievements()
 
             if (achievementGroup0Button.clicked(mousex, mousey)) {
                 achievementGroup = 0;
+                addAchievement("Naturaleza curiosa", my_enums::_HIDDEN_);
             }
 
             if (achievementGroup1Button.clicked(mousex, mousey)) {
                 achievementGroup = 1;
+                addAchievement("Naturaleza curiosa", my_enums::_HIDDEN_);
             }
 
             if (achievementGroup2Button.clicked(mousex, mousey)) {
                 achievementGroup = 2;
+                addAchievement("Naturaleza curiosa", my_enums::_HIDDEN_);
             }
 
             if (achievementGroup3Button.clicked(mousex, mousey)) {
                 achievementGroup = 3;
+                addAchievement("Naturaleza curiosa", my_enums::_HIDDEN_);
             }
 
            // if (achievementGroup4Button.clicked(mousex, mousey)) {

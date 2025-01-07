@@ -5970,6 +5970,7 @@ void game::addExp(int xp)
         level++;
         addNotification("Subes al nivel:" + to_string(level), { 0,0,0 });
         Mix_PlayChannel(-1, win, 0);
+        addAchievement("Level Up!", my_enums::_COMBAT_);
     }
 }
 
@@ -6027,18 +6028,17 @@ void game::eventsAchievements()
             if (achievementGroup3Button.clicked(mousex, mousey)) {
                 achievementGroup = 3;
                 addAchievement("Naturaleza curiosa", my_enums::_HIDDEN_);
+
+             
             }
 
-           // if (achievementGroup4Button.clicked(mousex, mousey)) {
-                //achievementGroup = 4;
-            //}
+           
 
         }
 
         //******************
     }
 
-    //myTime = (int)(timer.getTicks() / 1000);
 
 }
 

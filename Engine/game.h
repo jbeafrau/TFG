@@ -224,7 +224,7 @@ public:
     void drawIMGBox(int x, int y, int value, int max, SDL_Color color);
     void drawIMGBoxSmall(int x, int y, int w, int h, int value, int max, SDL_Color color);
 
-
+    void drawMouse();
     void drawScreens();
     void screenClear();
     void screenIntro();
@@ -326,6 +326,11 @@ protected:
     SDL_Rect mouseRect;
 
     string basePath;
+
+
+    SDL_Color lightGreyColor = { 200,200,200,0 };
+    SDL_Color greyColor = { 100,100,100,0 };
+    SDL_Color brownColor = { 139,69,19,0 };
 
     int killCount = 0;
     int magicKill = 0;

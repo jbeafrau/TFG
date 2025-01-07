@@ -69,9 +69,9 @@ void classMap::generateTiles(int currentState)
     case my_enums::S_HOMETOWN_:
     {
         //draw some random features
-        for (int x = 1; x < 299; x++) {
-            for (int y = 1; y < 299; y++) {
-                int rFeature = dice(40, 1);
+        for (int x = 1; x < 256; x++) {
+            for (int y = 1; y < 256; y++) {
+                int rFeature = dice(80, 1);
                 if(rFeature == 1 )map_cells[x][y] = 341;
                 if (rFeature == 2)map_cells[x][y] = 342;
                 if (rFeature == 3)map_cells[x][y] = 343;

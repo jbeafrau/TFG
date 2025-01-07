@@ -1703,27 +1703,21 @@ void game::screenMaster() {
     }
 }
 
-//Flip backscreen buffer to monitor
-void game::screenFlip()
+void game::drawMouse()
 {
     //Paint Mouse Over everything
     SDL_PumpEvents();
     SDL_GetMouseState(&mousex, &mousey);
     mouseRect.x = mousex - 10;
     mouseRect.y = mousey;
-    //mouseRect.w = mouseSurface->w * 3;
-    //mouseRect.h = mouseSurface->h * 3;
-
-
     mouseRect.w = mouseSurface->w;
     mouseRect.h = mouseSurface->h;
-
-
     SDL_RenderCopy(gRenderer, mouseTexture, NULL, &mouseRect);
+}
 
-    //mouseButton.setCaption("X:" + std::to_string(mousex) + " Y:" + std::to_string(mousey));
-    //drawButton(mouseButton);
-
+//Flip backscreen buffer to monitor
+void game::screenFlip()
+{
     //Flip image to monitor
     SDL_RenderPresent(gRenderer);
 }
@@ -2176,12 +2170,7 @@ void game::drawMap()
 void game::drawMiniMap()
 {
     SDL_Rect destRect;
-    /*destRect.x = 1;
-    destRect.y = 1;
-    destRect.w = 256;
-    destRect.h = 256;
-
-    */
+    int cell = 0;
 
     destRect.x = gScreenSurface->w / 2 - 256;
     destRect.y = gScreenSurface->h / 2 - 256;
@@ -2204,7 +2193,57 @@ void game::drawMiniMap()
     destRect.w = cam_size_x * 2;
     destRect.h = cam_size_y * 2;
     SDL_RenderDrawRect(gRenderer, &destRect);
+  
 
+    for (int x = 1; x < 256; x++) {
+        for (int y = 1; y < 256; y++) {
+            cell = baseMap.get_cell(x, y);
+            if (cell > 0) {
+                destRect.x = gScreenSurface->w / 2 - 256 + x * 2;
+                destRect.y = gScreenSurface->h / 2 - 256 + y * 2;
+                destRect.w = 2;
+                destRect.h = 2;
+                if((cell==9)|| (cell == 579) || (cell == 341) || (cell == 342) || (cell == 343) || (cell == 344)) drawSquare(destRect, greyColor);
+                if ((cell == 90) || (cell == 96) ) drawSquare(destRect, brownColor);
+                if ((cell == 104) || (cell == 247)) drawSquare(destRect, lightGreyColor);
+                if (cell == 66) drawSquare(destRect, {200,0,0,0});
+                
+                
+
+                    
+
+                
+            }
+        }
+
+    }
+    destRect.x = gScreenSurface->w / 2 - 256;
+    destRect.y = gScreenSurface->h / 2 + 256;
+    destRect.w = 512;
+    destRect.h = 50;
+    drawSquare(destRect, lightGreyColor);
+    drawTextResize("Pulsa cualquier tecla para continuar...", destRect);
+
+
+    destRect.x = gScreenSurface->w / 2 - 256 +px*2;
+    destRect.y = gScreenSurface->h / 2 - 256 + py*2;
+    destRect.w = 2;
+    destRect.h = 2;
+    drawSquare(destRect, {250,250,250,0});
+    bool tick = false;
+
+    destRect.x = gScreenSurface->w / 2 -20;
+    destRect.y = gScreenSurface->h / 2 - 256;
+    destRect.w = 40;
+    destRect.h = 40;
+    drawTextResize("N", destRect);
+    destRect.y = gScreenSurface->h / 2 + 226;
+    drawTextResize("S", destRect);
+    destRect.x = gScreenSurface->w / 2 - 256;
+    destRect.y = gScreenSurface->h / 2 - 20;
+    drawTextResize("O", destRect);
+    destRect.x = gScreenSurface->w / 2 + 226;
+    drawTextResize("E", destRect);
     screenFlip();
 
 
@@ -2215,7 +2254,26 @@ void game::drawMiniMap()
     bool quit = false;
     while (!quit)
     {
-    //Event handler
+        if (tick) {
+            tick = false;
+            destRect.x = gScreenSurface->w / 2 - 256 + px * 2;
+            destRect.y = gScreenSurface->h / 2 - 256 + py * 2;
+            destRect.w = 2;
+            destRect.h = 2;
+            drawSquare(destRect, { 250,250,250,0 });
+            screenFlip();
+        }
+        else {
+            tick = true;
+            destRect.x = gScreenSurface->w / 2 - 256 + px * 2;
+            destRect.y = gScreenSurface->h / 2 - 256 + py * 2;
+            destRect.w = 2;
+            destRect.h = 2;
+            drawSquare(destRect, { 0,0,0,0 });
+            screenFlip();
+        }
+        
+        //Event handler
     SDL_Event e;
 
     //Handle events on queue
@@ -5911,7 +5969,7 @@ void game::addExp(int xp)
         exp -= ((level * level) * 100);
         level++;
         addNotification("Subes al nivel:" + to_string(level), { 0,0,0 });
-
+        Mix_PlayChannel(-1, win, 0);
     }
 }
 

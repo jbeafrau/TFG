@@ -18,7 +18,7 @@ int main( int argc, char * argv[] )
 game Game;
 
 //Enable for debugging
-Game.debugMode = true;
+//Game.debugMode = true;
 
 if (Game.initSDL() == false) {
     Game.setState(my_enums::S_GAMEOVER_);
@@ -45,6 +45,8 @@ while (Game.getState() != my_enums::S_GAMECLOSE_){
     Game.screenNotifications();
 
     Game.drawAchievements();
+
+    Game.drawMouse();
 
     Game.screenFlip();
 

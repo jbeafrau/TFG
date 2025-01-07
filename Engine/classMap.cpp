@@ -166,7 +166,7 @@ void classMap::generateTiles(int currentState)
                 if(rFeature == 1 )map_cells[x][y] = 341;
                 if (rFeature == 2)map_cells[x][y] = 342;
                 if (rFeature == 3)map_cells[x][y] = 343;
-                if (rFeature == 4)map_cells[x][y] = 344;
+               // if (rFeature == 4)map_cells[x][y] = 344;
             }
         }
 

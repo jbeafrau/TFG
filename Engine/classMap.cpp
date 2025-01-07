@@ -38,7 +38,98 @@ void classMap::generateTiles(int currentState)
     
     case my_enums::S_COAST_WORLD_:
     {
-            break;
+        for (int y = 0; y < 256; y++)
+        {
+            for (int x = 0; x < 256; x++)
+            {
+                const float* cell = mymap.heightMap.GetConstSlabPtr(x, y);
+                map_cells[x][y] = 0;
+            //    if (*cell >= -1.0000)  map_cells[x][y] = 201;
+             //   if (*cell >= -0.2500)  map_cells[x][y] = 201;
+            //    if (*cell >= 0.0000)  map_cells[x][y] = 0;
+
+
+                //if ((*cell >= -0.2500 ) and ((x -y*2)% 5 == 0))
+
+
+                //if ((*cell >=  0.0000 ) and ((x -y*2)% 5 == 0))map_cells[x][y] = 3;
+
+             /*   if (*cell >= 0.0625) {
+                    if ((x - y * 2) % 5 == 0)
+                    {
+                        map_cells[x][y] = 4;
+                    }
+                    else {
+                        map_cells[x][y] = 0;
+                    }
+                }
+                */
+
+                if (*cell >= 0.1250) {
+                    if ((x - y * 2) % 5 == 0)
+                    {
+                        map_cells[x][y] = 330;
+                    }
+                    else {
+                        map_cells[x][y] = 0;
+                    }
+                }
+
+                if (*cell >= 0.3750) {
+                    if ((x - y * 2) % 5 == 0)
+                    {
+                        map_cells[x][y] = 342;
+                    }
+                    else {
+                        map_cells[x][y] = 0;
+                    }
+                }
+
+                if (*cell >= 0.5750) {
+                    if ((x - y * 2) % 5 == 0)
+                    {
+                        map_cells[x][y] = 344;
+                    }
+                    else {
+                        map_cells[x][y] = 0;
+                    }
+                }
+
+                if (*cell >= 0.7500) {
+                    if ((x - y * 2) % 5 == 0)
+                    {
+                        map_cells[x][y] = 345;
+                    }
+                    else {
+                        map_cells[x][y] = 0;
+                    }
+                }
+
+                if (*cell >= 1.0000) {
+                    if ((x - y * 2) % 5 == 0)
+                    {
+                        map_cells[x][y] = 346;
+                    }
+                    else {
+                        map_cells[x][y] = 0;
+                    }
+                }
+
+                /*renderer.AddGradientPoint (-1.0000, utils::Color (  0,   0, 128, 255)); // deeps
+                  renderer.AddGradientPoint (-0.2500, utils::Color (  0,   0, 255, 255)); // shallow
+                  renderer.AddGradientPoint ( 0.0000, utils::Color (  0, 128, 255, 255)); // shore
+                  renderer.AddGradientPoint ( 0.0625, utils::Color (240, 240,  64, 255)); // sand
+                  renderer.AddGradientPoint ( 0.1250, utils::Color ( 32, 160,   0, 255)); // grass
+                  renderer.AddGradientPoint ( 0.3750, utils::Color (224, 224,   0, 255)); // dirt
+                  renderer.AddGradientPoint ( 0.5750, utils::Color (152, 118,   84, 255)); // brown
+                  renderer.AddGradientPoint ( 0.7500, utils::Color (128, 128, 128, 255)); // rock
+                  renderer.AddGradientPoint ( 1.0000, utils::Color (255, 255, 255, 255)); // snow 9*/
+            }//for
+        }//for
+        
+        
+        //coast world
+        break;
     }
 
     case my_enums::S_ELEMENTAL_FIRE_WORLD_: 

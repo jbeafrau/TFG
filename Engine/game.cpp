@@ -918,9 +918,11 @@ bool game::collide(int x, int y)
     if (baseMap.get_cell(x, y) == 579) tmp = true;
 
     if (baseMap.get_cell(x, y) == 341) tmp = true;
-    if (baseMap.get_cell(x, y) == 342) tmp = true;
+    //if (baseMap.get_cell(x, y) == 342) tmp = true;
     if (baseMap.get_cell(x, y) == 343) tmp = true;
     if (baseMap.get_cell(x, y) == 344) tmp = true;
+    if (baseMap.get_cell(x, y) == 345) tmp = true;
+    if (baseMap.get_cell(x, y) == 346) tmp = true;
 
 
     std::list<EVENT>::iterator it = EVENTs.begin();
@@ -2203,16 +2205,16 @@ void game::drawMiniMap()
                 destRect.y = gScreenSurface->h / 2 - 256 + y * 2;
                 destRect.w = 2;
                 destRect.h = 2;
-                if((cell==9)|| (cell == 579) || (cell == 341) || (cell == 342) || (cell == 343) || (cell == 344)) drawSquare(destRect, greyColor);
+                //walls and mountain tops
+                if((cell==9)|| (cell == 579)||(cell == 345) || (cell == 346)) drawSquare(destRect, greyColor);
+                //plants
+                if ((cell == 330) || (cell == 341) || (cell == 342) || (cell == 343) || (cell == 344)) drawSquare(destRect, { 0,200,0,0 });
+                //roads
                 if ((cell == 90) || (cell == 96) ) drawSquare(destRect, brownColor);
+                //building floors
                 if ((cell == 104) || (cell == 247)) drawSquare(destRect, lightGreyColor);
-                if (cell == 66) drawSquare(destRect, {200,0,0,0});
-                
-                
-
-                    
-
-                
+                //firepits
+                if (cell == 66) drawSquare(destRect, {200,0,0,0});                                      
             }
         }
 

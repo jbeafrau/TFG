@@ -2256,19 +2256,19 @@ void game::drawMiniMap()
     {
         if (tick) {
             tick = false;
-            destRect.x = gScreenSurface->w / 2 - 256 + px * 2;
-            destRect.y = gScreenSurface->h / 2 - 256 + py * 2;
-            destRect.w = 2;
-            destRect.h = 2;
+            destRect.x = gScreenSurface->w / 2 - 257 + px * 2;
+            destRect.y = gScreenSurface->h / 2 - 257 + py * 2;
+            destRect.w = 4;
+            destRect.h = 4;
             drawSquare(destRect, { 250,250,250,0 });
             screenFlip();
         }
         else {
             tick = true;
-            destRect.x = gScreenSurface->w / 2 - 256 + px * 2;
-            destRect.y = gScreenSurface->h / 2 - 256 + py * 2;
-            destRect.w = 2;
-            destRect.h = 2;
+            destRect.x = gScreenSurface->w / 2 - 257 + px * 2;
+            destRect.y = gScreenSurface->h / 2 - 257 + py * 2;
+            destRect.w = 4;
+            destRect.h = 4;
             drawSquare(destRect, { 0,0,0,0 });
             screenFlip();
         }
@@ -2332,25 +2332,13 @@ void game::updateMap()
 void game::drawBackground()
 {
     {
-      /*  tmpRect.x = 1;
-        tmpRect.y = 1;
-        tmpRect.w = 400;
-        tmpRect.h = 400;
-        */
-     //   SDL_Color fg = { 0,0,0,0 };
-
-       // drawSquare(tmpRect, fg);
         if (getState() == my_enums::S_INTRO_) {
         SDL_RenderCopy(gRenderer, bg1Texture, NULL, NULL);
         }
         else {
             SDL_RenderCopy(gRenderer, bg2Texture, NULL, NULL);
-
         }
-      //  tmpRect.x = 401;
-       // SDL_RenderCopy(gRenderer, playersTexture, NULL, &tmpRect);
     }
-
 }
 
 
@@ -2392,19 +2380,15 @@ void game::drawButtonSrc(classButton btn, SDL_Texture* texture)
 void game::drawIMGBox(int x, int y, int value, int max, SDL_Color color)
 {
     int tmp;
-   // SDL_Texture* IMGTexture = SDL_CreateTextureFromSurface(gRenderer, surface);
     SDL_Rect target;
     target.x = x;
     target.y = y;
     target.w = 20;
     target.h = 20;
-    //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
-    //drawBo
+
    if (value > 0) drawSquare(target, color);
-   // SDL_Color fg = { 0,0,0,0 };
 
     while (value > 0) {
-        //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
         drawSquare(target, color);
         target.x += 20;
         value--;
@@ -2414,8 +2398,6 @@ void game::drawIMGBox(int x, int y, int value, int max, SDL_Color color)
     target.x = x;
     tmp = max;
     while (tmp > 0) {
-        //drawTransparentSquare(&target ,color);
-      //SDL_RenderCopy( gRenderer, surface, NULL, &target );
         drawTransparentSquare(target, color);
         target.x += 20;
         tmp--;
@@ -2425,21 +2407,15 @@ void game::drawIMGBox(int x, int y, int value, int max, SDL_Color color)
 void game::drawIMGBoxSmall(int x, int y, int w, int h, int value, int max, SDL_Color color)
 {
     int tmp;
-    // SDL_Texture* IMGTexture = SDL_CreateTextureFromSurface(gRenderer, surface);
     SDL_Rect target;
     target.x = x;
     target.y = y;
-   // target.w = 20;
     target.w = w / max;
 
     target.h = h;
-    //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
-    //drawBo
     if (value > 0) drawSquare(target, color);
-    // SDL_Color fg = { 0,0,0,0 };
-
+    
     while (value > 0) {
-        //SDL_RenderCopy(gRenderer, IMGTexture, NULL, &target);
         drawSquare(target, color);
         target.x += w / max;
         value--;
@@ -2449,8 +2425,6 @@ void game::drawIMGBoxSmall(int x, int y, int w, int h, int value, int max, SDL_C
     target.x = x;
     tmp = max;
     while (tmp > 0) {
-        //drawTransparentSquare(&target ,color);
-      //SDL_RenderCopy( gRenderer, surface, NULL, &target );
         drawTransparentSquare(target, color);
         target.x += w/max;
         tmp--;
@@ -2478,19 +2452,10 @@ void game::drawIMG(SDL_Surface* surface, int x, int y, int value)
 //Draw a text into screen
 void game::drawText(string text, SDL_Rect rect)
 {
-    //drawSquare(btn.getRect(),btn.getColor());
     SDL_Color fg = { 0,0,0,0 };
     if (text.length() > 0) {
         // UTF8
-         //TTF_RenderUTF8_Blended
         SDL_Surface* textSurface = TTF_RenderUTF8_Solid(gFont, text.c_str(), fg);
-        // SDL_Surface* textSurface = TTF_RenderText_Solid(gFont,text.c_str(),fg);
-        //SDL_Surface* textSurface = TTF_RenderText_Blended_Wrapped(gFont, text.c_str(), fg, 80);
-         /*SDL_Rect target = btn.getRect();
-         target.x = target.x + target.w/2 - text->w/2;
-         target.y = target.y + target.h/2 - text->h/2;*/
-         // SDL_BlitSurface(textSurface,NULL,gScreenSurface,&rect);
-
         if (textSurface->w <= rect.w) { rect.w = textSurface->w; }
         rect.h = textSurface->h;
         SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
@@ -2505,18 +2470,10 @@ void game::drawText(string text, SDL_Rect rect)
 //Draw a text into screen aligned
 void game::drawTextL(string text, SDL_Rect rect)
 {
-    //drawSquare(btn.getRect(),btn.getColor());
     SDL_Color fg = { 0,0,0,0 };
     if (text.length() > 0) {
         SDL_Surface* textSurface = TTF_RenderUTF8_Solid(gFont, text.c_str(), fg);
-        /*SDL_Rect target = btn.getRect();
-        target.x = target.x + target.w/2 - text->w/2;
-        target.y = target.y + target.h/2 - text->h/2;*/
-        // SDL_BlitSurface(textSurface,NULL,gScreenSurface,&rect);
-
         rect.x = rect.x - rect.w;
-        //rect.x = rect.x - textSurface->w;
-        //rect.w = textSurface->w;
 
         if (textSurface->w <= rect.w) {
             rect.w = textSurface->w;
@@ -2536,16 +2493,10 @@ void game::drawTextL(string text, SDL_Rect rect)
 //Draw text block
 void game::drawTextBlock(string text, SDL_Rect rect)
 {
-    //drawSquare(btn.getRect(),btn.getColor());
     SDL_Color fg = { 0,0,0,0 };
     if (text.length() > 0) {
-        // SDL_Surface* textSurface = TTF_RenderText_Solid(gFont,text.c_str(),fg);
         SDL_Surface* textSurface = TTF_RenderUTF8_Blended_Wrapped(gFont, text.c_str(), fg, rect.w);
 
-        /*SDL_Rect target = btn.getRect();
-        target.x = target.x + target.w/2 - text->w/2;
-        target.y = target.y + target.h/2 - text->h/2;*/
-        // SDL_BlitSurface(textSurface,NULL,gScreenSurface,&rect);
         rect.w = textSurface->w;
         rect.h = textSurface->h;
         SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
@@ -2614,31 +2565,15 @@ void game::screenMain()
 
 void game::screenPlayerName()
 {
-
-   // SDL_Rect dstrect;
-
-   // drawButton(exitButton);
-   // drawButton(continueButton);
-
-   // drawButton(playerUpButton);
-    //drawButton(playerDownButton);
-
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
-
-    //drawButtonSrc(playerUpButton, buttonNextTexture);
-    //drawButtonSrc(playerDownButton, buttonPrevTexture);
-
     drawButtonSrc(nextButton, buttonNextTexture);
     drawButtonSrc(prevButton, buttonPrevTexture);
-
 
     tmpRect.x = gScreenSurface->w / 2 - gScreenSurface->w / (cam_size_x*2);
     tmpRect.y = gScreenSurface->h / 2;
     tmpRect.w = gScreenSurface->w / cam_size_x;
     tmpRect.h = gScreenSurface->h / cam_size_y;
-
-    //drawPlayerTileset(tmpRect, playerTile);
 
     drawTileset(tmpRect, playersTexture, playerTile,20);
 
@@ -2653,8 +2588,6 @@ void game::screenPlayerName()
 
     tmpRect.y = 250;
     drawText(playerName, tmpRect);
-    //tmpRect.y = 300;
-   // tmpRect.y = gScreenSurface->h / 2 - 50;
     tmpRect.y = gScreenSurface->h / 4*3 -50;
     drawText("Cambia la imagen y luego pulsa continuar...", tmpRect);
 }
@@ -2712,16 +2645,11 @@ void game::screenPlayerAttributes()
   drawTextBlock("PODER: Habilidad que te permite usar la magia", tmpRect);
   tmpRect.y = 600;
   drawTextBlock("SUERTE: Habilidad que te permite tener hacer ataques furtivos y posibilidad de esquivar ataques usando armas a distancia", tmpRect);
-
-
-  
 }
 
 
 void game::screenPlayer()
 {
-
-
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
 
@@ -2730,8 +2658,6 @@ void game::screenPlayer()
     tmpRect.y = 0;
     tmpRect.w = 400;
     tmpRect.h = 50;
-  
-
     drawTextResize("Ficha del personaje: " +playerName, tmpRect);
 
     tmpRect.x = gScreenSurface->w/2 - 200;
@@ -2774,7 +2700,6 @@ void game::screenPlayer()
     drawSquare(target, { 200,200,200 });
 
     tmpRect.y = 200;
-    //tmpRect.x = gScreenSurface->w / 2 + 200;
     tmpRect.x = 1;
     drawTextResize("HABILIDADES: ", tmpRect);
     tmpy = 200;
@@ -2874,11 +2799,7 @@ void game::screenShops()
             break;
         }
         itC++;
-        // cout <<  "-> " << it->description << "(" << it->targetId << ")" << endl;
     }
-
-
-
 }
 
 void game::screenChat()
@@ -2945,7 +2866,6 @@ void game::screenChat()
             break;
         }
         itC++;
-        // cout <<  "-> " << it->description << "(" << it->targetId << ")" << endl;
     }
 
     target.x = 50;
@@ -3103,9 +3023,7 @@ void game::eventsIntro()
             }
             if (continueButton.clicked(mousex, mousey)) {
                 setState(my_enums::S_MAINMENU_);
-                //quit =true;
                 Mix_PlayChannel(-1, audioButton, 0);
-                //Mix_PlayMusic(music8bit, -1);
                 timer.start();
             }
 
@@ -3191,8 +3109,6 @@ void game::eventsGameOver()
     //Handle events on queue
     while (SDL_PollEvent(&e) != 0)
     {
-        //Special text input event
-
         if (e.type == SDL_MOUSEMOTION)
         {
         }
@@ -3546,9 +3462,6 @@ void game::screenPlayerRaces()
     tmpRect.y = 650;
     drawTextBlock("CONTEMPLADOR: +2 a poder , -1 a combate", tmpRect);
 
- 
-
-
 }
 
 void game::screenPlayerArchetypes()
@@ -3703,8 +3616,6 @@ void game::screenInventory()
 
         tmpRect.y += 50;
         if (itemRing != "")drawTextResize(itemRing, tmpRect);
-        
-
 }
 
 
@@ -3723,7 +3634,6 @@ void game::screenHero()
 
     tmpRect.y = gScreenSurface->h / 2;
     drawTextBlock("Has sido derrotado, pero cuando piensas que ya todo está perdido una voz en tu interior te llama y sientes que nuevas energías recorren tu cuerpo,  ¿Te rindes o vas a seguir luchando?", tmpRect);
- 
 }
 
 
@@ -3751,8 +3661,7 @@ bool game::hasSkill(std::string skill)
 
 
 void game::screenAchievements()
-{
-    
+{ 
     drawButtonSrc(exitButton, buttonCloseTexture);
     drawButtonSrc(continueButton, buttonAcceptTexture);
     int combat = 0, missions = 0, options = 0, hidden = 0;
@@ -3841,7 +3750,6 @@ void game::screenAchievements()
 
     drawIMGBox(gScreenSurface->w / 2 - 250, 200, combat, 10, { 200,0,0,0 });
     drawIMGBox(gScreenSurface->w / 2 - 250, 250, missions, 10, { 200,0,0,0 });
-    //drawIMGBox(gScreenSurface->w / 2 - 250, 300, npcs, 10, { 200,0,0,0 });
     drawIMGBox(gScreenSurface->w / 2 - 250, 300, options, 10, { 200,0,0,0 });
     drawIMGBox(gScreenSurface->w / 2 - 250, 350, hidden, 10, { 200,0,0,0 });
 
@@ -3942,11 +3850,9 @@ void game::screenFight()
         tmpRect.x = 1;
 
         tmpRect.y = tmp * 100;
-        //drawPlayerTileset(tmpRect, it->tile);
         drawTileset(tmpRect, playersTexture, it->tile,20);
 
         tmpRect.x = 101;
-        //tmpRect.y = tmp * 100;
         tmpRect.h = 50;
         drawText("Enemigo", tmpRect);
         tmpRect.w = 200;
@@ -4033,7 +3939,6 @@ void game::eventsPlayerRaces()
         {
             if (exitButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                //closeSDL();
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
@@ -4308,7 +4213,6 @@ void game::eventsPlayerArchetypes()
 
             if (backButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                //closeSDL();
                 SDL_StartTextInput();
                 setState(my_enums::S_RACES_);
 
@@ -4439,7 +4343,6 @@ void game::eventsPlayerAttributes()
                 
 
                 Mix_PlayChannel(-1, audioButton, 0);
-                //closeSDL();
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
@@ -4448,15 +4351,12 @@ void game::eventsPlayerAttributes()
             }
             if (continueButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                //Mix_PlayMusic(musicTOWN, -1);
                 setState(my_enums::S_RACES_);
 
-             
             }//continue
 
             if (backButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
-                //closeSDL();
                 SDL_StartTextInput();
                 setState(my_enums::S_NAME_);
 
@@ -4503,7 +4403,6 @@ void game::eventsMaster()
 
 
                 Mix_PlayChannel(-1, audioButton, 0);
-                //closeSDL();
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
@@ -4583,7 +4482,6 @@ void game::eventsPlayer()
 
 
                 Mix_PlayChannel(-1, audioButton, 0);
-                //closeSDL();
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
@@ -4645,8 +4543,6 @@ void game::eventsConfigMenu()
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
-                //addNotification("Saliendo del juego");
-                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (muteButton.clicked(mousex, mousey)) {
@@ -4827,8 +4723,7 @@ void game::eventsInventory()
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
-                //addNotification("Saliendo del juego");
-                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+//                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -4841,11 +4736,7 @@ void game::eventsInventory()
                 int y = mousey - 350;
                 int itemSelected = (y / 50) + 1;
                 if (items.size() >= itemSelected) {
-                    //todo
-
-                    //item aItem = getItem(items[itemSelected]);
-
-                    std::list<item>::iterator it = items.begin();
+                      std::list<item>::iterator it = items.begin();
                     if (itemSelected > 1) {
                         std::advance(it, itemSelected-1);
                     }
@@ -4862,7 +4753,6 @@ void game::eventsInventory()
                     {
                         Mix_PlayChannel(-1, weapon, 0);
                         alternate3 = it->name;
-                      //  itemEscudo = "";
                         alternate = "";
                         break;
                     }
@@ -4871,7 +4761,6 @@ void game::eventsInventory()
                     {
                         Mix_PlayChannel(-1, weapon, 0);
                         alternate3 = it->name;
-                     //   itemEscudo = "";
                         alternate = "";
                         break;
                     }
@@ -4886,7 +4775,6 @@ void game::eventsInventory()
                     case my_enums::_SHIELD_:
                     {
                         Mix_PlayChannel(-1, clothes, 0);
-                        //itemEscudo = it->name;
                         if ((alternate3 =="") ||(getItem(alternate3).type == my_enums::_WEAPON_1H_)){
                         alternate = it->name;
                         }
@@ -5060,11 +4948,6 @@ void game::processAI()
 
     }
 
-    //Process global events
-    //for (list<GLOBAL_EVENT>::iterator it = GLOBAL_EVENTs.begin(); it != GLOBAL_EVENTs.end(); it++)
-   // {
-
-
         std::list<GLOBAL_EVENT>::iterator it = GLOBAL_EVENTs.begin();
         while (it != GLOBAL_EVENTs.end())
         {
@@ -5098,8 +4981,7 @@ void game::processAI()
                                 itNPC->NPCAI = my_enums::_FRIENDLY_STATIC_;
                                 addNotification(itNPC->description + " deja de seguirte", { 0,0,0 });
 
-                                if (itNPC->id == 10001)addAchievement("¡¡Rescataste a TOR!!", my_enums::_MISSIONS_);
-                                //GLOBAL_EVENTs.erase(it);
+                                if (itNPC->id == 10001)addAchievement("Rescataste a TOR", my_enums::_MISSIONS_);
                                 it = GLOBAL_EVENTs.erase(it);
                                 erased = true;
                             }
@@ -5268,8 +5150,6 @@ void game::eventsHero()
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
-                //addNotification("Saliendo del juego");
-                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -5339,15 +5219,12 @@ void game::eventsHero()
         //******************
     }
 
-   // myTime = (int)(timer.getTicks() / 1000);
-
 }
 
 void game::locationEvents()
 {
     if (currentState == my_enums::S_HOMETOWN_) {
         tmpEVENTs = getEvents(px,py);
-        //cout << "Eventos cargados" << tmpEvents.size() << endl;
         bool erase = false;
         std::string tmpStr;
         for (list<EVENT>::iterator it = tmpEVENTs.begin(); it != tmpEVENTs.end(); it++)
@@ -5414,9 +5291,7 @@ void game::eventsFight()
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
-                //addNotification("Saliendo del juego");
                 deleteNPCs(px, py);
-                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if ((SDL_GetTicks() - lastTurn) > 1000) {
@@ -5863,8 +5738,6 @@ void game::eventsFight()
                     NPC tmpNPC = tmpNPCs.front();
                     if (attackPower > tmpNPC.stamina)attackPower = tmpNPC.stamina;
 
-
-                    //addNotification("Has herido a " + tmpNPC.description + "!!", { 0,0,0 });
                     fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(damage) + " puntos de vida";
                     attackPower = attackPower / 2;
                     if (attackPower < 1)attackPower = 1;
@@ -5874,10 +5747,7 @@ void game::eventsFight()
 
                     power -= attackPower;
                     if (tmpNPC.stamina <= 0) {
-                        //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        //addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
-                        //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         tmpNPCs.pop_front();
 
@@ -5906,21 +5776,15 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                           // addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
-                          //  if (stamina <= 0) {
                             fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                             if (stamina <= 0) {
                                 fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 turn = 0;
-                              //  addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 deleteNPCs(px, py);
-                                //Mix_PlayMusic(musicGameOver, -1);
                                 Mix_PlayMusic(musicHERO, -1);
                                 timerGameOver.start();
                                 timerGameOver.reset();
-                                //addNotification("Saliendo del juego");
-                                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
 
                         }
@@ -5945,18 +5809,10 @@ void game::eventsFight()
                 clearAnimations();
             }
 
-
-            //    drawIMGBox(100, gScreenSurface->h - 250, playerDice, 18, { 0,0,200,0 });
- //   drawIMGBox(100, gScreenSurface->h - 200, foeDice, 18, { 200,0,0,0 });
-
         }
 
         //******************
     }//events
-
-   // myTime = (int)(timer.getTicks() / 1000);
-
-    
 
 }
 
@@ -6001,7 +5857,6 @@ void game::eventsAchievements()
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
-                //addNotification("Saliendo del juego");
                 addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
@@ -6288,7 +6143,6 @@ void game::changeMap()
     int width, height;
     width = 256;
     height = 256;
-    // baseMap.mymap.init();
     baseMap.mymap.generate(rand() % 3 + 4, rand() % 3 + 1, 0.5f, 1, 1, width, height);
 
     baseMap.mymap.to_surface(baseMap.imageSurface, getState());
@@ -6384,7 +6238,6 @@ void game::drawNPCs()
     for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
     {
         if (currentState == it->map) {
-           // s_Foe aFoe;
             tx = it->x - cam_x;
             ty = it->y - cam_y;
 
@@ -6415,13 +6268,10 @@ void game::drawNPCs()
                 txtTexture = NULL;
 
                 }
-           // tmp.push_back(aFoe);
         }
     }
 }//end
 
-
-//void game::drawPlayerTileset(int x, int y, Uint8 player)
 void game::drawTileset(SDL_Rect target,SDL_Texture *texture, int player, int columns)
 {
     if (player != 0) {

@@ -2981,32 +2981,38 @@ void game::screenShops()
         switch (itC) {
         case 0:
             shop0.setCaption(tmpStr);
-            drawButtonSrc(shop0, buttonAcceptTexture);
+            shop0.setColor(100, 100, 100);
+            drawButton(shop0);
             drawTileset({ 0, gScreenSurface->h / 2,50,50 }, itemsTexture, it->tile, 20);
             break;
         case 1:
             shop1.setCaption(tmpStr);
-            drawButtonSrc(shop1, buttonAcceptTexture);
+            shop1.setColor(100, 100, 100);
+            drawButton(shop1);
             drawTileset({ 0, gScreenSurface->h / 2 +50 ,50,50 }, itemsTexture, it->tile, 20);
             break;
         case 2:
             shop2.setCaption(tmpStr);
-            drawButtonSrc(shop2, buttonAcceptTexture);
+            shop2.setColor(100, 100, 100);
+            drawButton(shop2);
             drawTileset({ 0, gScreenSurface->h / 2 + 100 ,50,50 }, itemsTexture, it->tile, 20);
             break;
         case 3:
             shop3.setCaption(tmpStr);
-            drawButtonSrc(shop3, buttonAcceptTexture);
+            shop3.setColor(100, 100, 100);
+            drawButton(shop3);
             drawTileset({ 0, gScreenSurface->h / 2 + 150 ,50,50 }, itemsTexture, it->tile, 20);
             break;
         case 4:
             shop4.setCaption(tmpStr);
-            drawButtonSrc(shop4, buttonAcceptTexture);
+            shop4.setColor(100, 100, 100);
+            drawButton(shop4);
             drawTileset({ 0, gScreenSurface->h / 2 + 200 ,50,50 }, itemsTexture, it->tile, 20);
             break;
         case 5:
             shop5.setCaption(tmpStr);
-            drawButtonSrc(shop5, buttonAcceptTexture);
+            shop5.setColor(100, 100, 100);
+            drawButton(shop5);
             drawTileset({ 0, gScreenSurface->h / 2 + 250 ,50,50 }, itemsTexture, it->tile, 20);
             break;
         }

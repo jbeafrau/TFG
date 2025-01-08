@@ -1266,8 +1266,9 @@ void game::start()
 
 
     int octave = rand() % 3 + 4;
-    float frequency = rand() % 3 + 1;
+    float frequency = (rand() % 6) / 2 + 1;
     float persistance = 0.5f;
+
 
     baseMap.blur();
 
@@ -6373,7 +6374,7 @@ void game::changeMap()
     int width, height;
     width = 256;
     height = 256;
-    baseMap.mymap.generate(rand() % 3 + 4, rand() % 3 + 1, 0.5f, 1, 1, width, height);
+    baseMap.mymap.generate(rand() % 3 + 4, (rand() % 6)/2 + 1, 0.5f, 1, 1, width, height);
 
     baseMap.mymap.to_surface(baseMap.imageSurface, getState());
     baseMap.generateTiles(getState());

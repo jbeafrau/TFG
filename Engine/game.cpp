@@ -958,14 +958,6 @@ void game::loadNPCs()
 
     //Add some monster on initial map
 
-    //south
-    /*
-    addNPC(1, 110, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), {1,1,255,255});
-    addNPC(2, 111, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
-    addNPC(3, 112, 170, my_enums::S_HOMETOWN_, "Monstruo poderoso", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), dice(3, 2), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
-    addNPC(4, 113, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
-   */
-
     //east
     addNPC(10, 136,155, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 136,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
@@ -2512,7 +2504,7 @@ int game::countMonsters()
 void game::monsterGenerator()
 {
     if (countMonsters() < maxMonsters) {
-        addNPC(getMonsterID(), dice(245,5), dice(245, 5), getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
+        addNPC(getMonsterID(), dice(245,5), dice(245, 5), getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5)+((level-1)*3), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), {1,1,255,255});
 
     }
 }

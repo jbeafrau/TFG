@@ -44,26 +44,6 @@ void classMap::generateTiles(int currentState)
             {
                 const float* cell = mymap.heightMap.GetConstSlabPtr(x, y);
                 map_cells[x][y] = 0;
-            //    if (*cell >= -1.0000)  map_cells[x][y] = 201;
-             //   if (*cell >= -0.2500)  map_cells[x][y] = 201;
-            //    if (*cell >= 0.0000)  map_cells[x][y] = 0;
-
-
-                //if ((*cell >= -0.2500 ) and ((x -y*2)% 5 == 0))
-
-
-                //if ((*cell >=  0.0000 ) and ((x -y*2)% 5 == 0))map_cells[x][y] = 3;
-
-             /*   if (*cell >= 0.0625) {
-                    if ((x - y * 2) % 5 == 0)
-                    {
-                        map_cells[x][y] = 4;
-                    }
-                    else {
-                        map_cells[x][y] = 0;
-                    }
-                }
-                */
 
                 if (*cell >= 0.1250) {
                     if ((x - y * 2) % 5 == 0)
@@ -127,6 +107,8 @@ void classMap::generateTiles(int currentState)
             }//for
         }//for
         
+         //Draw portals
+        map_cells[5][5] = 56;
         
         //coast world
         break;

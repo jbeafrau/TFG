@@ -1011,6 +1011,9 @@ void game::loadEvents()
 
     addEvent(253, 151, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 10, 10, my_enums::S_COAST_WORLD_, 0);
 
+    addEvent(5, 5, my_enums::S_COAST_WORLD_, "TELEPORT", 0, 0, 252, 151, my_enums::S_HOMETOWN_, 0);
+
+
     addGlobalEvent(1, my_enums::S_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
     addGlobalEvent(2, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_STATIC");
     addGlobalEvent(3, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "REMOVE_CHAT");
@@ -5426,7 +5429,7 @@ void game::eventsHero()
 
 void game::locationEvents()
 {
-    if (currentState == my_enums::S_HOMETOWN_) {
+    if ((currentState == my_enums::S_HOMETOWN_)|| (currentState == my_enums::S_COAST_WORLD_)){
         tmpEVENTs = getEvents(px,py);
         bool erase = false;
         std::string tmpStr;

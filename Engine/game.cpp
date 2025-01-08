@@ -6528,10 +6528,10 @@ void game::checkBoundaries()
     if (px > 254) { px = 254; }
     if (py > 254) { py = 254; }
 
-    if (px <= cam_x) { cam_x--; }
-    if (py <= cam_y) { cam_y--; }
-    if (px >= (cam_x + cam_size_x - 1)) { cam_x++; }
-    if (py >= (cam_y + cam_size_y - 1)) { cam_y++; }
+    if (px <= cam_x+1) { cam_x--; }
+    if (py <= cam_y+1) { cam_y--; }
+    if (px >= (cam_x-1 + cam_size_x - 1)) { cam_x++; }
+    if (py >= (cam_y-1 + cam_size_y - 1)) { cam_y++; }
 
 }
 

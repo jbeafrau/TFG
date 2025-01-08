@@ -4095,15 +4095,21 @@ void game::screenFight()
     tmpRect.x = gScreenSurface->w / 2;
     
     tmpRect.y = gScreenSurface->h / 2 - 250;
-    drawTextL(playerName, tmpRect);
-    tmpRect.y = gScreenSurface->h/2 - 225;
-    drawTextL("Vitalidad:", tmpRect);
-    drawIMGBox(gScreenSurface->w / 2, gScreenSurface->h / 2 - 225, stamina, max_stamina, { 200,0,0,0 });
+    drawText(playerName, tmpRect);
+   
     
+    tmpRect.y = gScreenSurface->h / 2 - 225;
+    drawTextL("Habilidad", tmpRect);
+    drawIMGBox(gScreenSurface->w / 2, gScreenSurface->h / 2 - 225, skill, max_skill, { 0,0,200,0 });
 
     tmpRect.y = gScreenSurface->h/2 - 200;
+    drawTextL("Vitalidad:", tmpRect);
+    drawIMGBox(gScreenSurface->w / 2, gScreenSurface->h / 2 - 200, stamina, max_stamina, { 200,0,0,0 });
+    
+
+    tmpRect.y = gScreenSurface->h/2 - 175;
     drawTextL("Poder:", tmpRect);
-    drawIMGBox(gScreenSurface->w / 2, gScreenSurface->h / 2 - 200, power, max_power, { 128,0,128,0 });
+    drawIMGBox(gScreenSurface->w / 2, gScreenSurface->h / 2 - 175, power, max_power, { 128,0,128,0 });
 
 
     tmpRect.y = gScreenSurface->h / 2 - 250; 

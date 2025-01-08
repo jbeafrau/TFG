@@ -137,7 +137,7 @@ void classMap::generateTiles(int currentState)
         }//for
         
         
-
+/*
         //Portal building
         openBuilding(getBuildingSpot(4,4), 9, 104, 38);
 
@@ -149,6 +149,20 @@ void classMap::generateTiles(int currentState)
 
         //Clues building
         openBuilding(getBuildingSpot(4, 4), 9, 104, 38);
+        */
+
+        //Portal building
+        openBuilding(getBuildingSpot(dice(6,2), dice(6, 2)), 9, 104, 38);
+
+        //Shop building
+        openBuilding(getBuildingSpot(dice(6, 2), dice(6, 2)), 9, 104, 38);
+
+        //Evil building
+        openBuilding(getBuildingSpot(dice(6, 2), dice(6, 2)), 9, 104, 38);
+
+        //Clues building
+        openBuilding(getBuildingSpot(dice(6, 2), dice(6, 2)), 9, 104, 38);
+
 
         //Draw portals
         map_cells[5][5] = 56;

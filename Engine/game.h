@@ -154,7 +154,9 @@ public:
   //  int dice(int maxValue, int minValue);
 
     int getState();
+    my_enums::gameState getStringState(int state);
     void setState(my_enums::gameState newState);
+
 
     std::string getBasePath();
     void adjustFPS();
@@ -317,9 +319,12 @@ public:
 
     int countMonsters();
     void monsterGenerator();
+    int getMonsterID();
 
     classMap baseMap;
     bool debugMode = false;
+
+    
 
 protected:
     int width = 600;
@@ -332,7 +337,10 @@ protected:
 
     string basePath;
 
+    //Used to identify random monsters
+    int monsterID = 20000;
 
+    //USed to display controls tutorial
     bool firstRun = true;
 
     //limit amount of monsters per map

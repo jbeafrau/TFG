@@ -222,19 +222,19 @@ void game::phaseNPCs()
         
          if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_CHAT_) {
              tmpCHATs = getChat(tmpx, tmpy);
-             previousScreen = my_enums::S_HOMETOWN_;
+             previousScreen = getStringState(currentState);
              setState(my_enums::S_CHAT_);
 
          }
          else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_SHOP_) {
              tmpSHOPs = getShops(tmpx, tmpy);
-             previousScreen = my_enums::S_HOMETOWN_;
+             previousScreen = getStringState(currentState);
              setState(my_enums::S_SHOP_);
 
          }
          else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_MASTER_) {
              //tmpSHOPs = getShops(tmpx, tmpy);
-             previousScreen = my_enums::S_HOMETOWN_;
+             previousScreen = getStringState(currentState);
              setState(my_enums::S_MASTER_);
 
          }         
@@ -247,7 +247,7 @@ void game::phaseNPCs()
                  checkBoundaries();
                  updateMap();
                  Mix_PlayMusic(musicBATTLE, -1);
-                 previousScreen = my_enums::S_HOMETOWN_;
+                 previousScreen = getStringState(currentState);
                  setState(my_enums::S_FIGHT_);
              }
          }
@@ -1421,6 +1421,40 @@ void game::setState(my_enums::gameState newState)
 }
 
 
+//getStringState(currentstate);
+my_enums::gameState game::getStringState(int state)
+{
+    switch (state)
+    {
+    case my_enums::S_INTRO_: return my_enums::S_INTRO_;
+    case my_enums::S_MAINMENU_:return my_enums::S_MAINMENU_;
+    case my_enums::S_HERO_:return my_enums::S_HERO_;
+    case my_enums::S_SHOP_:return my_enums::S_SHOP_;
+    case my_enums::S_CHAT_:return my_enums::S_CHAT_;
+    case my_enums::S_MASTER_:return my_enums::S_MASTER_;
+    case my_enums::S_NAME_:return my_enums::S_NAME_;
+    case my_enums::S_ATTRIBUTES_:return my_enums::S_ATTRIBUTES_;
+    case my_enums::S_PLAYER_:return my_enums::S_PLAYER_;
+    case my_enums::S_GAMEOVER_:return my_enums::S_GAMEOVER_;
+    case my_enums::S_RACES_:return my_enums::S_RACES_;
+    case my_enums::S_ARCHETYPES_:return my_enums::S_ARCHETYPES_;
+    case my_enums::S_INVENTORY_:return my_enums::S_INVENTORY_;
+    case my_enums::S_ACHIEVEMENTS_:return my_enums::S_ACHIEVEMENTS_;
+    case my_enums::S_FIGHT_:return my_enums::S_FIGHT_;
+    case my_enums::S_CONFIGMENU_:return my_enums::S_CONFIGMENU_;
+    case my_enums::S_FOREST_WORLD_: return my_enums::S_FOREST_WORLD_;
+    case my_enums::S_COAST_WORLD_: return my_enums::S_COAST_WORLD_;
+    case my_enums::S_ELEMENTAL_FIRE_WORLD_: return my_enums::S_ELEMENTAL_FIRE_WORLD_;
+    case my_enums::S_ELEMENTAL_WATER_WORLD_: return my_enums::S_ELEMENTAL_WATER_WORLD_;
+    case my_enums::S_ELEMENTAL_EARTH_WORLD_: return my_enums::S_ELEMENTAL_EARTH_WORLD_;
+    case my_enums::S_ELEMENTAL_WIND_WORLD_: return my_enums::S_ELEMENTAL_WIND_WORLD_;
+    case my_enums::S_NECRO_WORLD_:return my_enums::S_NECRO_WORLD_;
+    case my_enums::S_HOMETOWN_:return my_enums::S_HOMETOWN_;
+    default: return my_enums::S_HOMETOWN_;
+    };
+}
+
+
 std::string game::getBasePath()
 {
     return basePath;
@@ -2447,6 +2481,13 @@ void game:: playTutorial()
     }//while not quit
 }
 
+//Used to get auto-incermental ids
+int game::getMonsterID()
+{
+    monsterID++;
+    return monsterID;
+}
+
 //Count enemy NPCs on current map
 int game::countMonsters()
 {
@@ -2462,7 +2503,7 @@ int game::countMonsters()
 void game::monsterGenerator()
 {
     if (countMonsters() < maxMonsters) {
-        addNPC(1, dice(245,5), dice(245, 5), currentState, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
+        addNPC(getMonsterID(), dice(245,5), dice(245, 5), getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
 
     }
 }
@@ -2754,6 +2795,7 @@ void game::screenPlayerName()
     drawText("Introduce el nombre del jugador", tmpRect);
 
     tmpRect.y = 250;
+    drawSquare(tmpRect, lightGreyColor);
     drawText(playerName, tmpRect);
     tmpRect.y = gScreenSurface->h / 4*3 -50;
     drawText("Cambia la imagen y luego pulsa continuar...", tmpRect);
@@ -5262,7 +5304,7 @@ void game::timeEvents()
         if ((SDL_GetTicks() - ticksAI) > 1000) {
             ticksAI = SDL_GetTicks();
             processAI();
-
+            monsterGenerator();
         }
     }
 myTime = (int)(timer.getTicks() / 1000);
@@ -5272,12 +5314,6 @@ if (getState() != my_enums::S_FIGHT_)//You dont recharge magic while fighting
 {
     if (myTime != prevTime) {
         prevTime = myTime;
-
-        if (debugMode) {
-            if (NPCs.size()<20){
-            addNPC(1, dice(10, 80), dice(10, 80), my_enums::S_HOMETOWN_, "MALO", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, dice(300, 2), { 1,1,255,255 });
-        }
-        }
 
         powerRegeneration++;
         if (powerRegeneration >= (30 - max_power)) {
@@ -6104,24 +6140,23 @@ void game::eventsHomeTown()
             
 
             if (configButton.clicked(mousex, mousey)) {
+                previousScreen = getStringState(currentState);
                 setState(my_enums::S_CONFIGMENU_);
-                previousScreen = my_enums::S_HOMETOWN_;
             }//config button
 
             if (achievementsButton.clicked(mousex, mousey)) {
+                previousScreen = getStringState(currentState);
                 setState(my_enums::S_ACHIEVEMENTS_);
-                previousScreen = my_enums::S_HOMETOWN_;
-
             }
 
             if (inventoryButton.clicked(mousex, mousey)) {
+                previousScreen = getStringState(currentState);
                 setState(my_enums::S_INVENTORY_);
-                previousScreen = my_enums::S_HOMETOWN_;
             }//inventory button
 
-            if (playerButton.clicked(mousex, mousey)) {
+            if (playerButton.clicked(mousex, mousey)) {             
+                previousScreen = getStringState(currentState);
                 setState(my_enums::S_PLAYER_);
-                previousScreen = my_enums::S_HOMETOWN_;
             }//inventory button
 
             if(food>0){
@@ -6176,11 +6211,10 @@ void game::eventsHomeTown()
 
             if (newMapButton.clicked(mousex, mousey)) {
                 
-                int width, height;
-                width = 256;
-                height = 256;
-               // baseMap.mymap.init();
-                baseMap.mymap.generate(rand() % 6 + 1, rand() % 6 + 1, 0.5f, 1, 1, width, height);
+                //int width, height;
+                //width = 256;
+               // height = 256;
+              //  baseMap.mymap.generate(rand() % 6 + 1, rand() % 6 + 1, 0.5f, 1, 1, width, height);
 
                 switch (getState())
                 {
@@ -6215,11 +6249,13 @@ void game::eventsHomeTown()
                 };
 
 
-                baseMap.mymap.to_surface(baseMap.imageSurface,getState());
-                baseMap.generateTiles(currentState);
+               // baseMap.mymap.to_surface(baseMap.imageSurface,getState());
+               // baseMap.generateTiles(currentState);
                
-                updateMap();
-                baseMap.blur();
+               // updateMap();
+               // baseMap.blur();
+
+                changeMap();
 
             }//new map button
 

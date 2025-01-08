@@ -1002,6 +1002,7 @@ void game::loadNPCs()
 
 }
 
+
 void game::loadEvents()
 {
     addEvent(139, 163, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 139, 166, my_enums::S_HOMETOWN_, 0);
@@ -2309,6 +2310,214 @@ void game::drawMiniMap()
     
 }
 
+
+void game:: playTutorial()
+
+{
+    int startTime = SDL_GetTicks();
+    int elapsed = 0;
+
+    bool quit = false;
+    SDL_Rect destRect;
+    while (!quit)
+    {
+        elapsed = SDL_GetTicks() - startTime;
+        screenClear();
+        drawBackground();
+        
+        destRect.x = gScreenSurface->w / 2 - 256;
+        destRect.y = gScreenSurface->h / 8;
+        destRect.w = 512;
+        destRect.h = 50;
+        drawSquare(destRect, lightGreyColor);
+        drawTextResize("TUTORIAL CONTROLES", destRect);
+
+        if (elapsed > 1000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h / 4;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 100;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Achievement master se controla de dos maneras, con el teclado o bien con el ratón", destRect);
+
+        }
+
+        if (elapsed > 3000) {
+
+            drawButtonSrc(moveLeftButton, buttonLeftTexture);
+            drawButtonSrc(moveRightButton, buttonRightTexture);
+            drawButtonSrc(moveUpButton, buttonUpTexture);
+            drawButtonSrc(moveDownButton, buttonDownTexture);
+
+          
+            destRect.x = gScreenSurface->w /2;
+            destRect.y = gScreenSurface->h -100;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 100;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Te desplazas pulsando las teclas WASD, o bien pulsando sobre las flechas de dirección", destRect);
+
+        }
+
+        if (elapsed > 5000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h / 2;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 150;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Para interactuar con los personajes debes desplazarte en su dirección con el teclado o bién pulsar con el ratón sobre ellos", destRect);
+            
+            destRect.y = gScreenSurface->h / 2  -100;
+            destRect.w = 100;
+            destRect.h = 100;
+            destRect.x = gScreenSurface->w / 4+101;
+            drawTileset(destRect, playersTexture, 74, 20);
+            destRect.x = gScreenSurface->w / 4+201;
+            drawTileset(destRect, playersTexture, 77, 20);
+            destRect.x = gScreenSurface->w / 4+301;
+            drawTileset(destRect, playersTexture, 79, 20);
+            destRect.x = gScreenSurface->w / 4+401;
+            drawTileset(destRect, playersTexture, 83, 20);
+
+        }
+
+        if (elapsed > 7000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h *3/4;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 150;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("para seleccionar opciones, simplemente desplazate con el ratón sobre la opcíon (icono) deseado y haz click", destRect);
+
+            classButton demoButton;
+            demoButton.setButton(gScreenSurface->w / 4 +200, (gScreenSurface->h * 3 / 4)-100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonStarsTexture);
+            demoButton.setButton(gScreenSurface->w / 4 +300, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonConfigTexture);
+            demoButton.setButton(gScreenSurface->w / 4+400, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonBackpackTexture);   
+            demoButton.setButton(gScreenSurface->w / 4+500, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonPlayerTexture);
+            demoButton.setButton(gScreenSurface->w / 4+600, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonMapTexture);
+            
+            
+
+        }
+
+
+    
+        if (elapsed > 9000) {
+            destRect.x = 50;
+            destRect.y = gScreenSurface->h -100;
+            destRect.w = 512;
+            destRect.h = 50;
+            drawSquare(destRect, lightGreyColor);
+            drawTextResize("Pulsa cualquier tecla para continuar...", destRect);
+        }
+
+    /*
+    destRect.x = gScreenSurface->w / 2 - 256;
+    destRect.y = gScreenSurface->h / 2 - 256;
+    destRect.w = 512;
+    destRect.h = 512;
+    SDL_Texture* miniMapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
+    SDL_RenderCopy(gRenderer, miniMapTexture, NULL, &destRect);
+    SDL_DestroyTexture(miniMapTexture);
+    miniMapTexture = NULL;
+    SDL_SetRenderDrawColor(gRenderer, 200, 0, 0, 0);
+    destRect.x += (cam_x - 1) * 2;
+    destRect.y += (cam_y - 1) * 2;
+    destRect.w = cam_size_x * 2;
+    destRect.h = cam_size_y * 2;
+    SDL_RenderDrawRect(gRenderer, &destRect);
+    destRect.x = gScreenSurface->w / 2 - 256;
+    destRect.y = gScreenSurface->h / 2 + 256;
+    destRect.w = 512;
+    destRect.h = 50;
+    drawSquare(destRect, lightGreyColor);
+    drawTextResize("Pulsa cualquier tecla para continuar...", destRect);
+    destRect.x = gScreenSurface->w / 2 - 256 + px * 2;
+    destRect.y = gScreenSurface->h / 2 - 256 + py * 2;
+    destRect.w = 2;
+    destRect.h = 2;
+    drawSquare(destRect, { 250,250,250,0 });
+    bool tick = false;
+    destRect.x = gScreenSurface->w / 2 - 20;
+    destRect.y = gScreenSurface->h / 2 - 256;
+    destRect.w = 40;
+    destRect.h = 40;
+    drawTextResize("N", destRect);
+    destRect.y = gScreenSurface->h / 2 + 226;
+    drawTextResize("S", destRect);
+    destRect.x = gScreenSurface->w / 2 - 256;
+    destRect.y = gScreenSurface->h / 2 - 20;
+    drawTextResize("O", destRect);
+    destRect.x = gScreenSurface->w / 2 + 226;
+    drawTextResize("E", destRect);
+        if (tick) {
+            tick = false;
+            destRect.x = gScreenSurface->w / 2 - 257 + px * 2;
+            destRect.y = gScreenSurface->h / 2 - 257 + py * 2;
+            destRect.w = 4;
+            destRect.h = 4;
+            drawSquare(destRect, { 250,250,250,0 });
+            screenFlip();
+        }
+        else {
+            tick = true;
+            destRect.x = gScreenSurface->w / 2 - 257 + px * 2;
+            destRect.y = gScreenSurface->h / 2 - 257 + py * 2;
+            destRect.w = 4;
+            destRect.h = 4;
+            drawSquare(destRect, { 0,0,0,0 });
+            screenFlip();
+        }
+
+        */
+
+        //Event handler
+        SDL_Event e;
+
+        //Handle events on queue
+        while (SDL_PollEvent(&e) != 0)
+        {
+            //User requests quit
+            if (e.type == SDL_QUIT)
+            {
+                setState(my_enums::S_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+            }
+            else if (e.type == SDL_MOUSEMOTION)
+            {
+                //******
+            }
+            else if (e.type == SDL_MOUSEBUTTONDOWN)
+            {
+                quit = true;
+            }
+            else if (e.type == SDL_KEYDOWN)
+            {
+                quit = true;
+            }
+
+            //******************
+        }//events
+    
+
+
+    drawMouse();
+
+    screenFlip();
+
+    SDL_Delay(50);
+    }//while not quit
+
+}
+
+
 //Update section of map we display on screen
 void game::updateMap()
 {
@@ -2528,6 +2737,12 @@ void game::drawTextResize(string text, SDL_Rect rect)
 
 void game::screenMain()
 {
+
+
+    if (firstRun) {
+        firstRun = false;
+        playTutorial();
+    }
 
     SDL_Color square = { 0,0,0,0 };
 

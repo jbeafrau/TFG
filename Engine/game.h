@@ -313,6 +313,8 @@ public:
 
     void timeEvents();
 
+    void playTutorial();
+
     classMap baseMap;
     bool debugMode = false;
 
@@ -326,6 +328,9 @@ protected:
     SDL_Rect mouseRect;
 
     string basePath;
+
+
+    bool firstRun = true;
 
 
     SDL_Color lightGreyColor = { 200,200,200,0 };

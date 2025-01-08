@@ -971,7 +971,7 @@ void game::loadNPCs()
     addNPC(10, 136,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 142,155, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 142,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
-    addNPC(10002, 139, 167, my_enums::S_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 160, { 130,150,150,170 });
+    addNPC(10002, 139, 167, my_enums::S_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 130,150,150,170 });
 
     //Add a dog
     addNPC(10001, 118, 122, my_enums::S_HOMETOWN_, "Tor el perro", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_STATIC_, 269, { 1,1,255,255 });

@@ -16,6 +16,35 @@ int classMap::get_cell(int x, int y)
     return map_cells[x][y];
 }
 
+
+SDL_Rect classMap::getBuildingSpot(int w, int h)
+{
+    int x = dice(250 - w,1);
+    int y = dice(250 - w, 1);
+    bool spotFound = false;
+
+    while (spotFound == false) {
+        spotFound = true;
+        for (int sx = x; sx <= x + w; sx++) {
+            for (int sy = y; sy <= y+h; sy++) {
+                const float* cell = mymap.heightMap.GetConstSlabPtr(x, y);
+                if (*cell < 0.0) {
+                    spotFound = false;
+                    break;
+                }
+            }
+        }
+        if (spotFound == false) {
+            x = dice(250 - w, 1);
+            y = dice(250 - w, 1);
+        }
+
+    }
+   
+
+    return {x,y,w,h};
+}
+
 void classMap::generateTiles(int currentState)
 {
     int width = mymap.heightMap.GetWidth();
@@ -107,9 +136,23 @@ void classMap::generateTiles(int currentState)
             }//for
         }//for
         
-         //Draw portals
-        map_cells[5][5] = 56;
         
+
+        //Portal building
+        openBuilding(getBuildingSpot(4,4), 9, 104, 38);
+
+        //Shop building
+        openBuilding(getBuildingSpot(4, 4), 9, 104, 38);
+
+        //Evil building
+        openBuilding(getBuildingSpot(4, 4), 9, 104, 38);
+
+        //Clues building
+        openBuilding(getBuildingSpot(4, 4), 9, 104, 38);
+
+        //Draw portals
+        map_cells[5][5] = 56;
+                
         //coast world
         break;
     }
@@ -174,6 +217,7 @@ void classMap::generateTiles(int currentState)
         //Draw master´s building
         building({ 116,153,4,4 }, 9, 104, 118, 153, 38);
 
+       
 
         //Draw portals
         map_cells[1][143] = 56;
@@ -276,6 +320,36 @@ void classMap::road(SDL_Rect square, int floorTile1, int floorTile2) {
 
         }
     }
+}
+
+void classMap::openBuilding(SDL_Rect square, int wallTile, int floorTile, int doorTile)
+{
+
+    for (int x = square.x; x <= (square.x + square.w); x++)
+    {
+        for (int y = square.y; y <= (square.y + square.h); y++)
+        {
+            map_cells[x][y] = floorTile;
+
+        }
+    }
+
+    for (int x = square.x; x <= (square.x + square.w); x++)
+    {
+        map_cells[x][square.y] = wallTile;
+        map_cells[x][(square.y + square.h)] = wallTile;
+    }
+
+    for (int y = square.y; y <= (square.y + square.h); y++)
+    {
+        map_cells[square.x][y] = wallTile;
+        map_cells[(square.x + square.w)][y] = wallTile;
+    }
+
+    map_cells[square.x+ square.w/2][square.y] = doorTile;
+    map_cells[square.x + square.w / 2][square.y+square.h] = doorTile;
+    map_cells[square.x][square.y + square.h/2] = doorTile;
+    map_cells[square.x+square.w][square.y + square.h/2] = doorTile;
 }
 
 void classMap::building(SDL_Rect square, int wallTile, int floorTile, int x, int y, int doorTile)

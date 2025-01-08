@@ -1004,8 +1004,8 @@ void game::loadEvents()
     addEvent(139, 163, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 139, 166, my_enums::S_HOMETOWN_, 0);
     addEvent(139, 165, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 139, 162, my_enums::S_HOMETOWN_, 0);
 
-    addEvent(139, 167, my_enums::S_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
-    addEvent(139, 168, my_enums::S_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
+    //addEvent(139, 167, my_enums::S_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
+    //addEvent(139, 168, my_enums::S_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
 
     addEvent(251, 151, my_enums::S_HOMETOWN_, "IF**LLAVE PUERTA ESTE", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
 
@@ -1021,6 +1021,12 @@ void game::loadEvents()
     addGlobalEvent(5, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "ADD_ITEM");
 
     addGlobalEvent(6, my_enums::S_HOMETOWN_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 10002, "NPC_DEFEATED");
+}
+
+
+void game::dropLoot(int x, int y, int value)
+{
+    addEvent(x, y, getStringState(currentState), "GOLD", value, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
 }
 
 
@@ -5535,6 +5541,8 @@ void game::eventsFight()
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
+                        dropLoot(tmpNPC.x, tmpNPC.y, tmpNPC.exp);
+
                         tmpNPCs.pop_front();
 
 
@@ -5618,6 +5626,7 @@ void game::eventsFight()
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
+                        dropLoot(tmpNPC.x, tmpNPC.y, tmpNPC.exp);
                         tmpNPCs.pop_front();
 
 
@@ -5706,6 +5715,7 @@ void game::eventsFight()
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
+                        dropLoot(tmpNPC.x, tmpNPC.y, tmpNPC.exp);
                         tmpNPCs.pop_front();
 
                         magicKill++;
@@ -5881,6 +5891,7 @@ void game::eventsFight()
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
+                        dropLoot(tmpNPC.x, tmpNPC.y, tmpNPC.exp);
                         tmpNPCs.pop_front();
 
                         magicKill++;
@@ -5961,6 +5972,7 @@ void game::eventsFight()
                     if (tmpNPC.stamina <= 0) {
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         addExp(tmpNPC.exp);
+                        dropLoot(tmpNPC.x, tmpNPC.y, tmpNPC.exp);
                         tmpNPCs.pop_front();
 
                         magicKill++;

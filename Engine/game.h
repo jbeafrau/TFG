@@ -285,6 +285,8 @@ public:
     int dice(int maxValue, int minValue);
     void randomAttributes();
     
+    void dropLoot(int x, int y, int value);
+
     void phaseNPCs();
     void addNPC(int id, int x, int y, my_enums::gameState map, std::string description, int skill, int stamina, int power, int luck, int damage, my_enums::AItypes NPCAI, int tile, SDL_Rect boundaries);
     list<NPC> getNPCs(int x, int y);

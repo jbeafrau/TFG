@@ -72,6 +72,8 @@ void game::addAchievement(std::string achievementName, my_enums::Achievements ac
         newAchievement.type = achievementType;
         newAchievement.achieved = SDL_GetTicks();
 
+        if (achievementType == my_enums::_MISSIONS_)addExp(100);
+
         achievements.push_back(newAchievement);
        // addNotification(achievementName, {200,0,200});
         Mix_PlayChannel(-1, win, 0);
@@ -1028,12 +1030,12 @@ void game::loadChats()
     addChat(109,142, 1, "¿Que está pasando en el pueblo?", "Un mal ha venido de otro plano y esta generando caos en el pueblo, no sabemos quien exactamente ha sido, pero los muertos se levantan, necesitas abrir los portales a los otros planos para poder descubrir donde se esconde el mal...");
     addChat(109, 142, 2, "¿Que puedo hacer?", "Equipate y preparate para luchar contra el mal, compra equipo en las tiendas y pregunta en el pueblo primero");
     addChat(109, 142, 3, "Cuentame algo del pueblo", "Al sur encontraras varias tiendas, al este la costa y siguiendo el camino del noroeste, el bosque oscuro");
-    addChat(109, 142, 4, "¿Por donde comienzo?", "En el cementerio del pueblo hay enemigos que no permiten salir a los ciudadanos...");
+    addChat(109, 142, 4, "<<MISSION>>¿Por donde comienzo?", "En el cementerio del pueblo hay enemigos que no permiten salir a los ciudadanos...");
     addChat(109, 142, 5, "¿Puedo ayudar a alguien mas?", "El mago del templo elemental al este necesita ayuda con su mascota ");
     addChat(109, 142, 6, "¿Quien es el maestro?", "Al este del pueblo esta el maestro, cuando mejores de nivel puedes mejorar tus atributos allí");
 
     addChat(119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
-    addChat(119, 142, 2, "¿Puedo ayudar?", "Tor, mi perro esta en una choza al norte, con tantos monstruos no me atrevo a ir a por el, ¿Podrias traermelo por favor??, si lo haces te daré la llave que abre la puerta del este");
+    addChat(119, 142, 2, "<<MISSION>>¿Puedo ayudar?", "Tor, mi perro esta en una choza al norte, con tantos monstruos no me atrevo a ir a por el, ¿Podrias traermelo por favor??, si lo haces te daré la llave que abre la puerta del este");
 
 
     addChat(107, 143, 1, "¿Como accedo a mi equipo?", "Pulsa el icono de la mochila en la pantalla de juego, está en la parte de arriba de la pantalla");
@@ -3046,32 +3048,38 @@ void game::screenChat()
         switch (itC) {
         case 0:
             chat0.setCaption(tmpStr);
-            drawButtonSrc(chat0, buttonAcceptTexture);
+            chat0.setColor( 100, 100, 100);
+            drawButton(chat0);
          
             break;
         case 1:
             chat1.setCaption(tmpStr);
-            drawButtonSrc(chat1, buttonAcceptTexture);
+            chat1.setColor(100, 100, 100);
+            drawButton(chat1);
          
             break;
         case 2:
             chat2.setCaption(tmpStr);
-            drawButtonSrc(chat2, buttonAcceptTexture);
+            chat2.setColor(100, 100, 100);
+            drawButton(chat2);
          
             break;
         case 3:
             chat3.setCaption(tmpStr);
-            drawButtonSrc(chat3, buttonAcceptTexture);
+            chat3.setColor(100, 100, 100);
+            drawButton(chat3);
          
             break;
         case 4:
             chat4.setCaption(tmpStr);
-            drawButtonSrc(chat4, buttonAcceptTexture);
+            chat4.setColor(100, 100, 100);
+            drawButton(chat4);
          
             break;
         case 5:
             chat5.setCaption(tmpStr);
-            drawButtonSrc(chat5, buttonAcceptTexture);
+            chat5.setColor(100, 100, 100);
+            drawButton(chat5);
          
             break;
         }

@@ -852,12 +852,6 @@ void game::cleanShop(int x, int y, int option)
     }
 }
 
-
-void game::monsterGenerator()
-{
-    //todo
-}
-
 void game::loadPlayerDefault()
 {
     px = 109;
@@ -965,11 +959,13 @@ void game::loadNPCs()
     //Add some monster on initial map
 
     //south
+    /*
     addNPC(1, 110, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), {1,1,255,255});
     addNPC(2, 111, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
     addNPC(3, 112, 170, my_enums::S_HOMETOWN_, "Monstruo poderoso", dice(10, 10), dice(10, 10), dice(10, 5), dice(10, 5), dice(3, 2), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
     addNPC(4, 113, 170, my_enums::S_HOMETOWN_, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, dice(300, 2), { 1,1,255,255 });
-   
+   */
+
     //east
     addNPC(10, 136,155, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 136,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
@@ -2416,67 +2412,7 @@ void game:: playTutorial()
             drawTextResize("Pulsa cualquier tecla para continuar...", destRect);
         }
 
-    /*
-    destRect.x = gScreenSurface->w / 2 - 256;
-    destRect.y = gScreenSurface->h / 2 - 256;
-    destRect.w = 512;
-    destRect.h = 512;
-    SDL_Texture* miniMapTexture = SDL_CreateTextureFromSurface(gRenderer, baseMap.imageSurface);
-    SDL_RenderCopy(gRenderer, miniMapTexture, NULL, &destRect);
-    SDL_DestroyTexture(miniMapTexture);
-    miniMapTexture = NULL;
-    SDL_SetRenderDrawColor(gRenderer, 200, 0, 0, 0);
-    destRect.x += (cam_x - 1) * 2;
-    destRect.y += (cam_y - 1) * 2;
-    destRect.w = cam_size_x * 2;
-    destRect.h = cam_size_y * 2;
-    SDL_RenderDrawRect(gRenderer, &destRect);
-    destRect.x = gScreenSurface->w / 2 - 256;
-    destRect.y = gScreenSurface->h / 2 + 256;
-    destRect.w = 512;
-    destRect.h = 50;
-    drawSquare(destRect, lightGreyColor);
-    drawTextResize("Pulsa cualquier tecla para continuar...", destRect);
-    destRect.x = gScreenSurface->w / 2 - 256 + px * 2;
-    destRect.y = gScreenSurface->h / 2 - 256 + py * 2;
-    destRect.w = 2;
-    destRect.h = 2;
-    drawSquare(destRect, { 250,250,250,0 });
-    bool tick = false;
-    destRect.x = gScreenSurface->w / 2 - 20;
-    destRect.y = gScreenSurface->h / 2 - 256;
-    destRect.w = 40;
-    destRect.h = 40;
-    drawTextResize("N", destRect);
-    destRect.y = gScreenSurface->h / 2 + 226;
-    drawTextResize("S", destRect);
-    destRect.x = gScreenSurface->w / 2 - 256;
-    destRect.y = gScreenSurface->h / 2 - 20;
-    drawTextResize("O", destRect);
-    destRect.x = gScreenSurface->w / 2 + 226;
-    drawTextResize("E", destRect);
-        if (tick) {
-            tick = false;
-            destRect.x = gScreenSurface->w / 2 - 257 + px * 2;
-            destRect.y = gScreenSurface->h / 2 - 257 + py * 2;
-            destRect.w = 4;
-            destRect.h = 4;
-            drawSquare(destRect, { 250,250,250,0 });
-            screenFlip();
-        }
-        else {
-            tick = true;
-            destRect.x = gScreenSurface->w / 2 - 257 + px * 2;
-            destRect.y = gScreenSurface->h / 2 - 257 + py * 2;
-            destRect.w = 4;
-            destRect.h = 4;
-            drawSquare(destRect, { 0,0,0,0 });
-            screenFlip();
-        }
-
-        */
-
-        //Event handler
+           //Event handler
         SDL_Event e;
 
         //Handle events on queue
@@ -2505,16 +2441,30 @@ void game:: playTutorial()
 
             //******************
         }//events
-    
-
-
     drawMouse();
-
     screenFlip();
-
     SDL_Delay(50);
     }//while not quit
+}
 
+//Count enemy NPCs on current map
+int game::countMonsters()
+{
+    int mCounter = 0;
+    for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
+    {
+        if ((it->map == currentState) && ((it->NPCAI == my_enums::_ENEMY_STATIC_) || (it->NPCAI == my_enums::_ENEMY_RANDOM_) || (it->NPCAI == my_enums::_ENEMY_FOLLOW_)  ))mCounter++;
+    }
+    return mCounter;
+}
+
+//if we have less than 50 monsters, add one
+void game::monsterGenerator()
+{
+    if (countMonsters() < maxMonsters) {
+        addNPC(1, dice(245,5), dice(245, 5), currentState, "Monstruo", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), { 1,1,255,255 });
+
+    }
 }
 
 

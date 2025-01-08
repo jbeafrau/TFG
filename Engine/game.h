@@ -138,8 +138,7 @@ public:
     void loadChats();
     void loadEvents();
 
-    void monsterGenerator();
-    void loadPlayerDefault();
+     void loadPlayerDefault();
     void setButtonDefaults();
 
     void locationEvents();
@@ -315,6 +314,10 @@ public:
 
     void playTutorial();
 
+
+    int countMonsters();
+    void monsterGenerator();
+
     classMap baseMap;
     bool debugMode = false;
 
@@ -331,6 +334,9 @@ protected:
 
 
     bool firstRun = true;
+
+    //limit amount of monsters per map
+    int maxMonsters = 50;
 
 
     SDL_Color lightGreyColor = { 200,200,200,0 };

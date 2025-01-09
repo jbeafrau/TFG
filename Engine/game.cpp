@@ -940,13 +940,34 @@ bool game::collide(int x, int y)
                     else {
                         tmp = true;
 
-                        addNotification("No puedes pasar", { 0,0,0 });
+                        addNotification("No puedes pasar, te falta "+ it->description.substr(4, it->description.length() - 4), { 0,0,0 });
                     }
                 }
-
-
             }
-        }
+
+            
+            if ((it->description.substr(0, 4) == "IF2*") && (it->x == x) && (it->y == y)) {
+
+
+                if (it->map == currentState) {//on the current map
+                    if (findItem(it->description.substr(4, it->description.length() - 4))) {
+                        addNotification("Se abre el camino", { 0,0,0 });
+
+                        it = EVENTs.erase(it);
+                       
+                        erased = true;
+                        tmp = false;
+                    }
+                    else {
+                        tmp = true;
+
+                        addNotification("No puedes pasar, te falta " + it->description.substr(4, it->description.length() - 4), { 0,0,0 });
+                    }
+                }
+            }
+           
+
+        }//currentstate
         if ((it != EVENTs.end()) && (erased == false))it++;
     }
 
@@ -989,10 +1010,26 @@ void game::loadNPCs()
     addNPC(7, 106, 161, my_enums::S_HOMETOWN_, "Tienda de armaduras", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(8, 112, 161, my_enums::S_HOMETOWN_, "Tienda de pociones", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 79, { 1,1,255,255 });
 
-    //repeat for each map
+   
     addNPC(1000, 1, 1, my_enums::S_COAST_WORLD_, "Tienda de la costa", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(2000, 1, 1, my_enums::S_COAST_WORLD_, "Sabio de la costa", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
     addNPC(3000, 1, 1, my_enums::S_COAST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+
+    addNPC(1000, 1, 1, my_enums::S_ELEMENTAL_FIRE_WORLD_, "Tienda del elemento fuego", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(2000, 1, 1, my_enums::S_ELEMENTAL_FIRE_WORLD_, "Sabio del elemento fuego", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_FIRE_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+
+    addNPC(1000, 1, 1, my_enums::S_ELEMENTAL_WATER_WORLD_, "Tienda del elemento agua", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(2000, 1, 1, my_enums::S_ELEMENTAL_WATER_WORLD_, "Sabio del elemento agua", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_WATER_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+
+    addNPC(1000, 1, 1, my_enums::S_ELEMENTAL_EARTH_WORLD_, "Tienda del elemento tierra", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(2000, 1, 1, my_enums::S_ELEMENTAL_EARTH_WORLD_, "Sabio del elemento tierra", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_EARTH_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+
+    addNPC(1000, 1, 1, my_enums::S_ELEMENTAL_WIND_WORLD_, "Tienda del elemento aire", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(2000, 1, 1, my_enums::S_ELEMENTAL_WIND_WORLD_, "Sabio del elemento aire", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_WIND_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
 
 
 }
@@ -1008,9 +1045,10 @@ void game::loadEvents()
 
     addEvent(251, 151, my_enums::S_HOMETOWN_, "IF**LLAVE PUERTA ESTE", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
 
-    
 
-    addEvent(5, 5, my_enums::S_COAST_WORLD_, "TELEPORT", 0, 0, 252, 151, my_enums::S_HOMETOWN_, 0);
+  
+
+    
 
 
     addGlobalEvent(1, my_enums::S_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
@@ -1023,7 +1061,30 @@ void game::loadEvents()
 
 
 
+
+    addEvent(117, 142, my_enums::S_HOMETOWN_, "IF**ANILLO VUELO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+    addEvent(121, 142, my_enums::S_HOMETOWN_, "IF**ANILLO RESISTENCIA FUEGO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+    addEvent(117, 144, my_enums::S_HOMETOWN_, "IF**ANILLO RESPIRAR AGUA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+    addEvent(121, 144, my_enums::S_HOMETOWN_, "IF**ANILLO DE LA TIERRA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+
+
     addEvent(253, 151, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_COAST_WORLD_, 0);
+
+    addEvent(117, 142, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_ELEMENTAL_WIND_WORLD_, 0);
+    addEvent(121, 142, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_ELEMENTAL_FIRE_WORLD_, 0);
+    addEvent(117, 144, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_ELEMENTAL_WATER_WORLD_, 0);
+    addEvent(121, 144, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_ELEMENTAL_EARTH_WORLD_, 0);
+
+
+    addEvent(1, 1, my_enums::S_COAST_WORLD_, "TELEPORT", 0, 0, 252, 151, my_enums::S_HOMETOWN_, 0);
+
+    addEvent(1, 1, my_enums::S_ELEMENTAL_WIND_WORLD_, "TELEPORT", 0, 0, 118, 142, my_enums::S_HOMETOWN_, 0);
+    addEvent(1, 1, my_enums::S_ELEMENTAL_FIRE_WORLD_, "TELEPORT", 0, 0, 120, 142, my_enums::S_HOMETOWN_, 0);
+    addEvent(1, 1, my_enums::S_ELEMENTAL_WATER_WORLD_, "TELEPORT", 0, 0, 118, 144, my_enums::S_HOMETOWN_, 0);
+    addEvent(1, 1, my_enums::S_ELEMENTAL_EARTH_WORLD_, "TELEPORT", 0, 0, 120, 144, my_enums::S_HOMETOWN_, 0);
+
+
+    
 
 
 }
@@ -4446,6 +4507,13 @@ void game::eventsPlayerArchetypes()
                     addSkill("INVOCAR");
 
                     skillPoints = 10;
+
+
+                    addItem("ANILLO VUELO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 226, my_enums::_OTHER_, 0);
+                    addItem("ANILLO RESISTENCIA FUEGO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 229, my_enums::_OTHER_, 0);
+                    addItem("ANILLO RESPIRAR AGUA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 230, my_enums::_OTHER_, 0);
+                    addItem("ANILLO DE LA TIERRA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 210, my_enums::_OTHER_, 0);
+
                     //****
                 }
 
@@ -5459,7 +5527,7 @@ void game::eventsHero()
 
 void game::locationEvents()
 {
-    if ((currentState == my_enums::S_HOMETOWN_)|| (currentState == my_enums::S_COAST_WORLD_)){
+    if ((currentState == my_enums::S_HOMETOWN_)|| (currentState == my_enums::S_COAST_WORLD_)|| (currentState == my_enums::S_ELEMENTAL_FIRE_WORLD_)|| (currentState == my_enums::S_ELEMENTAL_WATER_WORLD_)|| (currentState == my_enums::S_ELEMENTAL_EARTH_WORLD_)|| (currentState == my_enums::S_ELEMENTAL_WIND_WORLD_)){
         tmpEVENTs = getEvents(px,py);
         bool erase = false;
         std::string tmpStr;

@@ -43,8 +43,10 @@ public:
     int dice(int maxValue, int minValue);
     void building(SDL_Rect square, int wallTile, int floorTile,int x, int y, int doorTile);
     void road(SDL_Rect square, int floorTile1, int floorTile2);
-    void openBuilding(SDL_Rect square, int wallTile, int floorTile, int doorTile);
+    void openBuilding(SDL_Rect square, int wallTile, int floorTile, int doorTile, int specialTile);
 
+
+    void getLocation(int *lx, int *ly, int tile);
 
     SDL_Surface* imageSurface = NULL;
     SDL_Surface* targetSurface = NULL;

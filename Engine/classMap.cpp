@@ -17,6 +17,25 @@ int classMap::get_cell(int x, int y)
 }
 
 
+void classMap::getLocation(int *lx, int *ly, int tile)
+{
+    int return_x = 1;
+    int return_y = 1;
+
+    for (int sx = 1; sx <= 256; sx++) {
+        for (int sy = 1; sy <= 256; sy++) {
+            if (map_cells[sx][sy]== tile) {
+                return_x = sx;
+                return_y = sy;
+                break;
+            }
+        }
+    }
+    *lx = return_x;
+    *ly = return_y;
+
+}
+
 SDL_Rect classMap::getBuildingSpot(int w, int h)
 {
     int x = dice(250 - w,1);
@@ -27,8 +46,9 @@ SDL_Rect classMap::getBuildingSpot(int w, int h)
         spotFound = true;
         for (int sx = x; sx <= x + w; sx++) {
             for (int sy = y; sy <= y+h; sy++) {
-                const float* cell = mymap.heightMap.GetConstSlabPtr(x, y);
-                if (*cell < 0.0) {
+                const float* cell = mymap.heightMap.GetConstSlabPtr(sx, sy);
+                if ((*cell < 0.0) ||(map_cells[sx][sy] == 9)){
+                //if (*cell < 0.125){
                     spotFound = false;
                     break;
                 }
@@ -152,20 +172,20 @@ void classMap::generateTiles(int currentState)
         */
 
         //Portal building
-        openBuilding(getBuildingSpot(dice(6,2), dice(6, 2)), 9, 104, 38);
+        openBuilding(getBuildingSpot(dice(3,4), dice(3, 4)), 9, 104, 38,56 );
 
         //Shop building
-        openBuilding(getBuildingSpot(dice(6, 2), dice(6, 2)), 9, 104, 38);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38,300);
 
         //Evil building
-        openBuilding(getBuildingSpot(dice(6, 2), dice(6, 2)), 9, 104, 38);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 573);
 
         //Clues building
-        openBuilding(getBuildingSpot(dice(6, 2), dice(6, 2)), 9, 104, 38);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
 
 
         //Draw portals
-        map_cells[5][5] = 56;
+       // map_cells[5][5] = 56;
                 
         //coast world
         break;
@@ -336,7 +356,7 @@ void classMap::road(SDL_Rect square, int floorTile1, int floorTile2) {
     }
 }
 
-void classMap::openBuilding(SDL_Rect square, int wallTile, int floorTile, int doorTile)
+void classMap::openBuilding(SDL_Rect square, int wallTile, int floorTile, int doorTile, int specialTile)
 {
 
     for (int x = square.x; x <= (square.x + square.w); x++)
@@ -364,6 +384,8 @@ void classMap::openBuilding(SDL_Rect square, int wallTile, int floorTile, int do
     map_cells[square.x + square.w / 2][square.y+square.h] = doorTile;
     map_cells[square.x][square.y + square.h/2] = doorTile;
     map_cells[square.x+square.w][square.y + square.h/2] = doorTile;
+
+    map_cells[square.x + square.w/2][square.y + square.h / 2] = specialTile;
 }
 
 void classMap::building(SDL_Rect square, int wallTile, int floorTile, int x, int y, int doorTile)

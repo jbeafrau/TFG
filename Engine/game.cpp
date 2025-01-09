@@ -989,6 +989,11 @@ void game::loadNPCs()
     addNPC(7, 106, 161, my_enums::S_HOMETOWN_, "Tienda de armaduras", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(8, 112, 161, my_enums::S_HOMETOWN_, "Tienda de pociones", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 79, { 1,1,255,255 });
 
+    //repeat for each map
+    addNPC(1000, 1, 1, my_enums::S_COAST_WORLD_, "Tienda de la costa", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(2000, 1, 1, my_enums::S_COAST_WORLD_, "Sabio de la costa", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(3000, 1, 1, my_enums::S_COAST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+
 
 }
 
@@ -1003,7 +1008,7 @@ void game::loadEvents()
 
     addEvent(251, 151, my_enums::S_HOMETOWN_, "IF**LLAVE PUERTA ESTE", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
 
-    addEvent(253, 151, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 10, 10, my_enums::S_COAST_WORLD_, 0);
+    
 
     addEvent(5, 5, my_enums::S_COAST_WORLD_, "TELEPORT", 0, 0, 252, 151, my_enums::S_HOMETOWN_, 0);
 
@@ -1015,6 +1020,12 @@ void game::loadEvents()
     addGlobalEvent(5, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "ADD_ITEM");
 
     addGlobalEvent(6, my_enums::S_HOMETOWN_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 10002, "NPC_DEFEATED");
+
+
+
+    addEvent(253, 151, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_COAST_WORLD_, 0);
+
+
 }
 
 
@@ -6369,6 +6380,50 @@ bool game::checkNPC(int x, int y)
 
 }
 
+void game::updateNPCandEVENTS(my_enums::gameState state) {
+    if (state != my_enums::S_HOMETOWN_) {//only for maps outside hometown
+
+        for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
+        {
+            if ((it->description == "TELEPORT")&&(it->map == state)) {//update teleporter location
+                int x = 1, y = 1;
+                baseMap.getLocation(&x, &y, 56);
+                it->x = x;
+                it->y = y;
+            }
+
+        }
+
+        for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
+        {
+            if ((it->id == 1000) && (it->map == state)) {//update shop location
+                int x = 1, y = 1;
+                baseMap.getLocation(&x, &y, 300);
+                it->x = x;
+                it->y = y;
+            }
+
+            if ((it->id == 2000) && (it->map == state)) {//update wise person location
+                int x = 1, y = 1;
+                baseMap.getLocation(&x, &y, 570);
+                it->x = x;
+                it->y = y;
+            }
+
+            if ((it->id == 3000) && (it->map == state)) {//update monster location
+                int x = 1, y = 1;
+                baseMap.getLocation(&x, &y, 573);
+                it->x = x;
+                it->y = y;
+            }
+
+        }
+
+
+        }
+
+}
+
 void game::changeMap()
 {
     int width, height;
@@ -6378,6 +6433,8 @@ void game::changeMap()
 
     baseMap.mymap.to_surface(baseMap.imageSurface, getState());
     baseMap.generateTiles(getState());
+
+    updateNPCandEVENTS(getStringState(currentState));
 
     updateMap();
     baseMap.blur();

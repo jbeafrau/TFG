@@ -305,6 +305,7 @@ public:
     void addEvent(int x, int y, my_enums::gameState map, std::string description, int value, int value2, int newx, int newy, my_enums::gameState newMap, int tile);
     void cleanEvents(int x, int y);
 
+    void updateNPCandEVENTS(my_enums::gameState state);
     
     
     void addGlobalEvent(int id, my_enums::gameState map, SDL_Rect location, SDL_Rect newLocation, int distance, int NPCID, std::string description);

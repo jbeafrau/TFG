@@ -189,7 +189,7 @@ list<NPC> game::getNPCs(int x, int y)
     list<NPC> tmp;
     for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
     {
-        if ((x == it->x) && (y == it->y)) {
+        if ((x == it->x) && (y == it->y) && (it->map == currentState)) {
             NPC aNPC;
 
             aNPC.id = it->id;

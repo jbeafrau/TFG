@@ -177,15 +177,7 @@ void classMap::generateTiles(int currentState)
     }
 
     case my_enums::S_ELEMENTAL_FIRE_WORLD_: 
-        {
-        for (int y = 0; y < 256; y++)
-        {
-            for (int x = 0; x < 256; x++)
-            {
-                map_cells[x][y] = 0;
-            }
-        }
-
+    {
         //Portal building
         openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 56);
 
@@ -204,13 +196,7 @@ void classMap::generateTiles(int currentState)
         }
     case my_enums::S_ELEMENTAL_WATER_WORLD_: 
         {
-        for (int y = 0; y < 256; y++)
-        {
-            for (int x = 0; x < 256; x++)
-            {
-                map_cells[x][y] = 0;
-            }
-        }
+       
 
         //Portal building
         openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 56);
@@ -227,12 +213,36 @@ void classMap::generateTiles(int currentState)
     }
     case my_enums::S_ELEMENTAL_EARTH_WORLD_: 
         {
-        //eventsHomeTown();
+      
+
+        //Portal building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 56);
+
+        //Shop building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 300);
+
+        //Evil building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 573);
+
+        //Clues building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
+
         break;
     }
     case my_enums::S_ELEMENTAL_WIND_WORLD_: 
         {
-        //eventsHomeTown();
+              //Portal building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 56);
+
+        //Shop building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 300);
+
+        //Evil building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 573);
+
+        //Clues building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
+
         break;
     }
     case my_enums::S_NECRO_WORLD_: 

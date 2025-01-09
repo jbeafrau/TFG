@@ -32,16 +32,6 @@ void mapgenerator::init ()
 heightMapBuilder.SetSourceModule (myModule);
 heightMapBuilder.SetDestNoiseMap (heightMap);
 
-/*
-seed_a.frequency = rand() % 6 + 1;
-seed_a.octave = rand() % 6 + 1;
-seed_a.persistance = 0.5f;
-
-seed_b.frequency = rand() % 6 + 1;
-seed_b.octave = rand() % 6 + 1;
-seed_b.persistance = 0.5f;
-*/
-
 }
 
 
@@ -89,6 +79,24 @@ utils::RendererImage renderer;
 	  renderer.AddGradientPoint(-1.0000, utils::Color(0, 0, 0, 255)); // deeps
 	  renderer.AddGradientPoint(0.0000, utils::Color(255, 0, 0, 255)); // deeps
 	  renderer.AddGradientPoint(1.0000, utils::Color(255, 0, 255, 255)); // high
+	  break;
+  }
+
+  case my_enums::S_ELEMENTAL_WIND_WORLD_:
+  {
+
+	  renderer.AddGradientPoint(-1.0000, utils::Color(246, 246, 246, 255)); // deeps
+	  renderer.AddGradientPoint(0.0000, utils::Color(204, 204, 204, 255)); // deeps
+	  renderer.AddGradientPoint(1.0000, utils::Color(171, 171, 171, 255)); // high
+	  break;
+  }
+
+  case my_enums::S_ELEMENTAL_EARTH_WORLD_:
+  {
+
+	  renderer.AddGradientPoint(-1.0000, utils::Color(205, 133, 63,255)); // deeps
+	  renderer.AddGradientPoint(0.0000, utils::Color(222, 184, 135, 255)); // deeps
+	  renderer.AddGradientPoint(1.0000, utils::Color(139, 69, 19, 255)); // high
 	  break;
   }
 

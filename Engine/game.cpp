@@ -2579,7 +2579,48 @@ int game::countMonsters()
 void game::monsterGenerator()
 {
     if (countMonsters() < maxMonsters) {
-        addNPC(getMonsterID(), dice(245,5), dice(245, 5), getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5)+((level-1)*3), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, dice(300, 2), {1,1,255,255});
+
+        int tile = dice(300, 2);
+        int roll = dice(4, 1);
+
+        if (getStringState(currentState) == my_enums::S_ELEMENTAL_EARTH_WORLD_) {
+            switch (roll) {
+            case 1: tile = 1; break;
+            case 2: tile = 103; break;
+            case 3: tile = 254; break;
+            case 4: tile = 53; break;
+            }
+        }
+
+        if (getStringState(currentState) == my_enums::S_ELEMENTAL_WIND_WORLD_) {
+            switch (roll) {
+            case 1: tile = 120; break;
+            case 2: tile = 39; break;
+            case 3: tile = 316; break;
+            case 4: tile = 328; break;
+            }
+        }
+
+        if (getStringState(currentState) == my_enums::S_ELEMENTAL_WATER_WORLD_) {
+            switch (roll) {
+            case 1: tile = 80; break;
+            case 2: tile = 81; break;
+            case 3: tile = 82; break;
+            case 4: tile = 150; break;
+            }
+        }
+
+        if (getStringState(currentState) == my_enums::S_ELEMENTAL_FIRE_WORLD_) {
+            switch (roll) {
+            case 1: tile = 2; break;
+            case 2: tile = 15; break;
+            case 3: tile = 121; break;
+            case 4: tile = 133; break;
+            }
+        }
+
+
+        addNPC(getMonsterID(), dice(245,5), dice(245, 5), getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5)+((level-1)*3), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, tile, {1,1,255,255});
 
     }
 }

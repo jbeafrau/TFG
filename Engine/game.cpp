@@ -1026,6 +1026,10 @@ void game::loadNPCs()
     addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_WIND_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
 
 
+    addNPC(1000, 1, 1, my_enums::S_FOREST_WORLD_, "Tienda del bosque oscuro", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
+    addNPC(2000, 1, 1, my_enums::S_FOREST_WORLD_, "Sabio del bosque oscuro", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(3000, 1, 1, my_enums::S_FOREST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+
 }
 
 
@@ -2618,6 +2622,24 @@ void game::monsterGenerator()
             }
         }
 
+        if (getStringState(currentState) == my_enums::S_FOREST_WORLD_) {
+            switch (roll) {
+            case 1: tile = 58; break;
+            case 2: tile = 185; break;
+            case 3: tile = 221; break;
+            case 4: tile = 224; break;
+            }
+        }
+
+        if (getStringState(currentState) == my_enums::S_NECRO_WORLD_) {
+            switch (roll) {
+            case 1: tile = 19; break;
+            case 2: tile = 26; break;
+            case 3: tile = 27; break;
+            case 4: tile = 123; break;
+            }
+        }
+
 
         addNPC(getMonsterID(), dice(245,5), dice(245, 5), getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5)+((level-1)*3), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, tile, {1,1,255,255});
 
@@ -3592,6 +3614,19 @@ void game::screenHomeTown()
     string townName = "";
     switch (getState())
     {
+
+    case my_enums::S_NECRO_WORLD_:
+    {
+        townName = "NECROMUNDO";
+        break;
+    }
+
+    case my_enums::S_FOREST_WORLD_:
+    {
+        townName = "EL BOSQUE OSCURO";
+        break;
+    }
+
     case my_enums::S_ELEMENTAL_WATER_WORLD_:
     {
         townName = "MUNDO ELEMENTAL DE AGUA";
@@ -6379,9 +6414,15 @@ void game::eventsHomeTown()
                 switch (getState())
                 {
                 
-                case my_enums::S_ELEMENTAL_WATER_WORLD_:
+                case my_enums::S_FOREST_WORLD_:
                 {
                     currentState = my_enums::S_HOMETOWN_;
+                    break;
+                }
+
+                case my_enums::S_ELEMENTAL_WATER_WORLD_:
+                {
+                    currentState = my_enums::S_FOREST_WORLD_;
                     break;
                 }
 

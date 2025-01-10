@@ -2649,10 +2649,19 @@ void game::monsterGenerator()
         }
 
         int mx = dice(245, 5);
-        int my = dice(245, 5);ss
-        sbool mcollide = true;
-        hile
-        addNPC(getMonsterID(), mx, my, getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5)+((level-1)*3), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, tile, {1,1,255,255});
+        int my = dice(245, 5);
+        bool mcollide = true;
+        while(mcollide){
+        
+        mcollide = collide(mx, my);
+        if (mcollide) {
+            mx = dice(245, 5);
+            my = dice(245, 5);
+        }
+        else {
+            addNPC(getMonsterID(), mx, my, getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5) + ((level - 1) * 3), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, tile, { 1,1,255,255 });
+        }
+        }
 
     }
 }

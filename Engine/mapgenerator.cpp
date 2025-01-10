@@ -36,12 +36,14 @@ heightMapBuilder.SetDestNoiseMap (heightMap);
 
 
 
-void mapgenerator::generate (int octave, int frequency, float persistance, int bound_x, int bound_y, int sizex, int sizey)
+void mapgenerator::generate (int octave, int frequency, float persistance, int sizex, int sizey)
 {
+	int bound_x = sizex;
+	int bound_y = sizey;
         myModule.SetOctaveCount (octave);
    //(1-6) 6 default
    //the amount of detail increases when the number of octaves increases
-    myModule.SetFrequency (frequency);
+    myModule.SetFrequency (frequency/2);
   //increasing the frequency will increase the number of terrain features
 //(and also decrease the size of these features) in a terrain height map
     myModule.SetPersistence (persistance); //0.25-0.75 (0.5 default)+rougher frequency jump
@@ -53,7 +55,7 @@ void mapgenerator::generate (int octave, int frequency, float persistance, int b
 
 void mapgenerator::to_surface(SDL_Surface *surface, int currentState)
 {
-utils::RendererImage renderer;
+	utils::RendererImage renderer;
   utils::Image image;
   utils::Color  color;
   renderer.SetSourceNoiseMap (heightMap);
@@ -156,7 +158,7 @@ utils::RendererImage renderer;
 	  renderer.AddGradientPoint(1.00, utils::Color(255, 255, 255, 255)); // snow
 	  */
 
-	  module::RidgedMulti mountainTerrain;
+	  //module::RidgedMulti mountainTerrain;
 	  module::Billow baseFlatTerrain;
 	  baseFlatTerrain.SetFrequency(2.0);
 
@@ -166,7 +168,6 @@ utils::RendererImage renderer;
 	  flatTerrain.SetBias(-0.75);
 
 	  heightMapBuilder.SetSourceModule(flatTerrain);
-
 	  heightMapBuilder.SetDestNoiseMap(heightMap);
 	  heightMapBuilder.SetDestSize(256, 256);
 	  heightMapBuilder.SetBounds(6.0, 10.0, 1.0, 5.0);

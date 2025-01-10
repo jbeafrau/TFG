@@ -6538,7 +6538,7 @@ void game::changeMap()
     int width, height;
     width = 256;
     height = 256;
-    baseMap.mymap.generate(rand() % 3 + 4, (rand() % 6)/2 + 1, 0.5f, 1, 1, width, height);
+    baseMap.mymap.generate(rand() % 4 + 4, rand() % 7 +2 , 0.5f, width, height);
 
     baseMap.mymap.to_surface(baseMap.imageSurface, getState());
     baseMap.generateTiles(getState());

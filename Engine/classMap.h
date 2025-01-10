@@ -31,21 +31,16 @@ public:
     void blur();
     int getBlur();
     void setBlur(int blur);
-    //void createSurface(int w,int h);
     void createSurface();
     void SetSurface();
     void put_pixel32(SDL_Surface* surface, int x, int y, Uint32 pixel);
     void generateTiles(int currentState);
 
-    SDL_Rect getBuildingSpot(int w, int h);
-
-
     int dice(int maxValue, int minValue);
+    SDL_Rect getBuildingSpot(int w, int h);
     void building(SDL_Rect square, int wallTile, int floorTile,int x, int y, int doorTile);
     void road(SDL_Rect square, int floorTile1, int floorTile2);
     void openBuilding(SDL_Rect square, int wallTile, int floorTile, int doorTile, int specialTile);
-
-
     void getLocation(int *lx, int *ly, int tile);
 
     SDL_Surface* imageSurface = NULL;

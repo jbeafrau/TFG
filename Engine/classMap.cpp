@@ -70,6 +70,8 @@ void classMap::generateTiles(int currentState)
     int width = mymap.heightMap.GetWidth();
     int height = mymap.heightMap.GetHeight();
 
+
+    //clean up first
     for (int x = 1; x < 299; x++) {
         for (int y = 1; y < 299; y++) {
             map_cells[x][y] = 0;
@@ -81,7 +83,27 @@ void classMap::generateTiles(int currentState)
 
     case my_enums::S_FOREST_WORLD_: 
     {
-        //eventsHomeTown();
+        
+        //Portal building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 56);
+
+        //Shop building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 300);
+
+        //Evil building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 573);
+
+        //Clues building
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
+
+        //lure buildings
+        for (int x = 1; x < dice(4, 2); x++)
+        {
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 104);
+        }
+
+
+
         break;
     }
     
@@ -170,7 +192,11 @@ void classMap::generateTiles(int currentState)
         //Clues building
         openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
 
-
+        //lure buildings
+        for (int x = 1; x < dice(4, 2); x++)
+        {
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 104);
+        }
                 
         //coast world
         break;
@@ -190,6 +216,11 @@ void classMap::generateTiles(int currentState)
         //Clues building
         openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
 
+        //lure buildings
+        for (int x = 1; x < dice(4, 2); x++)
+        {
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 104);
+        }
 
 
             break;
@@ -209,6 +240,13 @@ void classMap::generateTiles(int currentState)
 
         //Clues building
         openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
+
+        //lure buildings
+        for (int x = 1; x < dice(4, 2); x++)
+        {
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 104);
+        }
+
         break;
     }
     case my_enums::S_ELEMENTAL_EARTH_WORLD_: 
@@ -227,6 +265,12 @@ void classMap::generateTiles(int currentState)
         //Clues building
         openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
 
+
+        //lure buildings
+        for (int x = 1; x < dice(4, 2); x++)
+        {
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 104);
+        }
         break;
     }
     case my_enums::S_ELEMENTAL_WIND_WORLD_: 
@@ -243,6 +287,12 @@ void classMap::generateTiles(int currentState)
         //Clues building
         openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
 
+
+        //lure buildings
+        for (int x = 1; x < dice(4, 2); x++)
+        {
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 104);
+        }
         break;
     }
     case my_enums::S_NECRO_WORLD_: 

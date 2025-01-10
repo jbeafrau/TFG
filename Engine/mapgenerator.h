@@ -20,11 +20,12 @@
 
 #include "enum.h"
 
+/*
 struct seed{
     int octave;
     int frequency;
     float persistance;
-};
+};*/
 
 using namespace noise;
 
@@ -34,15 +35,13 @@ class mapgenerator
      module::Perlin myModule;
      utils::NoiseMap heightMap;
      utils::NoiseMapBuilderPlane heightMapBuilder;
-    seed seed_a;
-    seed seed_b;
+   // seed seed_a;
+  //  seed seed_b;
 
         mapgenerator();
         virtual ~mapgenerator();
         void init ();
-        void generate (int octave, int frequency, float persistance, int bound_x, int bound_y, int sizex, int sizey);
-       // void to_color_bmp ();
-       // void to_greyscale_bmp ();
+        void generate (int octave, int frequency, float persistance, int sizex, int sizey);
         void to_surface(SDL_Surface *surface, int currentState);
         void put_pixel32( SDL_Surface *surface, int x, int y, Uint32 pixel );
     protected:

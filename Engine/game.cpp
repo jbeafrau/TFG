@@ -81,7 +81,6 @@ void game::addAchievement(std::string achievementName, my_enums::Achievements ac
         int achievementCounter = achievements.size();
       //  achievementsButton.setCaption("ACH " + std::to_string(achievementCounter) + " / " + std::to_string(achievementCounter * 100 / maxAchievements) + "%");
          achievementsButton.setCaption(std::to_string(static_cast<int>(round(achievementCounter*2.5))) +" %");
-        //"Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60)
     }
 }
 
@@ -259,8 +258,8 @@ void game::phaseNPCs()
      }
      else {
          if(!collide(tmpx,tmpy)){
-         px = tmpx;
-         py = tmpy;
+         if (tmpx>= 5)px = tmpx;
+         if (tmpy >= 5)py = tmpy;
          checkBoundaries();
          updateMap();
          }
@@ -348,7 +347,7 @@ list<EVENT> game::getEvents(int x, int y)
     list<EVENT> tmp;
     for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
     {
-        if ((x == it->x) && (y == it->y)) {
+        if ((x == it->x) && (y == it->y) && ( it->map == currentState)) {
 
             EVENT aEVENT;
             aEVENT.x = it->x;
@@ -1062,9 +1061,15 @@ void game::loadEvents()
     addEvent(117, 144, my_enums::S_HOMETOWN_, "IF**ANILLO RESPIRAR AGUA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
     addEvent(121, 144, my_enums::S_HOMETOWN_, "IF**ANILLO DE LA TIERRA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
 
+    addEvent(5, 50, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 249, 50, my_enums::S_FOREST_WORLD_, 0);
+    addEvent(5, 51, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 249, 51, my_enums::S_FOREST_WORLD_, 0);
+    addEvent(5, 52, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 249, 52, my_enums::S_FOREST_WORLD_, 0);
+
+    addEvent(250, 50, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0,6, 50, my_enums::S_HOMETOWN_ , 0);
+    addEvent(250, 51, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0,6, 51, my_enums::S_HOMETOWN_ , 0);
+    addEvent(250, 52, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0,6, 52, my_enums::S_HOMETOWN_ , 0);
 
     addEvent(253, 151, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_COAST_WORLD_, 0);
-
     addEvent(117, 142, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_ELEMENTAL_WIND_WORLD_, 0);
     addEvent(121, 142, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_ELEMENTAL_FIRE_WORLD_, 0);
     addEvent(117, 144, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_ELEMENTAL_WATER_WORLD_, 0);
@@ -1072,7 +1077,6 @@ void game::loadEvents()
 
 
     addEvent(1, 1, my_enums::S_COAST_WORLD_, "TELEPORT", 0, 0, 252, 151, my_enums::S_HOMETOWN_, 0);
-
     addEvent(1, 1, my_enums::S_ELEMENTAL_WIND_WORLD_, "TELEPORT", 0, 0, 118, 142, my_enums::S_HOMETOWN_, 0);
     addEvent(1, 1, my_enums::S_ELEMENTAL_FIRE_WORLD_, "TELEPORT", 0, 0, 120, 142, my_enums::S_HOMETOWN_, 0);
     addEvent(1, 1, my_enums::S_ELEMENTAL_WATER_WORLD_, "TELEPORT", 0, 0, 118, 144, my_enums::S_HOMETOWN_, 0);
@@ -2871,7 +2875,13 @@ void game::screenMain()
     tmpRect.w = 500;
     tmpRect.h = 50;
 
-    drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
+    if (debugMode) {
+        drawText("X:" + std::to_string(px) + " Y:" + std::to_string(py), tmpRect);
+    }
+    else {
+        drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
+    }
+    
 
     drawButtonSrc(achievementsButton, buttonStarsTexture);
 
@@ -3620,7 +3630,13 @@ void game::screenHomeTown()
     tmpRect.w = 500;
     tmpRect.h = 50;
 
-    drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
+    //drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
+    if (debugMode) {
+        drawText("X:" + std::to_string(px) + " Y:" + std::to_string(py), tmpRect);
+    }
+    else {
+        drawText("Tiempo jugando: minutos:" + std::to_string(myTime / 60) + " segundos:" + std::to_string(myTime % 60), tmpRect);
+    }
 
 
     drawButtonSrc(moveLeftButton, buttonLeftTexture);
@@ -5563,8 +5579,9 @@ void game::eventsHero()
 
 void game::locationEvents()
 {
-    if ((currentState == my_enums::S_HOMETOWN_)|| (currentState == my_enums::S_COAST_WORLD_)|| (currentState == my_enums::S_ELEMENTAL_FIRE_WORLD_)|| (currentState == my_enums::S_ELEMENTAL_WATER_WORLD_)|| (currentState == my_enums::S_ELEMENTAL_EARTH_WORLD_)|| (currentState == my_enums::S_ELEMENTAL_WIND_WORLD_)){
-        tmpEVENTs = getEvents(px,py);
+    if ((currentState == my_enums::S_HOMETOWN_) || (currentState == my_enums::S_COAST_WORLD_) || (currentState == my_enums::S_FOREST_WORLD_) || (currentState == my_enums::S_NECRO_WORLD_) || (currentState == my_enums::S_ELEMENTAL_FIRE_WORLD_) || (currentState == my_enums::S_ELEMENTAL_WATER_WORLD_) || (currentState == my_enums::S_ELEMENTAL_EARTH_WORLD_) || (currentState == my_enums::S_ELEMENTAL_WIND_WORLD_)) {
+        tmpEVENTs = getEvents(px, py);
+        if(tmpEVENTs.size() > 0) {
         bool erase = false;
         std::string tmpStr;
         for (list<EVENT>::iterator it = tmpEVENTs.begin(); it != tmpEVENTs.end(); it++)
@@ -5572,18 +5589,18 @@ void game::locationEvents()
             if (it->description == "TELEPORT") {
                 px = it->newx;
                 py = it->newy;
-                
+
                 if (it->map != it->newMap) {
                     addAchievement("Cambiador de planos", my_enums::_HIDDEN_);
                     currentState = it->newMap;
                     changeMap();
-               }
-                   
-                   
+                }
+
+
             }
 
             if (it->description == "GOLD") {
-                
+
                 if (it->value > 0) {
                     tmpStr = "Ganas ";
                 }
@@ -5600,7 +5617,7 @@ void game::locationEvents()
             }
         }
         if (erase)cleanEvents(px, py);
-
+    }//there are events to process
     }
 }
 
@@ -6487,9 +6504,10 @@ bool game::checkNPC(int x, int y)
 void game::updateNPCandEVENTS(my_enums::gameState state) {
     if (state != my_enums::S_HOMETOWN_) {//only for maps outside hometown
 
+        if (state != my_enums::S_FOREST_WORLD_) {
         for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
         {
-            if ((it->description == "TELEPORT")&&(it->map == state)) {//update teleporter location
+            if ((it->description == "TELEPORT") && (it->map == state)) {//update teleporter location
                 int x = 1, y = 1;
                 baseMap.getLocation(&x, &y, 56);
                 it->x = x;
@@ -6497,6 +6515,7 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
             }
 
         }
+    }
 
         for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
         {

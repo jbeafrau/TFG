@@ -84,6 +84,10 @@ void classMap::generateTiles(int currentState)
     case my_enums::S_FOREST_WORLD_: 
     {
         
+        //Draw  roads
+        road({ 230,50,30,2 }, 90, 96);
+
+
         //Portal building
         openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 56);
 

@@ -910,15 +910,10 @@ void game::loadPlayerDefault()
 bool game::collide(int x, int y)
 {
     bool tmp = false;
-    if (baseMap.get_cell(x,y) == 9) tmp = true;
-    if (baseMap.get_cell(x, y) == 579) tmp = true;
 
-    if (baseMap.get_cell(x, y) == 341) tmp = true;
-    //if (baseMap.get_cell(x, y) == 342) tmp = true;
-    if (baseMap.get_cell(x, y) == 343) tmp = true;
-    if (baseMap.get_cell(x, y) == 344) tmp = true;
-    if (baseMap.get_cell(x, y) == 345) tmp = true;
-    if (baseMap.get_cell(x, y) == 346) tmp = true;
+    int c = baseMap.get_cell(x, y);
+    if ((c== 9)|| (c == 579) || (c == 6) || (c == 21) || (c == 129) || (c == 154) || (c == 341) || (c == 343) || (c == 344) || (c == 345) || (c == 346)  )tmp = true;
+
 
 
     std::list<EVENT>::iterator it = EVENTs.begin();
@@ -2313,7 +2308,7 @@ void game::drawMiniMap()
                 destRect.w = 2;
                 destRect.h = 2;
                 //walls and mountain tops
-                if((cell==9)|| (cell == 579)||(cell == 345) || (cell == 346)) drawSquare(destRect, greyColor);
+                if((cell==9)|| (cell == 579)||(cell == 345) || (cell == 346) || (cell == 6) || (cell == 21) || (cell == 129) || (cell == 154)) drawSquare(destRect, greyColor);
                 //plants
                 if ((cell == 330) || (cell == 341) || (cell == 342) || (cell == 343) || (cell == 344)) drawSquare(destRect, { 0,200,0,0 });
                 //roads

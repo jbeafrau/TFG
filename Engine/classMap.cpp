@@ -205,21 +205,21 @@ void classMap::generateTiles(int currentState)
     case my_enums::S_ELEMENTAL_FIRE_WORLD_: 
     {
         //Portal building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 56);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 6, 157, 157, 56);
 
         //Shop building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 300);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 6, 157, 157, 300);
 
         //Evil building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 573);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 6, 157, 157, 573);
 
         //Clues building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 6, 157, 157, 570);
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)
         {
-            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 104);
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 6, 157, 157, 157);
         }
 
 
@@ -227,24 +227,24 @@ void classMap::generateTiles(int currentState)
         }
     case my_enums::S_ELEMENTAL_WATER_WORLD_: 
         {
-       
+       //9 104
 
         //Portal building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 56);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 21, 246, 246, 56);
 
         //Shop building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 300);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 21, 246, 246, 300);
 
         //Evil building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 573);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 21, 246, 246, 573);
 
         //Clues building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 21, 246, 246, 570);
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)
         {
-            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 104);
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 21, 246, 246, 246);
         }
 
         break;
@@ -254,44 +254,44 @@ void classMap::generateTiles(int currentState)
       
 
         //Portal building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 56);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 154, 217, 217, 56);
 
         //Shop building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 300);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 154, 217, 217, 300);
 
         //Evil building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 573);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 154, 217, 217, 573);
 
         //Clues building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 154, 217, 217, 570);
 
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)
         {
-            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 104);
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 154, 217, 217, 217);
         }
         break;
     }
     case my_enums::S_ELEMENTAL_WIND_WORLD_: 
         {
               //Portal building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 56);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 216, 216, 56);
 
         //Shop building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 300);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 216, 216, 300);
 
         //Evil building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 573);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 216, 216, 573);
 
         //Clues building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 570);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 216, 216, 570);
 
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)
         {
-            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 9, 104, 38, 104);
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 216, 216, 216);
         }
         break;
     }

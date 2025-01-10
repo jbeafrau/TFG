@@ -911,7 +911,7 @@ bool game::collide(int x, int y)
     bool tmp = false;
 
     int c = baseMap.get_cell(x, y);
-    if ((c== 9)|| (c == 579) || (c == 6) || (c == 21) || (c == 129) || (c == 154) || (c == 341) || (c == 343) || (c == 344) || (c == 345) || (c == 346)  )tmp = true;
+    if ((c== 9)|| (c == 579) || (c == 6) || (c == 21) || (c == 129) || (c == 154) || (c == 341) || (c == 343) || (c == 344) || (c == 345) || (c == 346) || (c == 157))tmp = true;
 
 
 
@@ -1057,6 +1057,11 @@ void game::loadEvents()
 
     addGlobalEvent(6, my_enums::S_HOMETOWN_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 10002, "NPC_DEFEATED");
 
+   
+    addEvent(229, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO VUELO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+    addEvent(228, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO RESISTENCIA FUEGO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+    addEvent(227, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO RESPIRAR AGUA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+    addEvent(226, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO DE LA TIERRA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
 
 
 
@@ -1064,6 +1069,9 @@ void game::loadEvents()
     addEvent(121, 142, my_enums::S_HOMETOWN_, "IF**ANILLO RESISTENCIA FUEGO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
     addEvent(117, 144, my_enums::S_HOMETOWN_, "IF**ANILLO RESPIRAR AGUA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
     addEvent(121, 144, my_enums::S_HOMETOWN_, "IF**ANILLO DE LA TIERRA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+
+
+    addEvent(225, 52, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0, 50, 50, my_enums::S_NECRO_WORLD_, 0);
 
     addEvent(5, 50, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 249, 50, my_enums::S_FOREST_WORLD_, 0);
     addEvent(5, 51, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 249, 51, my_enums::S_FOREST_WORLD_, 0);
@@ -2322,7 +2330,7 @@ void game::drawMiniMap()
                 //roads
                 if ((cell == 90) || (cell == 96) ) drawSquare(destRect, brownColor);
                 //building floors
-                if ((cell == 104) || (cell == 247)) drawSquare(destRect, lightGreyColor);
+                if ((cell == 104) || (cell == 247) || (cell == 20)) drawSquare(destRect, lightGreyColor);
                 //firepits
                 if (cell == 66) drawSquare(destRect, {200,0,0,0});                                      
             }
@@ -2640,8 +2648,11 @@ void game::monsterGenerator()
             }
         }
 
-
-        addNPC(getMonsterID(), dice(245,5), dice(245, 5), getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5)+((level-1)*3), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, tile, {1,1,255,255});
+        int mx = dice(245, 5);
+        int my = dice(245, 5);ss
+        sbool mcollide = true;
+        hile
+        addNPC(getMonsterID(), mx, my, getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5)+((level-1)*3), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, tile, {1,1,255,255});
 
     }
 }
@@ -6417,29 +6428,36 @@ void game::eventsHomeTown()
                 case my_enums::S_FOREST_WORLD_:
                 {
                     currentState = my_enums::S_HOMETOWN_;
+                    changeMap();
                     break;
                 }
 
                 case my_enums::S_ELEMENTAL_WATER_WORLD_:
                 {
                     currentState = my_enums::S_FOREST_WORLD_;
+                    px = 248;
+                    py = 51;
+                    changeMap();
                     break;
                 }
 
                 case my_enums::S_ELEMENTAL_FIRE_WORLD_:
                 {
                     currentState = my_enums::S_ELEMENTAL_WATER_WORLD_;
+                    changeMap();
                     break;
                 }
 
                 case my_enums::S_COAST_WORLD_:
                 {
                     currentState = my_enums::S_ELEMENTAL_FIRE_WORLD_;
+                    changeMap();
                     break;
                 }
                 case my_enums::S_HOMETOWN_:
                 {
                     currentState = my_enums::S_COAST_WORLD_;
+                    changeMap();
                     break;
                 }
 

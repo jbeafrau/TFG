@@ -121,45 +121,6 @@ void mapgenerator::to_surface(SDL_Surface *surface, int currentState)
 
   case my_enums::S_FOREST_WORLD_:
   {
-	  /*
-	  module::RidgedMulti mountainTerrain;
-	  module::Billow baseFlatTerrain;
-	  baseFlatTerrain.SetFrequency(2.0);
-
-	  module::ScaleBias flatTerrain;
-	  flatTerrain.SetSourceModule(0, baseFlatTerrain);
-	  flatTerrain.SetScale(0.125);
-	  flatTerrain.SetBias(-0.75);
-
-	  module::Perlin terrainType;
-	  terrainType.SetFrequency(0.5);
-	  terrainType.SetPersistence(0.25);
-
-	  module::Select finalTerrain;
-	  finalTerrain.SetSourceModule(0, flatTerrain);
-	  finalTerrain.SetSourceModule(1, mountainTerrain);
-	  finalTerrain.SetControlModule(terrainType);
-	  finalTerrain.SetBounds(0.0, 1000.0);
-	  finalTerrain.SetEdgeFalloff(0.125);
-
-	  heightMapBuilder.SetSourceModule(finalTerrain);
-
-	  heightMapBuilder.SetDestNoiseMap(heightMap);
-	  heightMapBuilder.SetDestSize(256, 256);
-	  heightMapBuilder.SetBounds(6.0, 10.0, 1.0, 5.0);
-	  heightMapBuilder.Build();
-
-	  renderer.SetSourceNoiseMap(heightMap);
-	  renderer.SetDestImage(image);
-	  renderer.ClearGradient();
-
-	  renderer.AddGradientPoint(-1.00, utils::Color(32, 160, 0, 255)); // grass
-	  renderer.AddGradientPoint(-0.25, utils::Color(224, 224, 0, 255)); // dirt
-	  renderer.AddGradientPoint(0.25, utils::Color(128, 128, 128, 255)); // rock
-	  renderer.AddGradientPoint(1.00, utils::Color(255, 255, 255, 255)); // snow
-	  */
-
-	  //module::RidgedMulti mountainTerrain;
 	  module::Billow baseFlatTerrain;
 	  baseFlatTerrain.SetFrequency(2.0);
 
@@ -172,7 +133,7 @@ void mapgenerator::to_surface(SDL_Surface *surface, int currentState)
 	  heightMapBuilder.SetSourceModule(flatTerrain);
 	  heightMapBuilder.SetDestNoiseMap(heightMap);
 	  heightMapBuilder.SetDestSize(256, 256);
-	  heightMapBuilder.SetBounds(6.0, 10.0, 1.0, 5.0);
+	  heightMapBuilder.SetBounds(1.0, 5.0, 1.0, 5.0);
 	  heightMapBuilder.Build();
 
 
@@ -185,45 +146,6 @@ void mapgenerator::to_surface(SDL_Surface *surface, int currentState)
 
   case my_enums::S_HOMETOWN_:
   {
-	  /*
-	  module::RidgedMulti mountainTerrain;
-	  module::Billow baseFlatTerrain;
-	  baseFlatTerrain.SetFrequency(2.0);
-
-	  module::ScaleBias flatTerrain;
-	  flatTerrain.SetSourceModule(0, baseFlatTerrain);
-	  flatTerrain.SetScale(0.125);
-	  flatTerrain.SetBias(-0.75);
-
-	  module::Perlin terrainType;
-	  terrainType.SetFrequency(0.5);
-	  terrainType.SetPersistence(0.25);
-
-	  module::Select finalTerrain;
-	  finalTerrain.SetSourceModule(0, flatTerrain);
-	  finalTerrain.SetSourceModule(1, mountainTerrain);
-	  finalTerrain.SetControlModule(terrainType);
-	  finalTerrain.SetBounds(0.0, 1000.0);
-	  finalTerrain.SetEdgeFalloff(0.125);
-
-	  heightMapBuilder.SetSourceModule(finalTerrain);
-
-	  heightMapBuilder.SetDestNoiseMap(heightMap);
-	  heightMapBuilder.SetDestSize(256, 256);
-	  heightMapBuilder.SetBounds(6.0, 10.0, 1.0, 5.0);
-	  heightMapBuilder.Build();
-
-	  renderer.SetSourceNoiseMap(heightMap);
-	  renderer.SetDestImage(image);
-	  renderer.ClearGradient();
-	
-	  renderer.AddGradientPoint(-1.00, utils::Color(32, 160, 0, 255)); // grass
-	  renderer.AddGradientPoint(-0.25, utils::Color(224, 224, 0, 255)); // dirt
-	  renderer.AddGradientPoint(0.25, utils::Color(128, 128, 128, 255)); // rock
-	  renderer.AddGradientPoint(1.00, utils::Color(255, 255, 255, 255)); // snow
-	  */
-
-	  //module::RidgedMulti mountainTerrain;
 	  module::Billow baseFlatTerrain;
 	  baseFlatTerrain.SetFrequency(2.0);
 
@@ -235,7 +157,7 @@ void mapgenerator::to_surface(SDL_Surface *surface, int currentState)
 	  heightMapBuilder.SetSourceModule(flatTerrain);
 	  heightMapBuilder.SetDestNoiseMap(heightMap);
 	  heightMapBuilder.SetDestSize(256, 256);
-	  heightMapBuilder.SetBounds(6.0, 10.0, 1.0, 5.0);
+	  heightMapBuilder.SetBounds(1.0, 5.0, 1.0, 5.0);
 	  heightMapBuilder.Build();
 
 	  renderer.AddGradientPoint(-1.00, utils::Color(32, 160, 0, 255)); // grass
@@ -246,6 +168,32 @@ void mapgenerator::to_surface(SDL_Surface *surface, int currentState)
 
 	  break;
   }
+
+
+  case my_enums::S_NECRO_WORLD_:
+  {
+  module::Billow baseFlatTerrain;
+  baseFlatTerrain.SetFrequency(2.0);
+
+  module::ScaleBias flatTerrain;
+  flatTerrain.SetSourceModule(0, baseFlatTerrain);
+  flatTerrain.SetScale(0.125);
+  //flatTerrain.SetScale(0.50);
+  flatTerrain.SetBias(-0.5);
+
+  heightMapBuilder.SetSourceModule(flatTerrain);
+  heightMapBuilder.SetDestNoiseMap(heightMap);
+  heightMapBuilder.SetDestSize(256, 256);
+  heightMapBuilder.SetBounds(1.0, 5.0, 1.0, 5.0);
+  heightMapBuilder.Build();
+
+
+  renderer.AddGradientPoint(-1.00, utils::Color(224, 0, 0, 255)); // fire
+  renderer.AddGradientPoint(0.00, utils::Color(224, 0, 0, 255)); // fire
+  renderer.AddGradientPoint(1.00, utils::Color(100, 100, 100, 255)); // ash
+  break;
+  }
+
 
   default:
   {

@@ -144,31 +144,40 @@ void classMap::generateTiles(int currentState)
 
         //Draw  roads
         road({ 230,50,30,2 }, 90, 96);
+       
+
+        //Draw portal to necro world building
+        building({ 221,47,8,9 }, 9, 104, 229, 51, 51);
+        building({ 222,48,6,7 }, 9, 104, 228, 51, 51);
+        building({ 223,49,4,5 }, 9, 104, 227, 51, 51);
+        building({ 224,50,2,3 }, 9, 104, 226, 51, 51);
 
 
+        map_cells[225][52] = 56;
+       
 
         int w, h;
         
         //Shop building
         w = dice(3, 4);
         h = dice(3, 4);
-        openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 344, 0, 0, 300);
+        openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 300);
 
 
         //Evil building
         w = dice(3, 4);
         h = dice(3, 4);
-        openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 344, 0, 0, 573);
+        openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 573);
 
         //Clues building
         w = dice(3, 4);
         h = dice(3, 4);
-        openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 344, 0, 0, 570);
+        openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 570);
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)
         {
-            openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 344, 0, 0, 0);
+            openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 0);
         }
 
 
@@ -366,7 +375,23 @@ void classMap::generateTiles(int currentState)
     }
     case my_enums::S_NECRO_WORLD_: 
         {
-        //eventsHomeTown();
+
+        for (int y = 0; y < 256; y++)
+        {
+            for (int x = 0; x < 256; x++)
+            {
+                map_cells[x][y] = 157;                
+            }//for
+        }//for
+
+        //maps to final boss
+        road({ 49,49,150,2 }, 20, 20);
+        road({ 199,49,2,150 }, 20, 20);
+        road({ 99,197,100,2 }, 20, 20);
+        road({ 99,107,2,92 }, 20, 20);
+        road({ 99,107,50,2 }, 20, 20);
+        road({ 149,107,2,50 }, 20, 20);
+
         break;
     }
     case my_enums::S_HOMETOWN_:
@@ -407,7 +432,7 @@ void classMap::generateTiles(int currentState)
        
 
         //Draw portals
-        map_cells[1][143] = 56;
+       // map_cells[1][143] = 56;
         map_cells[253][151] = 56;
         
 

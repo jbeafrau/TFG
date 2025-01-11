@@ -62,6 +62,7 @@ struct achievement { //Achievement definition
 };
 
 struct SHOP { // shop definition
+    my_enums::gameState map;
     int id;
     int x, y;
     int option;
@@ -76,6 +77,7 @@ struct SHOP { // shop definition
 };
 
 struct CHAT {
+    my_enums::gameState map;
     int x;
     int y;
     int option;
@@ -207,7 +209,7 @@ public:
     void updateMap();
     void drawPlayer();
     void drawNPCs();
-    //void drawPlayerTileset(int x, int y, Uint8 player);
+
     void drawTileset(SDL_Rect target, SDL_Texture* texture, int player, int columns);
 
     bool collide(int x, int y);
@@ -294,11 +296,11 @@ public:
 
     list<SHOP> getShops(int x, int y);
     void cleanShop(int x, int y, int option);
-    void addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile, my_enums::itemTypes type, int bonus);
+    void addShop(my_enums::gameState map, int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile, my_enums::itemTypes type, int bonus);
 
     list<CHAT> getChat(int x, int y);
     //void cleanShop(int x, int y, int option);
-    void addChat(int x, int y, int option, std::string question, std::string  answer);
+    void addChat(my_enums::gameState map, int x, int y, int option, std::string question, std::string  answer);
     void removeChat(int x, int y, int option);
 
     list<EVENT> getEvents(int x, int y);
@@ -408,6 +410,12 @@ protected:
     int max_stamina = 1;
     int max_power=1;
     int max_luck = 1;
+
+    int skillBonus = 0;
+    int staminaBonus = 0;
+    int powerBonus = 0;
+    int luckBonus = 0;
+
 
     //default inventory
 

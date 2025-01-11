@@ -291,9 +291,10 @@ void game::addNPC(int id, int x, int y, my_enums::gameState map , std::string de
 
 }
 
-void game::addShop(int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile, my_enums::itemTypes type, int bonus)
+void game::addShop(my_enums::gameState map, int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile, my_enums::itemTypes type, int bonus)
 {
     SHOP aShop;
+    aShop.map = map;
     aShop.id = id;
     aShop.x = x;
     aShop.y = y;
@@ -383,9 +384,10 @@ void game::addEvent(int x, int y, my_enums::gameState map, std::string descripti
 }
 
 
-void game::addChat( int x, int y, int option, std::string question, std::string  answer)
+void game::addChat(my_enums::gameState map, int x, int y, int option, std::string question, std::string  answer)
 {
     CHAT achat;
+    achat.map = map;
     achat.x = x;
     achat.y = y;
     achat.option = option;
@@ -876,6 +878,11 @@ void game::loadPlayerDefault()
     potions_power = 1;
     powerRegeneration = 0;
 
+    skillBonus = 0;
+    staminaBonus = 0;
+    powerBonus = 0;
+    luckBonus = 0;
+
 
     int playerDice = 0;
     int foeDice = 0;
@@ -1110,35 +1117,29 @@ void game::dropLoot(int x, int y, int value)
 void game::loadChats()
 {
     CHATs.clear();
-    addChat(109,142, 1, "¿Que está pasando en el pueblo?", "Un mal ha venido de otro plano y esta generando caos en el pueblo, no sabemos quien exactamente ha sido, pero los muertos se levantan, necesitas abrir los portales a los otros planos para poder descubrir donde se esconde el mal...");
-    addChat(109, 142, 2, "¿Que puedo hacer?", "Equipate y preparate para luchar contra el mal, compra equipo en las tiendas y pregunta en el pueblo primero");
-    addChat(109, 142, 3, "Cuentame algo del pueblo", "Al sur encontraras varias tiendas, al este la costa y siguiendo el camino del noroeste, el bosque oscuro");
-    addChat(109, 142, 4, "<<MISSION>>¿Por donde comienzo?", "En el cementerio del pueblo hay enemigos que no permiten salir a los ciudadanos...");
-    addChat(109, 142, 5, "¿Puedo ayudar a alguien mas?", "El mago del templo elemental al este necesita ayuda con su mascota ");
-    addChat(109, 142, 6, "¿Quien es el maestro?", "Al este del pueblo esta el maestro, cuando mejores de nivel puedes mejorar tus atributos allí");
-
-    addChat(119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
-    addChat(119, 142, 2, "<<MISSION>>¿Puedo ayudar?", "Tor, mi perro esta en una choza al norte, con tantos monstruos no me atrevo a ir a por el, ¿Podrias traermelo por favor??, si lo haces te daré la llave que abre la puerta del este");
-
-
-    addChat(107, 143, 1, "¿Como accedo a mi equipo?", "Pulsa el icono de la mochila en la pantalla de juego, está en la parte de arriba de la pantalla");
-    addChat(107, 143, 2, "¿Que quiere decir EQUIPADO?", "Hay piezas de equipo que puedes usar para mejorar tus habilidades como armas, armaduras u anillos mágicos, para equiparla, tan solo tienes que pinchar sobre el equipo, no puedes usar escudos cuando usas armas de dos manos o de ataques a distancia");
-    addChat(107, 143, 3, "¿Como puedo obtener equipo?", "De tres maneras diferentes: comprandolo en las tiendas, derrotando enemigos y a veces también lo encontrarás en el mapa");
-    
-    addChat(111, 143, 1, "¿Como se gasta la magia?", "La magia engloba varias habilidades que suponen ventajas en el combate, tanto los magos, necromantes e invocadores pueen gastar esas habilidades");
-    addChat(111, 143, 2, "¿Como saber lo poderoso que soy?", "La magia depende de un atributo: Poder, cuanto más tengas más fuerte seran tus ataques mágicos y más ataques podras realizar antes de agotar tu reserva");
-    addChat(111, 143, 3, "¿Tiene límite la magia?", "Lamentablemente la magia consume tu poder a grán velocidad y cuando se agota, no podrás usarla");
-    addChat(111, 143, 4, "¿Se puede recuperar el poder?", "Cuando no estás en combate la mágia se regenera a un ritmo de un punto cada 30 segundos (- el poder máximo), durante el combate si usas una poción de poder recuperas instantáneamente 10 puntos");
-
-    addChat(107, 145, 1, "¿Como funciona el combate?", "En el mapa verás enemigos, si intentas entrar en su ubicación u ellos te alcanzan entrarás en combate, una vez entres en combate en la parte izquierda veras los enemigos con sus habilidades, el combate es por turnos y solo termina cuando terminas con tus enemigos u ellos contigo");
-    addChat(107, 145, 2, "¿Como ataco?", "Todos los arquetipos pueden realizar ataques de melee, para hacerlo tan solo hay que pulsar el boton de la espada, además otros personajes tienen otro tipos de ataques, como los ataques a distancia, con subterfugio o magia ");
-    addChat(107, 145, 3, "¿Cuando derroto a los enemigos?", "Cuando la barra roja de los enemigos se consume los derrotas, lo mismo sirve para tu personaje");
-    addChat(107, 145, 4, "¡Ayuda!, ¡Me han herido!", "Hay dos maneras de recuperar vitalidad, fuera de combate consumiendo raciones de comida (el icono del pán que recupera 4 puntos de vida por ración) y dentro del combate las pociones de vitalidad que recuperan 10 puntos de vida");
-
-    addChat(111, 145, 1, "¿Como funcionan las tiendas?", "En el mapa verás personajes amigos, si intentas desplazarte en su dirección la pantalla de la tienda se abre");
-    addChat(111, 145, 1, "¿Como compro el quipo?", "Es tan sencillo como pulsar sobre el objeto deseado, si tienes suficiente dinero perderas dicho dinero pero se añade a tu equipo el objeto");
-    addChat(111, 145, 1, "¿Solo se puede pagar con dinero?", "A veces podrás cambiar un objeto por otro");
-    addChat(111, 145, 1, "¿Se puede vender equipo?", "A veces los comerciantes te compraran equipo especial, como pueden ser gemas");
+    addChat(my_enums::S_HOMETOWN_,109,142, 1, "¿Que está pasando en el pueblo?", "Un mal ha venido de otro plano y esta generando caos en el pueblo, no sabemos quien exactamente ha sido, pero los muertos se levantan, necesitas abrir los portales a los otros planos para poder descubrir donde se esconde el mal...");
+    addChat(my_enums::S_HOMETOWN_,109, 142, 2, "¿Que puedo hacer?", "Equipate y preparate para luchar contra el mal, compra equipo en las tiendas y pregunta en el pueblo primero");
+    addChat(my_enums::S_HOMETOWN_,109, 142, 3, "Cuentame algo del pueblo", "Al sur encontraras varias tiendas, al este la costa y siguiendo el camino del noroeste, el bosque oscuro");
+    addChat(my_enums::S_HOMETOWN_,109, 142, 4, "<<MISSION>>¿Por donde comienzo?", "En el cementerio del pueblo hay enemigos que no permiten salir a los ciudadanos...");
+    addChat(my_enums::S_HOMETOWN_,109, 142, 5, "¿Puedo ayudar a alguien mas?", "El mago del templo elemental al este necesita ayuda con su mascota ");
+    addChat(my_enums::S_HOMETOWN_,109, 142, 6, "¿Quien es el maestro?", "Al este del pueblo esta el maestro, cuando mejores de nivel puedes mejorar tus atributos allí");
+    addChat(my_enums::S_HOMETOWN_,119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
+    addChat(my_enums::S_HOMETOWN_,119, 142, 2, "<<MISSION>>¿Puedo ayudar?", "Tor, mi perro esta en una choza al norte, con tantos monstruos no me atrevo a ir a por el, ¿Podrias traermelo por favor??, si lo haces te daré la llave que abre la puerta del este");
+    addChat(my_enums::S_HOMETOWN_,107, 143, 1, "¿Como accedo a mi equipo?", "Pulsa el icono de la mochila en la pantalla de juego, está en la parte de arriba de la pantalla");
+    addChat(my_enums::S_HOMETOWN_,107, 143, 2, "¿Que quiere decir EQUIPADO?", "Hay piezas de equipo que puedes usar para mejorar tus habilidades como armas, armaduras u anillos mágicos, para equiparla, tan solo tienes que pinchar sobre el equipo, no puedes usar escudos cuando usas armas de dos manos o de ataques a distancia");
+    addChat(my_enums::S_HOMETOWN_,107, 143, 3, "¿Como puedo obtener equipo?", "De tres maneras diferentes: comprandolo en las tiendas, derrotando enemigos y a veces también lo encontrarás en el mapa");   
+    addChat(my_enums::S_HOMETOWN_,111, 143, 1, "¿Como se gasta la magia?", "La magia engloba varias habilidades que suponen ventajas en el combate, tanto los magos, necromantes e invocadores pueen gastar esas habilidades");
+    addChat(my_enums::S_HOMETOWN_,111, 143, 2, "¿Como saber lo poderoso que soy?", "La magia depende de un atributo: Poder, cuanto más tengas más fuerte seran tus ataques mágicos y más ataques podras realizar antes de agotar tu reserva");
+    addChat(my_enums::S_HOMETOWN_,111, 143, 3, "¿Tiene límite la magia?", "Lamentablemente la magia consume tu poder a grán velocidad y cuando se agota, no podrás usarla");
+    addChat(my_enums::S_HOMETOWN_,111, 143, 4, "¿Se puede recuperar el poder?", "Cuando no estás en combate la mágia se regenera a un ritmo de un punto cada 30 segundos (- el poder máximo), durante el combate si usas una poción de poder recuperas instantáneamente 10 puntos");
+    addChat(my_enums::S_HOMETOWN_,107, 145, 1, "¿Como funciona el combate?", "En el mapa verás enemigos, si intentas entrar en su ubicación u ellos te alcanzan entrarás en combate, una vez entres en combate en la parte izquierda veras los enemigos con sus habilidades, el combate es por turnos y solo termina cuando terminas con tus enemigos u ellos contigo");
+    addChat(my_enums::S_HOMETOWN_,107, 145, 2, "¿Como ataco?", "Todos los arquetipos pueden realizar ataques de melee, para hacerlo tan solo hay que pulsar el boton de la espada, además otros personajes tienen otro tipos de ataques, como los ataques a distancia, con subterfugio o magia ");
+    addChat(my_enums::S_HOMETOWN_,107, 145, 3, "¿Cuando derroto a los enemigos?", "Cuando la barra roja de los enemigos se consume los derrotas, lo mismo sirve para tu personaje");
+    addChat(my_enums::S_HOMETOWN_,107, 145, 4, "¡Ayuda!, ¡Me han herido!", "Hay dos maneras de recuperar vitalidad, fuera de combate consumiendo raciones de comida (el icono del pán que recupera 4 puntos de vida por ración) y dentro del combate las pociones de vitalidad que recuperan 10 puntos de vida");
+    addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Como funcionan las tiendas?", "En el mapa verás personajes amigos, si intentas desplazarte en su dirección la pantalla de la tienda se abre");
+    addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Como compro el quipo?", "Es tan sencillo como pulsar sobre el objeto deseado, si tienes suficiente dinero perderas dicho dinero pero se añade a tu equipo el objeto");
+    addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Solo se puede pagar con dinero?", "A veces podrás cambiar un objeto por otro");
+    addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Se puede vender equipo?", "A veces los comerciantes te compraran equipo especial, como pueden ser gemas");
 
 
 
@@ -1149,21 +1150,58 @@ void game::loadShops()
 
     SHOPs.clear();
 
-    addShop(1, 106, 155, 1, "FOOD", 1, "GOLD", 4, 207,my_enums::_OTHER_,0);
+    addShop(my_enums::S_HOMETOWN_,1, 106, 155, 1, "FOOD", 1, "GOLD", 4, 207,my_enums::_OTHER_,0);
+    addShop(my_enums::S_HOMETOWN_,2, 112, 155, 1, "ESPADA", 1, "GOLD", 10, 44, my_enums::_WEAPON_1H_, 1);
+    addShop(my_enums::S_HOMETOWN_,2, 112, 155, 2, "ESPADA 2M", 1, "GOLD", 25, 40, my_enums::_WEAPON_2H_, 2);
+    addShop(my_enums::S_HOMETOWN_,2, 112, 155, 3, "DAGA", 1, "GOLD", 5, 30, my_enums::_WEAPON_1H_, 0);
+    addShop(my_enums::S_HOMETOWN_,2, 112, 155, 4, "ARCO", 1, "GOLD", 10, 59, my_enums::_WEAPON_RANGED_, 1);
+    addShop(my_enums::S_HOMETOWN_,2, 112, 155, 5, "BALLESTA", 1, "GOLD", 25, 60, my_enums::_WEAPON_RANGED_, 2);
+    addShop(my_enums::S_HOMETOWN_,3, 106, 161, 1, "ARMADURA CUERO", 1, "GOLD", 10, 114, my_enums::_ARMOR_, 1);
+    addShop(my_enums::S_HOMETOWN_,3, 106, 161, 2, "CASCO CUERO", 1, "GOLD", 5, 160, my_enums::_HELMET_, 1);
+    addShop(my_enums::S_HOMETOWN_,3, 106, 161, 3, "ESCUDO CUERO", 1, "GOLD", 5, 151, my_enums::_SHIELD_, 1);
+    addShop(my_enums::S_HOMETOWN_,4, 112, 161, 1, "POCION VITALIDAD", 1, "GOLD", 25, 276, my_enums::_OTHER_, 0);
+    addShop(my_enums::S_HOMETOWN_,4, 112, 161, 2, "POCION PODER", 1, "GOLD", 25, 273, my_enums::_OTHER_, 0);
+    addShop(my_enums::S_HOMETOWN_,4, 112, 161, 3, "ANILLO HABILIDAD+1", 1, "GOLD", 50, 220, my_enums::_RING_, 1);
 
-    addShop(2, 112, 155, 1, "ESPADA", 1, "GOLD", 10, 44, my_enums::_WEAPON_1H_, 1);
-    addShop(2, 112, 155, 2, "ESPADA 2M", 1, "GOLD", 25, 40, my_enums::_WEAPON_2H_, 2);
-    addShop(2, 112, 155, 3, "DAGA", 1, "GOLD", 5, 30, my_enums::_WEAPON_1H_, 0);
-    addShop(2, 112, 155, 4, "ARCO", 1, "GOLD", 10, 59, my_enums::_WEAPON_RANGED_, 1);
-    addShop(2, 112, 155, 5, "BALLESTA", 1, "GOLD", 25, 60, my_enums::_WEAPON_RANGED_, 2);
+    addShop(my_enums::S_COAST_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
+    addShop(my_enums::S_COAST_WORLD_, 2, 1, 1, 2, "ESPADA+1", 1, "GOLD", 25, 44, my_enums::_WEAPON_1H_, 2);
+    addShop(my_enums::S_COAST_WORLD_, 2, 1, 1, 3, "ARCO+1", 1, "GOLD", 25, 59, my_enums::_WEAPON_RANGED_, 2);
 
-    addShop(3, 106, 161, 1, "ARMADURA CUERO", 1, "GOLD", 10, 114, my_enums::_ARMOR_, 1);
-    addShop(3, 106, 161, 2, "CASCO CUERO", 1, "GOLD", 5, 160, my_enums::_HELMET_, 1);
-    addShop(3, 106, 161, 3, "ESCUDO CUERO", 1, "GOLD", 5, 151, my_enums::_SHIELD_, 1);
+    addShop(my_enums::S_FOREST_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
+    addShop(my_enums::S_FOREST_WORLD_, 2, 1, 1, 2, "ESPADA 2M+1", 1, "GOLD", 50, 40, my_enums::_WEAPON_2H_, 3);
+    addShop(my_enums::S_FOREST_WORLD_, 2, 1, 1, 3, "DAGA+1", 1, "GOLD", 10, 30, my_enums::_WEAPON_1H_, 1);
 
-    addShop(4, 112, 161, 1, "POCION VITALIDAD", 1, "GOLD", 25, 276, my_enums::_OTHER_, 0);
-    addShop(4, 112, 161, 2, "POCION PODER", 1, "GOLD", 25, 273, my_enums::_OTHER_, 0);
-    addShop(4, 112, 161, 3, "ANILLO HABILIDAD", 1, "GOLD", 50, 220, my_enums::_RING_, 0);
+    addShop(my_enums::S_ELEMENTAL_EARTH_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
+    addShop(my_enums::S_ELEMENTAL_EARTH_WORLD_, 2, 1, 1, 2, "ESPADA+2", 1, "GOLD", 50, 44, my_enums::_WEAPON_1H_, 3);
+    addShop(my_enums::S_ELEMENTAL_EARTH_WORLD_, 2, 1, 1, 3, "BALLESTA+2", 1, "GOLD", 100, 60, my_enums::_WEAPON_RANGED_, 4);
+
+    addShop(my_enums::S_ELEMENTAL_WATER_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
+    addShop(my_enums::S_ELEMENTAL_WATER_WORLD_, 2, 1, 1, 2, "ESPADA 2M+3", 1, "GOLD", 200, 40, my_enums::_WEAPON_2H_, 5);
+    addShop(my_enums::S_ELEMENTAL_WATER_WORLD_, 2, 1, 1, 3, "ARCO+3", 1, "GOLD", 100, 59, my_enums::_WEAPON_RANGED_, 4);
+
+    addShop(my_enums::S_ELEMENTAL_WIND_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
+    addShop(my_enums::S_ELEMENTAL_WIND_WORLD_, 2, 1, 1, 2, "DAGA+4", 1, "GOLD", 100, 30, my_enums::_WEAPON_1H_, 4);
+    addShop(my_enums::S_ELEMENTAL_WIND_WORLD_, 2, 1, 1, 3, "BALLESTA+4", 1, "GOLD", 400, 60, my_enums::_WEAPON_RANGED_, 6);
+
+    addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
+    addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 2, 1, 1, 2, "ESPADA+5", 1, "GOLD", 400, 44, my_enums::_WEAPON_1H_, 6);
+    addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 2, 1, 1, 3, "ARCO+5", 1, "GOLD", 400, 59, my_enums::_WEAPON_RANGED_, 6);
+
+    /*
+    addShop(my_enums::S_HOMETOWN_, 2, 1, 1, 1, "ESPADA", 1, "GOLD", 10, 44, my_enums::_WEAPON_1H_, 1);
+    addShop(my_enums::S_HOMETOWN_, 2, 1, 1, 2, "ESPADA 2M", 1, "GOLD", 25, 40, my_enums::_WEAPON_2H_, 2);
+    addShop(my_enums::S_HOMETOWN_, 2, 1, 1, 3, "DAGA", 1, "GOLD", 5, 30, my_enums::_WEAPON_1H_, 0);
+    addShop(my_enums::S_HOMETOWN_, 2, 1, 1, 4, "ARCO", 1, "GOLD", 10, 59, my_enums::_WEAPON_RANGED_, 1);
+    addShop(my_enums::S_HOMETOWN_, 2, 1, 1, 5, "BALLESTA", 1, "GOLD", 25, 60, my_enums::_WEAPON_RANGED_, 2);
+    addShop(my_enums::S_HOMETOWN_, 3, 1, 1, 1, "ARMADURA CUERO", 1, "GOLD", 10, 114, my_enums::_ARMOR_, 1);
+    addShop(my_enums::S_HOMETOWN_, 3, 1, 1, 2, "CASCO CUERO", 1, "GOLD", 5, 160, my_enums::_HELMET_, 1);
+    addShop(my_enums::S_HOMETOWN_, 3, 1, 1, 3, "ESCUDO CUERO", 1, "GOLD", 5, 151, my_enums::_SHIELD_, 1);
+
+
+    addShop(my_enums::S_HOMETOWN_, 4, 112, 161, 3, "ANILLO HABILIDAD+", 1, "GOLD", 50, 220, my_enums::_RING_, 0);
+    addShop(my_enums::S_HOMETOWN_, 4, 112, 161, 3, "ANILLO SUERTE+", 1, "GOLD", 50, 220, my_enums::_RING_, 0);
+    addShop(my_enums::S_HOMETOWN_, 4, 112, 161, 3, "ANILLO PODER+", 1, "GOLD", 50, 220, my_enums::_RING_, 0);
+    */
 
     /*
         addShop(36, 79, 71, 1 , "**ANILLO DE INVISIBILIDAD" , 1 , "GOLD", 10,229);
@@ -4614,6 +4652,7 @@ void game::eventsPlayerArchetypes()
                     addSkill("INVOCAR");
 
                     skillPoints = 10;
+                    coins = 5000;
 
 
                     addItem("ANILLO VUELO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 226, my_enums::_OTHER_, 0);
@@ -5208,6 +5247,53 @@ void game::eventsInventory()
                     case my_enums::_RING_:
                     {
                         Mix_PlayChannel(-1, ring, 0);
+                        int ringL = it->description.length() - 7;
+                        if (ringL == 7)ringL = 5;
+                        if (ringL == 8)ringL = 6;
+                        if (ringL == 11)ringL = 9;
+                        string ringD = it->description.substr(7, ringL);
+
+                        if (itemRing != "") {
+                            skill -= skillBonus;
+                            max_skill -= skillBonus;
+                            stamina -= staminaBonus;
+                            max_stamina -= staminaBonus;
+                            power -= powerBonus;
+                            max_power -= powerBonus;
+                            luck -= luckBonus;
+                            max_luck -= luckBonus;
+
+                            skillBonus=0;
+                            staminaBonus=0;
+                            powerBonus=0;
+                            luckBonus=0;
+                        }
+
+                            if(ringD=="HABILIDAD"){
+                                skill += it->bonus;
+                                max_skill+= it->bonus;
+                                skillBonus = it->bonus;
+                            }
+                            if (ringD == "VITALIDAD") {
+                                stamina += it->bonus;
+                                max_stamina += it->bonus;
+                                staminaBonus = it->bonus;
+                            }
+                            if (ringD == "PODER") {
+                                power += it->bonus;
+                                max_power += it->bonus;
+                                powerBonus = it->bonus;
+                            }
+                            if (ringD == "SUERTE") {
+                                luck += it->bonus;
+                                max_luck += it->bonus;
+                                luckBonus = it->bonus;
+                            }
+                      
+                       
+
+
+
                         itemRing = it->name;
                         break;
                     }
@@ -5433,9 +5519,9 @@ void game::processAI()
                         if (itNPC->id == it->NPCID) { //id match
                             if (insideBoundaries(itNPC->x, itNPC->y, it->location)) { //inside event boundaries                               
                                 if (itNPC->id == 10001) {
-                                    addChat(119, 142, 2, "Sobre Tor", "¡Muchas gracias!, con la llave que te he dado puedes abrir el camino que lleva a la playa");
+                                    addChat(my_enums::S_HOMETOWN_, 119, 142, 2, "Sobre Tor", "¡Muchas gracias!, con la llave que te he dado puedes abrir el camino que lleva a la playa");
                                     removeChat(109, 142, 5);
-                                    addChat(109, 142, 5, "Sobre el mago del templo elemental", "El mago del templo elemental esta muy agradecido, sigue así y se abriran más puertas");
+                                    addChat(my_enums::S_HOMETOWN_, 109, 142, 5, "Sobre el mago del templo elemental", "El mago del templo elemental esta muy agradecido, sigue así y se abriran más puertas");
                                 }
                                     
                                     
@@ -5470,7 +5556,7 @@ void game::processAI()
                     if (it->NPCID = 10002) {
                         addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
                         removeChat(109, 142, 4);
-                        addChat(109, 142, 4, "Sobre el necromante...", "Gracias por derrotar al nigromante, ahora el pueblo vuelve a ser un sitio seguro");
+                        addChat(my_enums::S_HOMETOWN_, 109, 142, 4, "Sobre el necromante...", "Gracias por derrotar al nigromante, ahora el pueblo vuelve a ser un sitio seguro");
 
                         
                     }
@@ -6570,8 +6656,10 @@ bool game::checkNPC(int x, int y)
 }
 
 void game::updateNPCandEVENTS(my_enums::gameState state) {
-    if (state != my_enums::S_HOMETOWN_) {//only for maps outside hometown
+    if ((state != my_enums::S_HOMETOWN_)&& (state != my_enums::S_NECRO_WORLD_)){//only for maps outside hometown and Necroworld
 
+
+        //Update teleport event
         if (state != my_enums::S_FOREST_WORLD_) {
         for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
         {
@@ -6584,7 +6672,7 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
 
         }
     }
-
+        //Update NPC locations
         for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
         {
             if ((it->id == 1000) && (it->map == state)) {//update shop location
@@ -6609,6 +6697,34 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
             }
 
         }
+
+
+        //update chat lines location
+        for (list<CHAT>::iterator it = CHATs.begin(); it != CHATs.end(); it++)
+        {
+            if (it->map == state) {
+                int x = 1, y = 1;
+                baseMap.getLocation(&x, &y, 570);
+                it->x = x;
+                it->y = y;
+            }
+        }
+
+        //update shop items location
+        for (list<SHOP>::iterator it = SHOPs.begin(); it != SHOPs.end(); it++)
+        {
+            if (it->map == state) {
+                int x = 1, y = 1;
+                baseMap.getLocation(&x, &y, 300);
+                it->x = x;
+                it->y = y;
+            }
+        }
+
+
+        
+
+
 
 
         }

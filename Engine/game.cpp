@@ -6988,12 +6988,25 @@ void game::drawNPCs()
             target.w = gScreenSurface->w / cam_size_x;
             target.h = gScreenSurface->h / cam_size_y;
 
+           
 
-            drawTileset(target, playersTexture, it->tile,20);
+         
+            drawTileset(target, playersTexture, it->tile, 20);
+            if ((it->NPCAI == my_enums::_FRIENDLY_CHAT_) || (it->NPCAI == my_enums::_FRIENDLY_SHOP_) || (it->NPCAI == my_enums::_FRIENDLY_MASTER_)) {
+                drawTransparentSquare(target, { 0,200,0,0 });
+                drawTransparentSquare({ target.x + 1,target.y + 1,target.w - 2,target.h - 2, }, { 0,200,0,0 });
+            }
+
+            if ((it->NPCAI == my_enums::_ENEMY_FOLLOW_) || (it->NPCAI == my_enums::_ENEMY_RANDOM_) || (it->NPCAI == my_enums::_ENEMY_STATIC_)) {
+                drawTransparentSquare(target, { 200,0,0,0 });
+                drawTransparentSquare({ target.x+1,target.y + 1,target.w  -2,target.h - 2, }, { 200,0,0,0 });
+            }
+
 
             if ((it->NPCAI == my_enums::_FRIENDLY_CHAT_)|| (it->NPCAI == my_enums::_FRIENDLY_SHOP_) || (it->NPCAI == my_enums::_FRIENDLY_MASTER_)) {
                 ty--;
-                target.y = (gScreenSurface->h / cam_size_y) * ty;                
+                target.y = (gScreenSurface->h / cam_size_y) * ty;     
+               
                 SDL_RenderCopy(gRenderer, talkTexture, NULL, &target);
 
 
@@ -7001,6 +7014,7 @@ void game::drawNPCs()
                 SDL_Color bg = { 150,150,150,0 };
                 SDL_Surface* text = TTF_RenderUTF8_Blended_Wrapped(smallFont, it->description.c_str(), fg, target.w);
                 SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(gRenderer, text);
+               
                 SDL_RenderCopy(gRenderer, txtTexture, NULL, &target);
 
                 SDL_FreeSurface(text);
@@ -7022,8 +7036,10 @@ void game::drawTileset(SDL_Rect target,SDL_Texture *texture, int player, int col
         sx = player % columns;
 
         SDL_Rect playerSrc;
-        playerSrc.x = sx * 32 + 1;
-        playerSrc.y = sy * 32 + 1;
+       // playerSrc.x = sx * 32 + 1;
+       // playerSrc.y = sy * 32 + 1;
+        playerSrc.x = sx * 32 ;
+        playerSrc.y = sy * 32 ;
         playerSrc.w = 32;
         playerSrc.h = 32;
         SDL_RenderCopy(gRenderer,texture, &playerSrc, &target);

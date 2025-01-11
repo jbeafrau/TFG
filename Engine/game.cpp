@@ -2659,7 +2659,7 @@ void game::monsterGenerator()
             my = dice(245, 5);
         }
         else {
-            addNPC(getMonsterID(), mx, my, getStringState(currentState), "Monstruo", dice(10, 1), dice(10, 5) + ((level - 1) * 3), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, tile, { 1,1,255,255 });
+            addNPC(getMonsterID(), mx, my, getStringState(currentState), "Monstruo", dice(10, 1)+ (level - 1), dice(10, 5) + ((level - 1) * 3), dice(10, 5)+(level - 1), dice(10, 5)+ (level - 1), dice(3, 1), my_enums::_ENEMY_FOLLOW_, tile, { 1,1,255,255 });
         }
         }
 

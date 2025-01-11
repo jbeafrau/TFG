@@ -6617,6 +6617,7 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
 
 void game::changeMap()
 {
+    if (currentState == my_enums::S_NECRO_WORLD_)addAchievement("Necromundo", my_enums::_HIDDEN_);
     int width, height;
     width = 256;
     height = 256;

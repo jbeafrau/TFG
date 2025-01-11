@@ -5913,6 +5913,13 @@ void game::processAI()
                             addItem("ANILLO RESISTENCIA FUEGO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 229, my_enums::_OTHER_, 0);
                              
                         }
+
+                        if (it->map == my_enums::S_FOREST_WORLD_) {
+                            addItem("LIBRO RECETAS", "Libro con recetas malignas", 1, 0, 282, my_enums::_OTHER_, 0);
+                            addAchievement("Cocinando el mal", my_enums::_MISSIONS_);
+
+                        }
+
                         
                     }
 

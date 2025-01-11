@@ -4133,8 +4133,8 @@ void game::screenPlayerArchetypes()
     drawTextBlock("MAGO: Comienzas con la habilidad de MAGIA (Ataques con magia)", tmpRect);
     tmpRect.y = 750;
     drawTextBlock("NECROMANTE:  Comienzas con la habilidad de DRENAR  (Ataques con magia que drenan vida)", tmpRect);
-    tmpRect.y = 900;
-    drawTextBlock("INVOCADOR:  Comienzas con la habilidad de INVOCAR", tmpRect);
+  //  tmpRect.y = 900;
+  //  drawTextBlock("INVOCADOR:  Comienzas con la habilidad de INVOCAR", tmpRect);
 }
 
 
@@ -4832,17 +4832,18 @@ void game::eventsPlayerArchetypes()
                
                     addSkill("DRENAR");
                 
-                    addSkill("INVOCAR");
+                    //addSkill("INVOCAR");
 
                     skillPoints = 30;
                     coins = 5000;
 
-
+                    /*
                     addItem("ANILLO VUELO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 226, my_enums::_OTHER_, 0);
                     addItem("ANILLO RESISTENCIA FUEGO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 229, my_enums::_OTHER_, 0);
                     addItem("ANILLO RESPIRAR AGUA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 230, my_enums::_OTHER_, 0);
                     addItem("ANILLO DE LA TIERRA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 210, my_enums::_OTHER_, 0);
                     addItem("LLAVE PUERTA ESTE", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);
+                    */
 
                     //****
                 }
@@ -4887,15 +4888,18 @@ void game::eventsPlayerArchetypes()
 
                 case my_enums::_NECROMANCER_:
                 {
-                    currentArchetype = my_enums::_SUMMONER_;
+                    //currentArchetype = my_enums::_SUMMONER_;
+                    currentArchetype = my_enums::_FIGHTER_;
                     break;
                 }
-
+              
+                /*
                 case my_enums::_SUMMONER_:
                 {
                     currentArchetype = my_enums::_FIGHTER_;
                     break;
                 }
+                */
 
                 default:
                 {
@@ -4911,7 +4915,8 @@ void game::eventsPlayerArchetypes()
                 {
                 case my_enums::_FIGHTER_:
                 {
-                    currentArchetype = my_enums::_SUMMONER_;
+                   // currentArchetype = my_enums::_SUMMONER_;
+                    currentArchetype = my_enums::_NECROMANCER_;
                     break;
                 }
                 case my_enums::_ARCHER_:
@@ -4938,11 +4943,13 @@ void game::eventsPlayerArchetypes()
                     break;
                 }
 
+                /*
                 case my_enums::_SUMMONER_:
                 {
                     currentArchetype = my_enums::_NECROMANCER_;
                     break;
                 }
+                */
 
                 default:
                 {

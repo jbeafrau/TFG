@@ -320,6 +320,7 @@ public:
     void timeEvents();
 
     void playTutorial();
+    void playTutorialHomeTown();
 
 
     int countMonsters();
@@ -347,6 +348,7 @@ protected:
 
     //USed to display controls tutorial
     bool firstRun = true;
+    bool firstRunHomeTown = true;
 
     //limit amount of monsters per map
     int maxMonsters = 50;

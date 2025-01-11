@@ -2638,6 +2638,141 @@ void game:: playTutorial()
     }//while not quit
 }
 
+
+void game::playTutorialHomeTown()
+
+{
+    int startTime = SDL_GetTicks();
+    int elapsed = 0;
+
+    bool quit = false;
+    SDL_Rect destRect;
+    while (!quit)
+    {
+        elapsed = SDL_GetTicks() - startTime;
+        screenClear();
+        drawBackground();
+
+        destRect.x = gScreenSurface->w / 2 - 256;
+        destRect.y = gScreenSurface->h / 8;
+        destRect.w = 512;
+        destRect.h = 50;
+        drawSquare(destRect, lightGreyColor);
+        drawTextResize("TUTORIAL PANTALLA PRINCIPAL", destRect);
+
+        if (elapsed > 1000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h / 4;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 100;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("En la pantalla principal veras múltiples personajes", destRect);
+        }
+
+        if (elapsed > 3000) {
+
+            drawButtonSrc(moveLeftButton, buttonLeftTexture);
+            drawButtonSrc(moveRightButton, buttonRightTexture);
+            drawButtonSrc(moveUpButton, buttonUpTexture);
+            drawButtonSrc(moveDownButton, buttonDownTexture);
+
+
+           
+              
+
+                destRect.w = 100;
+                destRect.h = 100;
+                destRect.y = gScreenSurface->h - 250;
+                destRect.x = gScreenSurface->w -300;
+                drawTileset(destRect, playersTexture, 74, 20);
+                drawTransparentSquare(destRect, { 200,0,0,0 });
+                drawTransparentSquare({ destRect.x + 1,destRect.y + 1,destRect.w - 2,destRect.h - 2, }, { 200,0,0,0 });
+            
+
+            destRect.x = gScreenSurface->w / 2;
+            destRect.y = gScreenSurface->h - 150;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 150;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Los enemigos tiene un recuadro rojo, para atacarlos desplazate en su dirección con las teclas WASD, o bien pulsando sobre las flechas de dirección", destRect);
+
+        }
+
+        if (elapsed > 5000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h / 2-50;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 200;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Los personajes amigos que puedes interactuar tienen un recuadro verde, Para interactuar con los personajes debes desplazarte en su dirección con el teclado o bién pulsar con el ratón sobre ellos", destRect);
+
+            destRect.w = 100;
+            destRect.h = 100;
+            destRect.y = gScreenSurface->h / 2 -150;
+            destRect.x = gScreenSurface->w / 4;
+            drawTileset(destRect, playersTexture, 74, 20);
+            drawTransparentSquare(destRect, { 0,200,0,0 });
+            drawTransparentSquare({ destRect.x + 1,destRect.y + 1,destRect.w - 2,destRect.h - 2, }, { 0,200,0,0 });
+
+        }
+
+        if (elapsed > 7000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h * 3 / 4 - 100;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 200;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Habla con todos los personajes que veas, ellos tienen misiones y pistas para tí, en cada mapa hay al menos un personaje que te puede ayudar, recuerda que para ganar el juego tienes que conseguir todos los logros", destRect);
+
+          }
+
+
+
+        if (elapsed > 9000) {
+            destRect.x = 50;
+            destRect.y = gScreenSurface->h - 100;
+            destRect.w = 512;
+            destRect.h = 50;
+            drawSquare(destRect, lightGreyColor);
+            drawTextResize("Pulsa cualquier tecla para continuar...", destRect);
+        }
+
+        //Event handler
+        SDL_Event e;
+
+        //Handle events on queue
+        while (SDL_PollEvent(&e) != 0)
+        {
+            //User requests quit
+            if (e.type == SDL_QUIT)
+            {
+                setState(my_enums::S_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+            }
+            else if (e.type == SDL_MOUSEMOTION)
+            {
+                //******
+            }
+            else if (e.type == SDL_MOUSEBUTTONDOWN)
+            {
+                quit = true;
+            }
+            else if (e.type == SDL_KEYDOWN)
+            {
+                quit = true;
+            }
+
+            //******************
+        }//events
+        drawMouse();
+        screenFlip();
+        SDL_Delay(50);
+    }//while not quit
+}
+
+
 //Used to get auto-incermental ids
 int game::getMonsterID()
 {
@@ -3032,7 +3167,7 @@ void game::screenPlayerName()
     drawSquare(tmpRect, lightGreyColor);
     drawText(playerName, tmpRect);
     tmpRect.y = gScreenSurface->h / 4*3 -50;
-    drawText("Cambia la imagen y luego pulsa continuar...", tmpRect);
+    drawTextBlock("Cambia la imagen y luego pulsa continuar, ten en cuenta que la imagen es solo un elemento cosmético y no afecta a las habilidades del personaje...", tmpRect);
 }
 
 
@@ -3693,6 +3828,11 @@ void game::screenConfigMenu()
 void game::screenHomeTown()
 {
 
+    if (firstRunHomeTown) {
+        firstRunHomeTown = false;
+        playTutorialHomeTown();
+    }
+
     SDL_Rect target;
      target.x = 0;
     target.y = 0;
@@ -3988,9 +4128,9 @@ void game::screenPlayerArchetypes()
     tmpRect.y = 300;
     drawTextBlock("ARQUERO:  Comienzas con la habilidad de ARQUERO (Ataques a distancia)", tmpRect);
     tmpRect.y = 450;
-    drawTextBlock("LADRON:  Comienzas con la habilidad de MAGIA (Ataques con magia)", tmpRect);
+    drawTextBlock("LADRON:  Comienzas con la habilidad de SUBTERFUGIO (Ataques con subterfugio)", tmpRect);
     tmpRect.y = 600;
-    drawTextBlock("MAGO:  Comienzas con la habilidad de SUBTERFUGIO (Ataques con subterfugio)", tmpRect);
+    drawTextBlock("MAGO: Comienzas con la habilidad de MAGIA (Ataques con magia)", tmpRect);
     tmpRect.y = 750;
     drawTextBlock("NECROMANTE:  Comienzas con la habilidad de DRENAR  (Ataques con magia que drenan vida)", tmpRect);
     tmpRect.y = 900;

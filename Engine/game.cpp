@@ -3086,13 +3086,13 @@ void game::screenPlayer()
  
     tmpRect.w = 100;
     tmpRect.y = 200;
-    drawTextL("Combate", tmpRect);
+    drawTextL("Combate(" + to_string(max_skill) + ")", tmpRect);
     tmpRect.y = 250;
-    drawTextL("Vitalidad", tmpRect);
+    drawTextL("Vitalidad(" + to_string(max_stamina) + ")", tmpRect);
     tmpRect.y = 300;
-    drawTextL("Poder", tmpRect);
+    drawTextL("Poder(" + to_string(max_power) + ")", tmpRect);
     tmpRect.y = 350;
-    drawTextL("Suerte", tmpRect);
+    drawTextL("Suerte(" + to_string(max_luck) + ")", tmpRect);
 
 
     drawIMGBox(gScreenSurface->w / 2 - 200, 200, skill, max_skill, { 0,0,200,0 });
@@ -3140,12 +3140,23 @@ void game::screenShops()
 
     std::string tmpStr;
 
+
+
+   
+
     SDL_Rect target;
     tmpRect.x = gScreenSurface->w /2 -200;
     tmpRect.y = 50;
     tmpRect.w = 400;
     tmpRect.h = 50;
     drawTextResize(tmpNPCs.begin()->description, tmpRect);
+
+    string tmpString = "";
+    tmpString = "Monedas de oro: " + to_string(coins);
+    tmpy += 50;
+    tmpRect.y = gScreenSurface->h / 4;
+    drawText(tmpString, tmpRect);
+
 
     
     target.x = tmpRect.x - 50;
@@ -4658,7 +4669,7 @@ void game::eventsPlayerArchetypes()
                 
                     addSkill("INVOCAR");
 
-                    skillPoints = 10;
+                    skillPoints = 30;
                     coins = 5000;
 
 
@@ -4879,7 +4890,7 @@ void game::eventsMaster()
             }//continue
 
             if (skillButton.clicked(mousex, mousey)) {
-                if (skillPoints > 0) {
+                if ((skillPoints > 0) && (max_skill<30)){
                     skillPoints--;
                     max_skill += 1;
                     skill = max_skill;
@@ -4887,7 +4898,7 @@ void game::eventsMaster()
             }
 
             if (powerButton.clicked(mousex, mousey)) {
-                if (skillPoints > 0) {
+                if ((skillPoints > 0) && (max_power < 30)) {
                     skillPoints--;
                     max_power += 1;
                     power = max_power;
@@ -4905,7 +4916,7 @@ void game::eventsMaster()
             }
 
             if (luckButton.clicked(mousex, mousey)) {
-                if (skillPoints > 0) {
+                if ((skillPoints > 0) && (max_luck < 30)) {
                     skillPoints--;
                     max_luck += 1;
                     luck = max_luck;

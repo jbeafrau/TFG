@@ -189,10 +189,13 @@ void classMap::generateTiles(int currentState)
         openBuilding(getBuildingSpotFlat(w,h), 9, 0, 0, 300);
 
         //Evil building
-        w = dice(3, 4);
-        h = dice(3, 4);
+        w = 6;
+        h = 6;
+        SDL_Rect evilBuilding = getBuildingSpotFlat(w, h);
+        building(evilBuilding, 9, 0, evilBuilding.x + evilBuilding.w, evilBuilding.y + evilBuilding.h / 2, 54);
+        map_cells[evilBuilding.x + evilBuilding.w/2 ][evilBuilding.y + evilBuilding.h / 2] = 573;
        // openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 573);
-        openBuilding(getBuildingSpotFlat(w, h), 9, 0, 0, 573);
+       // openBuilding(getBuildingSpotFlat(w, h), 9, 0, 0, 573);
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)

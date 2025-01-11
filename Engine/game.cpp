@@ -1108,7 +1108,7 @@ void game::loadNPCs()
 
     addNPC(1000, 1, 1, my_enums::S_FOREST_WORLD_, "Tienda del bosque oscuro", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(2000, 230, 50, my_enums::S_FOREST_WORLD_, "Figura oscura", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 198, { 1,1,255,255 });
-    addNPC(3000, 1, 1, my_enums::S_FOREST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+    addNPC(3000, 1, 1, my_enums::S_FOREST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, 160, { 1,1,250,250 });
 
 }
 
@@ -1151,14 +1151,14 @@ void game::loadEvents()
     addGlobalEvent(25, my_enums::S_ELEMENTAL_EARTH_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
     addGlobalEvent(26, my_enums::S_NECRO_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
     
-
+    
    
     addEvent(229, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO VUELO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
     addEvent(228, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO RESISTENCIA FUEGO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
     addEvent(227, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO RESPIRAR AGUA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
-    addEvent(226, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO DE LA TIERRA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+    addEvent(226, 51, my_enums::S_FOREST_WORLD_, "IF**MEDALLON OSCURO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
 
-
+    addEvent(1, 1, my_enums::S_FOREST_WORLD_, "IF**ANILLO VUELO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
 
     addEvent(117, 142, my_enums::S_HOMETOWN_, "IF**ANILLO VUELO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
     addEvent(121, 142, my_enums::S_HOMETOWN_, "IF**ANILLO RESISTENCIA FUEGO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
@@ -4963,7 +4963,7 @@ void game::eventsPlayerArchetypes()
                     addItem("ANILLO RESPIRAR AGUA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 230, my_enums::_OTHER_, 0);
                     addItem("ANILLO DE LA TIERRA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 210, my_enums::_OTHER_, 0);
                     addItem("LLAVE PUERTA ESTE", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);
-                    
+                    addItem("MEDALLON OSCURO", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);
 
                     //****
                 }
@@ -7087,6 +7087,36 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
 
         }
     }
+
+        if (state == my_enums::S_FOREST_WORLD_) {
+            for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
+            {
+                if ((it->description == "IF**MEDALLON OSCURO") && (it->map == state)) {//update teleporter location
+                    int x = 1, y = 1;
+                    baseMap.getLocation(&x, &y, 573);
+                    it->x = x+3;
+                    it->y = y;
+                }
+
+            }
+        }
+
+        /*
+        if (state == my_enums::S_FOREST_WORLD_) {
+            for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
+            {
+                if ((it->description == "IF** MEDALLON OSCURO") && (it->map == state)) {//update door check
+                    int x = 1, y = 1;
+                    baseMap.getLocation(&x, &y, 573);
+                    it->x = x+2;
+                    it->y = y;
+                }
+            }
+        }*/
+
+        
+
+
 
         //Update NPC_DEFEAT events  
         /*

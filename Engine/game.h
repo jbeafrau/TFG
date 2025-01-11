@@ -212,7 +212,7 @@ public:
 
     void drawTileset(SDL_Rect target, SDL_Texture* texture, int player, int columns);
 
-    bool collide(int x, int y);
+    bool collide(int x, int y, bool player);
 
     void drawBackground();
 
@@ -638,6 +638,8 @@ protected:
 
   
     classButton blurButton;
+    classButton tuto1Button;
+    classButton tuto2Button;
 
     classButton inventoryButton;
     classButton achievementsButton;

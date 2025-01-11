@@ -257,7 +257,7 @@ void game::phaseNPCs()
 
      }
      else {
-         if(!collide(tmpx,tmpy)){
+         if(!collide(tmpx,tmpy,true)){
          if (tmpx>= 5)px = tmpx;
          if (tmpy >= 5)py = tmpy;
          checkBoundaries();
@@ -913,7 +913,7 @@ void game::loadPlayerDefault()
 }
 
 
-bool game::collide(int x, int y)
+bool game::collide(int x, int y, bool player)
 {
     bool tmp = false;
 
@@ -921,7 +921,7 @@ bool game::collide(int x, int y)
     if ((c== 9)|| (c == 579) || (c == 6) || (c == 21) || (c == 129) || (c == 154) || (c == 341) || (c == 343) || (c == 344) || (c == 345) || (c == 346) || (c == 157))tmp = true;
 
 
-
+    if(player){
     std::list<EVENT>::iterator it = EVENTs.begin();
     while (it != EVENTs.end())
     {
@@ -972,7 +972,7 @@ bool game::collide(int x, int y)
         }//currentstate
         if ((it != EVENTs.end()) && (erased == false))it++;
     }
-
+    }
 
     return tmp;
 }
@@ -1342,6 +1342,12 @@ void game::setButtonDefaults()
     volumeMusicUpButton.setColor(100, 100, 100);
     blurButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 300, 200, 50, "BLUR ON");
     blurButton.setColor(100, 100, 100);
+
+
+    tuto1Button.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 350, 200, 50, "Tutorial Controles");
+    tuto1Button.setColor(100, 100, 100);
+    tuto2Button.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 3 + 400, 200, 50, "Tutorial Pantalla Principal");
+    tuto2Button.setColor(100, 100, 100);
 
     playerUpButton.setButton(gScreenSurface->w / 2 - 100, gScreenSurface->h / 2 + 250, 50, 50, "+");
     playerUpButton.setColor(100, 100, 100);
@@ -2858,7 +2864,7 @@ void game::monsterGenerator()
         bool mcollide = true;
         while(mcollide){
         
-        mcollide = collide(mx, my);
+        mcollide = collide(mx, my,false);
         if (mcollide) {
             mx = dice(245, 5);
             my = dice(245, 5);
@@ -3799,6 +3805,15 @@ void game::eventsPlayerName()
 
 void game::screenConfigMenu()
 {
+    tmpRect.y = gScreenSurface->h / 4;
+    tmpRect.h = 100;
+
+    tmpRect.x = gScreenSurface->w / 2 - 450;
+    tmpRect.w = 900;
+    fg = { 128, 0, 128, 0 };
+    drawTextResize("Achievement master", tmpRect);
+    fg = { 0, 0, 0, 0 };
+
 
     tmpRect.x = gScreenSurface->w / 2 - 250;
     tmpRect.y = gScreenSurface->h / 8 - 50;
@@ -3828,6 +3843,8 @@ void game::screenConfigMenu()
     }
 
     drawButton(blurButton);
+    drawButton(tuto1Button);
+    drawButton(tuto2Button);
     drawButtonSrc(startButton, buttonAcceptTexture);
 }
 
@@ -5338,8 +5355,20 @@ void game::eventsConfigMenu()
                 updateMap();
             }
 
+            if (titleButton.clicked(mousex, mousey)) {
+                addAchievement("El nombre del juego", my_enums::_HIDDEN_);
+            }
 
-        }
+            if (tuto1Button.clicked(mousex, mousey)) {
+                playTutorial();
+            }
+
+            if (tuto2Button.clicked(mousex, mousey)) {
+                playTutorialHomeTown();
+            }
+
+        }//mouse button
+
  
 
         //******************
@@ -5553,7 +5582,7 @@ void game::processAI()
                 if (tmpy < 0)tmpy = 1;
                 if (tmpx > 250)tmpx = 250;
                 if (tmpy > 250)tmpy = 250;
-                if (!collide(tmpx, tmpy)) {
+                if (!collide(tmpx, tmpy, false)) {
                     it->x = tmpx;
                     it->y = tmpy;
                 }
@@ -5593,7 +5622,7 @@ void game::processAI()
                 if (py > it->y) { tmpy++; }
                 */
 
-                if (!collide(tmpx, tmpy)) {
+                if (!collide(tmpx, tmpy,false)) {
                     if (insideBoundaries(tmpx, tmpy, it->boundaries)) {
                         it->x = tmpx;
                         it->y = tmpy;
@@ -5633,7 +5662,7 @@ void game::processAI()
                     }
 
 
-                    if (!collide(tmpx, tmpy)) {
+                    if (!collide(tmpx, tmpy,false)) {
                         if (insideBoundaries(tmpx, tmpy, it->boundaries)) {
                             it->x = tmpx;
                             it->y = tmpy;
@@ -6111,7 +6140,7 @@ void game::eventsFight()
                         killCount++;
                         addAchievement("Primera victoria", my_enums::_COMBAT_);
                         if (killCount == 10)addAchievement("Le estas pillando el punto", my_enums::_COMBAT_);
-                        if (killCount == 100)addAchievement("Massacre", my_enums::_COMBAT_);
+                        if (killCount == 50)addAchievement("Massacre", my_enums::_COMBAT_);
                     }
                     else {
                         tmpNPCs.pop_front();
@@ -6195,7 +6224,7 @@ void game::eventsFight()
                         killCount++;
                         addAchievement("Guillermo Tell", my_enums::_COMBAT_);
                         if (killCount == 10)addAchievement("Le estas pillando el punto", my_enums::_COMBAT_);
-                        if (killCount == 100)addAchievement("Massacre", my_enums::_COMBAT_);
+                        if (killCount == 50)addAchievement("Massacre", my_enums::_COMBAT_);
                     }
                     else {
                         tmpNPCs.pop_front();
@@ -6280,10 +6309,10 @@ void game::eventsFight()
                         dropLoot(tmpNPC.x, tmpNPC.y, tmpNPC.exp);
                         tmpNPCs.pop_front();
 
-                        magicKill++;
+                        killCount++;
                         addAchievement("Asesino", my_enums::_COMBAT_);
-                        if (magicKill == 10)addAchievement("La fuerza crece en ti", my_enums::_COMBAT_);
-                        if (magicKill == 100)addAchievement("Desintegrar", my_enums::_COMBAT_);
+                        if (killCount == 10)addAchievement("La fuerza crece en ti", my_enums::_COMBAT_);
+                        if (killCount == 50)addAchievement("Desintegrar", my_enums::_COMBAT_);
 
 
                     }
@@ -6459,7 +6488,7 @@ void game::eventsFight()
                         magicKill++;
                         addAchievement("Abracadabra", my_enums::_COMBAT_);
                         if (magicKill == 10)addAchievement("La fuerza crece en ti", my_enums::_COMBAT_);
-                        if (magicKill == 100)addAchievement("Desintegrar", my_enums::_COMBAT_);
+                        if (magicKill == 50)addAchievement("Desintegrar", my_enums::_COMBAT_);
 
 
                     }
@@ -6540,7 +6569,7 @@ void game::eventsFight()
                         magicKill++;
                         addAchievement("Necromante", my_enums::_COMBAT_);
                         if (magicKill == 10)addAchievement("La fuerza crece en ti", my_enums::_COMBAT_);
-                        if (magicKill == 100)addAchievement("Desintegrar", my_enums::_COMBAT_);
+                        if (magicKill == 50)addAchievement("Desintegrar", my_enums::_COMBAT_);
 
 
                     }
@@ -7031,7 +7060,65 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
 
 void game::changeMap()
 {
-    if (currentState == my_enums::S_NECRO_WORLD_)addAchievement("Necromundo", my_enums::_HIDDEN_);
+
+//Update music
+    switch (currentState)
+    {
+
+    case my_enums::S_FOREST_WORLD_:
+    {
+        Mix_PlayMusic(musicFOREST, -1);
+        break;
+    }
+
+    case my_enums::S_COAST_WORLD_:
+    {
+        Mix_PlayMusic(musicTOWN, -1);
+        break;
+    }
+
+    case my_enums::S_ELEMENTAL_FIRE_WORLD_:
+    {
+        Mix_PlayMusic(musicMYSTICAL, -1);
+        break;
+    }
+    case my_enums::S_ELEMENTAL_WATER_WORLD_:
+    {
+        Mix_PlayMusic(musicMYSTICAL, -1);
+        break;
+    }
+    case my_enums::S_ELEMENTAL_EARTH_WORLD_:
+    {
+        Mix_PlayMusic(musicMYSTICAL, -1);
+        break;
+    }
+    case my_enums::S_ELEMENTAL_WIND_WORLD_:
+    {
+        Mix_PlayMusic(musicMYSTICAL, -1);  
+        break;
+    }
+    case my_enums::S_NECRO_WORLD_:
+    {
+        Mix_PlayMusic(musicDARK, -1);
+        addAchievement("Necromundo", my_enums::_HIDDEN_);
+        break;
+    }
+    case my_enums::S_HOMETOWN_:
+    {
+        Mix_PlayMusic(musicTOWN, -1);
+        break;
+    }
+
+    default:
+    {
+        // is likely to be an error
+        break;
+    }
+    };
+
+    //**********************
+
+
     int width, height;
     width = 256;
     height = 256;

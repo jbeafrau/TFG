@@ -3166,7 +3166,13 @@ void game::screenPlayerName()
     tmpRect.y = 250;
     drawSquare(tmpRect, lightGreyColor);
     drawText(playerName, tmpRect);
-    tmpRect.y = gScreenSurface->h / 4*3 -50;
+
+
+    tmpRect.y = gScreenSurface->h / 2 - 200;
+    tmpRect.h = 150;
+    tmpRect.w = gScreenSurface->w / 2;
+    tmpRect.x = gScreenSurface->w / 4;
+    drawSquare(tmpRect, lightGreyColor);
     drawTextBlock("Cambia la imagen y luego pulsa continuar, ten en cuenta que la imagen es solo un elemento cosmético y no afecta a las habilidades del personaje...", tmpRect);
 }
 

@@ -930,7 +930,7 @@ bool game::collide(int x, int y)
             if ((it->description.substr(0, 4) == "IF**") && (it->x == x) && (it->y == y)) {
 
 
-                if (it->map == currentState) {//on the current map
+               // if (it->map == currentState) {//on the current map
                     if (findItem(it->description.substr(4, it->description.length() - 4))) {
                         addNotification("Se abre el camino", { 0,0,0 });
                         //GLOBAL_EVENTs.erase(it);
@@ -943,10 +943,10 @@ bool game::collide(int x, int y)
 
                         addNotification("No puedes pasar, te falta "+ it->description.substr(4, it->description.length() - 4), { 0,0,0 });
                     }
-                }
+               // }
             }
 
-            
+            /*
             if ((it->description.substr(0, 4) == "IF2*") && (it->x == x) && (it->y == y)) {
 
 
@@ -966,6 +966,7 @@ bool game::collide(int x, int y)
                     }
                 }
             }
+            */
            
 
         }//currentstate
@@ -1065,10 +1066,10 @@ void game::loadEvents()
     addGlobalEvent(6, my_enums::S_HOMETOWN_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
 
     addGlobalEvent(7, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 100, "HAVE_ITEM GAFAS DE SOL");
-    addGlobalEvent(8, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 200, "HAVE_ITEM x");
-    addGlobalEvent(9, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 300, "HAVE_ITEM x");
-    addGlobalEvent(10, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 400, "HAVE_ITEM x");
-    addGlobalEvent(11, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM x");
+    addGlobalEvent(8, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 200, "HAVE_ITEM ANILLO VUELO");
+    addGlobalEvent(9, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 300, "HAVE_ITEM ANILLO RESISTENCIA FUEGO");
+    addGlobalEvent(10, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 400, "HAVE_ITEM ANILLO RESPIRAR AGUA");
+    addGlobalEvent(11, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM ANILLO DE LA TIERRA");
 
     addGlobalEvent(20, my_enums::S_COAST_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
     addGlobalEvent(21, my_enums::S_FOREST_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
@@ -1125,7 +1126,7 @@ void game::loadEvents()
 
 void game::dropLoot(int x, int y, int value)
 {
-    addEvent(x, y, getStringState(currentState), "GOLD", value, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
+    addEvent(x, y, previousScreen, "GOLD", value, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
 }
 
 
@@ -5494,6 +5495,7 @@ void game::processAI()
 
     }
 
+    //Process global events
         std::list<GLOBAL_EVENT>::iterator it = GLOBAL_EVENTs.begin();
         while (it != GLOBAL_EVENTs.end())
         {
@@ -5609,39 +5611,27 @@ void game::processAI()
 
                         if (it->map == my_enums::S_COAST_WORLD_) {
                             addItem("GAFAS DE SOL", "Te suena alguien que las necesita...", 1, 0, 337, my_enums::_OTHER_, 0);
-                            // addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
-                            //removeChat(119, 142, 1);
-                            //addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
-                          //  it = GLOBAL_EVENTs.erase(it);
-                          //  erased = true;
-                        }
+                          }
 
                         if (it->map == my_enums::S_ELEMENTAL_WATER_WORLD_) {
-                           // addItem("GAFAS DE SOL", "Te suena alguien que las necesita...", 1, 0, 337, my_enums::_OTHER_, 0);
-                            // addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
-                            //removeChat(119, 142, 1);
-                            //addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
+                            addItem("ANILLO VUELO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 226, my_enums::_OTHER_, 0);
+                            
+                        
                         }
 
                         if (it->map == my_enums::S_ELEMENTAL_FIRE_WORLD_) {
-                            // addItem("GAFAS DE SOL", "Te suena alguien que las necesita...", 1, 0, 337, my_enums::_OTHER_, 0);
-                             // addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
-                             //removeChat(119, 142, 1);
-                             //addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
+                            addItem("MEDALLON OSCURO", "No sabes que función puede tener", 1, 0, 245, my_enums::_OTHER_, 0);
+                        
                         }
 
-                        if (it->map == my_enums::S_ELEMENTAL_EARTH_WORLD_) {
-                            // addItem("GAFAS DE SOL", "Te suena alguien que las necesita...", 1, 0, 337, my_enums::_OTHER_, 0);
-                             // addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
-                             //removeChat(119, 142, 1);
-                             //addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
+                        if (it->map == my_enums::S_ELEMENTAL_EARTH_WORLD_) {                         
+                            addItem("ANILLO RESPIRAR AGUA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 230, my_enums::_OTHER_, 0);
+                        
                         }
 
                         if (it->map == my_enums::S_ELEMENTAL_WIND_WORLD_) {
-                            // addItem("GAFAS DE SOL", "Te suena alguien que las necesita...", 1, 0, 337, my_enums::_OTHER_, 0);
-                             // addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
-                             //removeChat(119, 142, 1);
-                             //addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
+                            addItem("ANILLO RESISTENCIA FUEGO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 229, my_enums::_OTHER_, 0);
+                             
                         }
                         
                     }
@@ -5661,12 +5651,44 @@ void game::processAI()
                     if (findItem(itemName)) {
                         if (itemName == "GAFAS DE SOL") {
                             addAchievement("Sol y playa", my_enums::_MISSIONS_);
-
-                            it = GLOBAL_EVENTs.erase(it);
-                            erased = true;
+                            removeChat(119, 142, 1);
+                            removeChat(119, 142, 2);
+                            addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "Sobre el templo", "Te había subestimado, si superas los 4 portales podrás cruzar el portal al necromundo, donde el señor oscuro nos acecha...");                         
+                            addChat(my_enums::S_HOMETOWN_, 119, 142, 2, "<<MISIÓN>>Portal elemental de tierra", "Con el anillo que te he dado podrás atravesar el primer portal, busca el secuaz del señor oscuro y arrebátale el anillo para abrir el siguiente portal...");                           
+                            addItem("ANILLO DE LA TIERRA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 210, my_enums::_OTHER_, 0);
                         }
 
+                        if (itemName == "ANILLO RESPIRAR AGUA") {
+                            addAchievement("Poseidón", my_enums::_MISSIONS_);
+                           removeChat(119, 142, 2);
+                            addChat(my_enums::S_HOMETOWN_, 119, 142, 2, "<<MISIÓN>>Portal elemental de agua", "Con el anillo que te he dado podrás atravesar el segundo portal, busca el secuaz del señor oscuro y arrebátale el anillo para abrir el siguiente portal...");
+                           
+                        }
 
+                        if (itemName == "ANILLO VUELO") {
+                            addAchievement("Águila", my_enums::_MISSIONS_);
+                            removeChat(119, 142, 2);
+                            addChat(my_enums::S_HOMETOWN_, 119, 142, 2, "<<MISIÓN>>Portal elemental de aire", "Con el anillo que te he dado podrás atravesar el tercer portal, busca el secuaz del señor oscuro y arrebátale el anillo para abrir el siguiente portal...");
+                        }
+
+                            if (itemName == "ANILLO RESISTENCIA FUEGO") {
+                                addAchievement("Lilith", my_enums::_MISSIONS_);
+                                removeChat(119, 142, 2);
+                                addChat(my_enums::S_HOMETOWN_, 119, 142, 2, "<<MISIÓN>>Portal elemental de fuego", "Con el anillo que te he dado podrás atravesar el último portal, busca el secuaz del señor oscuro y arrebátale el anillo para abrir el siguiente portal...");
+                            }
+
+                            if (itemName == "MEDALLON OSCURO") {
+                                addAchievement("Rey de los planos", my_enums::_MISSIONS_);
+                                removeChat(119, 142, 2);
+                                addChat(my_enums::S_HOMETOWN_, 119, 142, 2, "<<MISIÓN>>El bosque oscuro", "No paras de sorependerme, ese collar que has conseguido... creo que en realidad es una llave para abrir una puerta a un edificio donde se aloja el mal, creo que es hora que te acerques al bosque oscuro, sigue el camino al moroeste del pueblo");
+                            }
+
+
+                            
+
+
+                        it = GLOBAL_EVENTs.erase(it);
+                        erased = true;
 
                     }
                     //  addItem("LLAVE PUERTA ESTE", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);

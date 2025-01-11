@@ -5498,7 +5498,8 @@ void game::eventsInventory()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::S_GAMEOVER_);
+
+                setState(my_enums::S_GAMEOVER_);                
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
@@ -6720,9 +6721,10 @@ void game::eventsFight()
 
             if (tmpNPCs.size() == 0) {
                 turn = 0;
-                Mix_PlayMusic(musicTOWN, -1);
+                //Mix_PlayMusic(musicTOWN, -1);
                 deleteNPCs(px, py);
                 setState(previousScreen);
+                changeMusic();
                 clearAnimations();
             }
 

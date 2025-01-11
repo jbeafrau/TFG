@@ -38,6 +38,7 @@ public:
 
     int dice(int maxValue, int minValue);
     SDL_Rect getBuildingSpot(int w, int h);
+    SDL_Rect getBuildingSpotFlat(int w, int h);
     void building(SDL_Rect square, int wallTile, int floorTile,int x, int y, int doorTile);
     void road(SDL_Rect square, int floorTile1, int floorTile2);
     void openBuilding(SDL_Rect square, int wallTile, int floorTile, int doorTile, int specialTile);

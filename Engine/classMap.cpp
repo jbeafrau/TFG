@@ -65,6 +65,35 @@ SDL_Rect classMap::getBuildingSpot(int w, int h)
     return {x,y,w,h};
 }
 
+SDL_Rect classMap::getBuildingSpotFlat(int w, int h)
+{
+    int x = dice(245 - w, 5);
+    int y = dice(245 - w, 5);
+    bool spotFound = false;
+
+    while (spotFound == false) {
+        spotFound = true;
+        for (int sx = x; sx <= x + w; sx++) {
+            for (int sy = y; sy <= y + h; sy++) {
+              //  const float* cell = mymap.heightMap.GetConstSlabPtr(sx, sy);
+                if (map_cells[sx][sy] == 9) {
+                    //if (*cell < 0.125){
+                    spotFound = false;
+                    break;
+                }
+            }
+        }
+        if (spotFound == false) {
+            x = dice(250 - w, 1);
+            y = dice(250 - w, 1);
+        }
+
+    }
+
+
+    return { x,y,w,h };
+}
+
 void classMap::generateTiles(int currentState)
 {
     int width = mymap.heightMap.GetWidth();
@@ -156,17 +185,22 @@ void classMap::generateTiles(int currentState)
         //Shop building
         w = dice(3, 4);
         h = dice(3, 4);
-        openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 300);
+       // openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 300);
+        openBuilding(getBuildingSpotFlat(w,h), 9, 0, 0, 300);
 
         //Evil building
         w = dice(3, 4);
         h = dice(3, 4);
-        openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 573);
+       // openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 573);
+        openBuilding(getBuildingSpotFlat(w, h), 9, 0, 0, 573);
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)
         {
-            openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 0);
+            //openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 0);
+            w = dice(3, 4);
+            h = dice(3, 4);
+            openBuilding(getBuildingSpotFlat(w, h), 9, 0, 0, 0);
         }
 
 

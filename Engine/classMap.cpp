@@ -354,22 +354,22 @@ void classMap::generateTiles(int currentState)
     case my_enums::S_ELEMENTAL_WIND_WORLD_: 
         {
               //Portal building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 216, 216, 56);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 25, 25, 56);
 
         //Shop building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 216, 216, 300);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 25, 25, 300);
 
         //Evil building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 216, 216, 573);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 25, 25, 573);
 
         //Clues building
-        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 216, 216, 570);
+        openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 25, 25, 570);
 
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)
         {
-            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 216, 216, 0);
+            openBuilding(getBuildingSpot(dice(3, 4), dice(3, 4)), 129, 25, 25, 0);
         }
         break;
     }

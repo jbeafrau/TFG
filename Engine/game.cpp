@@ -1163,45 +1163,52 @@ void game::loadShops()
     addShop(my_enums::S_HOMETOWN_,4, 112, 161, 2, "POCION PODER", 1, "GOLD", 25, 273, my_enums::_OTHER_, 0);
     addShop(my_enums::S_HOMETOWN_,4, 112, 161, 3, "ANILLO HABILIDAD+1", 1, "GOLD", 50, 220, my_enums::_RING_, 1);
 
+
+    //outside hometown
     addShop(my_enums::S_COAST_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
     addShop(my_enums::S_COAST_WORLD_, 2, 1, 1, 2, "ESPADA+1", 1, "GOLD", 25, 44, my_enums::_WEAPON_1H_, 2);
     addShop(my_enums::S_COAST_WORLD_, 2, 1, 1, 3, "ARCO+1", 1, "GOLD", 25, 59, my_enums::_WEAPON_RANGED_, 2);
+    addShop(my_enums::S_COAST_WORLD_, 3, 1, 1, 4, "ARMADURA CUERO+1", 1, "GOLD", 25, 114, my_enums::_ARMOR_, 2);
+    addShop(my_enums::S_COAST_WORLD_, 3, 1, 1, 5, "CASCO CUERO+1", 1, "GOLD", 10, 160, my_enums::_HELMET_, 2);
+    addShop(my_enums::S_COAST_WORLD_, 4, 1, 1, 3, "ANILLO VITALIDAD+2", 1, "GOLD", 50, 220, my_enums::_RING_, 2);
 
     addShop(my_enums::S_FOREST_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
     addShop(my_enums::S_FOREST_WORLD_, 2, 1, 1, 2, "ESPADA 2M+1", 1, "GOLD", 50, 40, my_enums::_WEAPON_2H_, 3);
     addShop(my_enums::S_FOREST_WORLD_, 2, 1, 1, 3, "DAGA+1", 1, "GOLD", 10, 30, my_enums::_WEAPON_1H_, 1);
+    addShop(my_enums::S_FOREST_WORLD_, 3, 1, 1, 4, "ESCUDO CUERO+1", 1, "GOLD", 10, 151, my_enums::_SHIELD_, 2);
+    addShop(my_enums::S_FOREST_WORLD_, 3, 1, 1, 5, "ARMADURA ACERO", 1, "GOLD", 50, 114, my_enums::_ARMOR_, 3);
+    addShop(my_enums::S_FOREST_WORLD_, 4, 1, 1, 6, "ANILLO SUERTE+2", 1, "GOLD", 100, 220, my_enums::_RING_, 2);
+ 
 
     addShop(my_enums::S_ELEMENTAL_EARTH_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
     addShop(my_enums::S_ELEMENTAL_EARTH_WORLD_, 2, 1, 1, 2, "ESPADA+2", 1, "GOLD", 50, 44, my_enums::_WEAPON_1H_, 3);
     addShop(my_enums::S_ELEMENTAL_EARTH_WORLD_, 2, 1, 1, 3, "BALLESTA+2", 1, "GOLD", 100, 60, my_enums::_WEAPON_RANGED_, 4);
+    addShop(my_enums::S_ELEMENTAL_EARTH_WORLD_, 3, 1, 1, 4, "CASCO ACERO", 1, "GOLD", 25, 160, my_enums::_HELMET_, 2);
+    addShop(my_enums::S_ELEMENTAL_EARTH_WORLD_, 3, 1, 1, 5, "ESCUDO ACERO", 1, "GOLD", 25, 151, my_enums::_SHIELD_, 2);
+    addShop(my_enums::S_ELEMENTAL_EARTH_WORLD_, 4, 1, 1, 6, "ANILLO PODER+2", 1, "GOLD", 100, 220, my_enums::_RING_, 2);
 
     addShop(my_enums::S_ELEMENTAL_WATER_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
     addShop(my_enums::S_ELEMENTAL_WATER_WORLD_, 2, 1, 1, 2, "ESPADA 2M+3", 1, "GOLD", 200, 40, my_enums::_WEAPON_2H_, 5);
     addShop(my_enums::S_ELEMENTAL_WATER_WORLD_, 2, 1, 1, 3, "ARCO+3", 1, "GOLD", 100, 59, my_enums::_WEAPON_RANGED_, 4);
+    addShop(my_enums::S_ELEMENTAL_WATER_WORLD_, 3, 1, 1, 4, "ARMADURA ACERO+1", 1, "GOLD", 100, 114, my_enums::_ARMOR_, 4);
+    addShop(my_enums::S_ELEMENTAL_WATER_WORLD_, 3, 1, 1, 5, "CASCO ACERO+1", 1, "GOLD", 50, 160, my_enums::_HELMET_, 3);
+    addShop(my_enums::S_ELEMENTAL_WATER_WORLD_, 4, 1, 1, 6, "ANILLO HABILIDAD+3", 1, "GOLD", 200, 220, my_enums::_RING_, 3);
+    
 
     addShop(my_enums::S_ELEMENTAL_WIND_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
     addShop(my_enums::S_ELEMENTAL_WIND_WORLD_, 2, 1, 1, 2, "DAGA+4", 1, "GOLD", 100, 30, my_enums::_WEAPON_1H_, 4);
     addShop(my_enums::S_ELEMENTAL_WIND_WORLD_, 2, 1, 1, 3, "BALLESTA+4", 1, "GOLD", 400, 60, my_enums::_WEAPON_RANGED_, 6);
+    addShop(my_enums::S_ELEMENTAL_WIND_WORLD_, 3, 1, 1, 4, "ESCUDO ACERO+1", 1, "GOLD", 50, 151, my_enums::_SHIELD_, 3);
+    addShop(my_enums::S_ELEMENTAL_WIND_WORLD_, 3, 1, 1, 5, "ARMADURA TITANIUM", 1, "GOLD", 200, 114, my_enums::_ARMOR_, 5);
+    addShop(my_enums::S_ELEMENTAL_WIND_WORLD_, 4, 1, 1, 6, "ANILLO VITALIDAD+4", 1, "GOLD", 200, 220, my_enums::_RING_, 5);
 
     addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
     addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 2, 1, 1, 2, "ESPADA+5", 1, "GOLD", 400, 44, my_enums::_WEAPON_1H_, 6);
     addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 2, 1, 1, 3, "ARCO+5", 1, "GOLD", 400, 59, my_enums::_WEAPON_RANGED_, 6);
+    addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 3, 1, 1, 4, "CASCO TITANIUM", 1, "GOLD", 100, 160, my_enums::_HELMET_, 4);
+    addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 3, 1, 1, 5, "ESCUDO TITANIUM", 1, "GOLD", 100, 151, my_enums::_SHIELD_, 4);
+    addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 4, 1, 1, 6, "ANILLO SUERTE+4", 1, "GOLD", 400, 220, my_enums::_RING_, 4);
 
-    /*
-    addShop(my_enums::S_HOMETOWN_, 2, 1, 1, 1, "ESPADA", 1, "GOLD", 10, 44, my_enums::_WEAPON_1H_, 1);
-    addShop(my_enums::S_HOMETOWN_, 2, 1, 1, 2, "ESPADA 2M", 1, "GOLD", 25, 40, my_enums::_WEAPON_2H_, 2);
-    addShop(my_enums::S_HOMETOWN_, 2, 1, 1, 3, "DAGA", 1, "GOLD", 5, 30, my_enums::_WEAPON_1H_, 0);
-    addShop(my_enums::S_HOMETOWN_, 2, 1, 1, 4, "ARCO", 1, "GOLD", 10, 59, my_enums::_WEAPON_RANGED_, 1);
-    addShop(my_enums::S_HOMETOWN_, 2, 1, 1, 5, "BALLESTA", 1, "GOLD", 25, 60, my_enums::_WEAPON_RANGED_, 2);
-    addShop(my_enums::S_HOMETOWN_, 3, 1, 1, 1, "ARMADURA CUERO", 1, "GOLD", 10, 114, my_enums::_ARMOR_, 1);
-    addShop(my_enums::S_HOMETOWN_, 3, 1, 1, 2, "CASCO CUERO", 1, "GOLD", 5, 160, my_enums::_HELMET_, 1);
-    addShop(my_enums::S_HOMETOWN_, 3, 1, 1, 3, "ESCUDO CUERO", 1, "GOLD", 5, 151, my_enums::_SHIELD_, 1);
-
-
-    addShop(my_enums::S_HOMETOWN_, 4, 112, 161, 3, "ANILLO HABILIDAD+", 1, "GOLD", 50, 220, my_enums::_RING_, 0);
-    addShop(my_enums::S_HOMETOWN_, 4, 112, 161, 3, "ANILLO SUERTE+", 1, "GOLD", 50, 220, my_enums::_RING_, 0);
-    addShop(my_enums::S_HOMETOWN_, 4, 112, 161, 3, "ANILLO PODER+", 1, "GOLD", 50, 220, my_enums::_RING_, 0);
-    */
 
     /*
         addShop(36, 79, 71, 1 , "**ANILLO DE INVISIBILIDAD" , 1 , "GOLD", 10,229);

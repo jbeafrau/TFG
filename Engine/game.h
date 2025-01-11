@@ -327,6 +327,9 @@ public:
     void monsterGenerator();
     int getMonsterID();
 
+    void changeMusic();
+
+
     classMap baseMap;
     bool debugMode = false;
 

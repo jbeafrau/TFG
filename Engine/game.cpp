@@ -977,6 +977,78 @@ bool game::collide(int x, int y, bool player)
     return tmp;
 }
 
+
+void game::changeMusic()
+{
+
+    switch (currentState)
+    {
+
+    case my_enums::S_FOREST_WORLD_:
+    {
+        Mix_PlayMusic(musicFOREST, -1);
+        break;
+    }
+
+    case my_enums::S_COAST_WORLD_:
+    {
+        Mix_PlayMusic(musicTOWN, -1);
+        break;
+    }
+
+    case my_enums::S_ELEMENTAL_FIRE_WORLD_:
+    {
+        Mix_PlayMusic(musicMYSTICAL, -1);
+        break;
+    }
+    case my_enums::S_ELEMENTAL_WATER_WORLD_:
+    {
+        Mix_PlayMusic(musicMYSTICAL, -1);
+        break;
+    }
+    case my_enums::S_ELEMENTAL_EARTH_WORLD_:
+    {
+        Mix_PlayMusic(musicMYSTICAL, -1);
+        break;
+    }
+    case my_enums::S_ELEMENTAL_WIND_WORLD_:
+    {
+        Mix_PlayMusic(musicMYSTICAL, -1);
+        break;
+    }
+    case my_enums::S_NECRO_WORLD_:
+    {
+        Mix_PlayMusic(musicDARK, -1);
+        addAchievement("Necromundo", my_enums::_HIDDEN_);
+        break;
+    }
+    case my_enums::S_HOMETOWN_:
+    {
+        Mix_PlayMusic(musicTOWN, -1);
+        break;
+    }
+
+    case my_enums::S_FIGHT_:
+    {
+        Mix_PlayMusic(musicBATTLE, -1);
+        break;
+    }
+    
+    case my_enums::S_HERO_:
+    {
+        Mix_PlayMusic(musicHERO, -1);
+        break;
+    }
+
+    default:
+    {
+        // is likely to be an error
+        break;
+    }
+    };
+
+}
+
 void game::loadNPCs()
 {
     NPCs.clear();
@@ -1035,7 +1107,7 @@ void game::loadNPCs()
 
 
     addNPC(1000, 1, 1, my_enums::S_FOREST_WORLD_, "Tienda del bosque oscuro", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
-    addNPC(2000, 1, 1, my_enums::S_FOREST_WORLD_, "Sabio del bosque oscuro", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
+    addNPC(2000, 230, 50, my_enums::S_FOREST_WORLD_, "Figura oscura", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 198, { 1,1,255,255 });
     addNPC(3000, 1, 1, my_enums::S_FOREST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
 
 }
@@ -1162,9 +1234,34 @@ void game::loadChats()
     addChat(my_enums::S_HOMETOWN_,107, 145, 4, "¡Ayuda!, ¡Me han herido!", "Hay dos maneras de recuperar vitalidad, fuera de combate consumiendo raciones de comida (el icono del pán que recupera 4 puntos de vida por ración) y dentro del combate las pociones de vitalidad que recuperan 10 puntos de vida");
     
     addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Como funcionan las tiendas?", "En el mapa verás personajes amigos, si intentas desplazarte en su dirección la pantalla de la tienda se abre");
-    addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Como compro el quipo?", "Es tan sencillo como pulsar sobre el objeto deseado, si tienes suficiente dinero perderas dicho dinero pero se añade a tu equipo el objeto");
-    addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Solo se puede pagar con dinero?", "A veces podrás cambiar un objeto por otro");
-    addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Se puede vender equipo?", "A veces los comerciantes te compraran equipo especial, como pueden ser gemas");
+    addChat(my_enums::S_HOMETOWN_,111, 145, 2, "¿Como compro el quipo?", "Es tan sencillo como pulsar sobre el objeto deseado, si tienes suficiente dinero perderas dicho dinero pero se añade a tu equipo el objeto");
+    addChat(my_enums::S_HOMETOWN_,111, 145, 3, "¿Solo se puede pagar con dinero?", "A veces podrás cambiar un objeto por otro");
+    addChat(my_enums::S_HOMETOWN_,111, 145, 4, "¿Se puede vender equipo?", "A veces los comerciantes te compraran equipo especial, como pueden ser gemas");
+
+    //wise coast
+    addChat(my_enums::S_COAST_WORLD_, 1,1, 1, "Logros de combate", "Los logros de combate requieren derrotar enemigos usando las habilidades específicas de cada arquetipo...");
+    addChat(my_enums::S_COAST_WORLD_, 1, 1, 2, "Logros de misiones", "Para desbloquear la história tan solo tienes que cumpplir las peticiones que te dan los personajes no jugadores");
+
+    //wise elemental water
+    addChat(my_enums::S_ELEMENTAL_WATER_WORLD_, 1, 1, 1, "Logros de Opciones", "¿Has probado todas las opciones del juego?, ¿Todas las opciones?, ¿Todas las configuraciones?, ¿Usado todos los tipos de consumibles?");
+    //addChat(my_enums::S_ELEMENTAL_WATER_WORLD_, 1, 1, 2, "Pistas2", "bla bla");
+
+    //wise elemental fire
+    addChat(my_enums::S_ELEMENTAL_FIRE_WORLD_, 1, 1, 1, "Logros ocultos", "¿Te has enfrentado al señor oscuro?");
+    addChat(my_enums::S_ELEMENTAL_FIRE_WORLD_, 1, 1, 2, "Más logros ocultos", "¿Has muerto y renacido?");
+
+    //wise elemental air
+    addChat(my_enums::S_ELEMENTAL_WIND_WORLD_, 1, 1, 1, "Logros ocultos", "¿Y si los nombre del todo además de verse se pudiera tocar?");
+    //addChat(my_enums::S_ELEMENTAL_WIND_WORLD_, 1, 1, 2, "Pistas2", "bla bla");
+
+    //wise elemental earth
+    addChat(my_enums::S_ELEMENTAL_EARTH_WORLD_, 1, 1, 1, "Más pistas sobre los logros de combate", "Algunos logros requieren derrotar múltiples enemigos con las habilidades de cuerpo a cuerpo (Se sumán los enemigos derrotados con Mele, Arqueria o Subertugio) o mágicas (Se sumán los enemigos derrotados con Magia o Drenar)");
+    
+
+    //wise dark forest
+    addChat(my_enums::S_FOREST_WORLD_, 230, 50, 1, "¿Quien eres?", "Hace mucho tiempo mi morada estaba dentro de este edificio, pero fuí desterrado...");
+    addChat(my_enums::S_FOREST_WORLD_, 230, 50, 2, "¿Que es este edificio?", "Es un portal a otro plano, oscuro, ardiente y peligroso, no intentes entrar a menos que mejores tus habilidades y te carges de suministros");
+    addChat(my_enums::S_FOREST_WORLD_, 230, 50, 3, "¿Como puedo entrar?", "Hacen falta 4 anillos de 4 dimensiones diferentes, pero es solo una parte, cuando cruces necesitarás un colgante especial para abrir el paso... y aún no lo tienes");
 
 
 
@@ -1880,7 +1977,7 @@ void game::screenMaster() {
     drawSquare(tmpRect, { 200,200,200 });
     
     tmpRect.h = 50;
-    drawTextBlock("Hola, "+ playerName + " cada vez que subas de nivel consigues punetos de habilidad y yo puedo mejorar tus habilidades gastando esos puntos, a continuación te explico cada atributo", tmpRect);
+    drawTextBlock("Hola, "+ playerName + " cada vez que subes de nivel consigues puntos de habilidad, yo puedo mejorar tus habilidades gastando esos puntos y a continuación te explico cada atributo", tmpRect);
 
     tmpRect.y = 300;
     drawTextBlock("COMBATE: Habilidad para luchar y defenderte, mejoras un punto por punto de habilidad", tmpRect);
@@ -3120,7 +3217,7 @@ void game::screenMain()
     tmpRect.w = 700;
     tmpRect.h = 200;
     drawSquare(tmpRect, { 200,200,200 });
-    drawTextBlock("¡Derrota enemigos, consigue tesoros, mejora tu personaje, cumple misiones, logros y gana el juego!", tmpRect);
+    drawTextBlock("¡Derrota enemigos, consigue tesoros, mejora tu personaje, cumple misiones, obtén todos los logros y gana el juego!", tmpRect);
 
 
     tmpRect.x = gScreenSurface->w - 500;
@@ -4860,13 +4957,13 @@ void game::eventsPlayerArchetypes()
                     skillPoints = 30;
                     coins = 5000;
 
-                    /*
+                    
                     addItem("ANILLO VUELO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 226, my_enums::_OTHER_, 0);
                     addItem("ANILLO RESISTENCIA FUEGO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 229, my_enums::_OTHER_, 0);
                     addItem("ANILLO RESPIRAR AGUA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 230, my_enums::_OTHER_, 0);
                     addItem("ANILLO DE LA TIERRA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 210, my_enums::_OTHER_, 0);
                     addItem("LLAVE PUERTA ESTE", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);
-                    */
+                    
 
                     //****
                 }
@@ -6133,10 +6230,7 @@ void game::eventsFight()
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         dropLoot(tmpNPC.x, tmpNPC.y, tmpNPC.exp);
-
                         tmpNPCs.pop_front();
-
-
                         killCount++;
                         addAchievement("Primera victoria", my_enums::_COMBAT_);
                         if (killCount == 10)addAchievement("Le estas pillando el punto", my_enums::_COMBAT_);
@@ -6169,11 +6263,13 @@ void game::eventsFight()
                         if (stamina <= 0) {
                             fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                             //addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+
                             setState(my_enums::S_HERO_);
+                            changeMusic();
                             deleteNPCs(px, py);
                             //Mix_PlayMusic(musicGameOver, -1);
                             addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                            Mix_PlayMusic(musicHERO, -1);
+                            //Mix_PlayMusic(musicHERO, -1);
                             timerGameOver.start();
                             timerGameOver.reset();
                             //addNotification("Saliendo del juego");
@@ -6262,10 +6358,11 @@ void game::eventsFight()
                             if (stamina <= 0) {
                                 fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 setState(my_enums::S_HERO_);
+                                changeMusic();
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                                Mix_PlayMusic(musicHERO, -1);
+                                //Mix_PlayMusic(musicHERO, -1);
                                 timerGameOver.start();
                                 timerGameOver.reset();
                                 //addNotification("Saliendo del juego");
@@ -6330,10 +6427,11 @@ void game::eventsFight()
                     if (stamina <= 0) {
                         fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                         setState(my_enums::S_HERO_);
+                        changeMusic();
                         deleteNPCs(px, py);
                         //Mix_PlayMusic(musicGameOver, -1);
                         addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                        Mix_PlayMusic(musicHERO, -1);
+                        //Mix_PlayMusic(musicHERO, -1);
                         timerGameOver.start();
                         timerGameOver.reset();
                         //addNotification("Saliendo del juego");
@@ -6380,10 +6478,11 @@ void game::eventsFight()
                                 turn = 0;
   //                              addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
+                                changeMusic();
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                                Mix_PlayMusic(musicHERO, -1);
+                               // Mix_PlayMusic(musicHERO, -1);
                                 timerGameOver.start();
                                 timerGameOver.reset();
                                 //addNotification("Saliendo del juego");
@@ -6439,10 +6538,11 @@ void game::eventsFight()
                                 turn = 0;
                                // addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
+                                changeMusic();
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                                Mix_PlayMusic(musicHERO, -1);
+                               // Mix_PlayMusic(musicHERO, -1);
                                 timerGameOver.start();
                                 timerGameOver.reset();
                                 //addNotification("Saliendo del juego");
@@ -6518,9 +6618,10 @@ void game::eventsFight()
                                 turn = 0;
                               //  addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
+                                changeMusic();
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
-                                Mix_PlayMusic(musicHERO, -1);
+                                //Mix_PlayMusic(musicHERO, -1);
                                 timerGameOver.start();
                                 timerGameOver.reset();
                                 //addNotification("Saliendo del juego");
@@ -6596,8 +6697,9 @@ void game::eventsFight()
                                 fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 turn = 0;
                                 setState(my_enums::S_HERO_);
+                                changeMusic();
                                 deleteNPCs(px, py);
-                                Mix_PlayMusic(musicHERO, -1);
+                                //Mix_PlayMusic(musicHERO, -1);
                                 timerGameOver.start();
                                 timerGameOver.reset();
                             }
@@ -7009,11 +7111,13 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
                 it->y = y;
             }
 
-            if ((it->id == 2000) && (it->map == state)) {//update wise person location
-                int x = 1, y = 1;
-                baseMap.getLocation(&x, &y, 570);
-                it->x = x;
-                it->y = y;
+            if (state != my_enums::S_FOREST_WORLD_) {
+                if ((it->id == 2000) && (it->map == state)) {//update wise person location
+                    int x = 1, y = 1;
+                    baseMap.getLocation(&x, &y, 570);
+                    it->x = x;
+                    it->y = y;
+                }
             }
 
             if ((it->id == 3000) && (it->map == state)) {//update monster location
@@ -7027,13 +7131,15 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
 
 
         //update chat lines location
-        for (list<CHAT>::iterator it = CHATs.begin(); it != CHATs.end(); it++)
-        {
-            if (it->map == state) {
-                int x = 1, y = 1;
-                baseMap.getLocation(&x, &y, 570);
-                it->x = x;
-                it->y = y;
+        if (state != my_enums::S_FOREST_WORLD_) {
+            for (list<CHAT>::iterator it = CHATs.begin(); it != CHATs.end(); it++)
+            {
+                if (it->map == state) {
+                    int x = 1, y = 1;
+                    baseMap.getLocation(&x, &y, 570);
+                    it->x = x;
+                    it->y = y;
+                }
             }
         }
 
@@ -7060,61 +7166,8 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
 
 void game::changeMap()
 {
-
-//Update music
-    switch (currentState)
-    {
-
-    case my_enums::S_FOREST_WORLD_:
-    {
-        Mix_PlayMusic(musicFOREST, -1);
-        break;
-    }
-
-    case my_enums::S_COAST_WORLD_:
-    {
-        Mix_PlayMusic(musicTOWN, -1);
-        break;
-    }
-
-    case my_enums::S_ELEMENTAL_FIRE_WORLD_:
-    {
-        Mix_PlayMusic(musicMYSTICAL, -1);
-        break;
-    }
-    case my_enums::S_ELEMENTAL_WATER_WORLD_:
-    {
-        Mix_PlayMusic(musicMYSTICAL, -1);
-        break;
-    }
-    case my_enums::S_ELEMENTAL_EARTH_WORLD_:
-    {
-        Mix_PlayMusic(musicMYSTICAL, -1);
-        break;
-    }
-    case my_enums::S_ELEMENTAL_WIND_WORLD_:
-    {
-        Mix_PlayMusic(musicMYSTICAL, -1);  
-        break;
-    }
-    case my_enums::S_NECRO_WORLD_:
-    {
-        Mix_PlayMusic(musicDARK, -1);
-        addAchievement("Necromundo", my_enums::_HIDDEN_);
-        break;
-    }
-    case my_enums::S_HOMETOWN_:
-    {
-        Mix_PlayMusic(musicTOWN, -1);
-        break;
-    }
-
-    default:
-    {
-        // is likely to be an error
-        break;
-    }
-    };
+    //Update music
+    changeMusic();
 
     //**********************
 

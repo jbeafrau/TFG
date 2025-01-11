@@ -82,9 +82,7 @@ void classMap::generateTiles(int currentState)
     {
 
     case my_enums::S_FOREST_WORLD_: 
-    {
-        
-
+    { 
         for (int y = 0; y < 256; y++)
         {
             for (int x = 0; x < 256; x++)
@@ -140,11 +138,8 @@ void classMap::generateTiles(int currentState)
             }//for
         }//for
 
-
-
         //Draw  roads
-        road({ 230,50,30,2 }, 90, 96);
-       
+        road({ 230,50,30,2 }, 90, 96);  
 
         //Draw portal to necro world building
         building({ 221,47,8,9 }, 9, 104, 229, 51, 51);
@@ -152,7 +147,7 @@ void classMap::generateTiles(int currentState)
         building({ 223,49,4,5 }, 9, 104, 227, 51, 51);
         building({ 224,50,2,3 }, 9, 104, 226, 51, 51);
 
-
+        //portal to necro world
         map_cells[225][52] = 56;
        
 
@@ -163,16 +158,10 @@ void classMap::generateTiles(int currentState)
         h = dice(3, 4);
         openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 300);
 
-
         //Evil building
         w = dice(3, 4);
         h = dice(3, 4);
         openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 573);
-
-        //Clues building
-       // w = dice(3, 4);
-       // h = dice(3, 4);
-        //openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 570);
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)
@@ -243,16 +232,6 @@ void classMap::generateTiles(int currentState)
                         map_cells[x][y] = 0;
                     }
                 }
-
-                /*renderer.AddGradientPoint (-1.0000, utils::Color (  0,   0, 128, 255)); // deeps
-                  renderer.AddGradientPoint (-0.2500, utils::Color (  0,   0, 255, 255)); // shallow
-                  renderer.AddGradientPoint ( 0.0000, utils::Color (  0, 128, 255, 255)); // shore
-                  renderer.AddGradientPoint ( 0.0625, utils::Color (240, 240,  64, 255)); // sand
-                  renderer.AddGradientPoint ( 0.1250, utils::Color ( 32, 160,   0, 255)); // grass
-                  renderer.AddGradientPoint ( 0.3750, utils::Color (224, 224,   0, 255)); // dirt
-                  renderer.AddGradientPoint ( 0.5750, utils::Color (152, 118,   84, 255)); // brown
-                  renderer.AddGradientPoint ( 0.7500, utils::Color (128, 128, 128, 255)); // rock
-                  renderer.AddGradientPoint ( 1.0000, utils::Color (255, 255, 255, 255)); // snow 9*/
             }//for
         }//for
         
@@ -391,6 +370,7 @@ void classMap::generateTiles(int currentState)
         road({ 99,107,2,92 }, 20, 20);
         road({ 99,107,50,2 }, 20, 20);
         road({ 149,107,2,50 }, 20, 20);
+        road({ 129,157,20,2 }, 20, 20);
 
         break;
     }

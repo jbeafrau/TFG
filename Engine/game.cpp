@@ -151,7 +151,7 @@ void game::cleanGlobalEvent(int id)
         empty = true;
         for (list<GLOBAL_EVENT>::iterator it = GLOBAL_EVENTs.begin(); it != GLOBAL_EVENTs.end(); it++)
         {
-            if (it->id == id){
+            if ((it->id == id)&& (it->map == currentState) ){
                 empty = false;
                 GLOBAL_EVENTs.erase(it);
                 break;
@@ -987,7 +987,7 @@ void game::loadNPCs()
     addNPC(10, 136,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 142,155, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 142,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
-    addNPC(10002, 139, 167, my_enums::S_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 130,150,150,170 });
+    addNPC(3000, 139, 167, my_enums::S_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 130,150,150,170 });
 
     //Add a dog
     addNPC(10001, 118, 122, my_enums::S_HOMETOWN_, "Tor el perro", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_STATIC_, 269, { 1,1,255,255 });
@@ -1062,7 +1062,22 @@ void game::loadEvents()
     addGlobalEvent(4, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "ADD_CHAT");
     addGlobalEvent(5, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "ADD_ITEM");
 
-    addGlobalEvent(6, my_enums::S_HOMETOWN_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 10002, "NPC_DEFEATED");
+    addGlobalEvent(6, my_enums::S_HOMETOWN_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
+
+    addGlobalEvent(7, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 100, "HAVE_ITEM GAFAS DE SOL");
+    addGlobalEvent(8, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 200, "HAVE_ITEM x");
+    addGlobalEvent(9, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 300, "HAVE_ITEM x");
+    addGlobalEvent(10, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 400, "HAVE_ITEM x");
+    addGlobalEvent(11, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM x");
+
+    addGlobalEvent(20, my_enums::S_COAST_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
+    addGlobalEvent(21, my_enums::S_FOREST_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
+    addGlobalEvent(22, my_enums::S_ELEMENTAL_WIND_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
+    addGlobalEvent(23, my_enums::S_ELEMENTAL_FIRE_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
+    addGlobalEvent(24, my_enums::S_ELEMENTAL_WATER_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
+    addGlobalEvent(25, my_enums::S_ELEMENTAL_EARTH_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
+    addGlobalEvent(26, my_enums::S_NECRO_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
+    
 
    
     addEvent(229, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO VUELO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
@@ -1117,25 +1132,34 @@ void game::dropLoot(int x, int y, int value)
 void game::loadChats()
 {
     CHATs.clear();
+
+    //wise man
     addChat(my_enums::S_HOMETOWN_,109,142, 1, "¿Que está pasando en el pueblo?", "Un mal ha venido de otro plano y esta generando caos en el pueblo, no sabemos quien exactamente ha sido, pero los muertos se levantan, necesitas abrir los portales a los otros planos para poder descubrir donde se esconde el mal...");
     addChat(my_enums::S_HOMETOWN_,109, 142, 2, "¿Que puedo hacer?", "Equipate y preparate para luchar contra el mal, compra equipo en las tiendas y pregunta en el pueblo primero");
     addChat(my_enums::S_HOMETOWN_,109, 142, 3, "Cuentame algo del pueblo", "Al sur encontraras varias tiendas, al este la costa y siguiendo el camino del noroeste, el bosque oscuro");
     addChat(my_enums::S_HOMETOWN_,109, 142, 4, "<<MISSION>>¿Por donde comienzo?", "En el cementerio del pueblo hay enemigos que no permiten salir a los ciudadanos...");
     addChat(my_enums::S_HOMETOWN_,109, 142, 5, "¿Puedo ayudar a alguien mas?", "El mago del templo elemental al este necesita ayuda con su mascota ");
     addChat(my_enums::S_HOMETOWN_,109, 142, 6, "¿Quien es el maestro?", "Al este del pueblo esta el maestro, cuando mejores de nivel puedes mejorar tus atributos allí");
+    
+    //elements
     addChat(my_enums::S_HOMETOWN_,119, 142, 1, "¿Que es esto?", "Esta es la sala de los elementos, pero aun no estas preparado para luchar al mal");
     addChat(my_enums::S_HOMETOWN_,119, 142, 2, "<<MISSION>>¿Puedo ayudar?", "Tor, mi perro esta en una choza al norte, con tantos monstruos no me atrevo a ir a por el, ¿Podrias traermelo por favor??, si lo haces te daré la llave que abre la puerta del este");
+    
+    //tutos
     addChat(my_enums::S_HOMETOWN_,107, 143, 1, "¿Como accedo a mi equipo?", "Pulsa el icono de la mochila en la pantalla de juego, está en la parte de arriba de la pantalla");
     addChat(my_enums::S_HOMETOWN_,107, 143, 2, "¿Que quiere decir EQUIPADO?", "Hay piezas de equipo que puedes usar para mejorar tus habilidades como armas, armaduras u anillos mágicos, para equiparla, tan solo tienes que pinchar sobre el equipo, no puedes usar escudos cuando usas armas de dos manos o de ataques a distancia");
     addChat(my_enums::S_HOMETOWN_,107, 143, 3, "¿Como puedo obtener equipo?", "De tres maneras diferentes: comprandolo en las tiendas, derrotando enemigos y a veces también lo encontrarás en el mapa");   
+    
     addChat(my_enums::S_HOMETOWN_,111, 143, 1, "¿Como se gasta la magia?", "La magia engloba varias habilidades que suponen ventajas en el combate, tanto los magos, necromantes e invocadores pueen gastar esas habilidades");
     addChat(my_enums::S_HOMETOWN_,111, 143, 2, "¿Como saber lo poderoso que soy?", "La magia depende de un atributo: Poder, cuanto más tengas más fuerte seran tus ataques mágicos y más ataques podras realizar antes de agotar tu reserva");
     addChat(my_enums::S_HOMETOWN_,111, 143, 3, "¿Tiene límite la magia?", "Lamentablemente la magia consume tu poder a grán velocidad y cuando se agota, no podrás usarla");
     addChat(my_enums::S_HOMETOWN_,111, 143, 4, "¿Se puede recuperar el poder?", "Cuando no estás en combate la mágia se regenera a un ritmo de un punto cada 30 segundos (- el poder máximo), durante el combate si usas una poción de poder recuperas instantáneamente 10 puntos");
+    
     addChat(my_enums::S_HOMETOWN_,107, 145, 1, "¿Como funciona el combate?", "En el mapa verás enemigos, si intentas entrar en su ubicación u ellos te alcanzan entrarás en combate, una vez entres en combate en la parte izquierda veras los enemigos con sus habilidades, el combate es por turnos y solo termina cuando terminas con tus enemigos u ellos contigo");
     addChat(my_enums::S_HOMETOWN_,107, 145, 2, "¿Como ataco?", "Todos los arquetipos pueden realizar ataques de melee, para hacerlo tan solo hay que pulsar el boton de la espada, además otros personajes tienen otro tipos de ataques, como los ataques a distancia, con subterfugio o magia ");
     addChat(my_enums::S_HOMETOWN_,107, 145, 3, "¿Cuando derroto a los enemigos?", "Cuando la barra roja de los enemigos se consume los derrotas, lo mismo sirve para tu personaje");
     addChat(my_enums::S_HOMETOWN_,107, 145, 4, "¡Ayuda!, ¡Me han herido!", "Hay dos maneras de recuperar vitalidad, fuera de combate consumiendo raciones de comida (el icono del pán que recupera 4 puntos de vida por ración) y dentro del combate las pociones de vitalidad que recuperan 10 puntos de vida");
+    
     addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Como funcionan las tiendas?", "En el mapa verás personajes amigos, si intentas desplazarte en su dirección la pantalla de la tienda se abre");
     addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Como compro el quipo?", "Es tan sencillo como pulsar sobre el objeto deseado, si tienes suficiente dinero perderas dicho dinero pero se añade a tu equipo el objeto");
     addChat(my_enums::S_HOMETOWN_,111, 145, 1, "¿Solo se puede pagar con dinero?", "A veces podrás cambiar un objeto por otro");
@@ -3032,13 +3056,13 @@ void game::screenPlayerAttributes()
 
     tmpRect.w = 100;
     tmpRect.y = 200;
-    drawTextL("Combate", tmpRect);
+    drawTextL("Combate(" + to_string(max_skill) + ")", tmpRect);
     tmpRect.y = 250;
-    drawTextL("Vitalidad", tmpRect);
+    drawTextL("Vitalidad(" + to_string(max_stamina) + ")", tmpRect);
     tmpRect.y = 300;
-    drawTextL("Poder", tmpRect);
+    drawTextL("Poder(" + to_string(max_power) + ")", tmpRect);
     tmpRect.y = 350;
-    drawTextL("Suerte", tmpRect);
+    drawTextL("Suerte(" + to_string(max_luck) + ")", tmpRect);
 
   drawIMGBox(gScreenSurface->w / 2 - 200, 200, skill, max_skill, { 0,0,200,0 });
   drawIMGBox(gScreenSurface->w / 2 - 200, 250, stamina, max_stamina, { 200,0,0,0 });
@@ -4677,6 +4701,7 @@ void game::eventsPlayerArchetypes()
                     addItem("ANILLO RESISTENCIA FUEGO", "Este anillo abre la puerta a un mundo elemental", 1, 0, 229, my_enums::_OTHER_, 0);
                     addItem("ANILLO RESPIRAR AGUA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 230, my_enums::_OTHER_, 0);
                     addItem("ANILLO DE LA TIERRA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 210, my_enums::_OTHER_, 0);
+                    addItem("LLAVE PUERTA ESTE", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);
 
                     //****
                 }
@@ -5571,20 +5596,84 @@ void game::processAI()
             }//add item
             else if (it->description == "NPC_DEFEATED") {
                 if (!findNPC(it->NPCID)) {
-                    if (it->NPCID = 10002) {
+                    if (it->NPCID = 3000) {
+                        if(it->map == my_enums::S_HOMETOWN_){
                         addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
                         removeChat(109, 142, 4);
                         addChat(my_enums::S_HOMETOWN_, 109, 142, 4, "Sobre el necromante...", "Gracias por derrotar al nigromante, ahora el pueblo vuelve a ser un sitio seguro");
+                        removeChat(119, 142, 1);
+                        addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
+                        //it = GLOBAL_EVENTs.erase(it);
+                       // erased = true;
+                        }
 
+                        if (it->map == my_enums::S_COAST_WORLD_) {
+                            addItem("GAFAS DE SOL", "Te suena alguien que las necesita...", 1, 0, 337, my_enums::_OTHER_, 0);
+                            // addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
+                            //removeChat(119, 142, 1);
+                            //addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
+                          //  it = GLOBAL_EVENTs.erase(it);
+                          //  erased = true;
+                        }
+
+                        if (it->map == my_enums::S_ELEMENTAL_WATER_WORLD_) {
+                           // addItem("GAFAS DE SOL", "Te suena alguien que las necesita...", 1, 0, 337, my_enums::_OTHER_, 0);
+                            // addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
+                            //removeChat(119, 142, 1);
+                            //addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
+                        }
+
+                        if (it->map == my_enums::S_ELEMENTAL_FIRE_WORLD_) {
+                            // addItem("GAFAS DE SOL", "Te suena alguien que las necesita...", 1, 0, 337, my_enums::_OTHER_, 0);
+                             // addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
+                             //removeChat(119, 142, 1);
+                             //addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
+                        }
+
+                        if (it->map == my_enums::S_ELEMENTAL_EARTH_WORLD_) {
+                            // addItem("GAFAS DE SOL", "Te suena alguien que las necesita...", 1, 0, 337, my_enums::_OTHER_, 0);
+                             // addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
+                             //removeChat(119, 142, 1);
+                             //addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
+                        }
+
+                        if (it->map == my_enums::S_ELEMENTAL_WIND_WORLD_) {
+                            // addItem("GAFAS DE SOL", "Te suena alguien que las necesita...", 1, 0, 337, my_enums::_OTHER_, 0);
+                             // addAchievement("Derrotaste al necromante", my_enums::_MISSIONS_);
+                             //removeChat(119, 142, 1);
+                             //addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "<<MISIÓN>>Objetos perdidos...", "He perdido mis gafas de sol, la última vez que las usé estaba en la costa al este");
+                        }
                         
                     }
+
+                   
+
+                    
                     it = GLOBAL_EVENTs.erase(it);
                     erased = true;
 
                 }
 
             }//npc defeated
-            
+            else if (it->description.substr(0, 9) == "HAVE_ITEM") {
+                if (insideBoundaries(px, py, it->location)) { //inside event boundaries  
+                    string itemName = it->description.substr(10, it->description.length() - 10);
+                    if (findItem(itemName)) {
+                        if (itemName == "GAFAS DE SOL") {
+                            addAchievement("Sol y playa", my_enums::_MISSIONS_);
+
+                            it = GLOBAL_EVENTs.erase(it);
+                            erased = true;
+                        }
+
+
+
+                    }
+                    //  addItem("LLAVE PUERTA ESTE", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);
+                  //  it = GLOBAL_EVENTs.erase(it);
+                  //  erased = true;
+                }
+                    }//have item
         
 
 
@@ -5604,7 +5693,7 @@ bool game::findNPC(int id)
     bool found = false;
     for (list<NPC>::iterator itNPC = NPCs.begin(); itNPC != NPCs.end(); itNPC++)
     {
-        if (itNPC->id == id)found = true;
+        if ((itNPC->id == id)&& (itNPC->map == currentState))found = true;
     }
     return found;
 }
@@ -6677,7 +6766,7 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
     if ((state != my_enums::S_HOMETOWN_)&& (state != my_enums::S_NECRO_WORLD_)){//only for maps outside hometown and Necroworld
 
 
-        //Update teleport event
+        //Update teleport events
         if (state != my_enums::S_FOREST_WORLD_) {
         for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
         {
@@ -6690,6 +6779,22 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
 
         }
     }
+
+        //Update NPC_DEFEAT events  
+        /*
+            for (list<GLOBAL_EVENT>::iterator it = GLOBAL_EVENTs.begin(); it != GLOBAL_EVENTs.end(); it++)
+            {
+                if ((it->description == "TELEPORT") && (it->map == state)) {//update teleporter location
+                    int x = 1, y = 1;
+                    baseMap.getLocation(&x, &y, 56);
+                    it->x = x;
+                    it->y = y;
+                }
+
+            }
+            */
+  
+
         //Update NPC locations
         for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
         {

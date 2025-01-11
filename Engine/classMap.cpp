@@ -170,9 +170,9 @@ void classMap::generateTiles(int currentState)
         openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 573);
 
         //Clues building
-        w = dice(3, 4);
-        h = dice(3, 4);
-        openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 570);
+       // w = dice(3, 4);
+       // h = dice(3, 4);
+        //openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 570);
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)

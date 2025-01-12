@@ -50,11 +50,11 @@ while (Game.getState() != my_enums::S_GAMECLOSE_){
 
     Game.screenFlip();
 
-    Game.adjustFPS();
-
     Game.locationEvents();
 
     Game.timeEvents();
+
+    Game.adjustFPS();
 }
 
 Game.closeSDL();

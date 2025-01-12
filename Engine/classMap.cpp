@@ -407,8 +407,11 @@ void classMap::generateTiles(int currentState)
         road({ 99,107,2,92 }, 20, 20);
         road({ 99,107,50,2 }, 20, 20);
         road({ 149,107,2,50 }, 20, 20);
-        road({ 129,157,20,2 }, 20, 20);
-
+        road({ 127,157,20,2 }, 20, 20);
+        //bridge
+        map_cells[124][158] = 20;
+        map_cells[125][158] = 20;
+        map_cells[126][158] = 20;
         break;
     }
     case my_enums::S_HOMETOWN_:

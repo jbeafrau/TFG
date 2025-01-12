@@ -187,6 +187,7 @@ public:
     void drawAchievements();
 
     void addItem(string name, string description, int count, int value, int tile, my_enums::itemTypes type, int bonus);
+    void removeItem(string name);
     void updateItem(string name, int value);
     bool findItem(string name);
     item getItem(string name);

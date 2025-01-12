@@ -820,6 +820,24 @@ void game::removeChat(int x, int y, int option)
     }
 }
 
+void game::removeItem(string name)
+{
+    bool empty = false;
+    while (empty != true)
+    {
+        empty = true;
+        for (list<item>::iterator it = items.begin(); it != items.end(); it++)
+        {
+            if (it->description == name ) {
+                empty = false;
+                items.erase(it);
+                break;
+
+            }
+        }
+    }
+}
+
 
 void game::cleanShop(int x, int y, int option)
 {
@@ -1110,6 +1128,8 @@ void game::loadNPCs()
     addNPC(2000, 230, 50, my_enums::S_FOREST_WORLD_, "Figura oscura", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 198, { 1,1,255,255 });
     addNPC(3000, 1, 1, my_enums::S_FOREST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, 160, { 1,1,250,250 });
 
+    addNPC(4000, 125, 158, my_enums::S_NECRO_WORLD_, "GOLEM", 15, 50, 15, 15, 4, my_enums::_FRIENDLY_STATIC_, 160, { 1,1,250,250 });
+   
 }
 
 
@@ -1143,6 +1163,8 @@ void game::loadEvents()
     addGlobalEvent(10, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 400, "HAVE_ITEM ANILLO RESPIRAR AGUA");
     addGlobalEvent(11, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM ANILLO DE LA TIERRA");
 
+    addGlobalEvent(11, my_enums::S_HOMETOWN_, { 111, 160,113, 162 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM LIBRO RECETAS");
+   
     addGlobalEvent(20, my_enums::S_COAST_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
     addGlobalEvent(21, my_enums::S_FOREST_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
     addGlobalEvent(22, my_enums::S_ELEMENTAL_WIND_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
@@ -1261,7 +1283,8 @@ void game::loadChats()
     //wise dark forest
     addChat(my_enums::S_FOREST_WORLD_, 230, 50, 1, "¿Quien eres?", "Hace mucho tiempo mi morada estaba dentro de este edificio, pero fuí desterrado...");
     addChat(my_enums::S_FOREST_WORLD_, 230, 50, 2, "¿Que es este edificio?", "Es un portal a otro plano, oscuro, ardiente y peligroso, no intentes entrar a menos que mejores tus habilidades y te carges de suministros");
-    addChat(my_enums::S_FOREST_WORLD_, 230, 50, 3, "¿Como puedo entrar?", "Hacen falta 4 anillos de 4 dimensiones diferentes, pero es solo una parte, cuando cruces necesitarás un colgante especial para abrir el paso... y aún no lo tienes");
+    addChat(my_enums::S_FOREST_WORLD_, 230, 50, 3, "¿Como puedo entrar?", "Hacen falta 4 anillos de 4 dimensiones diferentes, pero es solo una parte");
+    addChat(my_enums::S_FOREST_WORLD_, 230, 50, 4, "<<MISIÓN>>Después del portal...", "Cruzar el portal es solo una parte porqué despúes necesitarás una poción especial para abrir el paso... y aún no la tienes");
 
 
 
@@ -5918,6 +5941,39 @@ void game::processAI()
                             addItem("LIBRO RECETAS", "Libro con recetas malignas", 1, 0, 282, my_enums::_OTHER_, 0);
                             addAchievement("Cocinando el mal", my_enums::_MISSIONS_);
 
+                            //move npc
+                            //change chat
+                            for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
+                            {
+                                if (currentState == my_enums::S_FOREST_WORLD_) {
+                                    if ((it->id == 2000) && (it->map == currentState)) {//update wise person location
+                                        int x = 1, y = 1;
+                                        baseMap.getLocation(&x, &y, 573);
+                                        it->x = x + 4;
+                                        it->y = y - 1;
+                                    }
+                                }
+                            }
+
+                            removeChat(230, 50, 4);
+                            addChat(my_enums::S_FOREST_WORLD_, 230, 50, 4, "<<MISIÓN>>¡Tengo un libro de alquimia oscura!", "Con este libro tan solo necesitas dos pasos más 1)Encuentra un alquimista que te prepare la poción, 2)Encuentra un mago elemental que la active");
+
+                            for (list<CHAT>::iterator it = CHATs.begin(); it != CHATs.end(); it++)
+                            {
+                                if (currentState == my_enums::S_FOREST_WORLD_) {
+                                    if (it->map == currentState) {//update wise person location
+                                        int x = 1, y = 1;
+                                        baseMap.getLocation(&x, &y, 573);
+                                        it->x = x + 4;
+                                        it->y = y - 1;
+                                    }
+                                }
+                            }
+
+                              
+
+
+
                         }
 
                         
@@ -5943,6 +5999,7 @@ void game::processAI()
                             addChat(my_enums::S_HOMETOWN_, 119, 142, 1, "Sobre el templo", "Te había subestimado, si superas los 4 portales podrás cruzar el portal al necromundo, donde el señor oscuro nos acecha...");                         
                             addChat(my_enums::S_HOMETOWN_, 119, 142, 2, "<<MISIÓN>>Portal elemental de tierra", "Con el anillo que te he dado podrás atravesar el primer portal, busca el secuaz del señor oscuro y arrebátale el anillo para abrir el siguiente portal...");                           
                             addItem("ANILLO DE LA TIERRA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 210, my_enums::_OTHER_, 0);
+                            removeItem("GAFAS DE SOL");
                         }
 
                         if (itemName == "ANILLO RESPIRAR AGUA") {
@@ -5970,7 +6027,17 @@ void game::processAI()
                                 addChat(my_enums::S_HOMETOWN_, 119, 142, 2, "<<MISIÓN>>El bosque oscuro", "No paras de sorependerme, ese collar que has conseguido... creo que en realidad es una llave para abrir una puerta a un edificio donde se aloja el mal, creo que es hora que te acerques al bosque oscuro, sigue el camino al moroeste del pueblo");
                             }
 
+                            if (itemName == "LIBRO RECETAS") {
+                                addItem("POCION NEGRA", "Esta poción tiene una pinta muy sospechosa", 1, 0, 270, my_enums::_OTHER_, 0);                             
+                            }
 
+                            if (itemName == "POCION NEGRA") {
+                                addItem("POCION ROJA", "Esta poción tiene una pinta muy sospechosa", 1, 0, 276, my_enums::_OTHER_, 0);
+                                removeItem("POCION NEGRA");
+                            }
+
+
+                            
                             
 
 
@@ -7056,19 +7123,19 @@ bool game::checkNPC(int x, int y)
         INT Xx = 1;
         if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_CHAT_) {
             tmpCHATs = getChat(tmpx, tmpy);
-            previousScreen =   my_enums::S_HOMETOWN_;
+            previousScreen = getStringState(currentState);
             setState(my_enums::S_CHAT_);
             foundNPC = true;
 
         }
         else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_SHOP_) {
             tmpSHOPs = getShops(tmpx, tmpy);
-            previousScreen = my_enums::S_HOMETOWN_;
+            previousScreen = getStringState(currentState);
             setState(my_enums::S_SHOP_);
             foundNPC = true;
         }else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_MASTER_) {
             //tmpSHOPs = getShops(tmpx, tmpy);
-            previousScreen = my_enums::S_HOMETOWN_;
+            previousScreen = getStringState(currentState);
             setState(my_enums::S_MASTER_);
             foundNPC = true;
         }
@@ -7080,7 +7147,7 @@ bool game::checkNPC(int x, int y)
 void game::updateNPCandEVENTS(my_enums::gameState state) {
     if ((state != my_enums::S_HOMETOWN_)&& (state != my_enums::S_NECRO_WORLD_)){//only for maps outside hometown and Necroworld
 
-
+        
         //Update teleport events
         if (state != my_enums::S_FOREST_WORLD_) {
         for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)

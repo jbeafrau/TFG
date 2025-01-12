@@ -471,7 +471,7 @@ protected:
     int cam_size_x = 16;
     int cam_size_y = 8;
 
-
+    std::string itemDescription = "";
 
 
     //The application timer

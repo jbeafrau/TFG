@@ -828,7 +828,7 @@ void game::removeItem(string name)
         empty = true;
         for (list<item>::iterator it = items.begin(); it != items.end(); it++)
         {
-            if (it->description == name ) {
+            if (it->name == name ) {
                 empty = false;
                 items.erase(it);
                 break;
@@ -1128,27 +1128,15 @@ void game::loadNPCs()
     addNPC(2000, 230, 50, my_enums::S_FOREST_WORLD_, "Figura oscura", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 198, { 1,1,255,255 });
     addNPC(3000, 1, 1, my_enums::S_FOREST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, 160, { 1,1,250,250 });
 
-    addNPC(4000, 125, 158, my_enums::S_NECRO_WORLD_, "GOLEM", 15, 50, 15, 15, 4, my_enums::_FRIENDLY_STATIC_, 160, { 1,1,250,250 });
+    addNPC(4000, 129, 158, my_enums::S_NECRO_WORLD_, "GOLEM", 15, 50, 15, 15, 4, my_enums::_FRIENDLY_STATIC_, 160, { 1,1,250,250 });
+    addNPC(5000, 123, 158, my_enums::S_NECRO_WORLD_, "SEÑOR OSCURO", 16, 60, 15, 15, 4, my_enums::_ENEMY_STATIC_, 160, { 1,1,250,250 });
    
 }
 
 
 void game::loadEvents()
 {
-    addEvent(139, 163, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 139, 166, my_enums::S_HOMETOWN_, 0);
-    addEvent(139, 165, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 139, 162, my_enums::S_HOMETOWN_, 0);
-
-    //addEvent(139, 167, my_enums::S_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
-    //addEvent(139, 168, my_enums::S_HOMETOWN_, "GOLD", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 344);
-
-    addEvent(251, 151, my_enums::S_HOMETOWN_, "IF**LLAVE PUERTA ESTE", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
-
-
-  
-
-    
-
-
+ 
     addGlobalEvent(1, my_enums::S_HOMETOWN_, { 117,121,119,123 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_FOLLOW");
     addGlobalEvent(2, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "CHANGE_AI_FRIENDLY_STATIC");
     addGlobalEvent(3, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 10001, "REMOVE_CHAT");
@@ -1164,6 +1152,8 @@ void game::loadEvents()
     addGlobalEvent(11, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM ANILLO DE LA TIERRA");
     addGlobalEvent(12, my_enums::S_HOMETOWN_, { 111, 160,113, 162 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM LIBRO RECETAS");
     addGlobalEvent(13, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM POCION NEGRA");
+
+    addGlobalEvent(13, my_enums::S_NECRO_WORLD_, { 128, 157,130, 159 }, { 0,0,0,0 }, 0, 4000, "HAVE_ITEM POCION ROJA");
 
     
    
@@ -1188,6 +1178,11 @@ void game::loadEvents()
     addEvent(121, 142, my_enums::S_HOMETOWN_, "IF**ANILLO RESISTENCIA FUEGO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
     addEvent(117, 144, my_enums::S_HOMETOWN_, "IF**ANILLO RESPIRAR AGUA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
     addEvent(121, 144, my_enums::S_HOMETOWN_, "IF**ANILLO DE LA TIERRA", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+    addEvent(139, 163, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 139, 166, my_enums::S_HOMETOWN_, 0);
+    addEvent(139, 165, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 139, 162, my_enums::S_HOMETOWN_, 0);
+
+    addEvent(251, 151, my_enums::S_HOMETOWN_, "IF**LLAVE PUERTA ESTE", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
+
 
 
     addEvent(225, 52, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0, 50, 50, my_enums::S_NECRO_WORLD_, 0);
@@ -1196,9 +1191,9 @@ void game::loadEvents()
     addEvent(5, 51, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 249, 51, my_enums::S_FOREST_WORLD_, 0);
     addEvent(5, 52, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 249, 52, my_enums::S_FOREST_WORLD_, 0);
 
-    addEvent(250, 50, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0,6, 50, my_enums::S_HOMETOWN_ , 0);
-    addEvent(250, 51, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0,6, 51, my_enums::S_HOMETOWN_ , 0);
-    addEvent(250, 52, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0,6, 52, my_enums::S_HOMETOWN_ , 0);
+    addEvent(254, 50, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0,6, 50, my_enums::S_HOMETOWN_ , 0);
+    addEvent(254, 51, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0,6, 51, my_enums::S_HOMETOWN_ , 0);
+    addEvent(254, 52, my_enums::S_FOREST_WORLD_, "TELEPORT", 0, 0,6, 52, my_enums::S_HOMETOWN_ , 0);
 
     addEvent(253, 151, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_COAST_WORLD_, 0);
     addEvent(117, 142, my_enums::S_HOMETOWN_, "TELEPORT", 0, 0, 120, 120, my_enums::S_ELEMENTAL_WIND_WORLD_, 0);
@@ -4394,6 +4389,11 @@ void game::screenInventory()
 
         tmpRect.y += 50;
         if (itemRing != "")drawTextResize(itemRing, tmpRect);
+
+
+        target.y = 650;
+        drawSquare(target, { 200,200,200 });
+        drawTextBlock(itemDescription, target);
 }
 
 
@@ -5558,6 +5558,7 @@ void game::eventsInventory()
                     if (itemSelected > 1) {
                         std::advance(it, itemSelected-1);
                     }
+                    itemDescription = it->description;
                     switch (it->type) {
                     
                     case my_enums::_WEAPON_1H_:
@@ -6049,7 +6050,33 @@ void game::processAI()
                             if (itemName == "POCION NEGRA") {
                                 addItem("POCION ROJA", "Esta poción tiene una pinta muy sospechosa", 1, 0, 276, my_enums::_OTHER_, 0);
                                 removeItem("POCION NEGRA");
+                                addAchievement("Poción del mal", my_enums::_MISSIONS_);
                             }
+
+                            if (itemName == "POCION ROJA") {                              
+                                removeItem("POCION ROJA");
+
+                                for (list<NPC>::iterator itNPC = NPCs.begin(); itNPC != NPCs.end() && erased == false; itNPC++)
+                                {
+                                    if (itNPC->map == currentState) {//on the current map
+                                        if (itNPC->id == it->NPCID) { //id match
+                                            if (insideBoundaries(itNPC->x, itNPC->y, it->location)) { //inside event boundaries
+                                                itNPC->NPCAI = my_enums::_ENEMY_FOLLOW_;
+                                                addNotification("¡¡¡"+itNPC->description + " se despierta y te ataca!!!", {0,0,0});
+
+                                                addAchievement("Despertar al leviatán", my_enums::_MISSIONS_);
+                                                it = GLOBAL_EVENTs.erase(it);
+                                                erased = true;
+                                            }
+                                        }
+
+                                    }
+                                }//
+                                
+                            }
+
+
+                           // addGlobalEvent(13, my_enums::S_NECRO_WORLD_, { 128, 157,130, 159 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM POCION ROJA");
 
 
                             
@@ -6829,7 +6856,7 @@ void game::addExp(int xp)
     exp += xp;
     //increase level;
     if (exp >= ((level * level) * 100)) {
-        skillPoints++;
+        skillPoints+=2;
         exp -= ((level * level) * 100);
         level++;
         addNotification("Subes al nivel:" + to_string(level), { 0,0,0 });

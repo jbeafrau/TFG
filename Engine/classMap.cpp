@@ -414,6 +414,13 @@ void classMap::generateTiles(int currentState)
         map_cells[130][158] = 20;
         //last platform
         road({ 123,156,4,4 }, 20, 20);
+        //bloody altars
+        map_cells[123][156] = 68;
+        map_cells[123][160] = 68;
+        map_cells[125][156] = 68;
+        map_cells[125][160] = 68;
+        map_cells[127][156] = 68;
+        map_cells[127][160] = 68;
 
         break;
     }
@@ -507,7 +514,7 @@ void classMap::generateTiles(int currentState)
 
         //map_cells[136][172] = 540;
 
-        //altar
+        //bloody altar
         map_cells[139][170] = 68;
 
 

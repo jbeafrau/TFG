@@ -330,6 +330,9 @@ public:
 
     void changeMusic();
 
+    void screenDarkFate();
+    void screenWIN();
+
 
     classMap baseMap;
     bool debugMode = false;

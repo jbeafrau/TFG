@@ -1169,7 +1169,8 @@ void game::loadEvents()
     addGlobalEvent(23, my_enums::S_ELEMENTAL_FIRE_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
     addGlobalEvent(24, my_enums::S_ELEMENTAL_WATER_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
     addGlobalEvent(25, my_enums::S_ELEMENTAL_EARTH_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
-    addGlobalEvent(26, my_enums::S_NECRO_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
+    addGlobalEvent(26, my_enums::S_NECRO_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 5000, "NPC_DEFEATED");
+    //addGlobalEvent(26, my_enums::S_NECRO_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 5000, "NPC_DEFEATED");
     
     
    
@@ -2627,7 +2628,242 @@ void game::drawMiniMap()
 }
 
 
-void game:: playTutorial()
+void game::screenDarkFate()
+{
+    int startTime = SDL_GetTicks();
+    int elapsed = 0;
+
+    bool quit = false;
+    SDL_Rect destRect;
+    while (!quit)
+    {
+        elapsed = SDL_GetTicks() - startTime;
+        screenClear();
+        drawBackground();
+
+        destRect.x = gScreenSurface->w / 2 - 256;
+        destRect.y = gScreenSurface->h / 8;
+        destRect.w = 512;
+        destRect.h = 50;
+        drawSquare(destRect, lightGreyColor);
+        drawTextResize("Los muertos no mueren", destRect);
+
+        if (elapsed > 1000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h / 4;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 100;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Con un último ataque el señor oscuro cae...", destRect);
+
+        }
+
+        if (elapsed > 3000) {
+
+
+
+          //  destRect.x = gScreenSurface->w / 2;
+            destRect.y = gScreenSurface->h /2;
+        //    destRect.w = gScreenSurface->w / 2;
+            destRect.h = 100;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Pero cuando crees que ya has derrotado al señor oscuro, contemplas horrorizado como su cuerpo se reforma...", destRect);
+
+        }
+
+        if (elapsed > 5000) {
+           // destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h / 4*3;
+         //   destRect.w = gScreenSurface->w / 2;
+            destRect.h = 150;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("SEÑOR OSCURO: ¡¡Solo los seres puros que han conseguido todos los logros en esta vida pueden derrotarme!, ¡¡Ahora muere!!, te lanza un rayo que te drena tu vitalidad, cierras los ojos y....", destRect);
+
+        }
+
+       /* if (elapsed > 7000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h * 3 / 4;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 150;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("para seleccionar opciones, simplemente desplazate con el ratón sobre la opcíon (icono) deseado y haz click", destRect);
+
+            classButton demoButton;
+            demoButton.setButton(gScreenSurface->w / 4 + 200, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonStarsTexture);
+            demoButton.setButton(gScreenSurface->w / 4 + 300, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonConfigTexture);
+            demoButton.setButton(gScreenSurface->w / 4 + 400, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonBackpackTexture);
+            demoButton.setButton(gScreenSurface->w / 4 + 500, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonPlayerTexture);
+            demoButton.setButton(gScreenSurface->w / 4 + 600, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonMapTexture);
+
+
+
+        }*/
+
+
+
+        if (elapsed > 9000) {
+            destRect.x = gScreenSurface->w/2-256;
+            destRect.y = gScreenSurface->h - 100;
+            destRect.w = 512;
+            destRect.h = 50;
+            drawSquare(destRect, lightGreyColor);
+            drawTextResize("Pulsa cualquier tecla para continuar...", destRect);
+        }
+
+        //Event handler
+        SDL_Event e;
+
+        //Handle events on queue
+        while (SDL_PollEvent(&e) != 0)
+        {
+            //User requests quit
+            if (e.type == SDL_QUIT)
+            {
+                setState(my_enums::S_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+            }
+            else if (e.type == SDL_MOUSEMOTION)
+            {
+                //******
+            }
+            else if (e.type == SDL_MOUSEBUTTONDOWN)
+            {
+                quit = true;
+            }
+            else if (e.type == SDL_KEYDOWN)
+            {
+                quit = true;
+            }
+
+            //******************
+        }//events
+        drawMouse();
+        screenFlip();
+        SDL_Delay(50);
+    }//while not quit
+}
+
+void game::screenWIN()
+{
+    int startTime = SDL_GetTicks();
+    int elapsed = 0;
+
+    bool quit = false;
+    SDL_Rect destRect;
+    while (!quit)
+    {
+        elapsed = SDL_GetTicks() - startTime;
+        screenClear();
+        drawBackground();
+
+        destRect.x = gScreenSurface->w / 2 - 256;
+        destRect.y = gScreenSurface->h / 8;
+        destRect.w = 512;
+        destRect.h = 50;
+        drawSquare(destRect, lightGreyColor);
+        drawTextResize("ACHIEVEMENT MASTER", destRect);
+
+        if (elapsed > 1000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h / 4;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 100;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Con un último ataque el señor oscuro cae...", destRect);
+
+        }
+
+        if (elapsed > 3000) {
+
+
+
+            //  destRect.x = gScreenSurface->w / 2;
+            destRect.y = gScreenSurface->h / 2;
+            //    destRect.w = gScreenSurface->w / 2;
+            destRect.h = 100;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Observas como el señor oscuro se retuerze en el suelo y te habla por última vez...", destRect);
+
+        }
+
+        if (elapsed > 5000) {
+            // destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h / 4 * 3;
+            //   destRect.w = gScreenSurface->w / 2;
+            destRect.h = 150;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("SEÑOR OSCURO: Solo un ser puro que ha conseguido todos los logros en esta vida podía derrotarme..., Tu.. eres.. ", destRect);
+
+        }
+
+         if (elapsed > 7000) {
+             tmpRect.y = gScreenSurface->h / 4;
+             tmpRect.h = 100;
+
+             tmpRect.x = gScreenSurface->w / 2 - 450;
+             tmpRect.w = 900;
+             fg = { 128, 0, 128, 0 };
+             drawTextResize("¡¡Achievement master!!", tmpRect);
+             fg = { 0, 0, 0, 0 };
+         }
+
+
+
+        if (elapsed > 9000) {
+            destRect.x = gScreenSurface->w / 2 - 256;
+            destRect.y = gScreenSurface->h - 100;
+            destRect.w = 512;
+            destRect.h = 50;
+            drawSquare(destRect, lightGreyColor);
+            drawTextResize("Pulsa cualquier tecla para continuar...", destRect);
+        }
+
+        //Event handler
+        SDL_Event e;
+
+        //Handle events on queue
+        while (SDL_PollEvent(&e) != 0)
+        {
+            //User requests quit
+            if (e.type == SDL_QUIT)
+            {
+                setState(my_enums::S_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+            }
+            else if (e.type == SDL_MOUSEMOTION)
+            {
+                //******
+            }
+            else if (e.type == SDL_MOUSEBUTTONDOWN)
+            {
+                quit = true;
+            }
+            else if (e.type == SDL_KEYDOWN)
+            {
+                quit = true;
+            }
+
+            //******************
+        }//events
+        drawMouse();
+        screenFlip();
+        SDL_Delay(50);
+    }//while not quit
+
+}
+
+
+void game::playTutorial()
 
 {
     int startTime = SDL_GetTicks();
@@ -5003,6 +5239,7 @@ void game::eventsPlayerArchetypes()
                     addItem("ANILLO DE LA TIERRA", "Este anillo abre la puerta a un mundo elemental", 1, 0, 210, my_enums::_OTHER_, 0);
                     addItem("LLAVE PUERTA ESTE", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);
                     addItem("MEDALLON OSCURO", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);
+                    addItem("POCION ROJA", "Esta llave abre la puerta del este", 1, 0, 340, my_enums::_OTHER_, 0);
 
                     //****
                 }
@@ -5496,10 +5733,12 @@ void game::eventsConfigMenu()
             }
 
             if (tuto1Button.clicked(mousex, mousey)) {
+                addAchievement("Ayuda", my_enums::_HIDDEN_);
                 playTutorial();
             }
 
             if (tuto2Button.clicked(mousex, mousey)) {
+                addAchievement("Ayuda", my_enums::_HIDDEN_);
                 playTutorialHomeTown();
             }
 
@@ -6001,6 +6240,34 @@ void game::processAI()
                         
                     }
 
+                    if (it->NPCID = 5000) {
+                       
+                        
+                        if (it->map == my_enums::S_NECRO_WORLD_) {
+                            addAchievement("Asesino de reyes", my_enums::_HIDDEN_);
+                            int achievementCounter = achievements.size();
+                            if (achievementCounter != 40) {
+                                addAchievement("Undead", my_enums::_HIDDEN_);
+                                setState(my_enums::S_HERO_);
+                                changeMusic();
+                                deleteNPCs(px, py);
+                                //Mix_PlayMusic(musicGameOver, -1);
+                                addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
+                                screenDarkFate();
+
+                            }
+                            else {
+                                setState(my_enums::S_MAINMENU_);
+                                changeMusic();
+                                deleteNPCs(px, py);
+                                screenWIN();
+                            }
+
+                        }
+
+              
+                        
+                    }
                    
 
                     
@@ -6393,8 +6660,8 @@ void game::eventsFight()
                             //Mix_PlayMusic(musicGameOver, -1);
                             addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
                             //Mix_PlayMusic(musicHERO, -1);
-                            timerGameOver.start();
-                            timerGameOver.reset();
+                           // timerGameOver.start();
+                            //timerGameOver.reset();
                             //addNotification("Saliendo del juego");
                             //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                         }
@@ -6486,8 +6753,8 @@ void game::eventsFight()
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
                                 //Mix_PlayMusic(musicHERO, -1);
-                                timerGameOver.start();
-                                timerGameOver.reset();
+                               // timerGameOver.start();
+                              //  timerGameOver.reset();
                                 //addNotification("Saliendo del juego");
                                 //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
@@ -6555,8 +6822,8 @@ void game::eventsFight()
                         //Mix_PlayMusic(musicGameOver, -1);
                         addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
                         //Mix_PlayMusic(musicHERO, -1);
-                        timerGameOver.start();
-                        timerGameOver.reset();
+                       // timerGameOver.start();
+                       // timerGameOver.reset();
                         //addNotification("Saliendo del juego");
                         //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                     }
@@ -6606,8 +6873,8 @@ void game::eventsFight()
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
                                // Mix_PlayMusic(musicHERO, -1);
-                                timerGameOver.start();
-                                timerGameOver.reset();
+                              //  timerGameOver.start();
+                              //  timerGameOver.reset();
                                 //addNotification("Saliendo del juego");
                                 //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
@@ -6666,8 +6933,8 @@ void game::eventsFight()
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
                                // Mix_PlayMusic(musicHERO, -1);
-                                timerGameOver.start();
-                                timerGameOver.reset();
+                               // timerGameOver.start();
+                               // timerGameOver.reset();
                                 //addNotification("Saliendo del juego");
                                 //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
@@ -6745,8 +7012,8 @@ void game::eventsFight()
                                 deleteNPCs(px, py);
                                 //Mix_PlayMusic(musicGameOver, -1);
                                 //Mix_PlayMusic(musicHERO, -1);
-                                timerGameOver.start();
-                                timerGameOver.reset();
+                               // timerGameOver.start();
+                               //// timerGameOver.reset();
                                 //addNotification("Saliendo del juego");
                                 //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }

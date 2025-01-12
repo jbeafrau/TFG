@@ -22,7 +22,6 @@ std::string GetExePath()
     return f.substr(0, f.find_last_of("\\/"));
 }
 
-
 game::game()
 {
     /* initialize random seed: */
@@ -48,7 +47,6 @@ int game::dice(int maxValue, int minValue)
     return rand() % maxValue + minValue;
 }
 
-
 void game::addNotification(std::string notification, SDL_Color color)
 {
     if (notifications.size() == 0) {
@@ -63,7 +61,6 @@ void game::clearAnimations()
     animations.clear();
 }
 
-
 void game::addAchievement(std::string achievementName, my_enums::Achievements achievementType)
 {
     if (!existAchievement(achievementName, achievementType )) {
@@ -75,11 +72,9 @@ void game::addAchievement(std::string achievementName, my_enums::Achievements ac
         if (achievementType == my_enums::_MISSIONS_)addExp(100);
 
         achievements.push_back(newAchievement);
-       // addNotification(achievementName, {200,0,200});
         Mix_PlayChannel(-1, win, 0);
 
         int achievementCounter = achievements.size();
-      //  achievementsButton.setCaption("ACH " + std::to_string(achievementCounter) + " / " + std::to_string(achievementCounter * 100 / maxAchievements) + "%");
          achievementsButton.setCaption(std::to_string(static_cast<int>(round(achievementCounter*2.5))) +" %");
     }
 }
@@ -130,7 +125,6 @@ void game::cleanEvents(int x, int y)
 
 void game::addGlobalEvent(int id, my_enums::gameState map, SDL_Rect location, SDL_Rect newLocation, int distance, int NPCID, std::string description)
 {
-
     GLOBAL_EVENT aEVENT;
     aEVENT.id = id;
     aEVENT.map = map;
@@ -140,7 +134,6 @@ void game::addGlobalEvent(int id, my_enums::gameState map, SDL_Rect location, SD
     aEVENT.NPCID = NPCID;
     aEVENT.distance = distance;
     GLOBAL_EVENTs.push_back(aEVENT);
-
 }
 
 void game::cleanGlobalEvent(int id)
@@ -164,8 +157,7 @@ void game::cleanGlobalEvent(int id)
 
 void game::deleteNPCs(int x, int y)
 {
-
-        bool empty = false;
+            bool empty = false;
         while (empty != true)
         {
             empty = true;
@@ -179,8 +171,6 @@ void game::deleteNPCs(int x, int y)
                 }
             }
         }
-    
-
 }
 
 list<NPC> game::getNPCs(int x, int y)
@@ -218,10 +208,7 @@ void game::phaseNPCs()
     
      tmpNPCs = getNPCs(tmpx,tmpy);
      if (tmpNPCs.size() > 0) {
-         //addNotification("There are NPCS here...");
-         //currentMusic = 5;
-        
-         if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_CHAT_) {
+          if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_CHAT_) {
              tmpCHATs = getChat(tmpx, tmpy);
              previousScreen = getStringState(currentState);
              setState(my_enums::S_CHAT_);
@@ -568,15 +555,11 @@ void game::eventsShops()
                                     else {
                                         tmpStr = tmpStr + it->description;
                                     }
-                                    //popup(tmpStr);
                                     addNotification(tmpStr, { 0,0,0 });
-                                    //break;
                                 }
                                 else {
                                     tmpStr = "No tienes eso..";
-                                    //popup(tmpStr);
                                     addNotification(tmpStr, { 0,0,0 });
-                                    //break;
                                 }//fin venta
                             }
                             else {
@@ -588,42 +571,27 @@ void game::eventsShops()
                                     tmpStr = "Compras ";
                                     if (it->description == "FOOD") {
                                         tmpStr = tmpStr + " raciones de comida";
-                                        //popup(tmpStr);
                                         addNotification(tmpStr, { 0,0,0 });
                                         food += it->value;
-                                        // break;
                                     }
                                     else  if (it->description == "POCION VITALIDAD") {
                                         tmpStr = tmpStr + it->description;
-                                        //popup(tmpStr);
                                         addNotification(tmpStr, { 0,0,0 });
                                         potions_health += it->value;
-                                        // break;
                                     }else  if (it->description == "POCION PODER") {
                                         tmpStr = tmpStr + it->description;
-                                        //popup(tmpStr);
                                         potions_power += it->value;
-                                        // break;
                                     }else                               
                                     {
                                         tmpStr = tmpStr + it->description;
-                                        //popup(tmpStr);
                                         addNotification(tmpStr, { 0,0,0 });
 
 
                                         addItem(it->description, it->description, it->value, it->value2, it->tile, it->type, it->bonus);
 
-                                        //addItem(it->description, it->value);
-                                       // myBook.cleanShop(currentlocation, it->option);
-
                                         shop_x = tmpx;
                                         shop_y = tmpy;
                                         shop_option = it->option;
-                                        //cleanShop(tmpx, tmpy, it->option);
-                                       // tmpShop = -1;
-                                      //  tmpSHOPs = getShops(tmpx, tmpy);
-                                       // break;
-
                                     }
 
                                 }
@@ -634,34 +602,21 @@ void game::eventsShops()
                                     tmpStr = "Compras ";
                                     if (it->description == "FOOD") {
                                         tmpStr = tmpStr + " raciones de comida";
-                                        //popup(tmpStr);
                                         addNotification(tmpStr, { 0,0,0 });
                                         food += it->value;
                                     }
                                     else {
-                                        // addItem(it->description, it->value);
                                         addItem(it->description, it->description, it->value, it->value2, it->tile, it->type, it->bonus);
                                         tmpStr = tmpStr + it->description;
                                     }
-                                    //popup(tmpStr);
                                     addNotification(tmpStr, { 0,0,0 });
                                     food -= it->value2;
                                     shop_x = tmpx;
                                     shop_y = tmpy;
                                     shop_option = it->option;
-                                    //cleanShop(tmpx,tmpy, it->option);
-                                   // tmpShop = -1;
-                                    
-                                    
-
 
                                 }//food
                             }//compra / venta
-                            
-                            //tmpSHOPs.size();
-                            //tmpShops = myBook.getShops(currentlocation);
-                           // tmpSHOPs = getShops(tmpx, tmpy);
-                            //tmpSHOPs.size();
                         }  //found option
                     }//for shops
 
@@ -687,11 +642,6 @@ void game::eventsChat()
     //Event handler
     SDL_Event e;
 
-    //Info to cleanup shop options
-    //int shop_x = 0;
-    //int shop_y = 0;
-    //int shop_option = 0;
-
     //Handle events on queue
     while (SDL_PollEvent(&e) != 0)
     {
@@ -714,8 +664,6 @@ void game::eventsChat()
                 Mix_PlayMusic(musicGameOver, -1);
                 timerGameOver.start();
                 timerGameOver.reset();
-                //addNotification("Saliendo del juego");
-                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -727,7 +675,6 @@ void game::eventsChat()
                 up = false;
                 down = false;
                 currentChat = " " ;
-
             }
 
             string tmpStr = "";
@@ -786,16 +733,11 @@ void game::eventsChat()
                 for (list<CHAT>::iterator it = tmpCHATs.begin(); it != tmpCHATs.end(); it++) {
                     option++;
                     if (option == tmpChat) {//clicked this item...
-                        //addNotification(it->answer);
                         currentChat = it->answer;
                         
                       
                     }  //found option
                 }//for shops
-
-               // if (shop_x != 0) {
-               //     cleanShop(shop_x, shop_y, shop_option);
-                //}
 
             }//which button?
 
@@ -1092,7 +1034,6 @@ void game::loadNPCs()
     //Add 30 peasants in the town
     for (int x = 0; x < 30;x++)addNPC(30+x, dice(30, 90), dice(50, 120), my_enums::S_HOMETOWN_, "Campesino", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_RANDOM_, 74, { 90,130,120,170 });
     
-
     //Add main friendly NPCs shops
     addNPC(19, 109, 142, my_enums::S_HOMETOWN_, "Sabio del pueblo", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
     addNPC(20, 119, 142, my_enums::S_HOMETOWN_, "Mago del templo elemental", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 83, { 1,1,255,255 });
@@ -1170,9 +1111,7 @@ void game::loadEvents()
     addGlobalEvent(24, my_enums::S_ELEMENTAL_WATER_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
     addGlobalEvent(25, my_enums::S_ELEMENTAL_EARTH_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
     addGlobalEvent(26, my_enums::S_NECRO_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 5000, "NPC_DEFEATED");
-    //addGlobalEvent(26, my_enums::S_NECRO_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 5000, "NPC_DEFEATED");
-    
-    
+  
    
     addEvent(229, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO VUELO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
     addEvent(228, 51, my_enums::S_FOREST_WORLD_, "IF**ANILLO RESISTENCIA FUEGO", 50, 0, 0, 0, my_enums::S_HOMETOWN_, 0);
@@ -1214,10 +1153,6 @@ void game::loadEvents()
     addEvent(1, 1, my_enums::S_ELEMENTAL_FIRE_WORLD_, "TELEPORT", 0, 0, 120, 142, my_enums::S_HOMETOWN_, 0);
     addEvent(1, 1, my_enums::S_ELEMENTAL_WATER_WORLD_, "TELEPORT", 0, 0, 118, 144, my_enums::S_HOMETOWN_, 0);
     addEvent(1, 1, my_enums::S_ELEMENTAL_EARTH_WORLD_, "TELEPORT", 0, 0, 120, 144, my_enums::S_HOMETOWN_, 0);
-
-
-    
-
 
 }
 
@@ -1289,14 +1224,10 @@ void game::loadChats()
     addChat(my_enums::S_FOREST_WORLD_, 230, 50, 2, "¿Que es este edificio?", "Es un portal a otro plano, oscuro, ardiente y peligroso, no intentes entrar a menos que mejores tus habilidades y te carges de suministros");
     addChat(my_enums::S_FOREST_WORLD_, 230, 50, 3, "¿Como puedo entrar?", "Hacen falta 4 anillos de 4 dimensiones diferentes, pero es solo una parte");
     addChat(my_enums::S_FOREST_WORLD_, 230, 50, 4, "<<MISIÓN>>Después del portal...", "Cruzar el portal es solo una parte porqué despúes necesitarás una poción especial para abrir el paso... y aún no la tienes");
-
-
-
 }
 
 void game::loadShops()
 {
-
     SHOPs.clear();
 
     addShop(my_enums::S_HOMETOWN_,1, 106, 155, 1, "FOOD", 1, "GOLD", 4, 207,my_enums::_OTHER_,0);
@@ -1311,7 +1242,6 @@ void game::loadShops()
     addShop(my_enums::S_HOMETOWN_,4, 112, 161, 1, "POCION VITALIDAD", 1, "GOLD", 25, 276, my_enums::_OTHER_, 0);
     addShop(my_enums::S_HOMETOWN_,4, 112, 161, 2, "POCION PODER", 1, "GOLD", 25, 273, my_enums::_OTHER_, 0);
     addShop(my_enums::S_HOMETOWN_,4, 112, 161, 3, "ANILLO HABILIDAD+1", 1, "GOLD", 50, 220, my_enums::_RING_, 1);
-
 
     //outside hometown
     addShop(my_enums::S_COAST_WORLD_, 1, 1, 1, 1, "FOOD", 1, "GOLD", 4, 207, my_enums::_OTHER_, 0);
@@ -1357,22 +1287,6 @@ void game::loadShops()
     addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 3, 1, 1, 4, "CASCO TITANIUM", 1, "GOLD", 100, 160, my_enums::_HELMET_, 4);
     addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 3, 1, 1, 5, "ESCUDO TITANIUM", 1, "GOLD", 100, 151, my_enums::_SHIELD_, 4);
     addShop(my_enums::S_ELEMENTAL_FIRE_WORLD_, 4, 1, 1, 6, "ANILLO SUERTE+4", 1, "GOLD", 400, 220, my_enums::_RING_, 4);
-
-
-    /*
-        addShop(36, 79, 71, 1 , "**ANILLO DE INVISIBILIDAD" , 1 , "GOLD", 10,229);
-        addShop(36, 79, 71, 2 , "**ANILLO DE FUEGO" , 1 , "GOLD", 8,238);
-        addShop(36, 79, 71, 3 , "**ANILLO DE HIELO" , 1 , "GOLD", 7,231);
-        addShop(52, 80, 71, 1 , "**CUCHILLO ARROJADIZO" , 1 , "GOLD", 4,30);
-        addShop(52, 80, 71, 2 , "**CUERDA ESCALAR" , 1 , "GOLD", 2,1);
-        addShop(52, 80, 71, 3 , "**GANCHO DE CARNICERO" , 1 , "GOLD", 2,30);
-        addShop(52, 80, 71, 4 , "**PINCHO DE HIERRO" , 1 , "GOLD", 1,30);
-        addShop(52, 80, 71, 5 , "**LINTERNA" , 1 , "GOLD", 3,329);
-        addShop(287, 81, 71, 1 , "FOOD" , 1 , "GOLD", 4,207);
-        addShop(293, 82, 71, 1 , "**PETALOS MAGICOS" , 10 , "FOOD", 2,1);
-        addShop(293, 82, 71, 2 , "**PETALOS MAGICOS" , 10 , "GOLD", 2,1);
-        addShop(302, 83, 71, 1 , "**GEMA" , -2 , "GOLD", 9,338);
-            */
 
 }
 
@@ -1537,10 +1451,6 @@ void game::start()
 
     loadEvents();
 
-   
-
-//Base map creation
-   // baseMap.createSurface();
     int width, height;
     width = 256;
     height = 256;
@@ -1593,8 +1503,7 @@ bool game::initSDL()
 
         //Create window
         gWindow = SDL_CreateWindow("Achievement Master", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Width, Height, SDL_WINDOW_FULLSCREEN_DESKTOP);
-        //gWindow = SDL_CreateWindow("Achievement Master", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Width, Height, SDL_WINDOW_FULLSCREEN);
-
+  
         if (gWindow == NULL)
         {
             printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -1680,10 +1589,6 @@ void game::closeSDL()
 
     //Quit SDL subsystems
     SDL_Quit();
-
-
-
-
 
     //Quit SDL subsystems
      //Quit SDL_mixer
@@ -1964,12 +1869,7 @@ void game::drawScreens()
         break;
     }
 
-  
-
-
-    
-
-    case my_enums::S_FOREST_WORLD_: case my_enums::S_COAST_WORLD_: case my_enums::S_ELEMENTAL_FIRE_WORLD_: case my_enums::S_ELEMENTAL_WATER_WORLD_: case my_enums::S_ELEMENTAL_EARTH_WORLD_: case my_enums::S_ELEMENTAL_WIND_WORLD_: case my_enums::S_NECRO_WORLD_:
+      case my_enums::S_FOREST_WORLD_: case my_enums::S_COAST_WORLD_: case my_enums::S_ELEMENTAL_FIRE_WORLD_: case my_enums::S_ELEMENTAL_WATER_WORLD_: case my_enums::S_ELEMENTAL_EARTH_WORLD_: case my_enums::S_ELEMENTAL_WIND_WORLD_: case my_enums::S_NECRO_WORLD_:
     case my_enums::S_HOMETOWN_:
     {
         screenHomeTown();
@@ -1987,9 +1887,6 @@ void game::drawScreens()
 
 void game::screenMaster() {
     screenPlayer();
-
-
-    
 
     tmpRect.x = 1;
     tmpRect.y = 1;
@@ -2142,8 +2039,7 @@ bool game::loadMedia(string base)
     aFile = images + "creatures_alpha.png";
     playersSurface = loadSurface(aFile);
     SDL_SetColorKey(playersSurface, SDL_TRUE, // enable color key (transparency)
-    //SDL_MapRGB(playersSurface->format, 0xFF, 0, 0xFF)); // This is the color that should be taken as being the 'transparent' part of the image
-    SDL_MapRGB(playersSurface->format, 71, 108, 108)); // This is the color that should be taken as being the 'transparent' part of the image
+     SDL_MapRGB(playersSurface->format, 71, 108, 108)); // This is the color that should be taken as being the 'transparent' part of the image
 
     playersTexture = SDL_CreateTextureFromSurface(gRenderer, playersSurface);
 
@@ -2151,7 +2047,6 @@ bool game::loadMedia(string base)
     aFile = images + "items_alpha.png";
     itemsSurface = loadSurface(aFile);
     SDL_SetColorKey(itemsSurface, SDL_TRUE, // enable color key (transparency)
-        //SDL_MapRGB(playersSurface->format, 0xFF, 0, 0xFF)); // This is the color that should be taken as being the 'transparent' part of the image
         SDL_MapRGB(itemsSurface->format, 71, 108, 108)); // This is the color that should be taken as being the 'transparent' part of the image
 
     itemsTexture = SDL_CreateTextureFromSurface(gRenderer, itemsSurface);
@@ -2160,15 +2055,12 @@ bool game::loadMedia(string base)
     aFile = images + "terrain_alpha.png";
     locationsSurface = loadSurface(aFile);
     SDL_SetColorKey(locationsSurface, SDL_TRUE, // enable color key (transparency)
-        //SDL_MapRGB(playersSurface->format, 0xFF, 0, 0xFF)); // This is the color that should be taken as being the 'transparent' part of the image
-       // SDL_MapRGB(locationsSurface->format, 255, 0, 255)); // This is the color that should be taken as being the 'transparent' part of the image
         SDL_MapRGB(locationsSurface->format, 71, 108, 108)); // This is the color that should be taken as being the 'transparent' part of the image
 
     locationsTexture = SDL_CreateTextureFromSurface(gRenderer, locationsSurface);
    
     aFile = images + "15771169063_9f6d64ce74_b.jpg";
 
-     // aFile = images + "12594319284_aac8307463_b.jpg";
 bg1Surface = loadSurface(aFile);
 bg1Texture = SDL_CreateTextureFromSurface(gRenderer, bg1Surface);
 
@@ -2180,8 +2072,6 @@ bg2Texture = SDL_CreateTextureFromSurface(gRenderer, bg2Surface);
 talkTexture = loadTexture(images + "talk.png");
 
 buttonCloseTexture    = loadTexture(images + "exit-door.png");
-//buttonNextTexture     = loadTexture(images + "clockwise-rotation.png");
-//buttonPrevTexture     = loadTexture(images + "anticlockwise-rotation.png");
 buttonNextTexture = loadTexture(images + "next-button.png");
 buttonPrevTexture     = loadTexture(images + "previous-button.png");
 
@@ -2209,9 +2099,6 @@ buttonSummonTexture = loadTexture(images + "magic-hat.png");
 buttonSoundOnTexture  = loadTexture(images + "speaker.png");
 buttonSoundOffTexture = loadTexture(images + "speaker-off.png");
 
-//classButton bowButton;
-//classButton drainButton;
-
 buttonUpTexture = loadTexture(images + "up-button.png");
 buttonDownTexture = loadTexture(images + "down-button.png");
 buttonLeftTexture = loadTexture(images + "left-button.png");
@@ -2224,8 +2111,6 @@ buttonPotionHealthTexture = loadTexture(images + "potion-health.png");
 buttonPotionMagicTexture = loadTexture(images + "potion-magic.png");
 buttonFoodTexture = loadTexture(images + "bread.png");
 
-
-    //string TTFFile = fonts + "712_serif.ttf";
 string TTFFile = fonts + "PressStart2P.ttf";
     
     //Open the font
@@ -2288,17 +2173,9 @@ string TTFFile = fonts + "PressStart2P.ttf";
     MUSIC = sounds + "Mystical_Theme.mp3";
     musicMYSTICAL = Mix_LoadMUS(MUSIC.c_str());
 
-    // MUSIC = sounds + "";
-     //music = Mix_LoadMUS(MUSIC.c_str());
-
-
-
     string Audio6 = sounds + "click.wav";
     audioButton = Mix_LoadWAV(Audio6.c_str());
-
-
-
-    
+   
     Audio6 = sounds + "swish_2.wav";
     sword  = Mix_LoadWAV(Audio6.c_str());
 
@@ -2332,17 +2209,6 @@ string TTFFile = fonts + "PressStart2P.ttf";
     Audio6 = sounds + "metal-clash.wav";
     weapon  = Mix_LoadWAV(Audio6.c_str());
     
-
-    /* Audio6 = sounds + "line.wav";
-    line = Mix_LoadWAV( Audio6.c_str());
-
-     Audio6 = sounds + "block.wav";
-     block = Mix_LoadWAV( Audio6.c_str());
-
-     Audio6 = sounds + "loose.wav";
-     loose = Mix_LoadWAV( Audio6.c_str());
-     */
-
     Audio6 = sounds + "achievement.wav";
     win = Mix_LoadWAV(Audio6.c_str());
 
@@ -2377,11 +2243,9 @@ void game::drawButton(classButton btn)
     SDL_RenderDrawLine(gRenderer, target.x, target.y + target.h, target.x + target.w, target.y + target.h);
     SDL_RenderDrawLine(gRenderer, target.x + target.w, target.y, target.x + target.w, target.y + target.h);
 
-
     SDL_Color fg = { 0,0,0,0 };
     SDL_Surface* text = TTF_RenderUTF8_Solid(gFont, btn.getCaption().c_str(), fg);
 
-    //SDL_Rect target = btn.getRect();
     if (text->w <= target.w) {
         target.x = target.x + target.w / 2 - text->w / 2;
         target.w = text->w;
@@ -2565,11 +2429,6 @@ void game::drawMiniMap()
     destRect.x = gScreenSurface->w / 2 + 226;
     drawTextResize("E", destRect);
     screenFlip();
-
-
-    //SDL_Delay(3000);
-
-
 
     bool quit = false;
     while (!quit)
@@ -2782,26 +2641,17 @@ void game::screenWIN()
         }
 
         if (elapsed > 3000) {
-
-
-
-            //  destRect.x = gScreenSurface->w / 2;
             destRect.y = gScreenSurface->h / 2;
-            //    destRect.w = gScreenSurface->w / 2;
             destRect.h = 100;
             drawSquare(destRect, lightGreyColor);
             drawTextBlock("Observas como el señor oscuro se retuerze en el suelo y te habla por última vez...", destRect);
-
         }
 
         if (elapsed > 5000) {
-            // destRect.x = gScreenSurface->w / 4;
             destRect.y = gScreenSurface->h / 4 * 3;
-            //   destRect.w = gScreenSurface->w / 2;
             destRect.h = 150;
             drawSquare(destRect, lightGreyColor);
             drawTextBlock("SEÑOR OSCURO: Solo un ser puro que ha conseguido todos los logros en esta vida podía derrotarme..., Tu.. eres.. ", destRect);
-
         }
 
          if (elapsed > 7000) {
@@ -4515,8 +4365,6 @@ void game::screenPlayerArchetypes()
     drawTextBlock("MAGO: Comienzas con la habilidad de MAGIA (Ataques con magia)", tmpRect);
     tmpRect.y = 750;
     drawTextBlock("NECROMANTE:  Comienzas con la habilidad de DRENAR  (Ataques con magia que drenan vida)", tmpRect);
-  //  tmpRect.y = 900;
-  //  drawTextBlock("INVOCADOR:  Comienzas con la habilidad de INVOCAR", tmpRect);
 }
 
 
@@ -5619,53 +5467,44 @@ void game::eventsConfigMenu()
                 case 1:
                     currentMusic = 2;
                     Mix_PlayMusic(musicDARK, -1);
-                   // addAchievement("Musica DARK", my_enums::_OPTIONS_);
                     break;
                 case 2:
                     currentMusic = 3;
                     Mix_PlayMusic(musicFOREST, -1);
-                    //addAchievement("Musica FOREST", my_enums::_OPTIONS_);
                     break;
                 case 3:
                     currentMusic = 4;
                     Mix_PlayMusic(musicTOWN, -1);
-                  //  addAchievement("Musica TOWN", my_enums::_OPTIONS_);
                     break;
 
                 case 4:
                     currentMusic = 5;
                     Mix_PlayMusic(musicBATTLE, -1);
-                    //addAchievement("Musica BATTLE", my_enums::_OPTIONS_);
                     break;
 
                 case 5:
                     currentMusic = 6;
                     Mix_PlayMusic(musicBOSS, -1);
-                  //  addAchievement("Musica BOSS", my_enums::_OPTIONS_);
                     break;
 
                 case 6:
                     currentMusic = 7;
                     Mix_PlayMusic(musicCAVE, -1);
-                   // addAchievement("Musica CAVE", my_enums::_OPTIONS_);
                     break;
 
                 case 7:
                     currentMusic = 8;
                     Mix_PlayMusic(musicHERO, -1);
-                   // addAchievement("Musica HERO", my_enums::_OPTIONS_);
                     break;
 
                 case 8:
                     currentMusic = 9;
                     Mix_PlayMusic(musicMYSTICAL, -1);
-                  //  addAchievement("Musica MYSTICAL", my_enums::_OPTIONS_);
                     break;
 
                 case 9:
                     currentMusic = 1;
                     Mix_PlayMusic(musicINTRO, -1);
-                  //  addAchievement("Musica INTRO", my_enums::_OPTIONS_);
                     break;
 
                 }
@@ -5997,12 +5836,6 @@ void game::processAI()
                         if (py > it->y) { tmpy++; }
                     }
                 }
-                /*
-                if (px < it->x) { tmpx--; }
-                if (py < it->y) { tmpy--; }
-                if (px > it->x) { tmpx++; }
-                if (py > it->y) { tmpy++; }
-                */
 
                 if (!collide(tmpx, tmpy,false)) {
                     if (insideBoundaries(tmpx, tmpy, it->boundaries)) {
@@ -6610,12 +6443,10 @@ void game::eventsFight()
                 //Process player attack
                 if (good > bad) {
                     NPC tmpNPC = tmpNPCs.front();
-                    //addNotification("Has herido a "+ tmpNPC.description +"!!", { 0,0,0 });
+
                     fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(damage) + " puntos de vida";
                     tmpNPC.stamina -= damage;
                     if (tmpNPC.stamina <= 0) {
-                        //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                         //addNotification("Has derrotado a "+ tmpNPC.description +"!!", { 0,0,0 });
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
@@ -6648,22 +6479,16 @@ void game::eventsFight()
                     if (bad > good) {
                         enemyDamage = tmpNPCs.begin()->damage;
                         stamina -= enemyDamage;
-                        //addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+
                         fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                         if (stamina <= 0) {
                             fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
-                            //addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+;
 
                             setState(my_enums::S_HERO_);
                             changeMusic();
                             deleteNPCs(px, py);
-                            //Mix_PlayMusic(musicGameOver, -1);
                             addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                            //Mix_PlayMusic(musicHERO, -1);
-                           // timerGameOver.start();
-                            //timerGameOver.reset();
-                            //addNotification("Saliendo del juego");
-                            //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                         }
 
                     }
@@ -6694,12 +6519,9 @@ void game::eventsFight()
                 //Process player attack
                 if (good > bad) {
                     NPC tmpNPC = tmpNPCs.front();
-                    //addNotification("Has herido a " + tmpNPC.description + "!!", { 0,0,0 });
                     fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(damage) + " puntos de vida";
                     tmpNPC.stamina -= damage;
                     if (tmpNPC.stamina <= 0) {
-                        //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        //addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
                         //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
@@ -6741,22 +6563,13 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                          //  addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
-                         //   if (stamina <= 0) {
-                          //      addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                             fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                             if (stamina <= 0) {
                                 fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 setState(my_enums::S_HERO_);
                                 changeMusic();
                                 deleteNPCs(px, py);
-                                //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                                //Mix_PlayMusic(musicHERO, -1);
-                               // timerGameOver.start();
-                              //  timerGameOver.reset();
-                                //addNotification("Saliendo del juego");
-                                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
 
                         }
@@ -6784,14 +6597,10 @@ void game::eventsFight()
                 int goodLuck = dice(10, 1) + luck;
                 int badLuck = dice(10, 1) + tmpNPCs.begin()->luck;
                 if (goodLuck > badLuck) {
-                   // addNotification("Ataque por sorpresa", { 0,0,0 });
                     fightPlayer = "Ataque por sorpresa a " + tmpNPC.description + " por " + to_string(damage+1) + " puntos de vida";
                     tmpNPC.stamina -= (damage + 1);
                     if (tmpNPC.stamina <= 0) {
-                        //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        //addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
-                        //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         dropLoot(tmpNPC.x, tmpNPC.y, tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -6809,7 +6618,6 @@ void game::eventsFight()
                     }
                 }
                 else {
-                    //addNotification("Te han descubierto ", { 0,0,0 });
                     
                     int enemyDamage = tmpNPCs.begin()->damage;
                     stamina -= enemyDamage;
@@ -6819,13 +6627,7 @@ void game::eventsFight()
                         setState(my_enums::S_HERO_);
                         changeMusic();
                         deleteNPCs(px, py);
-                        //Mix_PlayMusic(musicGameOver, -1);
                         addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                        //Mix_PlayMusic(musicHERO, -1);
-                       // timerGameOver.start();
-                       // timerGameOver.reset();
-                        //addNotification("Saliendo del juego");
-                        //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                     }
                 }
 
@@ -6860,23 +6662,14 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                          //  addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
-//                            if (stamina <= 0) {
                             fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                             if (stamina <= 0) {
                                 fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 turn = 0;
-  //                              addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 changeMusic();
                                 deleteNPCs(px, py);
-                                //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                               // Mix_PlayMusic(musicHERO, -1);
-                              //  timerGameOver.start();
-                              //  timerGameOver.reset();
-                                //addNotification("Saliendo del juego");
-                                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
 
                         }
@@ -6919,24 +6712,16 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                            //addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
-                            //if (stamina <= 0) {
 
                             fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                             if (stamina <= 0) {
                                 fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 turn = 0;
-                               // addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 changeMusic();
                                 deleteNPCs(px, py);
-                                //Mix_PlayMusic(musicGameOver, -1);
                                 addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                               // Mix_PlayMusic(musicHERO, -1);
-                               // timerGameOver.start();
-                               // timerGameOver.reset();
-                                //addNotification("Saliendo del juego");
-                                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+ 
                             }
 
                         }
@@ -6960,17 +6745,11 @@ void game::eventsFight()
 
                     NPC tmpNPC = tmpNPCs.front();
                     if (attackPower > tmpNPC.stamina)attackPower = tmpNPC.stamina;
-
-
-                   // addNotification("Has herido a " + tmpNPC.description + "!!", { 0,0,0 });
                     fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(damage) + " puntos de vida";
                     tmpNPC.stamina -= attackPower;
                     power -= attackPower;
                     if (tmpNPC.stamina <= 0) {
-                        //   cout << "Has derrotado a " << tmpFoe.description << endl;
-                        //addNotification("Has derrotado a " + tmpNPC.description + "!!", { 0,0,0 });
                         fightPlayer += ", Has derrotado a " + tmpNPC.description + "!!";
-                        //Mix_PlayChannel(-1, audioMaleDeath, 0);
                         addExp(tmpNPC.exp);
                         dropLoot(tmpNPC.x, tmpNPC.y, tmpNPC.exp);
                         tmpNPCs.pop_front();
@@ -7000,22 +6779,13 @@ void game::eventsFight()
                         if (bad > good) {
                             int enemyDamage = tmpNPCs.begin()->damage;
                             stamina -= enemyDamage;
-                            //addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
-                           // if (stamina <= 0) {
                             fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
                             if (stamina <= 0) {
                                 fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                                 turn = 0;
-                              //  addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
                                 setState(my_enums::S_HERO_);
                                 changeMusic();
                                 deleteNPCs(px, py);
-                                //Mix_PlayMusic(musicGameOver, -1);
-                                //Mix_PlayMusic(musicHERO, -1);
-                               // timerGameOver.start();
-                               //// timerGameOver.reset();
-                                //addNotification("Saliendo del juego");
-                                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
                             }
 
                         }
@@ -7089,9 +6859,6 @@ void game::eventsFight()
                                 setState(my_enums::S_HERO_);
                                 changeMusic();
                                 deleteNPCs(px, py);
-                                //Mix_PlayMusic(musicHERO, -1);
-                                timerGameOver.start();
-                                timerGameOver.reset();
                             }
 
                         }
@@ -7110,7 +6877,6 @@ void game::eventsFight()
 
             if (tmpNPCs.size() == 0) {
                 turn = 0;
-                //Mix_PlayMusic(musicTOWN, -1);
                 deleteNPCs(px, py);
                 setState(previousScreen);
                 changeMusic();
@@ -7281,31 +7047,18 @@ void game::eventsHomeTown()
 
             if (moveRightButton.clicked(mousex, mousey)) {
                 right = true;
-                //px++;
-                //updateMap();
-                
-                
             }//config button
 
             if (moveLeftButton.clicked(mousex, mousey)) {
                 left = true;
-                //px--;
-                //updateMap();
-                //baseMap.blur();
             }//config button
 
             if (moveDownButton.clicked(mousex, mousey)) {
                 down = true;
-                //py++;
-                //updateMap();
-                //baseMap.blur();
             }//config button
 
             if (moveUpButton.clicked(mousex, mousey)) {
                 up = true;
-                //py--;
-                //updateMap();
-               // baseMap.blur();
             }//config button
 
             if (mapButton.clicked(mousex, mousey)) {
@@ -7385,27 +7138,18 @@ void game::eventsHomeTown()
             {
             case SDLK_a:
                 left = true;
-                //px--;
-                //updateMap();
-              
                 break;
 
             case SDLK_w:
                 up = true;
-                //py--;
-                //updateMap();
                 break;
 
             case SDLK_s:
                 down = true;
-                //py++;
-                //updateMap();
                 break;
 
             case SDLK_d:
                 right = true;
-                //px++;
-                //updateMap();
                 break;
 
 
@@ -7423,7 +7167,6 @@ void game::eventsHomeTown()
     if (up)tmpy--;
     if (down)tmpy++;
     if (!foundNPC)phaseNPCs();
-   // myTime = (int)(timer.getTicks() / 1000);
 }
 
 bool game::checkNPC(int x, int y)
@@ -7432,7 +7175,6 @@ bool game::checkNPC(int x, int y)
     int tmpx = cam_x + (x / (gScreenSurface->w / cam_size_x));
     int tmpy = cam_y + (y / (gScreenSurface->h / cam_size_y));
      
-     //std::list<NPC> tmpNPCs2 = getNPCs(tmpx, tmpy);
     tmpNPCs = getNPCs(tmpx, tmpy);
     if (tmpNPCs.size() > 0) {
         INT Xx = 1;
@@ -7441,7 +7183,6 @@ bool game::checkNPC(int x, int y)
             previousScreen = getStringState(currentState);
             setState(my_enums::S_CHAT_);
             foundNPC = true;
-
         }
         else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_SHOP_) {
             tmpSHOPs = getShops(tmpx, tmpy);
@@ -7449,7 +7190,6 @@ bool game::checkNPC(int x, int y)
             setState(my_enums::S_SHOP_);
             foundNPC = true;
         }else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_MASTER_) {
-            //tmpSHOPs = getShops(tmpx, tmpy);
             previousScreen = getStringState(currentState);
             setState(my_enums::S_MASTER_);
             foundNPC = true;
@@ -7489,38 +7229,6 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
 
             }
         }
-
-        /*
-        if (state == my_enums::S_FOREST_WORLD_) {
-            for (list<EVENT>::iterator it = EVENTs.begin(); it != EVENTs.end(); it++)
-            {
-                if ((it->description == "IF** MEDALLON OSCURO") && (it->map == state)) {//update door check
-                    int x = 1, y = 1;
-                    baseMap.getLocation(&x, &y, 573);
-                    it->x = x+2;
-                    it->y = y;
-                }
-            }
-        }*/
-
-        
-
-
-
-        //Update NPC_DEFEAT events  
-        /*
-            for (list<GLOBAL_EVENT>::iterator it = GLOBAL_EVENTs.begin(); it != GLOBAL_EVENTs.end(); it++)
-            {
-                if ((it->description == "TELEPORT") && (it->map == state)) {//update teleporter location
-                    int x = 1, y = 1;
-                    baseMap.getLocation(&x, &y, 56);
-                    it->x = x;
-                    it->y = y;
-                }
-
-            }
-            */
-  
 
         //Update NPC locations
         for (list<NPC>::iterator it = NPCs.begin(); it != NPCs.end(); it++)
@@ -7574,10 +7282,6 @@ void game::updateNPCandEVENTS(my_enums::gameState state) {
                 it->y = y;
             }
         }
-
-
-        
-
 
 
 

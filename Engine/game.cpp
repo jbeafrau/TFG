@@ -247,7 +247,13 @@ void game::phaseNPCs()
                  py = tmpy;
                  checkBoundaries();
                  updateMap();
-                 Mix_PlayMusic(musicBATTLE, -1);
+                 if ((tmpNPCs.begin()->id == 4000) || (tmpNPCs.begin()->id == 5000)) {
+                     Mix_PlayMusic(musicBOSS, -1);
+                 }
+                 else {
+                     Mix_PlayMusic(musicBATTLE, -1);
+                 }
+                 
                  previousScreen = getStringState(currentState);
                  setState(my_enums::S_FIGHT_);
              }
@@ -1128,8 +1134,8 @@ void game::loadNPCs()
     addNPC(2000, 230, 50, my_enums::S_FOREST_WORLD_, "Figura oscura", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 198, { 1,1,255,255 });
     addNPC(3000, 1, 1, my_enums::S_FOREST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, 160, { 1,1,250,250 });
 
-    addNPC(4000, 129, 158, my_enums::S_NECRO_WORLD_, "GOLEM", 15, 50, 15, 15, 4, my_enums::_FRIENDLY_STATIC_, 160, { 1,1,250,250 });
-    addNPC(5000, 123, 158, my_enums::S_NECRO_WORLD_, "SEÑOR OSCURO", 16, 60, 15, 15, 4, my_enums::_ENEMY_STATIC_, 160, { 1,1,250,250 });
+    addNPC(4000, 129, 158, my_enums::S_NECRO_WORLD_, "GOLEM", 15, 50, 15, 15, 4, my_enums::_FRIENDLY_STATIC_, 55, { 1,1,250,250 });
+    addNPC(5000, 123, 158, my_enums::S_NECRO_WORLD_, "SEÑOR OSCURO", 16, 60, 15, 15, 4, my_enums::_ENEMY_STATIC_, 32, { 1,1,250,250 });
    
 }
 

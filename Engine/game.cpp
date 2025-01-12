@@ -1162,8 +1162,10 @@ void game::loadEvents()
     addGlobalEvent(9, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 300, "HAVE_ITEM ANILLO RESISTENCIA FUEGO");
     addGlobalEvent(10, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 400, "HAVE_ITEM ANILLO RESPIRAR AGUA");
     addGlobalEvent(11, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM ANILLO DE LA TIERRA");
+    addGlobalEvent(12, my_enums::S_HOMETOWN_, { 111, 160,113, 162 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM LIBRO RECETAS");
+    addGlobalEvent(13, my_enums::S_HOMETOWN_, { 118,141,120,144 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM POCION NEGRA");
 
-    addGlobalEvent(11, my_enums::S_HOMETOWN_, { 111, 160,113, 162 }, { 0,0,0,0 }, 0, 500, "HAVE_ITEM LIBRO RECETAS");
+    
    
     addGlobalEvent(20, my_enums::S_COAST_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
     addGlobalEvent(21, my_enums::S_FOREST_WORLD_, { 0,0,0,0 }, { 0,0,0,0 }, 0, 3000, "NPC_DEFEATED");
@@ -1377,7 +1379,7 @@ void game::setButtonDefaults()
     //Set button´s size, position and caption
     titleButton.setButton(gScreenSurface->w / 2 - 450, gScreenSurface->h / 4, 900, 100, "");
 
-    itemSelectedButton.setButton(gScreenSurface->w / 2 - 200, 350, 400, gScreenSurface->h - 350, " ");
+    itemSelectedButton.setButton(gScreenSurface->w / 2 - 200, 350, 850, gScreenSurface->h - 350, " ");
 
     achievementGroup0Button.setButton(gScreenSurface->w / 2 - 250, 200, 100, 50, "");
     achievementGroup1Button.setButton(gScreenSurface->w / 2 - 250, 250, 100, 50, "");
@@ -4320,12 +4322,20 @@ void game::screenInventory()
         drawTileset({ gScreenSurface->w / 2 - 250,tmpy,50,50 }, itemsTexture, 273, 20);  
         
 
+        int itemCounter = 0;
+        int x_offset = 0;
         for (list<item>::iterator it = items.begin(); it != items.end(); it++)
         {
+            
+            itemCounter++;
+            if (itemCounter == 11) {
+                tmpy -= 500;
+                x_offset = 450;
+            }
             tmpy += 50;
             tmpRect.y = tmpy;
 
-            tmpRect.x = gScreenSurface->w / 2 - 250;
+            tmpRect.x = gScreenSurface->w / 2 - 250 + x_offset;
             tmpRect.w = 50;
             drawTileset(tmpRect, itemsTexture, it->tile,20);
 
@@ -4336,7 +4346,7 @@ void game::screenInventory()
                 tmpString = it->name + " (" + to_string(it->count) + ") valor:" + to_string(it->value);
             }
             tmpRect.w = 400;
-            tmpRect.x = gScreenSurface->w / 2 - 200;
+            tmpRect.x = gScreenSurface->w / 2 - 200 + x_offset;
             drawText(tmpString, tmpRect);
 
         }
@@ -5538,6 +5548,11 @@ void game::eventsInventory()
             if (itemSelectedButton.clicked(mousex, mousey)) {
                 int y = mousey - 350;
                 int itemSelected = (y / 50) + 1;
+
+                if (mousex > gScreenSurface->w / 2 + 200)itemSelected += 10;
+
+                //itemSelectedButton.setButton(gScreenSurface->w / 2 - 200, 350, 850, gScreenSurface->h - 350, " ");
+
                 if (items.size() >= itemSelected) {
                       std::list<item>::iterator it = items.begin();
                     if (itemSelected > 1) {
@@ -6024,7 +6039,7 @@ void game::processAI()
                             if (itemName == "MEDALLON OSCURO") {
                                 addAchievement("Rey de los planos", my_enums::_MISSIONS_);
                                 removeChat(119, 142, 2);
-                                addChat(my_enums::S_HOMETOWN_, 119, 142, 2, "<<MISIÓN>>El bosque oscuro", "No paras de sorependerme, ese collar que has conseguido... creo que en realidad es una llave para abrir una puerta a un edificio donde se aloja el mal, creo que es hora que te acerques al bosque oscuro, sigue el camino al moroeste del pueblo");
+                                addChat(my_enums::S_HOMETOWN_, 119, 142, 2, "<<MISIÓN>>El bosque oscuro", "No paras de sorprenderme, ese collar que has conseguido... creo que en realidad es una llave para abrir una puerta a un edificio donde se aloja el mal, creo que es hora que te acerques al bosque oscuro, sigue el camino al moroeste del pueblo");
                             }
 
                             if (itemName == "LIBRO RECETAS") {

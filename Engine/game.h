@@ -22,11 +22,6 @@
 #include <SDL_mixer.h>
 #endif
 
-/*  GAME DESIGN NOTES
- 
-
-*/
-
 struct NPC { //enemy definition
     int id=0;
     int x=0,y=0;
@@ -66,7 +61,6 @@ struct SHOP { // shop definition
     int x, y;
     int option;
     string description;
-    //LUCKROLL,SKILL,STAMINA,LUCK,GOLD,FOOD,SKILLPOTION,STAMINAPOTION,LUCKPOTION
     int value;
     string description2;
     int value2; 
@@ -121,7 +115,6 @@ struct GLOBAL_EVENT {
     int distance;
     int NPCID;
     string description;
-    //CHANGEAI/ADDMONSTER
 };
 
 
@@ -152,7 +145,6 @@ public:
 
 
     void start();
-  //  int dice(int maxValue, int minValue);
 
     int getState();
     my_enums::gameState getStringState(int state);
@@ -175,7 +167,6 @@ public:
     void addSkill(std::string skill);
     bool hasSkill(std::string skill);
 
-    //void addNotification(std::string notification);
     void addNotification(std::string notification, SDL_Color color);
 
     void eventsNotifications();
@@ -299,7 +290,6 @@ public:
     void addShop(my_enums::gameState map, int id, int x, int y, int option, std::string description, int value, std::string  description2, int value2, int tile, my_enums::itemTypes type, int bonus);
 
     list<CHAT> getChat(int x, int y);
-    //void cleanShop(int x, int y, int option);
     void addChat(my_enums::gameState map, int x, int y, int option, std::string question, std::string  answer);
     void removeChat(int x, int y, int option);
 

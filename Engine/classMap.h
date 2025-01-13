@@ -5,8 +5,6 @@
 //#include "tileset.h"
 #include "mapgenerator.h"
 
-
-
 #include <stdio.h>
 
 #ifdef linux
@@ -51,21 +49,11 @@ public:
 protected:
 private:
     int startx, starty, endx, endy; //,scale;
-//    Sprite2 image;
- //   Sprite2 tileset;
-
     SDL_Rect  originrect;
     SDL_Rect  destrect;
-
     SDL_Rect  miniorigin;
     SDL_Rect  minidest;
-
-  // SDL_Surface* surface;
-
-
-   int blur_extent = 5;
-  
-
+    int blur_extent = 5;
     Uint32 rmask, gmask, bmask, amask;
     int width, height;
     int map_cells[300][300];

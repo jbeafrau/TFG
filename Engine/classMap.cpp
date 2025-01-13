@@ -75,9 +75,7 @@ SDL_Rect classMap::getBuildingSpotFlat(int w, int h)
         spotFound = true;
         for (int sx = x; sx <= x + w; sx++) {
             for (int sy = y; sy <= y + h; sy++) {
-              //  const float* cell = mymap.heightMap.GetConstSlabPtr(sx, sy);
                 if (map_cells[sx][sy] == 9) {
-                    //if (*cell < 0.125){
                     spotFound = false;
                     break;
                 }
@@ -89,8 +87,6 @@ SDL_Rect classMap::getBuildingSpotFlat(int w, int h)
         }
 
     }
-
-
     return { x,y,w,h };
 }
 

@@ -20,13 +20,6 @@
 
 #include "enum.h"
 
-/*
-struct seed{
-    int octave;
-    int frequency;
-    float persistance;
-};*/
-
 using namespace noise;
 
 class mapgenerator
@@ -35,9 +28,6 @@ class mapgenerator
      module::Perlin myModule;
      utils::NoiseMap heightMap;
      utils::NoiseMapBuilderPlane heightMapBuilder;
-   // seed seed_a;
-  //  seed seed_b;
-
         mapgenerator();
         virtual ~mapgenerator();
         void init ();

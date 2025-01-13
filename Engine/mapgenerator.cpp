@@ -3,18 +3,6 @@
 using namespace noise;
 using namespace utils;
 
-/*
-1-Genera semilla a + b
-2-Muestra semilla a
-3-Mapa sencillo A>
-4-Genera mix a-b
-5-muestra mix a-b
-6-Mapa con transición A-B>
-7-semilla a =  semilla b
-8-genera semilla b
-9-Ir a punto 2 */
-
-
 mapgenerator::mapgenerator()
 {
     //ctor
@@ -28,10 +16,8 @@ mapgenerator::~mapgenerator()
 
 void mapgenerator::init ()
 {
-
 heightMapBuilder.SetSourceModule (myModule);
 heightMapBuilder.SetDestNoiseMap (heightMap);
-
 }
 
 
@@ -169,7 +155,6 @@ void mapgenerator::to_surface(SDL_Surface *surface, int currentState)
 	  break;
   }
 
-
   case my_enums::S_NECRO_WORLD_:
   {
   module::Billow baseFlatTerrain;
@@ -207,8 +192,6 @@ void mapgenerator::to_surface(SDL_Surface *surface, int currentState)
   }
   };
 
-
-
 renderer.EnableLight();
 renderer.SetLightContrast(3.0);
 renderer.SetLightBrightness(2.0);
@@ -220,16 +203,11 @@ heightMapBuilder.SetDestNoiseMap(heightMap);
 int width  = image.GetWidth  ();
 int height = image.GetHeight ();
 
-
-
-
 int x,y;
 Uint32 pixel;
 for (x=1;x<width;x++){
     for (y=1;y<height;y++){
         const Color* pSource = image.GetConstSlabPtr (x, y);
-        //color = heightMap.GetConstSlabPtr (x, y);
-        //pixel = SDL_MapRGBA(surface ->format, 255, pSource ->green, pSource ->blue, 255); red world
         pixel = SDL_MapRGBA(surface ->format, pSource ->red, pSource ->green, pSource ->blue, pSource ->alpha);
         put_pixel32( surface, x,  y, pixel ); // r g b  a
 
@@ -238,8 +216,6 @@ for (x=1;x<width;x++){
 
 }
 
-
-
 void mapgenerator::put_pixel32( SDL_Surface *surface, int x, int y, Uint32 pixel )
 {
     //Convert the pixels to 32 bit
@@ -247,10 +223,3 @@ void mapgenerator::put_pixel32( SDL_Surface *surface, int x, int y, Uint32 pixel
     //Set the pixel
     pixels[ ( y * surface->w ) + x ] = pixel;
 }
-
-
-//const Color* GetConstSlabPtr (int x, int y) const
-
-
-
-

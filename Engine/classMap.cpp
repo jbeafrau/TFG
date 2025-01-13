@@ -194,8 +194,6 @@ void classMap::generateTiles(int currentState)
         SDL_Rect evilBuilding = getBuildingSpotFlat(w, h);
         building(evilBuilding, 9, 0, evilBuilding.x + evilBuilding.w, evilBuilding.y + evilBuilding.h / 2, 54);
         map_cells[evilBuilding.x + evilBuilding.w/2 ][evilBuilding.y + evilBuilding.h / 2] = 573;
-       // openBuilding({ dice(245 - w,5),dice(245 - w,5),w,h }, 9, 0, 0, 573);
-       // openBuilding(getBuildingSpotFlat(w, h), 9, 0, 0, 573);
 
         //lure buildings
         for (int x = 1; x < dice(4, 2); x++)
@@ -536,11 +534,6 @@ void classMap::generateTiles(int currentState)
     }
     };
 
-
-
-
-    
-
 }//generate tiles
 
 int classMap::dice(int maxValue, int minValue)
@@ -637,19 +630,7 @@ void classMap::SetSurface()
     for (int y = 0; y < imageSurface->h; y++)
     {
         for (int x = 0; x < (imageSurface->pitch / 4); x++)
-        {
-          /*  if (y < 80) {
-                pixel = SDL_MapRGBA(imageSurface->format, 255, 0, 0, 0);
-            }else  {
-                pixel = SDL_MapRGBA(imageSurface->format, 0, 255, 0, 0);
-
-            }
-
-            if (x > 80) {
-                pixel = SDL_MapRGBA(imageSurface->format, 0, 0, 255, 0);
-            }
-            */
-            
+        { 
             
             int a;
             a = ((x+(y*256)) % 3);
@@ -658,12 +639,6 @@ void classMap::SetSurface()
             case 1: { pixel = SDL_MapRGBA(imageSurface->format, 0, 255, 0, 0); break; }
             case 2: { pixel = SDL_MapRGBA(imageSurface->format, 0, 0, 255, 0); break; }
             }
-            
-            
-
-              //  pixel = SDL_MapRGBA(imageSurface->format, x, y, 0, 0);
-          
-            
             
             put_pixel32(imageSurface, x, y, pixel); // r g b  a
 
@@ -696,9 +671,6 @@ void classMap::createSurface()
         exit(1);
     }
 
-    //targetSurface = SDL_CreateRGBSurface(0, w, h, 32, rmask, gmask, bmask, amask);
-    //targetSurface = SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask);
-    //targetSurface = SDL_CreateRGBSurface(0, 600, 400, 32, rmask, gmask, bmask, amask);
     targetSurface = SDL_CreateRGBSurface(0, 200, 100, 32, rmask, gmask, bmask, amask);
 
     if (targetSurface == NULL)

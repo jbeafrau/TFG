@@ -24,9 +24,6 @@
     <ClCompile Include="game.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="classTimer.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="classMap.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -42,9 +39,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="classTimer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="classMap.h">

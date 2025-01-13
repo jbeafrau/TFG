@@ -50,7 +50,7 @@ int game::dice(int maxValue, int minValue)
 void game::addNotification(std::string notification, SDL_Color color)
 {
     if (notifications.size() == 0) {
-        popupTime = timer.getTicks();
+        popupTime = SDL_GetTicks();
 
     }
     notifications.push_back(notification);
@@ -97,7 +97,7 @@ bool game::existAchievement(std::string achievementName, my_enums::Achievements 
 void game::eventsNotifications()
 {
     if (notifications.size() > 0) {
-        int currentTicks = timer.getTicks();
+        int currentTicks = SDL_GetTicks();
         if ((currentTicks - popupTime) > 2000) {
             popupTime = currentTicks;
             notifications.pop_front();
@@ -457,8 +457,8 @@ void game::eventsShops()
         {
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
+          //  timerGameOver.reset();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -469,8 +469,7 @@ void game::eventsShops()
             if (exitButton.clicked(mousex, mousey)) {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
                 //addNotification("Saliendo del juego");
                 addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
@@ -650,8 +649,8 @@ void game::eventsChat()
         {
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
+            
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -662,8 +661,7 @@ void game::eventsChat()
             if (exitButton.clicked(mousex, mousey)) {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -1433,11 +1431,11 @@ void game::start()
 
 
     //Initialize timers
-    timer.start();
-    FPStimer.start();
-    timer.pause();
-    timerGameOver.start();
-    timerGameOver.pause();
+    //timer.start();
+    //FPStimer.start();
+    //timer.pause();
+    //timerGameOver.start();
+    //timerGameOver.pause();
 
     ticksAI = SDL_GetTicks();
 
@@ -1942,11 +1940,11 @@ void game::screenFlip()
 //Adjust frame time to comply with desired framerate
 void game::adjustFPS()
 {
-    currentFrame = FPStimer.getTicks();
+    currentFrame =  SDL_GetTicks()- FPStimer;
     if (currentFrame < ticksPerFrame) {
             SDL_Delay(ticksPerFrame - currentFrame);
     }
-    FPStimer.reset();
+    FPStimer = SDL_GetTicks();
 
 }
 
@@ -2463,8 +2461,8 @@ void game::drawMiniMap()
         {
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
+            
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -2586,8 +2584,7 @@ void game::screenDarkFate()
             {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
             }
             else if (e.type == SDL_MOUSEMOTION)
             {
@@ -2687,8 +2684,7 @@ void game::screenWIN()
             {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
             }
             else if (e.type == SDL_MOUSEMOTION)
             {
@@ -2829,8 +2825,7 @@ void game::playTutorial()
             {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
             }
             else if (e.type == SDL_MOUSEMOTION)
             {
@@ -2963,8 +2958,7 @@ void game::playTutorialHomeTown()
             {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
             }
             else if (e.type == SDL_MOUSEMOTION)
             {
@@ -3827,8 +3821,7 @@ void game::eventsIntro()
             // closeSDL();
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.reset();
-            timerGameOver.start();
+            timerGameOver = SDL_GetTicks();
         }
         //Special key input
         else if (e.type == SDL_MOUSEMOTION)
@@ -3840,13 +3833,12 @@ void game::eventsIntro()
                 Mix_PlayChannel(-1, audioButton, 0);
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timer.start();
-                timer.reset();
+                timer = SDL_GetTicks();
             }
             if (continueButton.clicked(mousex, mousey)) {
                 setState(my_enums::S_MAINMENU_);
                 Mix_PlayChannel(-1, audioButton, 0);
-                timer.start();
+                timer = SDL_GetTicks();
             }
 
             if (titleButton.clicked(mousex, mousey)) {
@@ -3874,8 +3866,7 @@ void game::eventsMain()
         {
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -3886,8 +3877,7 @@ void game::eventsMain()
             if (exitButton.clicked(mousex, mousey)) {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
             }
 
             if (configButton.clicked(mousex, mousey)) {
@@ -3921,7 +3911,7 @@ void game::eventsMain()
 
 void game::eventsGameOver()
 {
-    if (timerGameOver.getTicks() > 3000) {
+    if ( SDL_GetTicks()- timerGameOver > 3000) {
         setState(my_enums::S_GAMECLOSE_);
     }
 
@@ -3956,8 +3946,7 @@ void game::eventsPlayerName()
             SDL_StopTextInput();
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         //Special key input
         else if (e.type == SDL_KEYDOWN)
@@ -3983,8 +3972,7 @@ void game::eventsPlayerName()
                 SDL_StopTextInput();
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
             }
             if (continueButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
@@ -4802,8 +4790,7 @@ void game::eventsPlayerRaces()
             Mix_PlayChannel(-1, audioButton, 0);
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -4815,8 +4802,7 @@ void game::eventsPlayerRaces()
                 Mix_PlayChannel(-1, audioButton, 0);
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
                 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -4946,8 +4932,7 @@ void game::eventsPlayerArchetypes()
             Mix_PlayChannel(-1, audioButton, 0);
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -4959,8 +4944,7 @@ void game::eventsPlayerArchetypes()
                 Mix_PlayChannel(-1, audioButton, 0);
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -5221,8 +5205,7 @@ void game::eventsPlayerAttributes()
             Mix_PlayChannel(-1, audioButton, 0);
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -5236,8 +5219,7 @@ void game::eventsPlayerAttributes()
                 Mix_PlayChannel(-1, audioButton, 0);
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -5281,8 +5263,7 @@ void game::eventsMaster()
             Mix_PlayChannel(-1, audioButton, 0);
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -5296,8 +5277,7 @@ void game::eventsMaster()
                 Mix_PlayChannel(-1, audioButton, 0);
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -5360,8 +5340,7 @@ void game::eventsPlayer()
             Mix_PlayChannel(-1, audioButton, 0);
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -5375,8 +5354,7 @@ void game::eventsPlayer()
                 Mix_PlayChannel(-1, audioButton, 0);
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -5420,8 +5398,7 @@ void game::eventsConfigMenu()
         {
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -5432,8 +5409,7 @@ void game::eventsConfigMenu()
             if (exitButton.clicked(mousex, mousey)) {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
             }
 
             if (muteButton.clicked(mousex, mousey)) {
@@ -5605,8 +5581,7 @@ void game::eventsInventory()
         {
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -5618,8 +5593,7 @@ void game::eventsInventory()
 
                 setState(my_enums::S_GAMEOVER_);                
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
 //                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
@@ -6232,12 +6206,12 @@ void game::timeEvents()
             monsterGenerator();
         }
     }
-myTime = (int)(timer.getTicks() / 1000);
+myTime = (int)( (SDL_GetTicks()- timer) / 1000);
 
 //Power recharges with time...
 if (getState() != my_enums::S_FIGHT_)//You dont recharge magic while fighting
 {
-    if (myTime != prevTime) {
+    if ((myTime != prevTime)&& (myTime >= 1000)){
         prevTime = myTime;
 
         powerRegeneration++;
@@ -6264,8 +6238,7 @@ void game::eventsHero()
         {
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -6276,8 +6249,7 @@ void game::eventsHero()
             if (exitButton.clicked(mousex, mousey)) {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -6406,8 +6378,7 @@ void game::eventsFight()
         {
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -6418,8 +6389,7 @@ void game::eventsFight()
             if (exitButton.clicked(mousex, mousey)) {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
                 deleteNPCs(px, py);
             }
 
@@ -6917,8 +6887,7 @@ void game::eventsAchievements()
         {
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -6929,8 +6898,7 @@ void game::eventsAchievements()
             if (exitButton.clicked(mousex, mousey)) {
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
                 addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
             }
 
@@ -6989,8 +6957,7 @@ void game::eventsHomeTown()
             Mix_PlayChannel(-1, audioButton, 0);
             setState(my_enums::S_GAMEOVER_);
             Mix_PlayMusic(musicGameOver, -1);
-            timerGameOver.start();
-            timerGameOver.reset();
+            timerGameOver = SDL_GetTicks();
         }
         else if (e.type == SDL_MOUSEMOTION)
         {
@@ -7004,8 +6971,7 @@ void game::eventsHomeTown()
                 Mix_PlayChannel(-1, audioButton, 0);
                 setState(my_enums::S_GAMEOVER_);
                 Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
+                timerGameOver = SDL_GetTicks();
 
             }//exit button
             

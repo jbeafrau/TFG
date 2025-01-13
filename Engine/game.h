@@ -3,7 +3,6 @@
 #include <string>
 #include <iostream>
 #include "classButton.h"
-#include "classTimer.h"
 #include "classMap.h"
 #include "enum.h"
 #include <cstdlib>
@@ -478,9 +477,9 @@ protected:
 
 
     //The application timer
-    classTimer timer;
-    classTimer timerGameOver;
-    classTimer FPStimer;
+    int timer=0;
+    int timerGameOver=0;
+    int FPStimer=0;
 
     int ticksPerFrame = 0;
     int currentFrame = 0;

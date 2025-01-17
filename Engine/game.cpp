@@ -6271,40 +6271,40 @@ void game::eventsHero()
 
                 items.clear();
 
-                coins = 50; //Player currency
-                food = 10; //Player food rations 
-                potions_health = 1;
-                potions_power = 1;
-                powerRegeneration = 0;
+coins = 50; //Player currency
+food = 10; //Player food rations 
+potions_health = 1;
+potions_power = 1;
+powerRegeneration = 0;
 
-                //Player attributes
-                skill = 1; //Combat Skill
-                stamina = 1; //Player hitpoins and posion defense
-                power = 1; //magic points and magic regeneration rate
-                luck = 1; //skill improves buy and sell values and posibility to discover how difficult are enemies
-                max_skill = 1;
-                max_stamina = 1;
-                max_power = 1;
-                max_luck = 1;
+//Player attributes
+skill = 1; //Combat Skill
+stamina = 1; //Player hitpoins and posion defense
+power = 1; //magic points and magic regeneration rate
+luck = 1; //skill improves buy and sell values and posibility to discover how difficult are enemies
+max_skill = 1;
+max_stamina = 1;
+max_power = 1;
+max_luck = 1;
 
-                string alternate3 = "";
-                string  itemArmor = "";
-                string itemHelmet = "";
-                string shield = "";
-                string itemRing = "";
-                string alternate = "";
-                string alternate2 = "";
+string alternate3 = "";
+string  itemArmor = "";
+string itemHelmet = "";
+string shield = "";
+string itemRing = "";
+string alternate = "";
+string alternate2 = "";
 
-                loadPlayerDefault();
-                loadNPCs();
-                loadShops();
-                loadChats();
-                loadEvents();
+loadPlayerDefault();
+loadNPCs();
+loadShops();
+loadChats();
+loadEvents();
 
-                Mix_PlayMusic(musicINTRO, -1);
-                addAchievement("Heroe Inmortal", my_enums::_HIDDEN_);
-                setState(my_enums::S_MAINMENU_);
-                
+Mix_PlayMusic(musicINTRO, -1);
+addAchievement("Heroe Inmortal", my_enums::_HIDDEN_);
+setState(my_enums::S_MAINMENU_);
+
 
             }
 
@@ -6325,43 +6325,43 @@ void game::locationEvents()
 {
     if ((currentState == my_enums::S_HOMETOWN_) || (currentState == my_enums::S_COAST_WORLD_) || (currentState == my_enums::S_FOREST_WORLD_) || (currentState == my_enums::S_NECRO_WORLD_) || (currentState == my_enums::S_ELEMENTAL_FIRE_WORLD_) || (currentState == my_enums::S_ELEMENTAL_WATER_WORLD_) || (currentState == my_enums::S_ELEMENTAL_EARTH_WORLD_) || (currentState == my_enums::S_ELEMENTAL_WIND_WORLD_)) {
         tmpEVENTs = getEvents(px, py);
-        if(tmpEVENTs.size() > 0) {
-        bool erase = false;
-        std::string tmpStr;
-        for (list<EVENT>::iterator it = tmpEVENTs.begin(); it != tmpEVENTs.end(); it++)
-        {
-            if (it->description == "TELEPORT") {
-                px = it->newx;
-                py = it->newy;
+        if (tmpEVENTs.size() > 0) {
+            bool erase = false;
+            std::string tmpStr;
+            for (list<EVENT>::iterator it = tmpEVENTs.begin(); it != tmpEVENTs.end(); it++)
+            {
+                if (it->description == "TELEPORT") {
+                    px = it->newx;
+                    py = it->newy;
 
-                if (it->map != it->newMap) {
-                    addAchievement("Cambiador de planos", my_enums::_HIDDEN_);
-                    currentState = it->newMap;
-                    changeMap();
+                    if (it->map != it->newMap) {
+                        addAchievement("Cambiador de planos", my_enums::_HIDDEN_);
+                        currentState = it->newMap;
+                        changeMap();
+                    }
+
+
                 }
 
+                if (it->description == "GOLD") {
 
+                    if (it->value > 0) {
+                        tmpStr = "Ganas ";
+                    }
+                    else {
+                        tmpStr = "Pierdes ";
+                    }
+                    tmpStr = tmpStr + to_string(it->value);
+                    tmpStr = tmpStr + " monedas";
+                    addNotification(tmpStr, { 0,0,0 });
+                    coins += it->value;
+                    if (coins < 0) { coins = 0; }
+                    erase = true;
+
+                }
             }
-
-            if (it->description == "GOLD") {
-
-                if (it->value > 0) {
-                    tmpStr = "Ganas ";
-                }
-                else {
-                    tmpStr = "Pierdes ";
-                }
-                tmpStr = tmpStr + to_string(it->value);
-                tmpStr = tmpStr + " monedas";
-                addNotification(tmpStr, { 0,0,0 });
-                coins += it->value;
-                if (coins < 0) { coins = 0; }
-                erase = true;
-
-            }
-        }
-        if (erase)cleanEvents(px, py);
-    }//there are events to process
+            if (erase)cleanEvents(px, py);
+        }//there are events to process
     }
 }
 
@@ -6370,38 +6370,43 @@ void game::enemyAttack() {
 
     //Process enemy attack
     if (tmpNPCs.size() > 0) {
-        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
-        int good = dice(10, 1) + skill;
-        if (hasSkill("MELEE")) { good++; }
-        if (alternate2 != "") { good += getItem(alternate2).bonus; }
-        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
-        if (alternate != "") { good += getItem(alternate).bonus; }
-
-        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
-        if (bad > good) {
-            enemyDamage = tmpNPCs.begin()->damage;
-            stamina -= enemyDamage;
-            //addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
-            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
-            if (stamina <= 0) {
-                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
-                //addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
-                setState(my_enums::S_HERO_);
-                deleteNPCs(px, py);
-                //Mix_PlayMusic(musicGameOver, -1);
-                addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                Mix_PlayMusic(musicHERO, -1);
-                timerGameOver.start();
-                timerGameOver.reset();
-                //addNotification("Saliendo del juego");
-                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
-            }
+        if ((tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_MAGE_) && (tmpNPCs.begin()->power >0)) {
+            //process magic attack
+            addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSpellTexture);
 
         }
         else {
-            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
-        }
+           //process melee atack
+            addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
+            int good = dice(10, 1) + skill;
+            if (hasSkill("MELEE")) { good++; }
+            if (alternate2 != "") { good += getItem(alternate2).bonus; }
+            if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
+            if (alternate != "") { good += getItem(alternate).bonus; }
 
+            int bad = dice(10, 1) + tmpNPCs.begin()->skill;
+            if (bad > good) {
+                enemyDamage = tmpNPCs.begin()->damage;
+                stamina -= enemyDamage;
+                //addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+                fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
+                if (stamina <= 0) {
+                    fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
+                    //addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+                    setState(my_enums::S_HERO_);
+                    deleteNPCs(px, py);
+                    //Mix_PlayMusic(musicGameOver, -1);
+                    addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
+                    Mix_PlayMusic(musicHERO, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
+
+            }
+            else {
+                fightFoe = tmpNPCs.begin()->description + " ha fallado ";
+            }
+
+        }
     }
 
 }

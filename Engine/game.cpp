@@ -6365,6 +6365,47 @@ void game::locationEvents()
     }
 }
 
+void game::enemyAttack() {
+    int enemyDamage;
+
+    //Process enemy attack
+    if (tmpNPCs.size() > 0) {
+        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
+        int good = dice(10, 1) + skill;
+        if (hasSkill("MELEE")) { good++; }
+        if (alternate2 != "") { good += getItem(alternate2).bonus; }
+        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
+        if (alternate != "") { good += getItem(alternate).bonus; }
+
+        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
+        if (bad > good) {
+            enemyDamage = tmpNPCs.begin()->damage;
+            stamina -= enemyDamage;
+            //addNotification(tmpNPCs.begin()->description + " te ha herido!!", { 0,0,0 });
+            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
+            if (stamina <= 0) {
+                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
+                //addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+                setState(my_enums::S_HERO_);
+                deleteNPCs(px, py);
+                //Mix_PlayMusic(musicGameOver, -1);
+                addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
+                Mix_PlayMusic(musicHERO, -1);
+                timerGameOver.start();
+                timerGameOver.reset();
+                //addNotification("Saliendo del juego");
+                //addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+            }
+
+        }
+        else {
+            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
+        }
+
+    }
+
+}
+
 void game::eventsFight()
 {
     //Event handler
@@ -6436,38 +6477,9 @@ void game::eventsFight()
                     fightPlayer = "Has fallado";
                 }
 
-                //Process enemy attack
-                if (tmpNPCs.size() > 0) {
-                    addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
-                    int good = dice(10, 1) + skill;
-                    if (hasSkill("MELEE")) { good++; }
-                    if (alternate2 != "") { good += getItem(alternate2).bonus; }
-                    if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
-                    if (alternate != "") { good += getItem(alternate).bonus; }
 
-                    int bad = dice(10, 1) + tmpNPCs.begin()->skill;
-                    if (bad > good) {
-                        enemyDamage = tmpNPCs.begin()->damage;
-                        stamina -= enemyDamage;
-
-                        fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
-                        if (stamina <= 0) {
-                            fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
-;
-
-                            setState(my_enums::S_HERO_);
-                            changeMusic();
-                            deleteNPCs(px, py);
-                            addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                        }
-
-                    }
-                    else {
-                        fightFoe = tmpNPCs.begin()->description + " ha fallado ";
-                    }
-
-                }
-
+                //Counter attack from enemy
+                enemyAttack();
 
             }//fightbutton click
 
@@ -6513,43 +6525,8 @@ void game::eventsFight()
                     fightPlayer = "Has fallado";
                 }
 
-                //Process enemy attack
-                if (tmpNPCs.size() > 0) {
-                    int goodLuck = dice(10, 1) + luck;
-                    int badLuck = dice(10, 1) + tmpNPCs.begin()->luck;
-                    if (goodLuck > badLuck) {
-                        //addNotification("Evitas el ataque", { 0,0,0 });
-                        fightFoe = "Evitas el ataque";
-                    }
-                    else {
-                        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
-                        int good = dice(10, 1) + skill;
-                        if (hasSkill("MELEE")) { good++; }
-                        if (alternate2 != "") { good += getItem(alternate2).bonus; }
-                        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
-                        if (alternate != "") { good += getItem(alternate).bonus; }
-
-                        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
-                        if (bad > good) {
-                            int enemyDamage = tmpNPCs.begin()->damage;
-                            stamina -= enemyDamage;
-                            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
-                            if (stamina <= 0) {
-                                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
-                                setState(my_enums::S_HERO_);
-                                changeMusic();
-                                deleteNPCs(px, py);
-                                addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                            }
-
-                        }
-                        else {
-                            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
-                        }
-                    }//Luck
-
-                }
-
+                //Counter attack from enemy
+                enemyAttack();
 
             }//bow button click
 
@@ -6619,35 +6596,8 @@ void game::eventsFight()
                     addAchievement("Poción de vida", my_enums::_OPTIONS_);
 
                     int damage = 1;
-                    //Process enemy attack
-                    if (tmpNPCs.size() > 0) {
-                        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
-
-                        int good = dice(10, 1) + skill;
-                        if (alternate2 != "") { good += getItem(alternate2).bonus; }
-                        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
-                        if (alternate != "") { good += getItem(alternate).bonus; }
-
-                        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
-                        if (bad > good) {
-                            int enemyDamage = tmpNPCs.begin()->damage;
-                            stamina -= enemyDamage;
-                            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
-                            if (stamina <= 0) {
-                                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
-                                turn = 0;
-                                setState(my_enums::S_HERO_);
-                                changeMusic();
-                                deleteNPCs(px, py);
-                                addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
-                            }
-
-                        }
-                        else {
-                            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
-                        }
-
-                    }//enemy attack
+                    //Counter attack from enemy
+                    enemyAttack();
                 }
             }
 
@@ -6669,37 +6619,8 @@ void game::eventsFight()
 
 
                     int damage = 1;
-                    //Process enemy attack
-                    if (tmpNPCs.size() > 0) {
-                        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
-
-                        int good = dice(10, 1) + skill;
-                        if (alternate2 != "") { good += getItem(alternate2).bonus; }
-                        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
-                        if (alternate != "") { good += getItem(alternate).bonus; }
-
-                        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
-                        if (bad > good) {
-                            int enemyDamage = tmpNPCs.begin()->damage;
-                            stamina -= enemyDamage;
-
-                            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
-                            if (stamina <= 0) {
-                                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
-                                turn = 0;
-                                setState(my_enums::S_HERO_);
-                                changeMusic();
-                                deleteNPCs(px, py);
-                                addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
- 
-                            }
-
-                        }
-                        else {
-                            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
-                        }
-
-                    }//enemy attack
+                    //Counter attack from enemy
+                    enemyAttack();
                 }
             }
 
@@ -6736,36 +6657,8 @@ void game::eventsFight()
                         tmpNPCs.push_front(tmpNPC);
                     }
 
-                    //Process enemy attack
-                    if (tmpNPCs.size() > 0) {
-                        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
-
-                        int good = dice(10, 1) + skill;
-                        if (alternate2 != "") { good += getItem(alternate2).bonus; }
-                        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
-                        if (alternate != "") { good += getItem(alternate).bonus; }
-
-                        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
-                        if (bad > good) {
-                            int enemyDamage = tmpNPCs.begin()->damage;
-                            stamina -= enemyDamage;
-                            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
-                            if (stamina <= 0) {
-                                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
-                                turn = 0;
-                                setState(my_enums::S_HERO_);
-                                changeMusic();
-                                deleteNPCs(px, py);
-                            }
-
-                        }
-                        else {
-                            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
-                        }
-
-                    }
-
-
+                    //Counter attack from enemy
+                    enemyAttack();
 
                 }//player has power
             }//magic attack
@@ -6809,35 +6702,8 @@ void game::eventsFight()
                         tmpNPCs.push_front(tmpNPC);
                     }
 
-                    //Process enemy attack
-                    if (tmpNPCs.size() > 0) {
-                        addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
-
-                        int good = dice(10, 1) + skill;
-                        if (alternate2 != "") { good += getItem(alternate2).bonus; }
-                        if (itemHelmet != "") { good += getItem(itemHelmet).bonus; }
-                        if (alternate != "") { good += getItem(alternate).bonus; }
-
-                        int bad = dice(10, 1) + tmpNPCs.begin()->skill;
-                        if (bad > good) {
-                            int enemyDamage = tmpNPCs.begin()->damage;
-                            stamina -= enemyDamage;
-                            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
-                            if (stamina <= 0) {
-                                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
-                                turn = 0;
-                                setState(my_enums::S_HERO_);
-                                changeMusic();
-                                deleteNPCs(px, py);
-                            }
-
-                        }
-                        else {
-                            fightFoe = tmpNPCs.begin()->description + " ha fallado ";
-                        }
-
-                    }
-
+                    //Counter attack from enemy
+                    enemyAttack();
 
 
                 }//player has power

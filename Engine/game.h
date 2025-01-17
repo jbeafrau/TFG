@@ -312,6 +312,7 @@ public:
     void playTutorial();
     void playTutorialHomeTown();
 
+    void enemyAttack();
 
     int countMonsters();
     void monsterGenerator();

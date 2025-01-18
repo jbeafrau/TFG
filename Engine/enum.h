@@ -80,9 +80,10 @@ namespace my_enums
         _FRIENDLY_CHAT_ = 9,
         _FRIENDLY_SKILL_ = 10,
         _ENEMY_STATIC_ = 20,
-        _ENEMY_RANDOM_ = 21,
-        _ENEMY_FOLLOW_ = 22,
-        _ENEMY_FOLLOW_MAGE_ = 23
+        _ENEMY_STATIC_MAGE_ = 21,
+        _ENEMY_RANDOM_ = 22,
+        _ENEMY_FOLLOW_ = 23,
+        _ENEMY_FOLLOW_MAGE_ = 24
     };
 
     enum Achievements

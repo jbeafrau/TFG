@@ -40,7 +40,6 @@ while (Game.getState() != my_enums::S_GAMECLOSE_){
 
     //draw background 
     Game.drawBackground();
-    
 
     //draw screen for current state
     Game.drawScreens();

@@ -226,7 +226,7 @@ void game::phaseNPCs()
              setState(my_enums::S_MASTER_);
 
          }         
-         else if (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_) {
+         else if (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_ || my_enums::_ENEMY_STATIC_MAGE_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_MAGE_) {
              if (getState() != my_enums::S_FIGHT_) {
                  fightPlayer = "";
                  fightFoe = "";
@@ -908,30 +908,7 @@ bool game::collide(int x, int y, bool player)
                         addNotification("No puedes pasar, te falta "+ it->description.substr(4, it->description.length() - 4), { 0,0,0 });
                     }
                // }
-            }
-
-            /*
-            if ((it->description.substr(0, 4) == "IF2*") && (it->x == x) && (it->y == y)) {
-
-
-                if (it->map == currentState) {//on the current map
-                    if (findItem(it->description.substr(4, it->description.length() - 4))) {
-                        addNotification("Se abre el camino", { 0,0,0 });
-
-                        it = EVENTs.erase(it);
-                       
-                        erased = true;
-                        tmp = false;
-                    }
-                    else {
-                        tmp = true;
-
-                        addNotification("No puedes pasar, te falta " + it->description.substr(4, it->description.length() - 4), { 0,0,0 });
-                    }
-                }
-            }
-            */
-           
+            }         
 
         }//currentstate
         if ((it != EVENTs.end()) && (erased == false))it++;
@@ -1024,7 +1001,7 @@ void game::loadNPCs()
     addNPC(10, 136,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 142,155, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
     addNPC(10, 142,161, my_enums::S_HOMETOWN_, "Esqueleto", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_RANDOM_, 219, { 130,150,150,170 });
-    addNPC(3000, 139, 167, my_enums::S_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 130,150,150,170 });
+    addNPC(3000, 139, 167, my_enums::S_HOMETOWN_, "Nigromante", dice(5, 10), dice(5, 15), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_MAGE_, 160, { 130,150,150,170 });
 
     //Add a dog
     addNPC(10001, 118, 122, my_enums::S_HOMETOWN_, "Tor el perro", dice(10, 1), dice(10, 5), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_FRIENDLY_STATIC_, 269, { 1,1,255,255 });
@@ -1050,31 +1027,31 @@ void game::loadNPCs()
    
     addNPC(1000, 1, 1, my_enums::S_COAST_WORLD_, "Tienda de la costa", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(2000, 1, 1, my_enums::S_COAST_WORLD_, "Sabio de la costa", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-    addNPC(3000, 1, 1, my_enums::S_COAST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+    addNPC(3000, 1, 1, my_enums::S_COAST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_MAGE_, 160, { 1,1,250,250 });
 
     addNPC(1000, 1, 1, my_enums::S_ELEMENTAL_FIRE_WORLD_, "Tienda del elemento fuego", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(2000, 1, 1, my_enums::S_ELEMENTAL_FIRE_WORLD_, "Sabio del elemento fuego", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_FIRE_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_FIRE_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_MAGE_, 160, { 1,1,250,250 });
 
     addNPC(1000, 1, 1, my_enums::S_ELEMENTAL_WATER_WORLD_, "Tienda del elemento agua", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(2000, 1, 1, my_enums::S_ELEMENTAL_WATER_WORLD_, "Sabio del elemento agua", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_WATER_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_WATER_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_MAGE_, 160, { 1,1,250,250 });
 
     addNPC(1000, 1, 1, my_enums::S_ELEMENTAL_EARTH_WORLD_, "Tienda del elemento tierra", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(2000, 1, 1, my_enums::S_ELEMENTAL_EARTH_WORLD_, "Sabio del elemento tierra", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_EARTH_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_EARTH_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_MAGE_, 160, { 1,1,250,250 });
 
     addNPC(1000, 1, 1, my_enums::S_ELEMENTAL_WIND_WORLD_, "Tienda del elemento aire", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(2000, 1, 1, my_enums::S_ELEMENTAL_WIND_WORLD_, "Sabio del elemento aire", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 77, { 1,1,255,255 });
-    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_WIND_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_, 160, { 1,1,250,250 });
+    addNPC(3000, 1, 1, my_enums::S_ELEMENTAL_WIND_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_FOLLOW_MAGE_, 160, { 1,1,250,250 });
 
 
     addNPC(1000, 1, 1, my_enums::S_FOREST_WORLD_, "Tienda del bosque oscuro", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_SHOP_, 74, { 1,1,255,255 });
     addNPC(2000, 230, 50, my_enums::S_FOREST_WORLD_, "Figura oscura", 1, 1, 1, 1, 1, my_enums::_FRIENDLY_CHAT_, 198, { 1,1,255,255 });
-    addNPC(3000, 1, 1, my_enums::S_FOREST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_, 160, { 1,1,250,250 });
+    addNPC(3000, 1, 1, my_enums::S_FOREST_WORLD_, "Nigromante", dice(5, 10), dice(5, 20), dice(10, 5), dice(10, 5), dice(3, 1), my_enums::_ENEMY_STATIC_MAGE_, 160, { 1,1,250,250 });
 
     addNPC(4000, 129, 158, my_enums::S_NECRO_WORLD_, "GOLEM", 15, 50, 15, 15, 4, my_enums::_FRIENDLY_STATIC_, 55, { 1,1,250,250 });
-    addNPC(5000, 123, 158, my_enums::S_NECRO_WORLD_, "SEÑOR OSCURO", 16, 60, 15, 15, 4, my_enums::_ENEMY_STATIC_, 32, { 1,1,250,250 });
+    addNPC(5000, 123, 158, my_enums::S_NECRO_WORLD_, "SEÑOR OSCURO", 16, 60, 15, 15, 4, my_enums::_ENEMY_STATIC_MAGE_, 32, { 1,1,250,250 });
    
 }
 
@@ -5784,7 +5761,7 @@ void game::processAI()
 
             }
 
-            if (it->NPCAI == my_enums::_ENEMY_FOLLOW_) {
+            if ((it->NPCAI == my_enums::_ENEMY_FOLLOW_)|| (it->NPCAI == my_enums::_ENEMY_FOLLOW_MAGE_)){
 
                 if(getDistance(px,py, it->x, it->y) <= 15){// only follow if distance is less or equal than 15
                 int tmpx = it->x;
@@ -6370,9 +6347,28 @@ void game::enemyAttack() {
 
     //Process enemy attack
     if (tmpNPCs.size() > 0) {
-        if ((tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_MAGE_) && (tmpNPCs.begin()->power >0)) {
+        if (((tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_MAGE_)|| (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_MAGE_)) && (tmpNPCs.begin()->power >0)) {
             //process magic attack
             addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSpellTexture);
+            Mix_PlayChannel(-1, magic, 1);
+//            int damage = 1;
+            int attackPower = dice(power, 1);
+            enemyDamage = attackPower;
+            stamina -= enemyDamage;
+            tmpNPCs.begin()->power -= attackPower;
+
+            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
+            if (stamina <= 0) {
+                fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
+                //addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
+                setState(my_enums::S_HERO_);
+                deleteNPCs(px, py);
+                //Mix_PlayMusic(musicGameOver, -1);
+                addAchievement("Tu personaje ha muerto", my_enums::_HIDDEN_);
+                Mix_PlayMusic(musicHERO, -1);
+                timerGameOver = SDL_GetTicks();
+            }
+
 
         }
         else {

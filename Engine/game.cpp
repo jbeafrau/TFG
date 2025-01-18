@@ -207,26 +207,29 @@ void game::phaseNPCs()
 {
     
      tmpNPCs = getNPCs(tmpx,tmpy);
+     
      if (tmpNPCs.size() > 0) {
-          if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_CHAT_) {
+         my_enums::AItypes NPCAI;
+         NPCAI = tmpNPCs.begin()->NPCAI;
+          if (NPCAI == my_enums::_FRIENDLY_CHAT_) {
              tmpCHATs = getChat(tmpx, tmpy);
              previousScreen = getStringState(currentState);
              setState(my_enums::S_CHAT_);
 
          }
-         else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_SHOP_) {
+         else if (NPCAI == my_enums::_FRIENDLY_SHOP_) {
              tmpSHOPs = getShops(tmpx, tmpy);
              previousScreen = getStringState(currentState);
              setState(my_enums::S_SHOP_);
 
          }
-         else if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_MASTER_) {
+         else if (NPCAI == my_enums::_FRIENDLY_MASTER_) {
              //tmpSHOPs = getShops(tmpx, tmpy);
              previousScreen = getStringState(currentState);
              setState(my_enums::S_MASTER_);
 
          }         
-         else if (tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_STATIC_ || my_enums::_ENEMY_STATIC_MAGE_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_RANDOM_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_ || tmpNPCs.begin()->NPCAI == my_enums::_ENEMY_FOLLOW_MAGE_) {
+         else if (NPCAI == my_enums::_ENEMY_STATIC_ || NPCAI == my_enums::_ENEMY_STATIC_MAGE_ || NPCAI == my_enums::_ENEMY_RANDOM_ || NPCAI == my_enums::_ENEMY_FOLLOW_ || NPCAI == my_enums::_ENEMY_FOLLOW_MAGE_) {
              if (getState() != my_enums::S_FIGHT_) {
                  fightPlayer = "";
                  fightFoe = "";

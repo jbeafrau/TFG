@@ -697,8 +697,7 @@ void classMap::blur() //This manipulates with SDL_Surface and gives it box blur 
             for (int yo = -blur_extent; yo <= blur_extent; yo++)
             {
                 for (int xo = -blur_extent; xo <= blur_extent; xo++) {
-                    if (y + yo >= 0 && x + xo >= 0
-                        && y + yo < targetSurface->h && x + xo < (targetSurface->pitch / 4)
+                    if (y + yo >= 0 && x + xo >= 0 && y + yo < targetSurface->h && x + xo < (targetSurface->pitch / 4)
                         )
                     {
                         Uint32 colOth = ((Uint32*)targetSurface->pixels)[((y + yo)

@@ -18,7 +18,7 @@ int main( int argc, char * argv[] )
 game Game;
 
 //Enable for debugging
-Game.debugMode = true;
+//Game.debugMode = true;
 
 //Init SDL subsystems
 if (Game.initSDL() == false) {

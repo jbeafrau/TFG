@@ -6181,7 +6181,7 @@ void game::timeEvents()
 {
     
     if ((getState() != my_enums::S_FIGHT_) || (getState() != my_enums::S_SHOP_) || (getState() != my_enums::S_CHAT_) || (getState() != my_enums::S_MASTER_)){
-        if ((SDL_GetTicks() - ticksAI) > 1000) {
+        if ((SDL_GetTicks() - ticksAI) >= 1000) {
             ticksAI = SDL_GetTicks();
             processAI();
             monsterGenerator();
@@ -6192,7 +6192,7 @@ myTime = (int)( (SDL_GetTicks()- timer) / 1000);
 //Power recharges with time...
 if (getState() != my_enums::S_FIGHT_)//You dont recharge magic while fighting
 {
-    if ((myTime != prevTime)&& (myTime >= 1000)){
+    if ((myTime != prevTime)&& (myTime >= 1)){
         prevTime = myTime;
 
         powerRegeneration++;

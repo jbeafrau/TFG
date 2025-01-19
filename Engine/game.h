@@ -118,6 +118,13 @@ struct GLOBAL_EVENT {
 };
 
 
+struct node {
+    int cost;
+    int x;
+    int y;
+};
+
+
 class game
 {
 public:
@@ -322,6 +329,9 @@ public:
 
     void screenDarkFate();
     void screenWIN();
+
+    int manhattan(int start_x, int start_y, int end_x, int end_y);
+    bool compareByCost(const node& a, const node& b);
 
 
     classMap baseMap;

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -5767,37 +5768,59 @@ void game::processAI()
 
             if ((it->NPCAI == my_enums::_ENEMY_FOLLOW_)|| (it->NPCAI == my_enums::_ENEMY_FOLLOW_MAGE_)){
 
-                if(getDistance(px,py, it->x, it->y) <= 15){// only follow if distance is less or equal than 15
+                //if(getDistance(px,py, it->x, it->y) <= 15){// only follow if distance is less or equal than 15
+                if (manhattan(px, py, it->x, it->y) <= 15) {// only follow if distance is less or equal than 15
+               
+                
                 int tmpx = it->x;
                 int tmpy = it->y;
 
+                    node north = {0,0,-1};
+                    node south = { 0,0,+1 };
+                    node west = { 0,-1,0 };
+                    node east = { 0,+1,0};
 
-                if (((px < it->x) || (px > it->x)) && (py == it->y)) {
-                    if (px < it->x) { tmpx--; }
-                    if (px > it->x) { tmpx++; }
-                }
-                else if (((py < it->y) || (py > it->y)) && (px == it->x)) {
-                    if (py < it->y) { tmpy--; }
-                    if (py > it->y) { tmpy++; }
-                }
-                else if ((px != it->x) && (py != it->y)) {
-                    int d = dice(2, 1);
-                    if (d == 1) {
-                        if (px < it->x) { tmpx--; }
-                        if (px > it->x) { tmpx++; }
+                    node finalNode = { 100,0,0 };
+
+                    std::list <node> nodes;
+                    if(dice(2,1)==1){
+                        nodes.push_back(north);
+                        nodes.push_back(south);
+                        nodes.push_back(east);
+                        nodes.push_back(west);
                     }
                     else {
-                        if (py < it->y) { tmpy--; }
-                        if (py > it->y) { tmpy++; }
+                        nodes.push_back(west);
+                        nodes.push_back(east);
+                        nodes.push_back(south);
+                        nodes.push_back(north);
                     }
-                }
 
-                if (!collide(tmpx, tmpy,false)) {
-                    if (insideBoundaries(tmpx, tmpy, it->boundaries)) {
-                        it->x = tmpx;
-                        it->y = tmpy;
+                    std::list<node>::iterator itn = nodes.begin();
+                    //while (itn != nodes.end())
+                    while (itn != nodes.end())
+                    {
+                        bool erased = false;
+                        if (!collide(tmpx + itn->x , tmpy+ itn->y, false)) {
+                            itn->cost = manhattan(tmpx + itn->x, tmpy + itn->y,px,py);
+                            if (finalNode.cost > itn->cost) {
+                                finalNode.cost = itn->cost;
+                                finalNode.x = itn->x;
+                                finalNode.y = itn->y;
+
+                            }
+                        }
+                        else {
+                            itn = nodes.erase(itn);
+                            erased = true;
+                        }
+                        if ((itn != nodes.end()) && (erased == false))itn++;
+
                     }
-                }
+
+                    it->x = tmpx + finalNode.x;
+                    it->y = tmpy + finalNode.y;
+  
             }//distance less than 15
             }//process basic follow AI
 
@@ -5805,9 +5828,10 @@ void game::processAI()
 
             if (it->NPCAI == my_enums::_FRIENDLY_FOLLOW_) {
 
-                if (getDistance(px, py, it->x, it->y) <= 15) {// only follow if distance is less or equal than 15
+                if (manhattan(px, py, it->x, it->y) <= 15){// only follow if distance is less or equal than 15
                     if(!isAround(it->x, it->y)){
-                    int tmpx = it->x;
+                   /*
+                        int tmpx = it->x;
                     int tmpy = it->y;
 
 
@@ -5837,7 +5861,57 @@ void game::processAI()
                             it->x = tmpx;
                             it->y = tmpy;
                         }
-                    }
+                    }*/
+
+
+                        int tmpx = it->x;
+                        int tmpy = it->y;
+
+                        node north = { 0,0,-1 };
+                        node south = { 0,0,+1 };
+                        node west = { 0,-1,0 };
+                        node east = { 0,+1,0 };
+
+                        node finalNode = { 100,0,0 };
+
+                        std::list <node> nodes;
+                        if (dice(2, 1) == 1) {
+                            nodes.push_back(north);
+                            nodes.push_back(south);
+                            nodes.push_back(east);
+                            nodes.push_back(west);
+                        }
+                        else {
+                            nodes.push_back(west);
+                            nodes.push_back(east);
+                            nodes.push_back(south);
+                            nodes.push_back(north);
+                        }
+
+                        std::list<node>::iterator itn = nodes.begin();
+                        //while (itn != nodes.end())
+                        while (itn != nodes.end())
+                        {
+                            bool erased = false;
+                            if (!collide(tmpx + itn->x, tmpy + itn->y, false)) {
+                                itn->cost = manhattan(tmpx + itn->x, tmpy + itn->y, px, py);
+                                if (finalNode.cost > itn->cost) {
+                                    finalNode.cost = itn->cost;
+                                    finalNode.x = itn->x;
+                                    finalNode.y = itn->y;
+
+                                }
+                            }
+                            else {
+                                itn = nodes.erase(itn);
+                                erased = true;
+                            }
+                            if ((itn != nodes.end()) && (erased == false))itn++;
+
+                        }
+
+                        it->x = tmpx + finalNode.x;
+                        it->y = tmpy + finalNode.y;
                 }//we are not too close
                 }//distance less than 15
             }//process basic follow AI
@@ -6165,6 +6239,17 @@ void game::processAI()
     }//Process global events
 
 
+}
+
+
+bool game::compareByCost(const node& a, const node& b)
+{
+    return a.cost < b.cost;
+}
+
+int game::manhattan(int start_x, int start_y, int end_x, int end_y)
+{
+    return (abs(start_x - end_x) + abs(start_y - end_y));
 }
 
 bool game::findNPC(int id)

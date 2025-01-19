@@ -371,7 +371,10 @@ protected:
 
     std::string fightPlayer="";
     std::string fightFoe="";
+
+    //Used to time attacks
     int lastTurn = 0;
+    bool enemyAttacked = false;
 
     std::list<achievement> achievements; //Player´s achievements 
     std::list<std::string> skills; //Player´s skills

@@ -4749,9 +4749,10 @@ void game::screenFight()
 
     tmpRect.y = gScreenSurface->h / 2 - 50;
     //melee
+    
 
     tmpRect.x = gScreenSurface->w / 2;
-    tmpRect.y = gScreenSurface->h - 150;
+    tmpRect.y = gScreenSurface->h / 2 + 200;
     drawTextL("Turno:", tmpRect);
     drawText(to_string(turn), tmpRect);
 
@@ -6377,6 +6378,7 @@ void game::enemyAttack() {
         else {
            //process melee atack
             addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSwordTexture);
+            Mix_PlayChannel(-1, sword, 1);
             int good = dice(10, 1) + skill;
             if (hasSkill("MELEE")) { good++; }
             if (alternate2 != "") { good += getItem(alternate2).bonus; }
@@ -6412,6 +6414,15 @@ void game::enemyAttack() {
 
 void game::eventsFight()
 {
+    //If we got pending an enemy attack, process it
+    if (((SDL_GetTicks() - lastTurn) > 1000) && enemyAttacked == true) {
+        enemyAttacked = false;
+        lastTurn = SDL_GetTicks();
+        enemyAttack();
+    }
+
+   
+
     //Event handler
     SDL_Event e;
 
@@ -6483,7 +6494,8 @@ void game::eventsFight()
 
 
                 //Counter attack from enemy
-                enemyAttack();
+                enemyAttacked = true;
+                //enemyAttack();
 
             }//fightbutton click
 
@@ -6530,7 +6542,8 @@ void game::eventsFight()
                 }
 
                 //Counter attack from enemy
-                enemyAttack();
+                enemyAttacked = true;
+                //enemyAttack();
 
             }//bow button click
 
@@ -6601,7 +6614,8 @@ void game::eventsFight()
 
                     int damage = 1;
                     //Counter attack from enemy
-                    enemyAttack();
+                    enemyAttacked = true;
+                    //enemyAttack();
                 }
             }
 
@@ -6624,7 +6638,8 @@ void game::eventsFight()
 
                     int damage = 1;
                     //Counter attack from enemy
-                    enemyAttack();
+                    enemyAttacked = true;
+                    //enemyAttack();
                 }
             }
 
@@ -6662,7 +6677,8 @@ void game::eventsFight()
                     }
 
                     //Counter attack from enemy
-                    enemyAttack();
+                    enemyAttacked = true;
+                    //enemyAttack();
 
                 }//player has power
             }//magic attack
@@ -6707,7 +6723,8 @@ void game::eventsFight()
                     }
 
                     //Counter attack from enemy
-                    enemyAttack();
+                    enemyAttacked = true;
+                    //enemyAttack();
 
 
                 }//player has power

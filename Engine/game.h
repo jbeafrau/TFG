@@ -170,6 +170,8 @@ public:
     std::string getRaceName(my_enums::playerRaces race);
     std::string getArchetypeName(my_enums::playerArchetype archetype);
       
+    std::string getRaceDescription(my_enums::playerRaces race);
+    std::string getArchetypeDescription(my_enums::playerArchetype archetype);
 
     void addSkill(std::string skill);
     bool hasSkill(std::string skill);

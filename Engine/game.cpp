@@ -3364,8 +3364,8 @@ void game::screenPlayerName()
 
     tmpRect.y = gScreenSurface->h / 2 - 200;
     tmpRect.h = 150;
-    tmpRect.w = gScreenSurface->w / 2;
-    tmpRect.x = gScreenSurface->w / 4;
+    tmpRect.w = gScreenSurface->w / 2+200;
+    tmpRect.x = gScreenSurface->w / 4-100;
     drawSquare(tmpRect, lightGreyColor);
     drawTextBlock("Cambia la imagen y luego pulsa continuar, ten en cuenta que la imagen es solo un elemento cosmético y no afecta a las habilidades del personaje...", tmpRect);
 }
@@ -3410,19 +3410,33 @@ void game::screenPlayerAttributes()
   tmpRect.x = gScreenSurface->w - 600;
   tmpRect.y = 150;
   tmpRect.h = 700;
-  tmpRect.w = 600;
-  drawSquare(tmpRect, { 200,200,200 });
+  tmpRect.w = 450;
+  //drawSquare(tmpRect, { 200,200,200 });
 
-  tmpRect.h = 50;
-  
+  //tmpRect.h = 50;
+  tmpRect.h = 100;
+
   tmpRect.y = 150;
+  
+  tmpRect.x = 1;
+  drawSquare(tmpRect, { 200,200,200 });
   drawTextBlock("COMBATE: Habilidad para luchar y defenderte", tmpRect);
-  tmpRect.y = 300;
+  
+ 
+  tmpRect.x = gScreenSurface->w - 450;
+  drawSquare(tmpRect, { 200,200,200 });
   drawTextBlock("VITALIDAD: Puntos de vidad", tmpRect);
-  tmpRect.y = 450;
+  tmpRect.y = 300;
+  //tmpRect.y = 450;
+  
+  tmpRect.x = 1;
+  drawSquare(tmpRect, { 200,200,200 });
   drawTextBlock("PODER: Habilidad que te permite usar la magia", tmpRect);
-  tmpRect.y = 600;
-  drawTextBlock("SUERTE: Habilidad que te permite tener hacer ataques furtivos y posibilidad de esquivar ataques usando armas a distancia", tmpRect);
+  //tmpRect.y = 500;
+  tmpRect.x = gScreenSurface->w - 450;
+  tmpRect.h = 300;
+  drawSquare(tmpRect, { 200,200,200 });
+  drawTextBlock("SUERTE: Habilidad que te permite hacer ataques furtivos y posibilidad de esquivar ataques usando armas a distancia", tmpRect);
 }
 
 
@@ -4142,6 +4156,107 @@ void game::screenHomeTown()
 
 }
 
+std::string game::getRaceDescription(my_enums::playerRaces race)
+{
+
+    switch (race)
+    {
+    case my_enums::_HUMAN_:
+    {
+        return "HUMANO: +1 a Combate";
+        break;
+    }
+    case my_enums::_ELF_:
+    {
+        return "ELFO: +1 a Poder";
+        break;
+    }
+
+    case my_enums::_DARF_:
+    {
+        return "ENANO: +2 a Vitalidad";
+        break;
+    }
+
+    case my_enums::_HALFING_:
+    {
+        return "MEDIANO: +2 a suerte";
+        break;
+    }
+
+    case my_enums::_HALFORC_:
+    {
+        return "MEDIO ORCO: +2 a Combate, -1 a Poder";
+        break;
+    }
+
+    case my_enums::_BEHOLDER_:
+    {
+        return "CONTEMPLADOR: +2 a poder , -1 a combate";
+        break;
+    }
+
+    default:
+    {
+        // is likely to be an error
+        return "";
+    }
+    };
+
+
+}
+
+
+std::string game::getArchetypeDescription(my_enums::playerArchetype archetype)
+{
+
+    switch (archetype)
+    {
+    case my_enums::_FIGHTER_:
+    {
+        return "GUERRERO: Comienzas con la habilidad de MELE (+1 a Combate)";
+        break;
+    }
+    case my_enums::_ARCHER_:
+    {
+        return "ARQUERO:  Comienzas con la habilidad de ARQUERO (Ataques a distancia)";
+        break;
+    }
+
+    case my_enums::_THIEVE_:
+    {
+        return "LADRON:  Comienzas con la habilidad de SUBTERFUGIO (Ataques con subterfugio)";
+        break;
+    }
+
+    case my_enums::_MAGE_:
+    {
+        return "MAGO: Comienzas con la habilidad de MAGIA (Ataques con magia)";
+        break;
+    }
+
+    case my_enums::_NECROMANCER_:
+    {
+        return "NECROMANTE:  Comienzas con la habilidad de DRENAR  (Ataques con magia que drenan vida)";
+        break;
+    }
+
+    case my_enums::_SUMMONER_:
+    {
+        return "Invocador";
+        break;
+    }
+
+    default:
+    {
+        // is likely to be an error
+        return "";
+    }
+    };
+
+}
+
+
 std::string game::getRaceName(my_enums::playerRaces race)
 {
 
@@ -4267,16 +4382,25 @@ void game::screenPlayerRaces()
     tmpRect.y = gScreenSurface->h / 4 * 3 - 50;
     drawText("Luego pulsa continuar...", tmpRect);
 
+    tmpRect.y = gScreenSurface->h / 2 - 100;
+    tmpRect.x = gScreenSurface->w / 2 - 300;
+    tmpRect.w = 600;
+    drawSquare(tmpRect, { 200,200,200 });
+    drawTextBlock(getRaceDescription(currentRace), tmpRect);
+
+
+    /*
     tmpRect.y = gScreenSurface->h / 2 +64;
     tmpRect.x = gScreenSurface->w / 2 -100;
     drawText(getRaceName(currentRace), tmpRect);
 
+    
     tmpRect.x = gScreenSurface->w - 600;
     tmpRect.y = 150;
     tmpRect.h = 700;
     tmpRect.w = 600;
     drawSquare(tmpRect, { 200,200,200 });
-
+    
     tmpRect.h = 50;
 
     tmpRect.y = 150;
@@ -4291,7 +4415,7 @@ void game::screenPlayerRaces()
     drawTextBlock("MEDIO ORCO: +2 a Combate, -1 a Poder ", tmpRect);
     tmpRect.y = 650;
     drawTextBlock("CONTEMPLADOR: +2 a poder , -1 a combate", tmpRect);
-
+    */
 }
 
 void game::screenPlayerArchetypes()
@@ -4316,6 +4440,16 @@ void game::screenPlayerArchetypes()
     tmpRect.y = gScreenSurface->h / 4 * 3 - 50;
     drawText("Luego pulsa continuar...", tmpRect);
 
+    tmpRect.y = gScreenSurface->h / 2 - 150;
+    tmpRect.x = gScreenSurface->w / 2 - 400;
+    tmpRect.w = 800;
+    tmpRect.h = 100;
+
+    drawSquare(tmpRect, { 200,200,200 });
+    drawTextBlock(getArchetypeDescription(currentArchetype), tmpRect);
+
+    
+    /*
     tmpRect.y = gScreenSurface->h / 2 + 64;
     tmpRect.x = gScreenSurface->w / 2 - 100;
     drawText(getArchetypeName(currentArchetype), tmpRect);
@@ -4338,6 +4472,8 @@ void game::screenPlayerArchetypes()
     drawTextBlock("MAGO: Comienzas con la habilidad de MAGIA (Ataques con magia)", tmpRect);
     tmpRect.y = 750;
     drawTextBlock("NECROMANTE:  Comienzas con la habilidad de DRENAR  (Ataques con magia que drenan vida)", tmpRect);
+
+    */
 }
 
 

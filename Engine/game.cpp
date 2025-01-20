@@ -6780,13 +6780,13 @@ void game::eventsFight()
                     turn++;
                     lastTurn = SDL_GetTicks();
                     int damage = 1;
-                    int attackPower = dice(power, 1);
+                    int attackPower = dice(power/2, 1);
 
                     NPC tmpNPC = tmpNPCs.front();
                     if (attackPower > tmpNPC.stamina)attackPower = tmpNPC.stamina;
 
-                    fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(damage) + " puntos de vida";
-                    attackPower = attackPower / 2;
+                    fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(attackPower) + " puntos de vida";
+                    
                     if (attackPower < 1)attackPower = 1;
                     tmpNPC.stamina -= attackPower;
                     stamina += attackPower;

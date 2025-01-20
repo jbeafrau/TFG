@@ -45,7 +45,11 @@ game::~game()
 
 int game::dice(int maxValue, int minValue)
 {
-    return rand() % maxValue + minValue;
+    int value = 0;
+    if(maxValue > 0){
+    value =  rand() % maxValue + minValue;
+   }
+   return value;
 }
 
 void game::addNotification(std::string notification, SDL_Color color)
@@ -6441,12 +6445,12 @@ void game::enemyAttack() {
             addAnimation(1, 100, gScreenSurface->w / 2 - 200, gScreenSurface->h / 2 - 250, 100, 100, 1, buttonSpellTexture);
             Mix_PlayChannel(-1, magic, 1);
 //            int damage = 1;
-            int attackPower = dice(power, 1);
+            int attackPower = dice(tmpNPCs.begin()->power, 1);
             enemyDamage = attackPower;
             stamina -= enemyDamage;
             tmpNPCs.begin()->power -= attackPower;
 
-            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(enemyDamage) + " puntos de vida";
+            fightFoe = tmpNPCs.begin()->description + " te ha herido por " + to_string(attackPower) + " puntos de vida";
             if (stamina <= 0) {
                 fightFoe += ", Has sido derrotado por " + tmpNPCs.begin()->description + "!!";
                 //addNotification("Has sido derrotado por " + tmpNPCs.begin()->description + "!!", { 0,0,0 });
@@ -6740,7 +6744,7 @@ void game::eventsFight()
 
                     NPC tmpNPC = tmpNPCs.front();
                     if (attackPower > tmpNPC.stamina)attackPower = tmpNPC.stamina;
-                    fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(damage) + " puntos de vida";
+                    fightPlayer = "Has herido a " + tmpNPC.description + " por " + to_string(attackPower) + " puntos de vida";
                     tmpNPC.stamina -= attackPower;
                     power -= attackPower;
                     if (tmpNPC.stamina <= 0) {

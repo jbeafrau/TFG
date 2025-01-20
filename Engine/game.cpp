@@ -6827,6 +6827,7 @@ void game::eventsFight()
                 setState(previousScreen);
                 changeMusic();
                 clearAnimations();
+                enemyAttacked = false;
             }
 
         }

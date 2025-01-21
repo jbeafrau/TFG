@@ -5858,6 +5858,143 @@ void game::eventsInventory()
 
 }
 
+//*x =
+
+
+bool game::existNode(int x, int y, std::list <node> nodes)
+{
+    bool found = false;
+    for (list<node>::iterator it = nodes.begin(); it != nodes.end(); it++)
+    {
+        if ((it->x == x) & (it->y == y)) {
+            found = true;
+            break;
+        }
+
+    }
+    return found;
+}
+
+void game::getpath(int* startx, int* starty, int endx, int endy)
+{
+    int MAX_LEVEL = 20;
+        int tmpx = *startx;
+        int tmpy = *starty;
+
+        int tx = 0;
+        int ty = 0;
+
+    std::list <node> baseNodes;
+    baseNodes.push_back({ 0,-1,0,0,"NULL",0,0 });//north
+    baseNodes.push_back({ 0,+1,0,0,"NULL",0,0 });//south
+    baseNodes.push_back({ -1,0,0,0,"NULL",0,0 });//west
+    baseNodes.push_back({ +1,0,0,0,"NULL",0,0 });//east
+
+    std::list <node> nodes;
+
+    int currentLevel = 0;
+    bool exit = false;
+    int parent = 0;
+    int max_id = 1;
+    int current_id = 0;
+
+    int min_M = 100;
+    int emergency = 0;
+
+    //create starting node
+    node currentNode = { tmpx,tmpy,0,manhattan(tmpx,tmpy,endx,endy),"NULL",max_id,0 };
+    nodes.push_back(currentNode);
+    
+    //while (((currentLevel <= MAX_LEVEL)&&(currentLevel>=0)  )||(exit == false))
+    while ((emergency <300) && (exit == false))
+    {   
+        emergency++;
+        if ((currentNode.x == endx) && (currentNode.y == endy)) {
+            exit = true;
+            break;
+        }
+        else {
+            //not found, tag current node as visited and keep on adding
+
+            for (list<node>::iterator it = nodes.begin(); it != nodes.end(); it++)
+            {
+                if (it->id == currentNode.id) {
+                    it->S = "Y";
+                    break;
+                }
+            }//tag Y as visited
+
+            //We add nodes surrounding current node
+            for (list<node>::iterator it = baseNodes.begin(); it != baseNodes.end(); it++)
+            {
+                tx = currentNode.x + it->x;
+                ty = currentNode.y + it->y;
+                if (!existNode(tx, ty, nodes) && !collide(tx, ty, false)) {
+                    nodes.push_back({ tx,ty,currentNode.L + 1,manhattan(tx,ty,endx,endy),"NULL",++max_id,currentNode.id });
+                }
+            }
+
+            // we define current node
+            bool found = false;
+            int currentID = 0;
+            while (!found) {
+                for (list<node>::iterator it = nodes.begin(); it != nodes.end(); it++)
+                {
+                    if ((it->id == currentID) && (it->S == "NULL")) {
+                        currentNode.x = it->x;
+                        currentNode.y = it->y;
+                        currentNode.L = it->L;
+                        currentNode.M = it->M;
+                        currentNode.S = it->S;
+                        currentNode.id = it->id;
+                        currentNode.parent_id = it->parent_id;
+                        found = true;
+                        break;
+                    }
+                }
+                currentID++;
+            }//found currentnode
+        }//current node is not last one    
+    }//exit from main loop
+    
+
+    //we have found the target
+    if (exit == true) {
+        int id = 0;
+        bool foundPath = false;
+
+        //first we get the id for the last node
+        for (list<node>::iterator it = nodes.begin(); it != nodes.end(); it++)
+        {
+            if ((it->x == endx) && (it->y == endy)){
+                id = it->parent_id;
+                break;
+            }
+        }
+
+        while (foundPath == false) {
+            for (list<node>::iterator it = nodes.begin(); it != nodes.end(); it++)
+            {
+                if (it->id == id) {
+                    if (manhattan(*startx, *starty, it->x, it->y) == 1) {
+                        foundPath = true;
+                        *startx = it->x;
+                        *starty = it->y;
+                        break;
+                    }
+                    id = it->parent_id;
+                }//found if
+            }
+
+        }
+
+
+    }
+
+
+}//
+
+
 void game::processAI()
 {
     //Process NPC AIs
@@ -5911,7 +6048,11 @@ void game::processAI()
                 //if(getDistance(px,py, it->x, it->y) <= 15){// only follow if distance is less or equal than 15
                 if (manhattan(px, py, it->x, it->y) <= 15) {// only follow if distance is less or equal than 15
                
-                
+
+                    getpath(&it->x, &it->y, px, py);
+
+
+                /*
                 int tmpx = it->x;
                 int tmpy = it->y;
 
@@ -5959,7 +6100,7 @@ void game::processAI()
                     }
 
                     it->x = tmpx + finalNode.x;
-                    it->y = tmpy + finalNode.y;
+                    it->y = tmpy + finalNode.y;*/
   
             }//distance less than 15
             }//process basic follow AI
@@ -5970,40 +6111,9 @@ void game::processAI()
 
                 if (manhattan(px, py, it->x, it->y) <= 15){// only follow if distance is less or equal than 15
                     if(!isAround(it->x, it->y)){
-                   /*
-                        int tmpx = it->x;
-                    int tmpy = it->y;
 
-
-                    if (((px < it->x) || (px > it->x)) && (py == it->y)) {
-                        if (px < it->x) { tmpx--; }
-                        if (px > it->x) { tmpx++; }
-                    }
-                    else if (((py < it->y) || (py > it->y)) && (px == it->x)) {
-                        if (py < it->y) { tmpy--; }
-                        if (py > it->y) { tmpy++; }
-                    }
-                    else if ((px != it->x) && (py != it->y)) {
-                        int d = dice(2, 1);
-                        if (d == 1) {
-                            if (px < it->x) { tmpx--; }
-                            if (px > it->x) { tmpx++; }
-                        }
-                        else {
-                            if (py < it->y) { tmpy--; }
-                            if (py > it->y) { tmpy++; }
-                        }
-                    }
-
-
-                    if (!collide(tmpx, tmpy,false)) {
-                        if (insideBoundaries(tmpx, tmpy, it->boundaries)) {
-                            it->x = tmpx;
-                            it->y = tmpy;
-                        }
-                    }*/
-
-
+                        getpath(&it->x, &it->y, px, py);
+                        /*
                         int tmpx = it->x;
                         int tmpy = it->y;
 
@@ -6052,6 +6162,7 @@ void game::processAI()
 
                         it->x = tmpx + finalNode.x;
                         it->y = tmpy + finalNode.y;
+                        */
                 }//we are not too close
                 }//distance less than 15
             }//process basic follow AI
@@ -6381,11 +6492,11 @@ void game::processAI()
 
 }
 
-
+/*
 bool game::compareByCost(const node& a, const node& b)
 {
     return a.cost < b.cost;
-}
+}*/
 
 int game::manhattan(int start_x, int start_y, int end_x, int end_y)
 {

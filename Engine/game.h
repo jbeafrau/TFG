@@ -119,9 +119,13 @@ struct GLOBAL_EVENT {
 
 
 struct node {
-    int cost;
     int x;
     int y;
+    int L; //search level
+    int M; // manhattan distance
+    std::string S; // node status
+    int id;
+    int parent_id;
 };
 
 
@@ -333,7 +337,12 @@ public:
     void screenWIN();
 
     int manhattan(int start_x, int start_y, int end_x, int end_y);
-    bool compareByCost(const node& a, const node& b);
+  //  bool compareByCost(const node& a, const node& b);
+
+    void getpath(int* startx, int* starty, int endx, int endy);
+    bool existNode(int x, int y, std::list <node> nodes);
+
+    
 
 
     classMap baseMap;

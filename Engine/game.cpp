@@ -475,11 +475,13 @@ void game::eventsShops()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
-                //addNotification("Saliendo del juego");
-                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                if (confirmExit() == true) {
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                    //addNotification("Saliendo del juego");
+                    addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                }
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -667,9 +669,11 @@ void game::eventsChat()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
+                if (confirmExit() == true) {
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -1405,6 +1409,11 @@ void game::setButtonDefaults()
     chat3.setButton(50, gScreenSurface->h / 2 -100 + 150, gScreenSurface->w - 100, 50, "3");
     chat4.setButton(50, gScreenSurface->h / 2 -100 + 200, gScreenSurface->w - 100, 50, "4");
     chat5.setButton(50, gScreenSurface->h / 2 -100 + 250, gScreenSurface->w - 100, 50, "5");
+
+    confirmExitButton.setButton(gScreenSurface->w/2 - 400, gScreenSurface->h/4*3, 200, 100, "Salir");
+    cancelExitButton.setButton(gScreenSurface->w / 2 + 200, gScreenSurface->h / 4 * 3, 200, 100, "Cancelar");
+
+    
                                               
 }
 
@@ -1416,12 +1425,6 @@ void game::start()
 
 
     //Initialize timers
-    //timer.start();
-    //FPStimer.start();
-    //timer.pause();
-    //timerGameOver.start();
-    //timerGameOver.pause();
-
     ticksAI = SDL_GetTicks();
 
     loadPlayerDefault();
@@ -2468,6 +2471,171 @@ void game::drawMiniMap()
 
     
 }
+
+
+bool game::confirmExit()
+{
+   // int startTime = SDL_GetTicks();
+    //int elapsed = 0;
+
+    bool quit = false;
+    bool confirm = false;
+    SDL_Rect destRect;
+    while (!quit)
+    {        
+        screenClear();
+        drawBackground();
+
+        destRect.x = gScreenSurface->w / 2 - 256;
+        destRect.y = gScreenSurface->h / 8;
+        destRect.w = 512;
+        destRect.h = 50;
+        drawSquare(destRect, lightGreyColor);
+        drawTextResize("CONFIRMAR SALIR", destRect);
+
+
+        destRect.x = gScreenSurface->w / 4;
+        destRect.y = gScreenSurface->h / 4;
+        destRect.w = gScreenSurface->w / 2;
+        destRect.h = 100;
+        drawSquare(destRect, lightGreyColor);
+        drawTextBlock("¿Estas seguro que quieres salir del juego?", destRect);
+
+
+        drawButtonSrc(confirmExitButton, buttonAcceptTexture);
+        drawButtonSrc(cancelExitButton, buttonCancelTexture);
+
+        /*
+        if (elapsed > 1000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h / 4;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 100;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Achievement master se controla de dos maneras, con el teclado o bien con el ratón", destRect);
+
+        }
+
+        if (elapsed > 3000) {
+
+            drawButtonSrc(moveLeftButton, buttonLeftTexture);
+            drawButtonSrc(moveRightButton, buttonRightTexture);
+            drawButtonSrc(moveUpButton, buttonUpTexture);
+            drawButtonSrc(moveDownButton, buttonDownTexture);
+
+
+            destRect.x = gScreenSurface->w / 2;
+            destRect.y = gScreenSurface->h - 100;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 100;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Te desplazas pulsando las teclas WASD, o bien pulsando sobre las flechas de dirección", destRect);
+
+        }
+
+        if (elapsed > 5000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h / 2;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 150;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("Para interactuar con los personajes debes desplazarte en su dirección con el teclado o bién pulsar con el ratón sobre ellos", destRect);
+
+            destRect.y = gScreenSurface->h / 2 - 100;
+            destRect.w = 100;
+            destRect.h = 100;
+            destRect.x = gScreenSurface->w / 4 + 101;
+            drawTileset(destRect, playersTexture, 74, 20);
+            destRect.x = gScreenSurface->w / 4 + 201;
+            drawTileset(destRect, playersTexture, 77, 20);
+            destRect.x = gScreenSurface->w / 4 + 301;
+            drawTileset(destRect, playersTexture, 79, 20);
+            destRect.x = gScreenSurface->w / 4 + 401;
+            drawTileset(destRect, playersTexture, 83, 20);
+
+        }
+
+        if (elapsed > 7000) {
+            destRect.x = gScreenSurface->w / 4;
+            destRect.y = gScreenSurface->h * 3 / 4;
+            destRect.w = gScreenSurface->w / 2;
+            destRect.h = 150;
+            drawSquare(destRect, lightGreyColor);
+            drawTextBlock("para seleccionar opciones, simplemente desplazate con el ratón sobre la opcíon (icono) deseado y haz click", destRect);
+
+            classButton demoButton;
+            demoButton.setButton(gScreenSurface->w / 4 + 200, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonStarsTexture);
+            demoButton.setButton(gScreenSurface->w / 4 + 300, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonConfigTexture);
+            demoButton.setButton(gScreenSurface->w / 4 + 400, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonBackpackTexture);
+            demoButton.setButton(gScreenSurface->w / 4 + 500, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonPlayerTexture);
+            demoButton.setButton(gScreenSurface->w / 4 + 600, (gScreenSurface->h * 3 / 4) - 100, 100, 100, " ");
+            drawButtonSrc(demoButton, buttonMapTexture);
+
+
+
+        }
+
+        if (elapsed > 9000) {
+            destRect.x = 50;
+            destRect.y = gScreenSurface->h - 100;
+            destRect.w = 512;
+            destRect.h = 50;
+            drawSquare(destRect, lightGreyColor);
+            drawTextResize("Pulsa cualquier tecla para continuar...", destRect);
+        }
+
+        */
+
+        //Event handler
+        SDL_Event e;
+
+        //Handle events on queue
+        while (SDL_PollEvent(&e) != 0)
+        {
+            //User requests quit
+            if (e.type == SDL_QUIT)
+            {
+                setState(my_enums::S_GAMEOVER_);
+                Mix_PlayMusic(musicGameOver, -1);
+                timerGameOver = SDL_GetTicks();
+            }
+            else if (e.type == SDL_MOUSEMOTION)
+            {
+                //******
+            }
+            else if (e.type == SDL_MOUSEBUTTONDOWN)
+            {
+            //    quit = true;
+
+                if (confirmExitButton.clicked(mousex, mousey)) {
+                    quit = true;
+                    confirm = true;
+                }
+
+                if (cancelExitButton.clicked(mousex, mousey)) {
+                    quit = true;
+                    confirm = false;
+                }
+
+            }
+            else if (e.type == SDL_KEYDOWN)
+            {
+              //  quit = true;
+            }
+
+            //******************
+        }//events
+        drawMouse();
+        screenFlip();
+        SDL_Delay(50);
+    }//while not quit
+    return confirm;
+}
+
 
 
 void game::screenDarkFate()
@@ -3829,10 +3997,12 @@ void game::eventsIntro()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                Mix_PlayChannel(-1, audioButton, 0);
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timer = SDL_GetTicks();
+                if (confirmExit() == true) {
+                    Mix_PlayChannel(-1, audioButton, 0);
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timer = SDL_GetTicks();
+                }
             }
             if (continueButton.clicked(mousex, mousey)) {
                 setState(my_enums::S_MAINMENU_);
@@ -3874,9 +4044,11 @@ void game::eventsMain()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
+                if (confirmExit() == true) {
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
             }
 
             if (configButton.clicked(mousex, mousey)) {
@@ -3966,12 +4138,14 @@ void game::eventsPlayerName()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                Mix_PlayChannel(-1, audioButton, 0);
-                //closeSDL();
-                SDL_StopTextInput();
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
+                if (confirmExit() == true) {
+                    Mix_PlayChannel(-1, audioButton, 0);
+                    //closeSDL();
+                    SDL_StopTextInput();
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
             }
             if (continueButton.clicked(mousex, mousey)) {
                 Mix_PlayChannel(-1, audioButton, 0);
@@ -4921,10 +5095,12 @@ void game::eventsPlayerRaces()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                Mix_PlayChannel(-1, audioButton, 0);
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
+                if (confirmExit() == true) {
+                    Mix_PlayChannel(-1, audioButton, 0);
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
                 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -5063,10 +5239,12 @@ void game::eventsPlayerArchetypes()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                Mix_PlayChannel(-1, audioButton, 0);
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
+                if (confirmExit() == true) {
+                    Mix_PlayChannel(-1, audioButton, 0);
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -5336,12 +5514,12 @@ void game::eventsPlayerAttributes()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                
-
-                Mix_PlayChannel(-1, audioButton, 0);
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
+                if (confirmExit() == true) {
+                    Mix_PlayChannel(-1, audioButton, 0);
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
 
             }
             if (continueButton.clicked(mousex, mousey)) {
@@ -5394,13 +5572,12 @@ void game::eventsMaster()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-
-
-                Mix_PlayChannel(-1, audioButton, 0);
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
-
+                if (confirmExit() == true) {
+                    Mix_PlayChannel(-1, audioButton, 0);
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
             }
             if (continueButton.clicked(mousex, mousey)) {
                 setState(previousScreen);
@@ -5471,13 +5648,12 @@ void game::eventsPlayer()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-
-
-                Mix_PlayChannel(-1, audioButton, 0);
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
-
+                if (confirmExit() == true) {
+                    Mix_PlayChannel(-1, audioButton, 0);
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
             }
             if (continueButton.clicked(mousex, mousey)) {
                 setState(previousScreen);
@@ -5529,9 +5705,11 @@ void game::eventsConfigMenu()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
+                if (confirmExit() == true) {
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
             }
 
             if (muteButton.clicked(mousex, mousey)) {
@@ -5712,11 +5890,11 @@ void game::eventsInventory()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-
-                setState(my_enums::S_GAMEOVER_);                
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
-//                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                if (confirmExit() == true) {
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -6648,9 +6826,11 @@ void game::eventsHero()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
+                if (confirmExit() == true) {
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -6863,10 +7043,12 @@ void game::eventsFight()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
-                deleteNPCs(px, py);
+                if (confirmExit() == true) {
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                    deleteNPCs(px, py);
+                }
             }
 
             if ((SDL_GetTicks() - lastTurn) > 1000) {
@@ -7204,10 +7386,12 @@ void game::eventsAchievements()
         else if (e.type == SDL_MOUSEBUTTONDOWN)
         {
             if (exitButton.clicked(mousex, mousey)) {
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
-                addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                if (confirmExit() == true) {
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                    addAchievement("Saliendo del juego", my_enums::_OPTIONS_);
+                }
             }
 
             if (continueButton.clicked(mousex, mousey)) {
@@ -7276,11 +7460,12 @@ void game::eventsHomeTown()
             foundNPC = checkNPC(mousex,mousey);
 
             if (exitButton.clicked(mousex, mousey)) {
-                Mix_PlayChannel(-1, audioButton, 0);
-                setState(my_enums::S_GAMEOVER_);
-                Mix_PlayMusic(musicGameOver, -1);
-                timerGameOver = SDL_GetTicks();
-
+                if (confirmExit() == true) {
+                    Mix_PlayChannel(-1, audioButton, 0);
+                    setState(my_enums::S_GAMEOVER_);
+                    Mix_PlayMusic(musicGameOver, -1);
+                    timerGameOver = SDL_GetTicks();
+                }
             }//exit button
             
 

@@ -184,6 +184,8 @@ public:
 
     void eventsNotifications();
     
+    bool confirmExit();
+
 
     void addAchievement(std::string achievementName, my_enums::Achievements achievementType);
     bool existAchievement(std::string achievementName, my_enums::Achievements achievementType);
@@ -716,6 +718,9 @@ protected:
     classButton achievementGroup4Button;
 
     classButton itemSelectedButton;
+
+    classButton confirmExitButton;
+    classButton cancelExitButton;
 
     SDL_Rect tmpRect;
 

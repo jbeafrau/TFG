@@ -355,7 +355,7 @@ protected:
     int height = 700;
     int currentState = my_enums::S_INTRO_;
 
-    int desiredFPS = 60;
+    int desiredFPS = 30;
 
     SDL_Rect mouseRect;
 

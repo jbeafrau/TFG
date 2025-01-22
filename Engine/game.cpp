@@ -5893,6 +5893,9 @@ void game::getpath(int* startx, int* starty, int endx, int endy)
     std::list <node> nodes;
 
     int currentLevel = 0;
+    bool keepLevel = true;
+
+
     bool exit = false;
     int parent = 0;
     int max_id = 1;
@@ -5900,22 +5903,25 @@ void game::getpath(int* startx, int* starty, int endx, int endy)
 
     int min_M = 100;
     int emergency = 0;
+    int emergencySearch = 0;
 
     //create starting node
     node currentNode = { tmpx,tmpy,0,manhattan(tmpx,tmpy,endx,endy),"NULL",max_id,0 };
     nodes.push_back(currentNode);
     
     //while (((currentLevel <= MAX_LEVEL)&&(currentLevel>=0)  )||(exit == false))
-    while ((emergency <300) && (exit == false))
+    bool found = false;
+    while ((emergency <150) && (exit == false))
     {   
         emergency++;
+        found = false;
+        //check if we found destination node
         if ((currentNode.x == endx) && (currentNode.y == endy)) {
             exit = true;
             break;
         }
         else {
-            //not found, tag current node as visited and keep on adding
-
+            //not found, tag current node as visited
             for (list<node>::iterator it = nodes.begin(); it != nodes.end(); it++)
             {
                 if (it->id == currentNode.id) {
@@ -5934,13 +5940,20 @@ void game::getpath(int* startx, int* starty, int endx, int endy)
                 }
             }
 
-            // we define current node
-            bool found = false;
-            int currentID = 0;
-            while (!found) {
+            // we define next current node
+           
+            currentLevel = 0;
+           // int currentID = 0;
+           // while ((!found)||(currentID<150) ){
+            emergencySearch = 0;
+            while ((!found)&& (emergencySearch < 150)) {
+                emergencySearch++;
+                keepLevel = false;
+               // currentID = 0;
                 for (list<node>::iterator it = nodes.begin(); it != nodes.end(); it++)
                 {
-                    if ((it->id == currentID) && (it->S == "NULL")) {
+                    //if ((it->id == currentID) && (it->L == currentLevel)&&(it->S == "NULL")) {
+                    if ((it->L == currentLevel) && (it->S == "NULL")) {
                         currentNode.x = it->x;
                         currentNode.y = it->y;
                         currentNode.L = it->L;
@@ -5952,18 +5965,19 @@ void game::getpath(int* startx, int* starty, int endx, int endy)
                         break;
                     }
                 }
-                currentID++;
+                //currentID++;
+                if (keepLevel == false)currentLevel++;
             }//found currentnode
         }//current node is not last one    
     }//exit from main loop
     
 
-    //we have found the target
+    //we have found the target, traverse path in reverse ordert to find next NPC step
     if (exit == true) {
         int id = 0;
         bool foundPath = false;
 
-        //first we get the id for the last node
+        //first we get the parent id for the last node
         for (list<node>::iterator it = nodes.begin(); it != nodes.end(); it++)
         {
             if ((it->x == endx) && (it->y == endy)){
@@ -5989,7 +6003,7 @@ void game::getpath(int* startx, int* starty, int endx, int endy)
         }
 
 
-    }
+    }//found the target
 
 
 }//
@@ -6046,61 +6060,70 @@ void game::processAI()
             if ((it->NPCAI == my_enums::_ENEMY_FOLLOW_)|| (it->NPCAI == my_enums::_ENEMY_FOLLOW_MAGE_)){
 
                 //if(getDistance(px,py, it->x, it->y) <= 15){// only follow if distance is less or equal than 15
-                if (manhattan(px, py, it->x, it->y) <= 15) {// only follow if distance is less or equal than 15
-               
-
-                    getpath(&it->x, &it->y, px, py);
-
-
-                /*
-                int tmpx = it->x;
-                int tmpy = it->y;
-
-                    node north = {0,0,-1};
-                    node south = { 0,0,+1 };
-                    node west = { 0,-1,0 };
-                    node east = { 0,+1,0};
-
-                    node finalNode = { 100,0,0 };
-
-                    std::list <node> nodes;
-                    if(dice(2,1)==1){
-                        nodes.push_back(north);
-                        nodes.push_back(south);
-                        nodes.push_back(east);
-                        nodes.push_back(west);
+                int m = manhattan(px, py, it->x, it->y);
+                if (m <= 15) {// only follow if distance is less or equal than 15
+                    if (isAround(it->x, it->y)) {
+                        //force enter combat
+                        it->x = px;
+                        it->y = py;
                     }
                     else {
-                        nodes.push_back(west);
-                        nodes.push_back(east);
-                        nodes.push_back(south);
-                        nodes.push_back(north);
-                    }
-
-                    std::list<node>::iterator itn = nodes.begin();
-                    //while (itn != nodes.end())
-                    while (itn != nodes.end())
-                    {
-                        bool erased = false;
-                        if (!collide(tmpx + itn->x , tmpy+ itn->y, false)) {
-                            itn->cost = manhattan(tmpx + itn->x, tmpy + itn->y,px,py);
-                            if (finalNode.cost > itn->cost) {
-                                finalNode.cost = itn->cost;
-                                finalNode.x = itn->x;
-                                finalNode.y = itn->y;
-
-                            }
+                        if (m < 8) {
+                            getpath(&it->x, &it->y, px, py);
                         }
                         else {
-                            itn = nodes.erase(itn);
-                            erased = true;
+                            int tmpx = it->x;
+                            int tmpy = it->y;
+
+                            node north = { 0,-1,0,0,"",0,0 };
+                            node south = { 0,+1,0,0,"",0,0 };
+                            node west = { -1,0,0,0,"",0,0 };
+                            node east = { +1,0,0,0,"",0,0 };
+
+                            node finalNode = { 0,0,0,0,"",0,0 };
+
+                            std::list <node> nodes;
+                            if (dice(2, 1) == 1) {
+                                nodes.push_back(north);
+                                nodes.push_back(south);
+                                nodes.push_back(east);
+                                nodes.push_back(west);
+                            }
+                            else {
+                                nodes.push_back(west);
+                                nodes.push_back(east);
+                                nodes.push_back(south);
+                                nodes.push_back(north);
+                            }
+
+                            std::list<node>::iterator itn = nodes.begin();
+                            //while (itn != nodes.end())
+                            while (itn != nodes.end())
+                            {
+                                bool erased = false;
+                                if (!collide(tmpx + itn->x, tmpy + itn->y, false)) {
+                                    itn->M = manhattan(tmpx + itn->x, tmpy + itn->y, px, py);
+                                    if (finalNode.M > itn->M) {
+                                        finalNode.M = itn->M;
+                                        finalNode.x = itn->x;
+                                        finalNode.y = itn->y;
+
+                                    }
+                                }
+                                else {
+                                    itn = nodes.erase(itn);
+                                    erased = true;
+                                }
+                                if ((itn != nodes.end()) && (erased == false))itn++;
+
+                            }
+
+                            it->x = tmpx + finalNode.x;
+                            it->y = tmpy + finalNode.y;
+
                         }
-                        if ((itn != nodes.end()) && (erased == false))itn++;
-
                     }
-
-                    it->x = tmpx + finalNode.x;
-                    it->y = tmpy + finalNode.y;*/
+                    
   
             }//distance less than 15
             }//process basic follow AI
@@ -6111,8 +6134,69 @@ void game::processAI()
 
                 if (manhattan(px, py, it->x, it->y) <= 15){// only follow if distance is less or equal than 15
                     if(!isAround(it->x, it->y)){
+                        int m = manhattan(px, py, it->x, it->y);
+                        if (m < 8) {
+                            getpath(&it->x, &it->y, px, py);
+                        }
+                        else {
 
-                        getpath(&it->x, &it->y, px, py);
+
+
+
+
+                            int tmpx = it->x;
+                            int tmpy = it->y;
+
+                            node north = { 0,-1,0,0,"",0,0 };
+                            node south = { 0,+1,0,0,"",0,0 };
+                            node west = { -1,0,0,0,"",0,0 };
+                            node east = { +1,0,0,0,"",0,0 };
+
+                            node finalNode = { 0,0,0,0,"",0,0 };
+
+                            std::list <node> nodes;
+                            if (dice(2, 1) == 1) {
+                                nodes.push_back(north);
+                                nodes.push_back(south);
+                                nodes.push_back(east);
+                                nodes.push_back(west);
+                            }
+                            else {
+                                nodes.push_back(west);
+                                nodes.push_back(east);
+                                nodes.push_back(south);
+                                nodes.push_back(north);
+                            }
+
+                            std::list<node>::iterator itn = nodes.begin();
+                            //while (itn != nodes.end())
+                            while (itn != nodes.end())
+                            {
+                                bool erased = false;
+                                if (!collide(tmpx + itn->x, tmpy + itn->y, false)) {
+                                    itn->M = manhattan(tmpx + itn->x, tmpy + itn->y, px, py);
+                                    if (finalNode.M > itn->M) {
+                                        finalNode.M = itn->M;
+                                        finalNode.x = itn->x;
+                                        finalNode.y = itn->y;
+
+                                    }
+                                }
+                                else {
+                                    itn = nodes.erase(itn);
+                                    erased = true;
+                                }
+                                if ((itn != nodes.end()) && (erased == false))itn++;
+
+                            }
+
+                            it->x = tmpx + finalNode.x;
+                            it->y = tmpy + finalNode.y;
+
+                        }
+
+
+                       // getpath(&it->x, &it->y, px, py);
                         /*
                         int tmpx = it->x;
                         int tmpy = it->y;
@@ -7605,7 +7689,7 @@ void game::drawNPCs()
                 drawTransparentSquare({ target.x + 1,target.y + 1,target.w - 2,target.h - 2, }, { 0,200,0,0 });
             }
 
-            if ((it->NPCAI == my_enums::_ENEMY_FOLLOW_) || (it->NPCAI == my_enums::_ENEMY_RANDOM_) || (it->NPCAI == my_enums::_ENEMY_STATIC_)) {
+            if ((it->NPCAI == my_enums::_ENEMY_FOLLOW_) || (it->NPCAI == my_enums::_ENEMY_FOLLOW_MAGE_) || (it->NPCAI == my_enums::_ENEMY_RANDOM_) || (it->NPCAI == my_enums::_ENEMY_STATIC_) || (it->NPCAI == my_enums::_ENEMY_STATIC_MAGE_)) {
                 drawTransparentSquare(target, { 200,0,0,0 });
                 drawTransparentSquare({ target.x+1,target.y + 1,target.w  -2,target.h - 2, }, { 200,0,0,0 });
             }

@@ -10,6 +10,10 @@ using namespace std;
     TFG Ingeniería informática
     Jorge Bea Frau
     Curso 2024-2025
+
+    Log de cambios
+    V1.0: Versión inicial, el juego funciona con la funcionalidad básica
+    V1.1: Añado ataques mágicos a algunos enemigos, añado busqueda de caminos "Breadfirst" a los NPCs, mejoro la fase de combate, mejoro las pantallas de creación de personajes
 */
 
 

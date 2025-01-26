@@ -344,7 +344,7 @@ public:
     void getpath(int* startx, int* starty, int endx, int endy);
     bool existNode(int x, int y, std::list <node> nodes);
 
-    
+    std::string slash();
 
 
     classMap baseMap;

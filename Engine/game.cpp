@@ -1,8 +1,11 @@
 #include "game.h"
 #include <exception>
+#include <stdexcept>
 #include <string>
 #include <iostream>
+#ifdef _WIN32
 #include "windows.h"
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -12,9 +15,13 @@ using namespace std;
 
 std::string GetExeFileName()
 {
-    char buffer[MAX_PATH];
+    #if _WIN32
+        char buffer[MAX_PATH];
     GetModuleFileNameA(NULL, buffer, MAX_PATH);
     return std::string(buffer);
+    #else
+        throw std::runtime_error("Trying to call a Windows function from the wrong platform");
+    #endif
 }
 
 std::string GetExePath()
@@ -29,7 +36,7 @@ game::game()
     srand((unsigned int)time(NULL));
 
 #ifdef linux
-    basePath = "/home/TFG/engine/Debug/";
+    basePath = "./Engine/";
 #endif
 #ifdef _WIN32
 
@@ -2001,12 +2008,24 @@ SDL_Texture* game::loadTexture(std::string path)
     return tmpTexture;
 }
 
+
+std::string game::slash(){
+    #ifdef WIN_32
+    return "\";
+    #else
+        return "/";
+    #endif
+ }
+
+
 //Load all media files (images, sounds and music)
 bool game::loadMedia(string base)
 {
-    string images = base + "images\\";
-    string sounds = base + "sounds\\";
-    string fonts = base + "fonts\\";
+    string images = base + "images" + std::string(slash());
+    string sounds = base + "sounds" + std::string(slash());
+    string fonts = base + "fonts" + std::string(slash());
+
+
     string aFile = images + "food.png";
 
     //Loading success flag
@@ -7636,7 +7655,7 @@ bool game::checkNPC(int x, int y)
      
     tmpNPCs = getNPCs(tmpx, tmpy);
     if (tmpNPCs.size() > 0) {
-        INT Xx = 1;
+        int Xx = 1;
         if (tmpNPCs.begin()->NPCAI == my_enums::_FRIENDLY_CHAT_) {
             tmpCHATs = getChat(tmpx, tmpy);
             previousScreen = getStringState(currentState);
